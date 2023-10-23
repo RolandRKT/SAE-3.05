@@ -50,6 +50,7 @@ body{
     display: flex; /* Ajoutez cette ligne */
     justify-content: center; /* Ajoutez cette ligne */
     align-items: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .form-login {
