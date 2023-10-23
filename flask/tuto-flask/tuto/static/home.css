@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:200');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
+
+body{
+    margin: 0;
+}
+
+@font-face {
+    font-family: 'Leckerli One';
+    src: url('../static/fonts/Leckerli_One/LeckerliOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.main-base {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative; /* Ajoutez une position relative pour que les éléments enfants utilisent position: absolute par rapport à .main-base */
+    overflow: hidden;
+}
+
+.animated-image-position {
+    top: 0;
+    left: 0;
+    position: absolute; /* Position absolue par rapport à .main-base */
+    z-index: 2; /* Assurez-vous que l'élément s'affiche au-dessus des autres éléments */
+}
+
+.left-part {
+  min-height: 100%;
+  width: 50%;
+  clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
+  background-color: #FFF;
+  height: 50vw;
+  font-family: 'Lato', sans-serif;
+  justify-content: center;
+  align-items: center;
+}
+
+.information{
+    margin: 25%;
+}
+
+.app-name{
+    margin-top: 10%;
+    font-family: 'Leckerli One', cursive;
+    color: #2EBEDD;
+    font-size: 64px;
+    display: flex; /* Ajoutez cette ligne */
+    justify-content: center; /* Ajoutez cette ligne */
+    align-items: center;
+}
+
+.form-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Alignez les éléments à gauche */
+}
+
+.form-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px; /* Ajustez la marge pour l'espacement entre les labels et les zones de saisie */
+}
+
+label{
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #111;
+    font-size: 16px;
+}
+
+/* Agrandir la zone de saisie au focus (lorsqu'elle est active) */
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border: 2px solid #2EBEDD;
+    outline: none;
+}
+
+.form-password{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 95px; /*À changer si possible*/
+}
+
+.forget-password{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+.forget-password a{
+    text-decoration: none;
+    color: #000;
+}
+
+.forget-password a:hover{
+    text-decoration: underline;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 40px;
+    font-size: 16px;
+    margin-top: 25%;
+    background-color: #1BBCD2;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #1493A7;
+}
+
+.create-account a{
+    text-decoration: none;
+    color: #238AB6;
+}
+
+.create-account a:hover{
+    text-decoration: underline;
+}
+
+
+
+
+.image-container {
+    overflow: hidden;
+    position: relative;
+    width: 100vw;
+}
+
+footer{
+  margin-left: 5px;
+  position: fixed;
+  bottom: 0; 
+  font-family: 'Lato', sans-serif;
+
+}
+.img1 {
+  width: 5%;
+  height: auto;
+  transform: translateX(0); /* Point de départ */
+  transition: transform 2s linear; /* Durée et type de transition */
+}
+
+/* Lorsque vous déclencherez l'animation */
+.img2 {
+  width: 5%;
+  height: auto;
+  transform: translateX(100vw) scaleX(-1); /* Point de départ (à droite) et effet miroir horizontal */
+  transition: transform 2s linear; /* Durée et type de transition */
+}
+.right-part {
+  position: fixed;
+  background-image: url('../static/images/nuages_infini_v1.png');
+  background-size: cover;
+  -webkit-animation: slidein 60s infinite linear;
+  animation: slidein 60s infinite linear;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  background-size: 150%;
+  height: 50vw;
+  min-width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.slogan {
+  font-size: 32px;
+  font-family: 'Lato', sans-serif;
+  position: absolute;
+  bottom: 5%;
+  left: 50%; /* Centre horizontalement */
+  transform: translateX(-50%); /* Centre horizontalement */
+  z-index: 3;
+  text-align: center; /* Centre le texte horizontalement */
+  animation: floatSlogan 20s ease-in-out infinite; /* Ajoutez l'animation */
+}
+
+@keyframes floatSlogan {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(5px, -5px);
+  }
+  20% {
+    transform: translate(10px, 0);
+  }
+  30% {
+    transform: translate(5px, 5px);
+  }
+  40% {
+    transform: translate(0, 10px);
+  }
+  50% {
+    transform: translate(-5px, 5px);
+  }
+  60% {
+    transform: translate(-10px, 0);
+  }
+  70% {
+    transform: translate(-5px, -5px);
+  }
+  80% {
+    transform: translate(0, -10px);
+  }
+  90% {
+    transform: translate(5px, -5px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+  
+  
+  
+  .infinite-travel {
+    width: 250px;
+    height: auto;
+    animation: float 3s ease-in-out infinite;
+    align-self: center; /* Centre verticalement */
+    margin-right: 25%; /* Réglez la marge à droite pour le centrage horizontal */
+  }
+  
+  
+@keyframes float {
+  0% {
+    transform: translateY(0); /* Position de départ (pas de déplacement vertical) */
+  }
+  25% {
+    transform: translateY(-10px); /* Déplacement vers le haut de 5 pixels */
+  }
+  50% {
+    transform: translateY(0); /* Retour à la position de départ */
+  }
+  75% {
+    transform: translateY(10px); /* Retour à la position de départ */
+  }
+  100% {
+    transform: translateY(0); /* Retour à la position de départ */
+  }
+}
+
+@-webkit-keyframes slidein {
+  from {
+    background-position: 0px 1500px;
+    background-size: 3000px;
+  }
+  to {
+    background-position: -1500px 1500px; /*1500 2eme val de base*/
+    background-size: 3000px;
+  }
+}
+
+@keyframes slidein {
+  from {
+    background-position: 0px 1500px;
+    background-size: 3000px;
+  }
+  to {
+    background-position: -1500px 1500px; /*1500 2eme val de base*/
+    background-size: 3000px;
+  }
+}
