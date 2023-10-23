@@ -6,7 +6,7 @@
   Ce projet consiste à créer un site internet en flask qui va permettre au client (association, societé et institution) de choisir parmi les differents parcours (escape Game, course...)
   Ces différents parcours sont des enchaînements d'étapes.
   Le site internet devra contenir deux modules.
-  En bref :
+  En bref :  
     - Le module administrteur doit pouvoir créer des parcours ainsi que les consulter.
     - Le module client doit pouvoir consulter les parcours, en choisir, choisir ses differentes étapes et autres. 
 
