@@ -13,12 +13,12 @@
 Nous avons choisi d'appeler l'application : Wade.  
   
 ## **_Équipe_**:
-Ahmet BABA
-Maverick PREVOST
-Rebson Dodji DAHOUEDE
-Roland RAKOTOMALALA
-Thibault SAINT-LÉGER
-
+Ahmet BABA  
+Maverick PREVOST  
+Rebson Dodji DAHOUEDE  
+Roland RAKOTOMALALA  
+Thibault SAINT-LÉGER  
+  
 ## **Travail effectué lors de la première semaine**:
 ### Jour 1 :
   - Création et finition de la première version des CU
