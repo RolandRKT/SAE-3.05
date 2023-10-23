@@ -7,11 +7,11 @@
   Ces différents parcours sont des enchaînements d'étapes.
   Le site internet devra contenir deux modules.
   En bref :  
-    - Le module administrteur doit pouvoir créer des parcours ainsi que les consulter.
-    - Le module client doit pouvoir consulter les parcours, en choisir, choisir ses differentes étapes et autres. 
-
-Nous avons choisi d'appeler l'application : Wade.
-
+    - Le module administrteur doit pouvoir créer des parcours ainsi que les consulter.  
+    - Le module client doit pouvoir consulter les parcours, en choisir, choisir ses differentes étapes et autres.  
+  
+Nous avons choisi d'appeler l'application : Wade.  
+  
 ## **_Équipe_**:
 Ahmet BABA
 Maverick PREVOST
