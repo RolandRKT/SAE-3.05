@@ -7,13 +7,15 @@ from sqlalchemy.sql.schema import ForeignKey
 class Note(db.Model):
     idNote = db.Column(db.Integer, primary_key=True)
     point = db.Column(db.Integer)
-    notes=relationship("Parcours", back_populates="notes")
+    notes=relationship("Noter", back_populates="notes")
     
 
 class Commentaire(db.Model):
     idCommentaire = db.Column(db.Integer, primary_key=True)
     point = db.Column(db.Integer)
-    lesCommentaires=relationship("Parcours", back_populates="Comm")
+    idParc=db.Column(db.Integer, ForeignKey("Parcours.idParc"))
+    lesComm = relationship("Parcours", backref="Parcours.idParc")
+    
 
 
 class AttentesTypeParcours( db.Model ):
@@ -65,14 +67,10 @@ class Parcours(db.Model):
     idTypeParc=db.Column(db.Integer, ForeignKey("TypeParcours.idTypeParc"))
     typeparc = relationship("TypeParcours", backref="TypeParcours.idTypeParc")
 
-    idCommentaire=db.Column(db.Integer, ForeignKey("Commentaire.idCommentaire"))
-    Comm = relationship("Commentaire", backref="Commentaire.idCommentaire")
+    lesCommentaire=relationship("Commentaire", back_populates="lesComm")
+    lesnotes=relationship("Noter", back_populates="lesparcours")
+    lesEtapes=relationship("Composer", back_populates="lesparc")
     
-    idNote=db.Column(db.Integer, ForeignKey("Note.idNote"))
-    notes = relationship("Note", backref="Note.idNote")
-
-    lesEtapes=relationship("Composer", back_populates="lesparcours")
-
 
     def __repr__(self):
         return f"ID: {self.idParc} , nom : {self.nomParc}"
@@ -80,10 +78,20 @@ class Parcours(db.Model):
 
 class Composer(db.Model):
     idParc = db.Column(db.Integer, ForeignKey("Parcours.idParc"), primary_key=True)
-    lesparcours = relationship("Parcours", backref="Parcours.idParc")  # ok car relation 1-1
+    lesparc = relationship("Parcours", backref="Parcours.idParc")  # ok car relation 1-1
     
     idEtape = db.Column(db.Integer, ForeignKey("Etape.idEtape"), primary_key=True) # idem 
     lesEtape = relationship("Etape", backref="Etape.idEtape")
+
+
+class Noter(db.Model):
+    idParc = db.Column(db.Integer, ForeignKey("Parcours.idParc"), primary_key=True)
+    lesparcours = relationship("Parcours", backref="Parcours.idParc")  # ok car relation 1-1
+    
+    idNote=db.Column(db.Integer, ForeignKey("Note.idNote"))
+    notes = relationship("Note", backref="Note.idNote")
+
+
 
 
 """
