@@ -6,9 +6,11 @@ import time
 from datetime import datetime
 
 from ..app import db
-from .parcours import Parcours
-from .note import Note
+from .parcours import *
+from .user import *
 
-class Noter(db.Model):
+class posseder(db.Model):
     id_parc = db.Column(db.Integer, db.ForeignKey("parcours.id_parc"), primary_key=True)
-    id_note = db.Column(db.Integer, db.ForeignKey("note.id_note"), primary_key=True)
+    id_user = db.Column(db.Integer, db.ForeignKey("user.id_user"), primary_key=True)
+    point = db.Column(db.Integer)
+    comm = db.Column(db.String(250))

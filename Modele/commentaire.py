@@ -8,9 +8,11 @@ from datetime import datetime
 from ..app import db
 
 from .parcours import *
+from .user import User
 
 class Commentaire(db.Model):
-    id_commentaire = db.Column(db.Integer, primary_key=True)
-    point = db.Column(db.Integer)
-    id_parc = db.Column(db.Integer, db.ForeignKey("parcours.id_parc"))
+    id_parc = db.Column(db.Integer, db.ForeignKey("parcours.id_parc"),primary_key=True)
+    id_user = db.Column(db.Integer, db.ForeignKey("user.id_user"),primary_key=True)
+    comm = db.Column(db.String)
+
     
