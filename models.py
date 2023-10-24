@@ -1,25 +1,25 @@
-from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, Text, Date, DateTime
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime, LargeBinary
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql.schema import ForeignKey
-from sqlalchemy import func
+from sqlalchemy.sql import func
 import time
 from datetime import datetime
 
 from .app import db
-from flask import Flask
+
+
+
 
 
 class Client(db.Model):
     id_client = db.Column(db.Integer, primary_key=True)
     nom = db.Column(db.String)
     email = db.Column(db.String)
-    id_client_type = db.Column(db.Integer,
-                               db.ForeignKey("clientType.id_client_type"))
+    id_client_type = db.Column(db.Integer, db.ForeignKey("clientType.id_client_type"))
+    mdp = db.Column(db.String)
 
-    type = relationship("Client_type", back_ref="client")
-    les_parc = relationship("Parcours", back_populates="client")
+    types = relationship("ClientType", backref="client")
+    les_parcours = relationship("Parcours", back_populates="client")
 
 
 class ClientType(db.Model):
@@ -36,8 +36,8 @@ class Note(db.Model):
 class Commentaire(db.Model):
     id_commentaire = db.Column(db.Integer, primary_key=True)
     point = db.Column(db.Integer)
-    id_parc = db.Column(db.Integer, ForeignKey("Parcours.id_parc"))
-    les_comm = relationship("Parcours", backref="Parcours.id_parc")
+    id_parc = db.Column(db.Integer, db.ForeignKey("Parcours.id_parc"))
+    les_comm = relationship("Parcours", back_populates="les_commentaires")
 
 
 class AttentesTypeParcours(db.Model):
@@ -45,13 +45,13 @@ class AttentesTypeParcours(db.Model):
     nom_attente = db.Column(db.String(100))
     caracteristique = db.Column(db.String(100))
     description = db.Column(db.String(100))
-    les_attentes = relationship("TypeParcours", back_populates="les_attentes")
+    les_attentes = relationship("TypeParcours", back_populates="attentes")
 
 
 class TypeEtape(db.Model):
     id_type_etape = db.Column(db.Integer, primary_key=True)
     dec_type_etape = db.Column(db.String(100))
-    les_type = relationship("Etape", back_populates="types")
+    types = relationship("Etape", back_populates="type_etape")
 
 
 class Image(db.Model):
@@ -65,67 +65,49 @@ class Image(db.Model):
 class TypeParcours(db.Model):
     id_type_parc = db.Column(db.Integer, primary_key=True)
     nom_type_parc = db.Column(db.String(100))
-    id_attente = db.Column(db.Integer,
-                           ForeignKey("AttentesTypeParcours.id_attente"))
-    les_attentes = relationship("Image",
-                                backref="AttentesTypeParcours.id_attente")
-    les_type = relationship("Parcours", back_populates="typeparc")
+    id_attente = db.Column(db.Integer, db.ForeignKey("AttentesTypeParcours.id_attente"))
+    attentes = relationship("AttentesTypeParcours", back_populates="les_type")
+    les_type = relationship("Parcours", back_populates="type_parc")
 
 
 class Etape(db.Model):
-    id_etape = db.Column(db.Integer, primary_Key=True)
+    id_etape = db.Column(db.Integer, primary_key=True)
     nom_etape = db.Column(db.String(100))
-    id_photo = db.Column(db.Integer, ForeignKey("Image.id_photo"))
-    id_type_etape = db.Column(db.Integer,
-                              ForeignKey("TypeEtape.id_type_etape"))
-    photo = relationship("Image", backref="Image.id_photo")
-    types = relationship("TypeEtape", backref="TypeEtape.id_type_etape")
-
-    les_etapes = relationship("Composer", back_populates="les_etapes")
+    id_photo = db.Column(db.Integer, db.ForeignKey("Image.id_photo"))
+    id_type_etape = db.Column(db.Integer, db.ForeignKey("TypeEtape.id_type_etape"))
+    photo = relationship("Image", backref="photo")
+    type_etape = relationship("TypeEtape", back_populates="les_etapes")
 
 
 class Parcours(db.Model):
     id_parc = db.Column(db.Integer, primary_key=True)
     nom_parc = db.Column(db.String(100))
     date_debut = db.Column(db.String(100))
-    date_fin = db.Column(datetime)
+    date_fin = db.Column(db.DateTime)
 
-    id_type_parc = db.Column(db.Integer,
-                             ForeignKey("TypeParcours.id_type_parc"))
-    type_parc = relationship("TypeParcours",
-                             backref="TypeParcours.id_type_parc")
-
+    id_type_parc = db.Column(db.Integer, db.ForeignKey("TypeParcours.id_type_parc"))
+    type_parc = relationship("TypeParcours", back_populates="les_parcours")
     les_commentaires = relationship("Commentaire", back_populates="les_comm")
     les_notes = relationship("Noter", back_populates="les_parcours")
     les_etapes = relationship("Composer", back_populates="les_parc")
-    client = relationship("Client", backref="les_parc")
+    client = relationship("Client", backref="les_parcours")
 
     def __repr__(self):
         return f"ID: {self.id_parc} , nom : {self.nom_parc}"
 
 
 class Composer(db.Model):
-    id_parc = db.Column(db.Integer,
-                        ForeignKey("Parcours.id_parc"),
-                        primary_key=True)
-    les_parc = relationship("Parcours",
-                            backref="Parcours.id_parc")  # ok car relation 1-1
-
-    id_etape = db.Column(db.Integer,
-                         ForeignKey("Etape.id_etape"),
-                         primary_key=True)  # idem
-    les_etapes = relationship("Etape", backref="Etape.id_etape")
+    id_parc = db.Column(db.Integer, db.ForeignKey("Parcours.id_parc"), primary_key=True)
+    id_etape = db.Column(db.Integer, db.ForeignKey("Etape.id_etape"), primary_key=True)
+    les_parc = relationship("Parcours", backref="composer")
+    les_etapes = relationship("Etape", backref="composer")
 
 
 class Noter(db.Model):
-    id_parc = db.Column(db.Integer,
-                        ForeignKey("Parcours.id_parc"),
-                        primary_key=True)
-    les_parcours = relationship(
-        "Parcours", backref="Parcours.id_parc")  # ok car relation 1-1
-
-    id_note = db.Column(db.Integer, ForeignKey("Note.id_note"))
-    notes = relationship("Note", backref="Note.id_note")
+    id_parc = db.Column(db.Integer, db.ForeignKey("Parcours.id_parc"), primary_key=True)
+    id_note = db.Column(db.Integer, db.ForeignKey("Note.id_note"), primary_key=True)
+    les_parcours = relationship("Parcours", backref="noter")
+    notes = relationship("Note", backref="noter")
 
 
 """
