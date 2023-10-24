@@ -8,15 +8,18 @@ from datetime import datetime
 from .app import db
 
 
-
-
-
-class Client(db.Model):
-    id_client = db.Column(db.Integer, primary_key=True)
-    nom = db.Column(db.String)
+class User(db.Model):
+    id_user = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String)
-    id_client_type = db.Column(db.Integer, db.ForeignKey("clientType.id_client_type"))
     mdp = db.Column(db.String)
+
+class Admin(User):
+    id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+
+class Client(User):
+    id_client = db.Column(db.Integer, db.ForeignKey("user.id_user"), primary_key=True)
+    nom = db.Column(db.String)
+    id_client_type = db.Column(db.Integer, db.ForeignKey("clientType.id_client_type"))
 
     types = relationship("ClientType", backref="client")
     les_parcours = relationship("Parcours", back_populates="client")
