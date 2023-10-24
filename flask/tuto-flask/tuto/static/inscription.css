@@ -45,6 +45,7 @@ body{
   font-family: 'Lato', sans-serif;
   justify-content: center;
   align-items: center;
+  animation: fadein 3s;
 }
 
 .information{
@@ -201,7 +202,6 @@ footer{
   height: 50vw;
   min-width: 100%;
   display: flex;
-  animation: fadein 3s;
 }
 
 .slogan {

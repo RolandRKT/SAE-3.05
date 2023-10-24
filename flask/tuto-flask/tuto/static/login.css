@@ -45,6 +45,7 @@ body{
   font-family: 'Lato', sans-serif;
   justify-content: center;
   align-items: center;
+  animation: fadein 3s;
 }
 
 .information{
@@ -186,8 +187,8 @@ footer{
   position: fixed;
   background-image: url('../static/images/nuages_infini_v1.png');
   background-size: cover;
-  -webkit-animation: slidein 60s infinite linear;
-  animation: slidein 60s infinite linear;
+  -webkit-animation: slidein 6000000s infinite linear;
+  animation: slidein 6000000s infinite linear;
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
   background-size: 150%;
@@ -195,8 +196,8 @@ footer{
   min-width: 100%;
   display: flex;
   justify-content: flex-end;
-  animation: fadein 3s;
 }
+
 .slogan {
   font-size: 32px;
   font-family: 'Lato', sans-serif;
@@ -277,7 +278,7 @@ footer{
     background-size: 3000px;
   }
   to {
-    background-position: -1500px 1500px; /*1500 2eme val de base*/
+    background-position: -150000000px 1500px; /*1500 2eme val de base*/
     background-size: 3000px;
   }
 }
@@ -288,7 +289,7 @@ footer{
     background-size: 3000px;
   }
   to {
-    background-position: -1500px 1500px; /*1500 2eme val de base*/
+    background-position: -150000000px 1500px; /*1500 2eme val de base*/
     background-size: 3000px;
   }
 }

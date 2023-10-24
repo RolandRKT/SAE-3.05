@@ -1,11 +1,11 @@
 import os.path
 from flask import Flask
-from flask_bootstrap import Bootstrap5
+from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 
 app = Flask(__name__)
 app.config['BOOTSTRAP_SERVE8LOCAL']=True
-bootstrap = Bootstrap5(app)
+bootstrap = Bootstrap(app)
 app.config['SECRET_KEY'] = "bcc090e2-26b2-4c16-84ab-e766cc644320"
 
 def mkpath(path):
