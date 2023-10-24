@@ -249,8 +249,9 @@ footer{
     width: 250px;
     height: auto;
     animation: float 3s ease-in-out infinite;
-    align-self: center; /* Centre verticalement */
-    margin-right: 25%; /* Réglez la marge à droite pour le centrage horizontal */
+    align-self: center;
+    margin-right: 25%;
+    animation: fadein 3s;
   }
   
 @keyframes float {
