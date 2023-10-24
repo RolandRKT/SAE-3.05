@@ -3,6 +3,7 @@
 
 body{
     margin: 0;
+    overflow: hidden;
 }
 
 .hidden{
@@ -21,12 +22,26 @@ body{
     font-style: normal;
 }
 
-.main-base {
+header {
+    background-color: white;
+    min-width: 100%;
+    min-height: 3vw;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: relative; /* Ajoutez une position relative pour que les éléments enfants utilisent position: absolute par rapport à .main-base */
-    overflow: hidden;
+    flex-direction: row-reverse;
+    border-bottom: 2px solid #ccc;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.img3 {
+    width: 2.5%;
+    height: auto;
+    padding-right: 0.5vw;
+    transition: transform 0.3s ease; /* Ajoutez une transition douce sur la transformation */
+}
+
+.img3:hover {
+    transform: scale(1.05); /* Par exemple, agrandissez l'image au survol */
+    cursor: pointer;
 }
 
 .animated-image-position {
@@ -36,116 +51,15 @@ body{
     z-index: 2; /* Assurez-vous que l'élément s'affiche au-dessus des autres éléments */
 }
 
-.left-part {
-  min-height: 100%;
-  width: 50%;
-  clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
-  background-color: #FFF;
-  height: 50vw;
-  font-family: 'Lato', sans-serif;
-  justify-content: center;
-  align-items: center;
-  animation: fadein 3s;
-}
-
-.information{
-    margin: 25%;
-}
-
 .app-name{
-    margin-top: 10%;
     font-family: 'Leckerli One', cursive;
     color: #2EBEDD;
     font-size: 64px;
-    display: flex; /* Ajoutez cette ligne */
-    justify-content: center; /* Ajoutez cette ligne */
+    justify-content: center;
     align-items: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     user-select: none;
-}
-
-.form-login {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Alignez les éléments à gauche */
-}
-
-.form-label {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 20px; /* Ajustez la marge pour l'espacement entre les labels et les zones de saisie */
-}
-
-label{
-    margin-bottom: 10px;
-}
-
-input[type="text"],
-input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #111;
-    font-size: 16px;
-}
-
-/* Agrandir la zone de saisie au focus (lorsqu'elle est active) */
-input[type="text"]:focus,
-input[type="password"]:focus {
-    border: 2px solid #2EBEDD;
-    outline: none;
-}
-
-.form-password{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin-right: 95px; /*À changer si possible*/
-}
-
-.forget-password{
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
-}
-
-.forget-password a{
-    text-decoration: none;
-    color: #000;
-}
-
-.forget-password a:hover{
-    text-decoration: underline;
-}
-
-input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    padding-left: 40px;
-    padding-right: 40px;
-    border-radius: 40px;
-    font-size: 16px;
-    margin-top: 25%;
-    background-color: #1BBCD2;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-
-    transition: background-color 0.3s ease;
-}
-
-input[type="submit"]:hover {
-    background-color: #1493A7;
-}
-
-.create-account a{
-    text-decoration: none;
-    color: #238AB6;
-}
-
-.create-account a:hover{
-    text-decoration: underline;
+    margin-top: 12%;
 }
 
 .image-container {
@@ -158,8 +72,11 @@ footer{
   position: fixed;
   bottom: 0; 
   font-family: 'Lato', sans-serif;
-
+  background-color: white;
+  border-top: 2px solid #ccc;
+  box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
 }
+
 .img1 {
   width: 5%;
   height: auto;
@@ -173,16 +90,14 @@ footer{
   transition: transform 1s linear; /* Durée et type de transition */
 }
 
-@keyframes fadein {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.right-part {
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
   position: fixed;
   background-image: url('../static/images/nuages_infini_v1.png');
   background-size: cover;
@@ -191,20 +106,16 @@ footer{
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
   background-size: 150%;
-  height: 50vw;
+  height: 100vh;
   min-width: 100%;
   display: flex;
-  justify-content: flex-end;
 }
 
 .slogan {
   font-size: 32px;
   font-family: 'Lato', sans-serif;
-  position: absolute;
-  bottom: 5%;
-  left: 50%; /* Centre horizontalement */
-  transform: translateX(-50%); /* Centre horizontalement */
   z-index: 3;
+  margin-top: 5%;
   text-align: center; /* Centre le texte horizontalement */
   animation: floatSlogan 20s ease-in-out infinite; /* Ajoutez l'animation */
 }
@@ -245,14 +156,13 @@ footer{
   }
 }
 
-  .infinite-travel {
+.infinite-travel {
     width: 250px;
     height: auto;
     animation: float 3s ease-in-out infinite;
     align-self: center; /* Centre verticalement */
     margin-right: 25%; /* Réglez la marge à droite pour le centrage horizontal */
-  }
-  
+}
 @keyframes float {
   0% {
     transform: translateY(0); /* Position de départ (pas de déplacement vertical) */
@@ -291,4 +201,31 @@ footer{
     background-position: -150000000px 1500px; /*1500 2eme val de base*/
     background-size: 3000px;
   }
+}
+
+
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 40px;
+    font-size: 16px;
+    margin-top: 25%;
+    background-color: #1BBCD2;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #1493A7;
+}
+
+.copyright{
+    position: fixed;
+    bottom: 0;
+    left: 10px;
 }
