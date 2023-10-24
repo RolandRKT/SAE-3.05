@@ -24,3 +24,4 @@ Thibault SAINT-LÉGER
   - Création et finition de la première version des CU
   - Conception du MCD
   - Implémentation de la BD
+  - Implémentation de la page login
