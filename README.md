@@ -25,3 +25,10 @@ Thibault SAINT-LÉGER
   - Conception du MCD
   - Implémentation de la BD
   - Implémentation de la page login
+
+### Jour 2 :
+  - Conception de la maquette de la page home
+  - Corrections de bug de fonctionnement sur les environnements de l'IUT
+  - Implémentation de la maquette de la page home
+  - Conception MCD (suite)
+  - Création des tables en SQLAlchemy (flask)
