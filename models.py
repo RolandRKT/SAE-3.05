@@ -87,6 +87,7 @@ class Parcours(db.Model):
     nom_parc = db.Column(db.String(100))
     date_debut = db.Column(db.String(100))
     date_fin = db.Column(db.DateTime)
+    date_creation = db.Column(db.Date)
 
     id_type_parc = db.Column(db.Integer, db.ForeignKey("TypeParcours.id_type_parc"))
     type_parc = relationship("TypeParcours", back_populates="les_parcours")
