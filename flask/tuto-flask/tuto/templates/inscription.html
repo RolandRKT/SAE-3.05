@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <!doctype html>
+  <html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>Wade - Organiser avec Wade</title>
+    <link rel="stylesheet" href="../static/inscription.css">
+  </head>
+  <body>
+    
+    <section class="left-part">
+        <img class="infinite-travel" src="../static/images/logo.png" alt="Logo Wade"></img>
+        <h2 class="slogan">Organisez et choisissez
+            vos parcours avec Wade<h2>
+    </section>
+    <main class="main-base">
+        <div class="animated-image-position">
+            <div class="image-container">
+              <img id="animation-button" class = "img1" src="../static/images/logo.png" alt="Image à animer">
+            </div>
+        </div>
+        <div class="right-part">
+          <section class="information">
+            <h1 class="app-name">WADE</h1>
+            <form action="" method="get" class="form-inscription">
+                <div class="form-label">
+                  <label for="name" class="label">pseudo</label>
+                  <input type="text" name="name" id="name" required/>
+                </div>
+            </form>
+            <form action="" method="get" class="form-inscription">
+                <div class="form-label">
+                  <label for="name" class="label">email</label>
+                  <input type="email" name="name" id="name" required/>
+                </div>
+            </form>
+            <form action="" method="get" class="form-inscription">
+                <div class="form-label">
+                  <label for="password" class="label">Mot de passe</label>
+                  <input type="password" name="email" id="email" required/>
+                </div>
+            </form>
+            <form action="" method="get" class="form-inscription">
+                <div class="form-label">
+                  <input type="submit" value="S'inscrire" />
+                </div>
+                <div class = "back-login">
+                  <a href="{{url_for('login')}}">connexion</a>
+                </div>
+            </form>
+            
+          </section>
+        </div>
+    </main>
+      
+    <footer>
+      <div class="image-container">
+        <img id="animation-button1" class = "img2" src="../static/images/logo.png" alt="Image à animer">
+      </div>
+      <p>Wade Copyright © 2023</p>
+    </footer>
+    <script src="../static/script/apparition_logo.js"></script>
+    <script src="../static/script/script.js"></script>
+  </body>
+</html>

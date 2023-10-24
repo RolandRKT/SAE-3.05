@@ -1,12 +1,21 @@
-// Récupérez l'élément du DOM
+// Récupérez tous les liens de la page
+const links = document.querySelectorAll('a');
 const animatedImage = document.getElementById('animation-button');
 const animatedImage1 = document.getElementById('animation-button1');
 
-// Gérez le clic sur l'image
-animatedImage.addEventListener('click', function() {
+// Fonction pour gérer le clic sur n'importe quel lien
+function handleLinkClick(event) {
+  event.preventDefault(); // Empêche le lien de déclencher la navigation par défaut
+
   animatedImage.style.transform = 'translateX(100vw)'; // Déclenche l'animation
-  // mettre un délai de 2s avant de faire la suite
-  setTimeout(function() {
-    animatedImage1.style.transform = 'translateX(-8vw) scaleX(-1)';
-  }, 2000); // 2 secondes de délai
+
+  // Mettez un délai de 0.5s avant de naviguer vers le lien
+  setTimeout(function () {
+    window.location = event.target.href; // Navigue vers le lien
+  }, 600); // 0.5 seconde de délai
+}
+
+// Ajoutez le gestionnaire d'événements à tous les liens
+links.forEach(link => {
+  link.addEventListener('click', handleLinkClick);
 });
