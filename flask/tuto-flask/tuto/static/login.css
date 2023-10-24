@@ -248,10 +248,9 @@ footer{
   .infinite-travel {
     width: 250px;
     height: auto;
-    animation: float 3s ease-in-out infinite;
+    animation: float 3s ease-in-out infinite, fadein 3s;
     align-self: center;
     margin-right: 25%;
-    animation: fadein 3s;
   }
   
 @keyframes float {
