@@ -61,26 +61,3 @@ class Noter(db.Model):
     id_parc = db.Column(db.Integer, db.ForeignKey("parcours.id_parc"), primary_key=True)
     id_note = db.Column(db.Integer, db.ForeignKey("note.id_note"), primary_key=True)
 
-
-"""
-def get_image(the_id):
-    #return Image.query.filter(Image.id == the_id).first()
-    return Image.query.get_or_404(the_id)
-
-
-def get_images(params=None):
-    if not params:
-        return Image.query.all()
-    else:
-        raise Exception('Filtering not implemented yet.')
-
-
-def add_image(image_dict):
-    new_image = Image(name=image_dict['name'], \
-                        img_filename=image_dict['img_filename'], \
-                        img_data=image_dict['img_data'])
-    db.session.add(new_image)
-    db.session.commit()
-"""
-if __name__ == '__main__':
-    db.create_all()
