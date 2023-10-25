@@ -32,3 +32,9 @@ Thibault SAINT-LÉGER
   - Implémentation de la maquette de la page home
   - Conception MCD (suite)
   - Création des tables en SQLAlchemy (flask)
+
+### Jour 3:
+  - Changement de l'implémentation des tables (python)
+  - Conception de trigger
+  - Problèmes régler au niveau des footers et animations
+  - Conception de la version mobile du site
