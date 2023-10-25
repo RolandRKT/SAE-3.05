@@ -298,3 +298,9 @@ footer{
     background-size: 3000px;
   }
 }
+
+.copyright{
+  position: fixed;
+  bottom: 0;
+  left: 10px;
+}

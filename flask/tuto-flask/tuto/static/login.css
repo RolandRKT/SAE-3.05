@@ -155,11 +155,15 @@ input[type="submit"]:hover {
 }
 
 footer{
+  margin: 0;
   position: fixed;
   bottom: 0; 
   font-family: 'Lato', sans-serif;
-
+  background-color: white;
+  border-top: 2px solid #ccc;
+  box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
 }
+
 .img1 {
   width: 5%;
   height: auto;
@@ -291,4 +295,10 @@ footer{
     background-position: -150000000px 1500px; /*1500 2eme val de base*/
     background-size: 3000px;
   }
+}
+
+.copyright{
+  position: fixed;
+  bottom: 0;
+  left: 10px;
 }
