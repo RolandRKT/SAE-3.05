@@ -8,7 +8,7 @@ from datetime import datetime
 from ..app import db
 
 
-class User(db.Model):
+class Participant(db.Model):
     id_user = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String)
     mdp = db.Column(db.String)

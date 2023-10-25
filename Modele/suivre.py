@@ -6,13 +6,11 @@ import time
 from datetime import datetime
 
 from ..app import db
-
 from .parcours import *
-from .user import User
+from .participant import *
 
-class Commentaire(db.Model):
-    id_parc = db.Column(db.Integer, db.ForeignKey("parcours.id_parc"),primary_key=True)
-    id_user = db.Column(db.Integer, db.ForeignKey("user.id_user"),primary_key=True)
-    comm = db.Column(db.String)
-
-    
+class suivre(db.Model):
+    id_parc = db.Column(db.Integer, db.ForeignKey("parcours.id_parc"), primary_key=True)
+    id_user = db.Column(db.Integer, db.ForeignKey("participant.id_user"), primary_key=True)
+    point = db.Column(db.Integer)
+    comm = db.Column(db.String(250))

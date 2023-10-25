@@ -14,7 +14,7 @@ class Image(db.Model):
     img_filename = db.Column(db.String())
     img_data = db.Column(db.LargeBinary)
 
-"""
+
 def get_image(the_id):
     #return Image.query.filter(Image.id == the_id).first()
     return Image.query.get_or_404(the_id)
@@ -28,9 +28,6 @@ def get_images(params=None):
 
 
 def add_image(image_dict):
-    new_image = Image(name=image_dict['name'], \
-                        img_filename=image_dict['img_filename'], \
-                        img_data=image_dict['img_data'])
+    new_image = Image(name=image_dict['name'], img_filename=image_dict['img_filename'], img_data=image_dict['img_data'])
     db.session.add(new_image)
     db.session.commit()
-"""
