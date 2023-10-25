@@ -29,7 +29,6 @@ create table INTERETETAPE (
 create table ETAPE (
     id_etape int primary key,
     nom_etape varchar(200),
-    description_etape varchar(320),
     localisation varchar(200),
     id_image int 
 )
