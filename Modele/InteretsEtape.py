@@ -13,10 +13,10 @@ class InteretsEtape(db.Model):
     descritpion = db.Column(db.String(200))
 
 
-def get_interts_etape_id(id_interet_etape):
+def get_interets_etape_id(id_interet_etape):
     return InteretsEtape.query.get(id_interet_etape)
 
-def get_interts_etape():
+def get_interets_etape():
     return InteretsEtape.query.all()
                                    
                                    
