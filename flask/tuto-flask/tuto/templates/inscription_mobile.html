@@ -1,22 +1,13 @@
-{% extends "base_inscription.html" %}
-{% block styles %}
-    {{ super() }}
-    <link rel="stylesheet" href="{{url_for('static', filename='inscription.css') }}">
-{% endblock %}
+{% extends "base_log_ins_mobile.html" %}
 {% block content %}
-    <section class="left-part">
-        <img class="infinite-travel" src="../static/images/logo.png" alt="Logo Wade"></img>
-        <h2 class="slogan">Organisez et choisissez
-            vos parcours avec Wade<h2>
-    </section>
-    <main class="main-base">
-        <div class="animated-image-position">
-            <div class="image-container">
-              <img id="animation-button" class = "img1" src="../static/images/logo.png" alt="Image à animer">
-            </div>
+<main class="main-base">
+    <div class="animated-image-position">
+        <div class="image-container">
+          <img id="animation-button" class = "img1" src="../static/images/logo.png" alt="Image à animer">
         </div>
-        <div class="right-part">
-          <section class="information">
+    </div>
+    <div class="center-part">
+        <section class="information">
             <h1 class="app-name">WADE</h1>
             <form action="" method="get" class="form-inscription">
                 <div class="form-label">
@@ -46,6 +37,6 @@
             </form>
             
           </section>
-        </div>
-    </main>
+    </div>
+</main>
 {% endblock %}

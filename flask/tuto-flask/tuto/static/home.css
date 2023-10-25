@@ -47,8 +47,8 @@ header {
 .animated-image-position {
     top: 0;
     left: -5%;
-    position: absolute; /* Position absolue par rapport à .main-base */
-    z-index: 2; /* Assurez-vous que l'élément s'affiche au-dessus des autres éléments */
+    position: absolute;
+    z-index: 2;
 }
 
 .app-name{
@@ -59,7 +59,7 @@ header {
     align-items: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     user-select: none;
-    margin-top: 12%;
+    margin-top: 12vh;
 }
 
 .image-container {
@@ -69,6 +69,7 @@ header {
 }
 
 footer{
+  margin: 0;
   position: fixed;
   bottom: 0; 
   font-family: 'Lato', sans-serif;
@@ -96,7 +97,7 @@ main {
   align-items: center;
   height: 100vh;
   position: relative;
-  overflow: hidden;
+  overflow: scroll;
   margin: 0;
   position: fixed;
   background-image: url('../static/images/nuages_infini_v1.png');
@@ -106,16 +107,14 @@ main {
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
   background-size: 150%;
-  height: 100vh;
   min-width: 100%;
-  display: flex;
 }
 
 .slogan {
   font-size: 32px;
   font-family: 'Lato', sans-serif;
   z-index: 3;
-  margin-top: 5%;
+  margin-top: 5vh;
   text-align: center; /* Centre le texte horizontalement */
   animation: floatSlogan 20s ease-in-out infinite; /* Ajoutez l'animation */
 }
@@ -165,19 +164,19 @@ main {
 }
 @keyframes float {
   0% {
-    transform: translateY(0); /* Position de départ (pas de déplacement vertical) */
+    transform: translateY(0);
   }
   25% {
-    transform: translateY(-10px); /* Déplacement vers le haut de 5 pixels */
+    transform: translateY(-10px); /* Déplacement vers le haut de 10 pixels */
   }
   50% {
-    transform: translateY(0); /* Retour à la position de départ */
+    transform: translateY(0);
   }
   75% {
-    transform: translateY(10px); /* Retour à la position de départ */
+    transform: translateY(10px);
   }
   100% {
-    transform: translateY(0); /* Retour à la position de départ */
+    transform: translateY(0);
   }
 }
 
@@ -228,4 +227,40 @@ input[type="submit"]:hover {
     position: fixed;
     bottom: 0;
     left: 10px;
+    margin: 0;
+}
+@media (max-height: 540px) or (max-width: 748px) {
+  main {
+    overflow: scroll;
+  }
+  .img3 {
+    width: 30px;
+    margin: 5px;
+  }
+
+  .img1{
+    width: 30px;
+    margin: 5px;
+  }
+
+  .app-name {
+    margin-top: 5px;
+    font-size: 24px;
+  }
+
+  footer {
+    display: none;
+  }
+
+  .slogan {
+    font-size: 24px;
+    margin: 5px;
+  }
+  .infinite-travel{
+    width: 150px;
+    margin: 5px;
+  }
+  input[type="submit"] {
+    margin: 5px;
+  }
 }
