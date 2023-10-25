@@ -255,19 +255,19 @@ footer{
   
 @keyframes float {
   0% {
-    transform: translateY(0); /* Position de départ (pas de déplacement vertical) */
+    transform: translateY(0);
   }
   25% {
     transform: translateY(-10px); /* Déplacement vers le haut de 5 pixels */
   }
   50% {
-    transform: translateY(0); /* Retour à la position de départ */
+    transform: translateY(0);
   }
   75% {
-    transform: translateY(10px); /* Retour à la position de départ */
+    transform: translateY(10px);
   }
   100% {
-    transform: translateY(0); /* Retour à la position de départ */
+    transform: translateY(0);
   }
 }
 
