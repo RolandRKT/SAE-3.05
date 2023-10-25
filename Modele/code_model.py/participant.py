@@ -1,20 +1,20 @@
 class Participant:
     def __init__(self, id_participant, email, mdp):
-        self.id_participant = id_participant
-        self.email = email
-        self.mdp = mdp
+        self.__id_participant = id_participant
+        self.__email = email
+        self.__mdp = mdp
 
     # Getter pour id_participant
     def get_id_participant(self):
-        return self.id_participant
+        return self.__id_participant
 
     # Getter pour email
     def get_email(self):
-        return self.email
+        return self.__email
 
     # Getter pour mdp
     def get_mdp(self):
-        return self.mdp
+        return self.__mdp
 
     def __str__(self):
-        return "id participant : " + str(self.id_participant) + " le mail : " + self.email
+        return "id participant : " + str(self.__id_participant) + " le mail : " + self.__email
