@@ -1,9 +1,0 @@
-noter : parcours,note
-commentaire : parcours
-image : image
-etape : image
-note : note
-composer : parcours etape 
-user : user
-posseder : parcour, user
-parcours : parcour
