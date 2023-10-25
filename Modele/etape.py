@@ -15,3 +15,9 @@ class Etape(db.Model):
     nom_etape = db.Column(db.String(100))
     id_photo = db.Column(db.Integer, db.ForeignKey("image.id_photo"))
     localisation = db.Column(db.String(200))
+    
+def get_etape_id(id_etape):
+    return Etape.query.get(id_etape)
+
+def get_etape():
+    return Etape.query.all()
