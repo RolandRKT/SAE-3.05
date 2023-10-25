@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:200');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
+
+body{
+    margin: 0;
+    overflow: hidden;
+}
+
+.hidden{
+  display:none;
+}
+
+.transition-logo{
+  transform: translateX(100%);
+  transition: transform 0.5s ease-in;
+}
+
+@font-face {
+    font-family: 'Leckerli One';
+    src: url('../static/fonts/Leckerli_One/LeckerliOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+header {
+    background-color: white;
+    min-width: 100%;
+    min-height: 3vw;
+    display: flex;
+    flex-direction: row-reverse;
+    border-bottom: 2px solid #ccc;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.img3 {
+    width: 2.5%;
+    height: auto;
+    padding-right: 0.5vw;
+    transition: transform 0.3s ease; /* Ajoutez une transition douce sur la transformation */
+}
+
+.img3:hover {
+    transform: scale(1.05); /* Par exemple, agrandissez l'image au survol */
+    cursor: pointer;
+}
+
+.animated-image-position {
+    top: 0;
+    left: -5%;
+    position: absolute;
+    z-index: 2;
+}
+
+.app-name{
+    font-family: 'Leckerli One', cursive;
+    color: #2EBEDD;
+    font-size: 64px;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    user-select: none;
+    margin-top: 12vh;
+}
+
+.image-container {
+    overflow: hidden;
+    position: relative;
+    width: 100vw;
+}
+
+footer{
+  margin: 0;
+  position: fixed;
+  bottom: 0; 
+  font-family: 'Lato', sans-serif;
+  background-color: white;
+  border-top: 2px solid #ccc;
+  box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
+}
+
+.img1 {
+  width: 5%;
+  height: auto;
+}
+
+/* Lorsque vous déclencherez l'animation */
+.img2 {
+  width: 5%;
+  height: auto;
+  transform: translateX(100vw) scaleX(-1); /* Point de départ (à droite) et effet miroir horizontal */
+  transition: transform 1s linear; /* Durée et type de transition */
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  overflow: scroll;
+  margin: 0;
+  position: fixed;
+  background-image: url('../static/images/nuages_infini_v1.png');
+  background-size: cover;
+  -webkit-animation: slidein 6000000s infinite linear;
+  animation: slidein 6000000s infinite linear;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  background-size: 150%;
+  min-width: 100%;
+}
+
+.slogan {
+  font-size: 32px;
+  font-family: 'Lato', sans-serif;
+  z-index: 3;
+  margin-top: 5vh;
+  text-align: center; /* Centre le texte horizontalement */
+  animation: floatSlogan 20s ease-in-out infinite; /* Ajoutez l'animation */
+}
+
+@keyframes floatSlogan {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(5px, -5px);
+  }
+  20% {
+    transform: translate(10px, 0);
+  }
+  30% {
+    transform: translate(5px, 5px);
+  }
+  40% {
+    transform: translate(0, 10px);
+  }
+  50% {
+    transform: translate(-5px, 5px);
+  }
+  60% {
+    transform: translate(-10px, 0);
+  }
+  70% {
+    transform: translate(-5px, -5px);
+  }
+  80% {
+    transform: translate(0, -10px);
+  }
+  90% {
+    transform: translate(5px, -5px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.infinite-travel {
+    width: 250px;
+    height: auto;
+    animation: float 3s ease-in-out infinite;
+    align-self: center; /* Centre verticalement */
+    margin-right: 25%; /* Réglez la marge à droite pour le centrage horizontal */
+}
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-10px); /* Déplacement vers le haut de 10 pixels */
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@-webkit-keyframes slidein {
+  from {
+    background-position: 0px 1500px;
+    background-size: 3000px;
+  }
+  to {
+    background-position: -150000000px 1500px; /*1500 2eme val de base*/
+    background-size: 3000px;
+  }
+}
+
+@keyframes slidein {
+  from {
+    background-position: 0px 1500px;
+    background-size: 3000px;
+  }
+  to {
+    background-position: -150000000px 1500px; /*1500 2eme val de base*/
+    background-size: 3000px;
+  }
+}
+
+
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 40px;
+    font-size: 16px;
+    margin-top: 25%;
+    background-color: #1BBCD2;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #1493A7;
+}
+
+.copyright{
+    position: fixed;
+    bottom: 0;
+    left: 10px;
+    margin: 0;
+}
+@media (max-height: 540px) or (max-width: 748px) {
+  main {
+    overflow: scroll;
+  }
+  .img3 {
+    width: 30px;
+    margin: 5px;
+  }
+
+  .img1{
+    width: 30px;
+    margin: 5px;
+  }
+
+  .app-name {
+    margin-top: 5px;
+    font-size: 24px;
+  }
+
+  footer {
+    display: none;
+  }
+
+  .slogan {
+    font-size: 24px;
+    margin: 5px;
+  }
+  .infinite-travel{
+    width: 150px;
+    margin: 5px;
+  }
+  input[type="submit"] {
+    margin: 5px;
+  }
+}

@@ -1,0 +1,51 @@
+{% extends "base_log_ins_mobile.html" %}
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static', filename='login.css') }}">
+{% endblock %}
+{% block content %}
+<section class="right-part">
+        <img class="infinite-travel" src="../static/images/logo.png" alt="Logo Wade"></img>
+        <h2 class="slogan">Organisez et choisissez
+            vos parcours avec Wade<h2>
+    </section>
+    <main class="main-base">
+        <div class="animated-image-position">
+            <div class="image-container">
+              <img id="animation-button" class = "img1" src="../static/images/logo.png" alt="Image à animer">
+            </div>
+        </div>
+        <div class="left-part">
+          <section class="information">
+            <h1 class="app-name">WADE</h1>
+            <form action="" method="get" class="form-login">
+                <div class="form-label">
+                  <label for="name" class="label">Email ou pseudo</label>
+                  <input type="text" name="name" id="name" required/>
+                </div>
+            </form>
+            <form action="" method="get" class="form-login">
+                <div class="form-label">
+                  <label for="password" class="label">Mot de passe</label>
+                  <input type="password" name="email" id="email" required/>
+                </div>
+            </form>
+            <form action="" method="get" class="form-password">
+                <div class="forget-password">
+                    <a href="#">Mot de passe oublié ?</a>
+                </div>
+            </form>
+            <form action="" method="get" class="form-login">
+                <div class="form-label">
+                  <a><input type="submit" value="Se connecter" /></a>
+                </div>
+            </form>
+            <form action="" method="get" class="form-login">
+                <div class="create-account">
+                    <p>Nouveau ? <a href="{{url_for('inscription')}}">Créer un compte</a></p>
+                </div>
+            </form>
+          </section>
+        </div>
+    </main>
+{% endblock %}
