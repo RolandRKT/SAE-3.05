@@ -114,7 +114,8 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Les dates du parcours se chevauchent avec un parcours existant';
     END IF;
-END;
+END |
+DELIMITER ;
 
 
 -- Déclencheur pour empêcher que les parcours se chevauchent
@@ -135,5 +136,19 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Les dates du parcours se chevauchent avec un parcours existant';
     END IF;
-END;
+END |
+DELIMITER ;
+
+CREATE TRIGGER afterDeleteParcours BEFORE DELETE ON PARCOURS FOR EACH ROW
+BEGIN
+
+    IF old.id_parcours in (SELECT id_parcours FROM SUIVRE) THEN
+        DELETE FROM SUIVRE WHERE id_parcours = old.id_parcours;
+    END IF;
+
+    IF old.id_parcours in (SELECT id_parcours FROM COMPOSER) THEN
+        DELETE FROM COMPOSER WHERE id_parcours = old.id_parcours;
+    END IF;
+END |
+DELIMITER ;
 
