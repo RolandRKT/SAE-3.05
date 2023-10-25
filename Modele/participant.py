@@ -12,3 +12,9 @@ class Participant(db.Model):
     id_user = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String)
     mdp = db.Column(db.String)
+     
+def get_participant_id(id_user):
+    return Participant.query.get(id_user)
+
+def get_participant():
+    return Participant.query.all()
