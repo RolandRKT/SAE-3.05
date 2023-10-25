@@ -1,4 +1,5 @@
 class Composer:
+
     def __init__(self, participant_id, parcours_id):
         self.__participant_id = participant_id
         self.__parcours_id = parcours_id
