@@ -108,7 +108,6 @@ main {
   animation-fill-mode: forwards;
   background-size: 150%;
   min-width: 100%;
-  display: flex;
 }
 
 .slogan {
@@ -228,6 +227,7 @@ input[type="submit"]:hover {
     position: fixed;
     bottom: 0;
     left: 10px;
+    margin: 0;
 }
 @media (max-height: 540px) or (max-width: 748px) {
   main {

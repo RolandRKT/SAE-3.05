@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:200');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
+
+body{
+    margin: 0;
+}
+
+.hidden{
+  display:none;
+}
+
+.transition-logo{
+  transform: translateX(100%);
+  transition: transform 0.5s ease-in;
+}
+
+@font-face {
+    font-family: 'Leckerli One';
+    src: url('../static/fonts/Leckerli_One/LeckerliOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.main-base {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Ajoutez une position relative pour que les éléments enfants utilisent position: absolute par rapport à .main-base */
+    overflow: scroll;
+}
+
+.animated-image-position {
+    top: 0;
+    left: -11%;
+    position: absolute;
+    z-index: 2;
+}
+
+.center-part {
+    min-height: 100vh;
+    min-width: 100vw; /* Utilisation de 100vh pour centrer verticalement dans la fenêtre visible */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrer verticalement */
+    align-items: center; /* Centrer horizontalement */
+    text-align: center; /* Pour centrer le texte à l'intérieur */
+    font-family: 'Lato', sans-serif;
+    animation: fadein 3s;
+  }
+  
+
+.information{
+    width: 400px;
+    background-color: white;
+    border-radius: 15%;
+    padding-bottom: 10px;
+    transform: scale(1.8);
+}
+
+.app-name{
+    margin-top: 10%;
+    font-family: 'Leckerli One', cursive;
+    color: #2EBEDD;
+    font-size: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    user-select: none;
+}
+
+.form-inscription {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+label{
+    margin-bottom: 10px;
+}
+
+input[type="email"]{
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #111;
+    font-size: 16px;
+}
+
+input[type="email"]:focus {
+  border: 2px solid #2EBEDD;
+  outline: none;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #111;
+    font-size: 16px;
+}
+
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border: 2px solid #2EBEDD;
+    outline: none;
+}
+
+.form-password{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 95px;
+}
+
+.forget-password{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+.forget-password a{
+    text-decoration: none;
+    color: #000;
+}
+
+.forget-password a:hover{
+    text-decoration: underline;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 40px;
+    font-size: 16px;
+    margin-top: 25%;
+    background-color: #1BBCD2;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #1493A7;
+}
+
+.create-account a{
+    text-decoration: none;
+    color: #238AB6;
+}
+
+.create-account a:hover{
+    text-decoration: underline;
+}
+
+.img1 {
+    width: 100px;
+    height: auto;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes floatSlogan {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(5px, -5px);
+  }
+  20% {
+    transform: translate(10px, 0);
+  }
+  30% {
+    transform: translate(5px, 5px);
+  }
+  40% {
+    transform: translate(0, 10px);
+  }
+  50% {
+    transform: translate(-5px, 5px);
+  }
+  60% {
+    transform: translate(-10px, 0);
+  }
+  70% {
+    transform: translate(-5px, -5px);
+  }
+  80% {
+    transform: translate(0, -10px);
+  }
+  90% {
+    transform: translate(5px, -5px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}

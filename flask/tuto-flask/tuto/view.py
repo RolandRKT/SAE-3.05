@@ -16,25 +16,16 @@ def home():
 
 @app.route("/login")
 def login():
-    return render_template("login.html")
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("login_mobile.html", page_mobile=True, page_login=True)
+    else:
+        return render_template("login.html", page_mobile=False, page_login=True)
 
-@app.route("/create-account")
-def createaccount():
-    return render_template("inscription.html")
-
-@app.route("/home_mobile")
-def home_mobile():
-    return render_template("home_mobile.html")
-
-@app.route("/login_mobile")
-def login_mobile():
-    return render_template("login_mobile.html")
-
-@app.route("/inscription_mobile")
-def inscription_mobile():
-    return render_template("inscription_mobile.html")
-
-# Nouvelle route pour effectuer la redirection
-@app.route("/redirect_home_mobile")
-def redirect_home_mobile():
-    return redirect(url_for("home_mobile"))
+@app.route("/inscription")
+def inscription():
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("inscription_mobile.html", page_mobile=True, page_login=False)
+    else:
+        return render_template("inscription.html", page_mobile=False, page_login=False)

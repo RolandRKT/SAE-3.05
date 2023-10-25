@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <!doctype html>
+  <html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    {% if page_login %}
+      <title>Wade - Connexion</title>
+      {% else %}
+      <title>Wade - Inscription</title>
+    {% endif %}
+    {% if page_mobile %}
+      <link rel="stylesheet" href="../static/base_log-ins_mobile.css">
+      {% if page_login %}
+        <link rel="stylesheet" href="../static/login_mobile.css">
+      {% else %}
+        <link rel="stylesheet" href="../static/inscription_mobile.css">
+      {% endif %}
+    {% else %}
+      <link rel="stylesheet" href="../static/login.css">
+    {% endif %}
+  </head>
+  <body>
+    {% block content %}
+    {% endblock %}
+    <footer>
+      <div class="image-container">
+        <img id="animation-button1" class = "img2" src="../static/images/logo.png" alt="Image à animer">
+      </div>
+      <p class="copyright">Wade Copyright © 2023</p>
+    </footer>
+    <script src="../static/script/apparition_logo.js"></script>
+    <script src="../static/script/script.js"></script>
+  </body>
+</html>

@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <!doctype html>
-  <html lang="fr">
-  <head>
-    <meta charset="utf-8">
-    <title>Wade - Inscription</title>
-    <link rel="stylesheet" href="../static/inscription.css">
-  </head>
-  <body>
-    
+{% extends "base_inscription.html" %}
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static', filename='inscription.css') }}">
+{% endblock %}
+{% block content %}
     <section class="left-part">
         <img class="infinite-travel" src="../static/images/logo.png" alt="Logo Wade"></img>
         <h2 class="slogan">Organisez et choisissez
@@ -53,14 +48,4 @@
           </section>
         </div>
     </main>
-      
-    <footer>
-      <div class="image-container">
-        <img id="animation-button1" class = "img2" src="../static/images/logo.png" alt="Image à animer">
-      </div>
-      <p class="copyright">Wade Copyright © 2023</p>
-    </footer>
-    <script src="../static/script/apparition_logo.js"></script>
-    <script src="../static/script/script.js"></script>
-  </body>
-</html>
+{% endblock %}
