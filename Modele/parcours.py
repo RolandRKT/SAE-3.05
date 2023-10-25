@@ -17,3 +17,10 @@ class Parcours(db.Model):
 
     def __repr__(self):
         return f"ID: {self.id_parc} , nom : {self.nom_parc}"
+
+    
+def get_parcours_id(id_parc):
+    return Parcours.query.get(id_parc)
+
+def get_parcours():
+    return Parcours.query.all()
