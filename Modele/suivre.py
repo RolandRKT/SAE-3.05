@@ -14,3 +14,10 @@ class suivre(db.Model):
     id_user = db.Column(db.Integer, db.ForeignKey("participant.id_user"), primary_key=True)
     point = db.Column(db.Integer)
     comm = db.Column(db.String(250))
+    
+def get_suivre_parcours_id(id_parc):
+    return get_parcours_id(id_parc)
+
+def get_suivre_participant_id(id_user):
+    return get_participant_id(id_user)
+    
