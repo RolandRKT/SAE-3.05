@@ -1,16 +1,23 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime, LargeBinary
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql import func
-import time
-from datetime import datetime
+from .parcours import Parcours
+from .participant import Participant
 
-from ..app import db
-from .parcours import *
-from .participant import *
+Base = declarative_base()
 
-class suivre(db.Model):
-    id_parc = db.Column(db.Integer, db.ForeignKey("parcours.id_parc"), primary_key=True)
-    id_user = db.Column(db.Integer, db.ForeignKey("participant.id_user"), primary_key=True)
-    point = db.Column(db.Integer)
-    comm = db.Column(db.String(250))
+class Suivre(Base):
+    __tablename__ = "SUIVRE"
+    id_parc = Column(Integer, ForeignKey("parcours.id_parc"), primary_key=True)
+    id_user = Column(Integer, ForeignKey("participant.id_user"), primary_key=True)
+    point = Column(Integer)
+    comm = Column(String(250))
+
+    #parcours = relationship("Parcours", backref="suivis")
+    #participant = relationship("Participant", backref="suivis")
+
+    def __init__(self, id_parc, id_user, point, comm):
+        self.id_parc = id_parc
+        self.id_user = id_user
+        self.point = point
+        self.comm = comm

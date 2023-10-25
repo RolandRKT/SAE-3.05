@@ -1,17 +1,20 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime, LargeBinary
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql import func
-import time
-from datetime import datetime
-
-from ..app import db
 from .image import Image
 
+Base = declarative_base()
 
+class Etape(Base):
+    __tablename__ = "ETAPE"
+    id_etape = Column(Integer, primary_key=True)
+    nom_etape = Column(String)
+    id_photo = Column(Integer, ForeignKey("IMAGE.id_photo"))
+    localisation = Column(String)
 
-class Etape(db.Model):
-    id_etape = db.Column(db.Integer, primary_key=True)
-    nom_etape = db.Column(db.String(100))
-    id_photo = db.Column(db.Integer, db.ForeignKey("image.id_photo"))
-    localisation = db.Column(db.String(200))
+    #image = relationship("Image", back_populates="etapes")
+
+    def __init__(self, nom_etape, id_photo, localisation):
+        self.nom_etape = nom_etape
+        self.id_photo = id_photo
+        self.localisation = localisation

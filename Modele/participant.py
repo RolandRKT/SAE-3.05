@@ -1,14 +1,21 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime, LargeBinary
-from sqlalchemy.orm import sessionmaker, relationship
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql import func
-import time
-from datetime import datetime
+from sqlalchemy import  Column, Integer, String
+from sqlalchemy.orm import declarative_base
+
 
 from ..app import db
+from .connexion import cnx
+base =declarative_base
 
-
-class Participant(db.Model):
-    id_user = db.Column(db.Integer, primary_key = True)
-    email = db.Column(db.String)
-    mdp = db.Column(db.String)
+class Participant( base ):
+    __tablename__="PARTICPANT"
+    id_participant = Column(Integer, primary_key = True)
+    email   = Column(String)
+    mdp     = Column(String)
+    
+    def __init__(self, id_participant,email,mdp):
+        self.id_participant=id_participant
+        self.email=email
+        self.mdp = mdp
+    
+    def __str__(self):
+        return str("id participant : "+self.id_participant +" le mail : "+self.email)

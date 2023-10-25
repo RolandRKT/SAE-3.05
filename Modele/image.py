@@ -1,33 +1,17 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime, LargeBinary
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy import create_engine, Column, Integer, String, LargeBinary
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql import func
-import time
-from datetime import datetime
 
-from ..app import db
+Base = declarative_base()
 
+class Image(Base):
+    __tablename__ = "IMAGE"
+    id_photo = Column(Integer, primary_key=True)
+    name = Column(String)
+    img_filename = Column(String)
+    img_data = Column(LargeBinary)
 
-class Image(db.Model):
-    id_photo = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String())
-    img_filename = db.Column(db.String())
-    img_data = db.Column(db.LargeBinary)
-
-
-def get_image(the_id):
-    #return Image.query.filter(Image.id == the_id).first()
-    return Image.query.get_or_404(the_id)
-
-
-def get_images(params=None):
-    if not params:
-        return Image.query.all()
-    else:
-        raise Exception('Filtering not implemented yet.')
-
-
-def add_image(image_dict):
-    new_image = Image(name=image_dict['name'], img_filename=image_dict['img_filename'], img_data=image_dict['img_data'])
-    db.session.add(new_image)
-    db.session.commit()
+    def __init__(self, name, img_filename, img_data):
+        self.name = name
+        self.img_filename = img_filename
+        self.img_data = img_data
+    
