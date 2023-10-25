@@ -105,7 +105,8 @@ BEGIN
     SET existing_count = (
         SELECT COUNT(*)
         FROM PARCOURS
-        WHERE new.date_debut > date_debut AND new.date_fin < date_fin
+        WHERE (new.date_debut between date_debut AND date_fin) OR (new.date_fin between date_debut and date_fin) 
+        OR (new.date_debut < date_debut and new.date_fin > date_fin)
     );
     
     -- Si des parcours se chevauchent, l'insertion est interdite
@@ -125,7 +126,8 @@ BEGIN
     SET existing_count = (
         SELECT COUNT(*)
         FROM PARCOURS
-        WHERE new.date_debut > date_debut AND new.date_fin < date_fin
+        WHERE (new.date_debut between date_debut AND date_fin) OR (new.date_fin between date_debut and date_fin)
+        OR (new.date_debut < date_debut and new.date_fin > date_fin)
     );
     
     -- Si des parcours se chevauchent, l'insertion est interdite
