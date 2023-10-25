@@ -13,6 +13,6 @@ class Interet_etape:
     def get_nom_interet(self):
         return self.__nom_interet
     
-    # gettet description interet
+    # getter description interet
     def get_description_interet(self):
         return self.__description_interet

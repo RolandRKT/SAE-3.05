@@ -19,5 +19,3 @@ def ouvrir_connexion(user, passwd, host, database):
 cnx = ouvrir_connexion("dahoude","dahoude","servinfo-maria","DBdahoude")
 
 
-if __name__ =="__main__":
-    cnx.
