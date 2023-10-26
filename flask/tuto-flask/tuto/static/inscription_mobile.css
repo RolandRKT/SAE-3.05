@@ -32,10 +32,10 @@ body{
 }
 
 .animated-image-position {
-    top: 0;
-    left: -11%;
-    position: absolute;
-    z-index: 2;
+  top: 0;
+  left: -12.5%;
+  position: absolute;
+  z-index: 2;
 }
 
 .center-part {
@@ -173,6 +173,15 @@ input[type="submit"]:hover {
     height: auto;
 }
 
+.back-login a{
+  text-decoration: none;
+  color: #000;
+}
+
+.back-login a:hover{
+  text-decoration: underline;
+}
+
 @keyframes fadein {
   0% {
     opacity: 0;
@@ -216,4 +225,22 @@ input[type="submit"]:hover {
   100% {
     transform: translate(0, 0);
   }
+}
+
+@media (max-width: 380px) and (max-height: 780px) {
+  .information{
+    position: fixed;
+    width: 400px;
+    background-color: white;
+    border-radius: 15%;
+    transform: scale(0.7);
+  }
+  .img1 {
+    width: 50px;
+    height: auto;
+}
+  .animated-image-position {
+    left: -14%;
+}
+
 }
