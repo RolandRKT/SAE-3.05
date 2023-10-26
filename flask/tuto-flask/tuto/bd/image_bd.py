@@ -1,4 +1,4 @@
-from ..connexion import cnx
+from Modele.connexion import cnx
 from Modele.code_model.image import Image
 from sqlalchemy.sql.expression import text
 

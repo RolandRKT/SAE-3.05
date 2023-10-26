@@ -1,8 +1,9 @@
-from ..connexion import cnx
-from Modele.code_model.interet_etape import Interet_etape
 from sqlalchemy.sql.expression import text
+from Modele.connexion import cnx
+from Modele.code_model.interet_etape import Interet_etape
 
 class Interet_etape_bd:
+
     def get_all_interet_etape(self):
         try:
             query = text("select * from INTERETETAPE")
@@ -44,3 +45,9 @@ class Interet_etape_bd:
         except Exception as e:
             print("la connexion a échoué")
             return None
+        
+
+def test():
+    Interet_etape_bd.inserer_interet_etape(1,"test","testttt")
+
+test()
