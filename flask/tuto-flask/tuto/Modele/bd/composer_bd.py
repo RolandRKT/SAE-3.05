@@ -12,7 +12,9 @@ class Composer_bd:
                 composition.append(Composer(idp,ide))
             return composition
         except Exception as e:
+            print("la connexion a échoué")
             return None
+
     def get_par_etape_composition(self,ide):
         try:
             query = text("select id_parcours, id_etape from COMPOSER where id_etape= "+ide)
@@ -22,6 +24,7 @@ class Composer_bd:
                 composition.append(Composer(idp,ide))
             return composition
         except Exception as e:
+            print("la connexion a échoué")
             return None
     
     def get_par_parcour_composition(self,idp):
@@ -33,4 +36,5 @@ class Composer_bd:
                 composition.append(Composer(idp,ide))
             return composition
         except Exception as e:
+            print("la connexion a échoué")
             return None

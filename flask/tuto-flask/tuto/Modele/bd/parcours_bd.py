@@ -12,6 +12,7 @@ class Parcours_bd:
                 parcours.append(Parcours(id_parcours, nom, date_d, date_f, desc, id_img))
             return parcours
         except Exception as e:
+            print("la connexion a échoué")
             return None
         
     def get_par_parcours(self,id_parcours):
@@ -23,6 +24,7 @@ class Parcours_bd:
                 parcours.append(Parcours(id_parcours, nom, date_d, date_f, desc, id_img))
             return parcours
         except Exception as e:
+            print("la connexion a échoué")
             return None
         
     def get_par_parcours_image(self,id_image):
@@ -34,4 +36,5 @@ class Parcours_bd:
                 parcours.append(Parcours(id_parcours, nom, date_d, date_f, desc, id_img))
             return parcours
         except Exception as e:
+            print("la connexion a échoué")
             return None

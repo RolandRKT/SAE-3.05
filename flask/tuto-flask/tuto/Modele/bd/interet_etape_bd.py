@@ -12,6 +12,7 @@ class Interet_etape_bd:
                 composition.append(Interet_etape(idi,nom,desc))
             return composition
         except Exception as e:
+            print("la connexion a échoué")
             return None
         
     def get_par_photo_etape(self,idi):
@@ -23,5 +24,6 @@ class Interet_etape_bd:
                 composition.append(Interet_etape(id,nom,desc))
             return composition
         except Exception as e:
+            print("la connexion a échoué")
             return None
     

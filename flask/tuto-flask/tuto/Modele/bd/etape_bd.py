@@ -12,7 +12,9 @@ class Etape_bd:
                 composition.append(Etape(ide,nom,idph,local))
             return composition
         except Exception as e:
+            print("la connexion a échoué")
             return None
+
     def get_par_photo_etape(self,idph):
         try:
             query = text("select * from ETAPE where id_photo = "+idph)
@@ -22,5 +24,6 @@ class Etape_bd:
                 composition.append(Etape(ide,nom,idp,local))
             return composition
         except Exception as e:
+            print("la connexion a échoué")
             return None
     

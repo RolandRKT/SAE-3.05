@@ -12,6 +12,7 @@ class Suivre_bd:
                 suivre.append(Suivre(id_participant, id_parcours, note, comm))
             return suivre
         except Exception as e:
+            print("la connexion a échoué")
             return None
         
     def get_par_suivre_parcours(self,id_parcours):
@@ -23,6 +24,7 @@ class Suivre_bd:
                 suivre.append(Suivre(id_participant, id_parcours, note, comm))
             return suivre
         except Exception as e:
+            print("la connexion a échoué")
             return None
     
     def get_par_suivre_participant(self,id_participant):
@@ -34,4 +36,5 @@ class Suivre_bd:
                 suivre.append(Suivre(id_participant, id_parcours, note, comm))
             return suivre
         except Exception as e:
+            print("la connexion a échoué")
             return None

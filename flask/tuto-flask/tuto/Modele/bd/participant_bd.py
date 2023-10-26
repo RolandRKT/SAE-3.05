@@ -12,6 +12,8 @@ class Participant_bd:
                 participant.append(participant(id_participant, email, mdp))
             return participant
         except Exception as e:
+            print("la connexion a échoué")
+
             return None
         
     def get_par_participant(self,id_participant):
@@ -23,4 +25,5 @@ class Participant_bd:
                 participant.append(participant(id_participant, email, mdp))
             return participant
         except Exception as e:
+            print("la connexion a échoué")
             return None

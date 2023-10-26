@@ -12,6 +12,7 @@ class Image_bd:
                 image.append(Image(id_image, nom, img_f, img_d))
             return image
         except Exception as e:
+            print("la connexion a échoué")
             return None
         
     def get_par_image(self,id_image):
@@ -23,4 +24,5 @@ class Image_bd:
                 image.append(Image(id_image, nom, img_f, img_d))
             return image
         except Exception as e:
+            print("la connexion a échoué")
             return None
