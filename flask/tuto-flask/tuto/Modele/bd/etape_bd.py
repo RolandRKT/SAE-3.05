@@ -34,3 +34,12 @@ class Etape_bd:
         except Exception as e:
             print("la connexion a échoué")
             return None
+
+    def get_prochain_id_etape(self):
+        try:
+            query = text("select max(id_etape) as m from ETAPE")
+            result = cnx.execute(query)
+            return result[0]+1
+        except Exception as e:
+            print("la connexion a échoué")
+            return None

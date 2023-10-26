@@ -46,4 +46,4 @@ class Composer_bd:
         except Exception as e:
             print("la connexion a échoué")
             return None
-        
+    

@@ -47,3 +47,12 @@ class Parcours_bd:
         except Exception as e:
             print("la connexion a échoué")
             return None
+    
+    def get_prochain_id_parcours(self):
+        try:
+            query = text("select max(id_parcours) as m from PARCOURS")
+            result = cnx.execute(query)
+            return result[0]+1
+        except Exception as e:
+            print("la connexion a échoué")
+            return None

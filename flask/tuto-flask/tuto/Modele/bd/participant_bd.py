@@ -35,3 +35,12 @@ class Participant_bd:
         except Exception as e:
             print("la connexion a échoué")
             return None
+
+    def get_prochain_id_participant(self):
+        try:
+            query = text("select max(id_participant) as m from PARTICIPANT")
+            result = cnx.execute(query)
+            return result[0]+1
+        except Exception as e:
+            print("la connexion a échoué")
+            return None
