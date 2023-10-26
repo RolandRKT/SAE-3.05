@@ -27,3 +27,11 @@ class Interet_etape_bd:
             print("la connexion a échoué")
             return None
     
+    
+    def inserer_interet_etape(self,idi,nom_interet,desc):
+        try:
+            query = text("insert into ETAPE values("+idi+" , "+nom_interet+" ,"+desc+" )")
+            cnx.execute(query)
+        except Exception as e:
+            print("la connexion a échoué")
+            return None

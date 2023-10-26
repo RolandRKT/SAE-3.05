@@ -27,3 +27,11 @@ class Participant_bd:
         except Exception as e:
             print("la connexion a échoué")
             return None
+
+    def inserer_participant(self,idpart,mail,mdp):
+        try:
+            query = text("insert into PARTICIPANT values("+idpart+" , "+mail+" ,"+mdp+")")
+            cnx.execute(query)
+        except Exception as e:
+            print("la connexion a échoué")
+            return None

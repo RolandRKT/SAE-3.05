@@ -26,3 +26,12 @@ class Image_bd:
         except Exception as e:
             print("la connexion a échoué")
             return None
+        
+    
+    def inserer_image(self,idimage,nomimage,img_data,nomfic):
+        try:
+            query = text("insert into IMAGE values("+idimage+" , "+nomimage+" ,"+img_data+" , "+nomfic+")")
+            cnx.execute(query)
+        except Exception as e:
+            print("la connexion a échoué")
+            return None

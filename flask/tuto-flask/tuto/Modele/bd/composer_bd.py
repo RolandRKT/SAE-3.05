@@ -38,3 +38,12 @@ class Composer_bd:
         except Exception as e:
             print("la connexion a échoué")
             return None
+        
+    def inserer_compose(self,idparc,idinter):
+        try:
+            query = text("insert into COMPOSER values("+idparc+" , "+idinter+")")
+            cnx.execute(query)
+        except Exception as e:
+            print("la connexion a échoué")
+            return None
+        

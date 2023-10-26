@@ -1,11 +1,10 @@
 CREATE TABLE PARCOURS (
     id_parcours INT PRIMARY KEY,
     nom_parcours VARCHAR(20),
-    date_debut DATETIME,
-    date_fin DATETIME,
+    duree TIME,
     description_parcours VARCHAR(200),
     id_image int,
-    CHECK(date_debut < date_fin)
+    CHECK('00:05:00' < duree )
 )
 
 CREATE TABLE PARTICIPANT (
@@ -52,6 +51,7 @@ create table POSSEDER (
 create table COMPOSER (
     id_parcours int,
     id_etape int,
+    numero int,
     primary key (id_parcours,id_etape)
 )
 

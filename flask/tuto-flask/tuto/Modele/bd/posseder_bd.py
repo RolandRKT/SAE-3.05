@@ -15,7 +15,7 @@ class Posseder_bd:
             print("la connexion a échoué")
             return None
     
-    def get_posser_by_idinteret(self,idinteret):
+    def get_posseder_by_idinteret(self,idinteret):
         try:
             query = text("select * from POSSEDER where id_interet = "+idinteret)
             resultat = cnx.execute(query)
@@ -27,7 +27,7 @@ class Posseder_bd:
             print("la connexion a échoué")
             return None
     
-    def get_posser_by_etape(self,idetape):
+    def get_posseder_by_etape(self,idetape):
         try:
             query = text("select * from POSSEDER where id_etape = "+idetape)
             resultat = cnx.execute(query)
@@ -35,6 +35,14 @@ class Posseder_bd:
             for ide,idi in resultat:
                 composition.append(Posseder(ide,idi))
             return composition
+        except Exception as e:
+            print("la connexion a échoué")
+            return None
+    
+    def inserer_possede(self,idetape,idinteret):
+        try:
+            query = text("insert into POSSEDER values("+idetape+" , "+idinteret+")")
+            cnx.execute(query)
         except Exception as e:
             print("la connexion a échoué")
             return None

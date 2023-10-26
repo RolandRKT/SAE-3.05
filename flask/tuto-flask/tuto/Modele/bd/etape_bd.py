@@ -27,3 +27,10 @@ class Etape_bd:
             print("la connexion a échoué")
             return None
     
+    def inserer_etape(self,idetape,nometape,localisation,idimage):
+        try:
+            query = text("insert into ETAPE values("+idetape+" , "+nometape+" ,"+localisation+" , "+idimage+")")
+            cnx.execute(query)
+        except Exception as e:
+            print("la connexion a échoué")
+            return None

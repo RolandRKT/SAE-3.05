@@ -38,3 +38,11 @@ class Suivre_bd:
         except Exception as e:
             print("la connexion a échoué")
             return None
+
+    def inserer_suivre(self,id_part,id_parc,note,comm):
+        try:
+            query = text("insert into SUIVRE values("+id_part+" , "+id_parc+" ,"+note+" , "+comm+")")
+            cnx.execute(query)
+        except Exception as e:
+            print("la connexion a échoué")
+            return None
