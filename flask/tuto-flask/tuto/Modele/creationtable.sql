@@ -14,6 +14,13 @@ CREATE TABLE PARTICIPANT (
     mdp varchar(200)
 )
 
+CREATE TABLE INSCRIPTION (
+    id_parcours INT,
+    id_participant INT,
+    date_inscription DATE,
+    PRIMARY KEY (id_parcours, id_participant)
+)
+
 create table IMAGE (
     id_image int primary key,
     nom_image varchar(200),
@@ -62,6 +69,10 @@ ALTER TABLE PARCOURS ADD UNIQUE (nom_parcours);
 ALTER TABLE PARCOURS ADD FOREIGN KEY (id_image) REFERENCES IMAGE(id_image);
 
 ALTER TABLE PARTICIPANT ADD UNIQUE (email);
+
+ALTER TABLE INSCRIPTION ADD FOREIGN KEY (id_parcours) REFERENCES PARCOURS(id_parcours);
+
+ALTER TABLE INSCRIPTION ADD FOREIGN KEY (id_participant) REFERENCES PARTICIPANT(id_participant);
 
 ALTER TABLE ETAPE ADD FOREIGN KEY (id_image) REFERENCES IMAGE(id_image);
 
