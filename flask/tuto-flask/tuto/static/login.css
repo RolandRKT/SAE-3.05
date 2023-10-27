@@ -37,11 +37,14 @@ body{
 }
 
 .left-part {
-  min-height: 100%;
+  position: fixed;
+  top: 0;
+  height: 100%;
   width: 50%;
+  overflow: scroll;
   clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
-  background-color: #FFF;
-  height: 50vw;
+  background-color: #fff;
+  height: 100%;
   font-family: 'Lato', sans-serif;
   justify-content: center;
   align-items: center;
@@ -49,11 +52,10 @@ body{
 }
 
 .information{
-    margin: 25%;
+  margin: 25%;
 }
 
 .app-name{
-    margin-top: 10%;
     font-family: 'Leckerli One', cursive;
     color: #2EBEDD;
     font-size: 64px;
@@ -68,6 +70,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center; /* Alignez les éléments à gauche */
+    justify-content: center;
 }
 
 .form-label {
@@ -81,8 +84,31 @@ label{
     margin-bottom: 10px;
 }
 
-input[type="text"],
-input[type="password"] {
+.password-input-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #888;
+  padding: 0px;
+}
+
+.password-toggle.hidden {
+  color: #ccc;
+}
+
+#togglePassword{
+  width: 20px;
+  height: auto;
+}
+
+input[type="text"] {
     width: 100%;
     padding: 10px;
     border-radius: 10px;
@@ -90,7 +116,14 @@ input[type="password"] {
     font-size: 16px;
 }
 
-/* Agrandir la zone de saisie au focus (lorsqu'elle est active) */
+input[type="password"] {
+  width: 100%;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+  border: 1px solid #111;
+  font-size: 16px;
+}
+
 input[type="text"]:focus,
 input[type="password"]:focus {
     border: 2px solid #2EBEDD;
@@ -98,21 +131,21 @@ input[type="password"]:focus {
 }
 
 .form-password{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin-right: 95px; /*À changer si possible*/
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
-.forget-password{
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
+.form-password-forget {
+  width: 80%;
+  display: flex;
+  flex-direction: row-reverse;
+  text-align: center;
 }
 
 .forget-password a{
-    text-decoration: none;
-    color: #000;
+  text-decoration: none;
+  color: #000;
 }
 
 .forget-password a:hover{
@@ -120,19 +153,18 @@ input[type="password"]:focus {
 }
 
 input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    padding-left: 40px;
-    padding-right: 40px;
-    border-radius: 40px;
-    font-size: 16px;
-    margin-top: 25%;
-    background-color: #1BBCD2;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-
-    transition: background-color 0.3s ease;
+  width: 150px;
+  padding: 10px;
+  padding-left: 25px;
+  padding-right: 30px;
+  border-radius: 40px;
+  font-size: 16px;
+  margin-top: 25%;
+  background-color: #1BBCD2;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 input[type="submit"]:hover {
@@ -162,19 +194,24 @@ footer{
   background-color: white;
   border-top: 2px solid #ccc;
   box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
+  display: flex;
 }
 
 .img1 {
-  width: 5%;
+  width: 100px;
   height: auto;
+  z-index: 3;
+  position: fixed;
+  top: 0;
+  left: -100px;
 }
 
 /* Lorsque vous déclencherez l'animation */
 .img2 {
-  width: 5%;
+  width: 100px;
   height: auto;
-  transform: translateX(100vw) scaleX(-1); /* Point de départ (à droite) et effet miroir horizontal */
-  transition: transform 1s linear; /* Durée et type de transition */
+  transform: translateX(100vw) scaleX(-1);
+  transition: transform 1s linear;
 }
 
 @keyframes fadein {
@@ -195,22 +232,23 @@ footer{
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
   background-size: 150%;
-  height: 50vw;
+  height: 100%;
   min-width: 100%;
   display: flex;
   justify-content: flex-end;
 }
 
 .slogan {
+  width: 50%;
   font-size: 32px;
   font-family: 'Lato', sans-serif;
   position: absolute;
   bottom: 5%;
-  left: 50%; /* Centre horizontalement */
-  transform: translateX(-50%); /* Centre horizontalement */
+  right: 6%; 
+  transform: translateX(-50%);
   z-index: 3;
-  text-align: center; /* Centre le texte horizontalement */
-  animation: floatSlogan 20s ease-in-out infinite; /* Ajoutez l'animation */
+  text-align: center;
+  animation: floatSlogan 20s ease-in-out infinite;
 }
 
 @keyframes floatSlogan {
@@ -249,13 +287,23 @@ footer{
   }
 }
 
-  .infinite-travel {
-    width: 250px;
-    height: auto;
-    animation: float 3s ease-in-out infinite, fadein 3s;
-    align-self: center;
-    margin-right: 25%;
-  }
+.box-size{
+  width: 50%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.infinite-travel {
+  width: 250px;
+  height: auto;
+  animation: float 3s ease-in-out infinite, fadein 3s;
+  position: absolute;
+}
   
 @keyframes float {
   0% {
@@ -297,8 +345,29 @@ footer{
   }
 }
 
+p{
+  text-align: center;
+}
+
 .copyright{
   position: fixed;
   bottom: 0;
   left: 10px;
+}
+
+@media (max-width: 380px) and (max-height: 780px) {
+  .information{
+    position: fixed;
+    width: 400px;
+    background-color: white;
+    border-radius: 15%;
+    transform: scale(0.7);
+  }
+  .img1 {
+    width: 50px;
+    height: auto;
+  }
+  .animated-image-position {
+    left: -14%;
+  }
 }

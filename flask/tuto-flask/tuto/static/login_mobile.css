@@ -33,22 +33,22 @@ body{
 
 .animated-image-position {
     top: 0;
-    left: -11%;
+    left: -12.5%;
     position: absolute;
     z-index: 2;
 }
 
 .center-part {
     min-height: 100vh;
-    min-width: 100vw; /* Utilisation de 100vh pour centrer verticalement dans la fenêtre visible */
+    min-width: 100vw; 
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centrer verticalement */
-    align-items: center; /* Centrer horizontalement */
-    text-align: center; /* Pour centrer le texte à l'intérieur */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     font-family: 'Lato', sans-serif;
     animation: fadein 3s;
-  }
+}
   
 
 .information{
@@ -87,8 +87,31 @@ label{
     margin-bottom: 10px;
 }
 
-input[type="text"],
-input[type="password"] {
+.password-input-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #888;
+  padding: 0px;
+}
+
+.password-toggle.hidden {
+  color: #ccc;
+}
+
+#togglePassword{
+  width: 20px;
+  height: auto;
+}
+
+input[type="text"] {
     width: 100%;
     padding: 10px;
     border-radius: 10px;
@@ -96,6 +119,13 @@ input[type="password"] {
     font-size: 16px;
 }
 
+input[type="password"] {
+  width: 100%;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+  border: 2px solid #111;
+  font-size: 16px;
+}
 
 input[type="text"]:focus,
 input[type="password"]:focus {
@@ -155,7 +185,7 @@ input[type="submit"]:hover {
 }
 
 .img1 {
-    width: 100px;
+    width: 120px;
     height: auto;
 }
 
@@ -202,4 +232,83 @@ input[type="submit"]:hover {
   100% {
     transform: translate(0, 0);
   }
+}
+
+@media (max-width: 380px) and (max-height: 780px) {
+  .information{
+    position: fixed;
+    width: 400px;
+    background-color: white;
+    border-radius: 15%;
+    transform: scale(0.7);
+  }
+  .img1 {
+    width: 50px;
+    height: auto;
+}
+  .animated-image-position {
+    left: -14%;
+}
+
+}
+
+@media (orientation: landscape) {
+  .information{
+    margin-top: 16%;
+    width: 400px;
+    background-color: white;
+    border-radius: 15%;
+    transform: scale(1);
+}
+  .main-base {
+    width: 100%;
+    height: 92%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: scroll;
+  }
+  .img1 {
+    width: 50px;
+    height: auto;
+}
+  .animated-image-position {
+    top: 0;
+    left: -5.1%;
+    position: absolute;
+    z-index: 2;
+  }
+}
+
+@media (max-width: 780px) and (max-height: 380px) {
+  @media (orientation: landscape) {
+    .information{
+      margin-top: 31%;
+      width: 400px;
+      background-color: white;
+      border-radius: 15%;
+      transform: scale(1);
+  }
+    .main-base {
+      width: 100%;
+      height: 92%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: scroll;
+    }
+    .img1 {
+      width: 50px;
+      height: auto;
+  }
+    .animated-image-position {
+      top: 0;
+      left: -6.5%;
+      position: absolute;
+      z-index: 2;
+    }
+  }
+
 }
