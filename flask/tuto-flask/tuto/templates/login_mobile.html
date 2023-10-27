@@ -10,35 +10,29 @@
       <section class="information">
         <h1 class="app-name">WADE</h1>
         <form action="" method="get" class="form-login">
-            <div class="form-label">
+          <div class="form-label">
               <label for="name" class="label">Email ou pseudo</label>
               <input type="text" name="name" id="name" required/>
-            </div>
-        </form>
-        <form action="" method="get" class="form-login">
+          </div>
           <div class="form-label">
-            <label for="password" class="label">Mot de passe</label>
-            <div class="password-input-container">
-              <input type="password" name="password" id="password" required/>
-              <img id="togglePassword" class="password-toggle" src="../static/images/oeilFerme.png" alt="Afficher le mot de passe" onclick="togglePasswordVisibility()"/>
-            </div>
-          </div> 
-        </form>
-        <form action="" method="get" class="form-password">
-            <div class="forget-password">
-                <a href="#">Mot de passe oublié ?</a>
-            </div>
-        </form>
-        <form action="" method="get" class="form-login">
-            <div class="form-label">
+              <label for="password" class="label">Mot de passe</label>
+              <div class="password-input-container">
+                  <input type="password" name="password" id="password" required/>
+                  <img id="togglePassword" class="password-toggle" src="../static/images/oeilFerme.png" alt="Afficher le mot de passe" onclick="togglePasswordVisibility()"/>
+              </div>
+          </div>
+          <div class="form-password-forget">
+              <div class="forget-password">
+                  <a href="#">Mot de passe oublié ?</a>
+              </div>
+          </div>
+          <div class="form-label">
               <a><input type="submit" value="Se connecter" /></a>
-            </div>
-        </form>
-        <form action="" method="get" class="form-login">
-            <div class="create-account">
-                <p>Nouveau ? <a href="{{url_for('inscription')}}">Créer un compte</a></p>
-            </div>
-        </form>
+          </div>
+          <div class="create-account">
+              <p>Nouveau ? <a href="{{url_for('inscription')}}">Créer un compte</a></p>
+          </div>
+      </form>
       </section>
     </div>
 </main>
