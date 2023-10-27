@@ -27,28 +27,28 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative; /* Ajoutez une position relative pour que les éléments enfants utilisent position: absolute par rapport à .main-base */
+    position: relative;
     overflow: scroll;
 }
 
 .animated-image-position {
-  top: 0;
-  left: -12.5%;
-  position: absolute;
-  z-index: 2;
-}
+    top: 0;
+    left: -12.5%;
+    position: absolute;
+    z-index: 2;
+}    
 
 .center-part {
     min-height: 100vh;
-    min-width: 100vw; /* Utilisation de 100vh pour centrer verticalement dans la fenêtre visible */
+    min-width: 100vw;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centrer verticalement */
-    align-items: center; /* Centrer horizontalement */
-    text-align: center; /* Pour centrer le texte à l'intérieur */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     font-family: 'Lato', sans-serif;
     animation: fadein 3s;
-  }
+}
   
 
 .information{

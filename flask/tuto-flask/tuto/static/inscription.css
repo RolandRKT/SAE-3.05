@@ -25,7 +25,7 @@ body{
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
-    position: relative; /* Ajoutez une position relative pour que les éléments enfants utilisent position: absolute par rapport à .main-base */
+    position: relative;
     overflow: hidden;
 }
 
@@ -322,7 +322,7 @@ footer{
     transform: translateY(0); /* Position de départ (pas de déplacement vertical) */
   }
   25% {
-    transform: translateY(-10px); /* Déplacement vers le haut de 5 pixels */
+    transform: translateY(-10px); /* Déplacement vers le haut de 10 pixels */
   }
   50% {
     transform: translateY(0); /* Retour à la position de départ */
