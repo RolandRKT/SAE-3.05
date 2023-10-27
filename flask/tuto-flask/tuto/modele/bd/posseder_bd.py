@@ -50,7 +50,7 @@ class Posseder_bd:
     
     def inserer_possede(self,idetape,idinteret):
         try:
-            query = text(f"insert into POSSEDER values({str(idetape)} , {str(idinteret)}")
+            query = text(f"insert into POSSEDER values({str(idetape)} , {str(idinteret)})")
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as e:

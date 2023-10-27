@@ -41,7 +41,7 @@ class Image_bd:
     
     def inserer_image(self,idimage,nomimage,img_data,nomfic):
         try:
-            query = text(f"insert into IMAGE values({str(idimage)}, '{nomimage} , '{img_data}' , '{nomfic}'")
+            query = text(f"insert into IMAGE values({str(idimage)}, '{nomimage} , '{img_data}' , '{nomfic}')")
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as e:

@@ -59,11 +59,3 @@ class Interet_etape_bd:
             print("la connexion a échoué")
             return None
         
-
-def test():
-    j=Interet_etape_bd(cnx)
-    j.inserer_interet_etape(2,"ahmett","baba")
-    print(j.get_all_interet_etape())
-    cnx.close()
-
-test()

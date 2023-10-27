@@ -48,11 +48,10 @@ class Parcours_bd:
         except Exception as e:
             print("la connexion a échoué")
             return None
-        
     
     def inserer_etape(self,idparc,nomparc,duree,descparc,idimg):
         try:
-            query = text(f"insert into PARCOURS values({str(idparc)} , '{nomparc}' ,'{duree}' , '{descparc}','{str(idimg)}'")
+            query = text(f"insert into PARCOURS values({str(idparc)} , '{nomparc}' ,'{duree}' , '{descparc}','{str(idimg)}')")
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as e:

@@ -48,7 +48,7 @@ class Suivre_bd:
 
     def inserer_suivre(self,id_part,id_parc,note,comm):
         try:
-            query = text(f"insert into SUIVRE values({str(id_part)} , {str(id_parc)},{str(note)} , '{comm}'")
+            query = text(f"insert into SUIVRE values({str(id_part)} , {str(id_parc)},{str(note)} , '{comm}')")
             cnx.execute(query)
             self.cnx.commit()
         except Exception as e:

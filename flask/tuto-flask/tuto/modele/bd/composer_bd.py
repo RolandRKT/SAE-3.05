@@ -50,7 +50,7 @@ class Composer_bd:
         
     def inserer_compose(self,idparc,idinter):
         try:
-            query = text(f"insert into COMPOSER values({str(idparc)} , {str(idinter)}")
+            query = text(f"insert into COMPOSER values({str(idparc)} , {str(idinter)})")
             cnx.execute(query)
             self.cnx.commit()
         except Exception as e:

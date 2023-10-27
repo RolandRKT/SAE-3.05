@@ -37,7 +37,7 @@ class Etape_bd:
     
     def inserer_etape(self,idetape,nometape,localisation,idimage):
         try:
-            query = text(f"insert into ETAPE values({str(idetape)},'{nometape}','{localisation}' , {str(idimage)}")
+            query = text(f"insert into ETAPE values({str(idetape)},'{nometape}','{localisation}' , {str(idimage)})")
             self.cnx.execute(query)
             self.cnx.commit()
 

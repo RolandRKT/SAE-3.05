@@ -40,7 +40,7 @@ class Participant_bd:
 
     def inserer_participant(self,idpart,mail,mdp):
         try:
-            query = text(f"insert into PARTICIPANT values({str(idpart)} , '{mail}' ,'{mdp}'")
+            query = text(f"insert into PARTICIPANT values({str(idpart)} , '{mail}' ,'{mdp}')")
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as e:
