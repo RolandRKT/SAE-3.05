@@ -1,6 +1,12 @@
-from .connexion import cnx
-from modele.code_model.posseder import Posseder
+from connexion import cnx
 from sqlalchemy.sql.expression import text
+
+import sys
+import os
+
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
+sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
+from posseder import Posseder
 
 class Posseder_bd:
     def __init__(self,conx):
@@ -44,7 +50,7 @@ class Posseder_bd:
     
     def inserer_possede(self,idetape,idinteret):
         try:
-            query = text("insert into POSSEDER values("+str(idetape)+" , "+str(idinteret)+")")
+            query = text(f"insert into POSSEDER values({str(idetape)} , {str(idinteret)}")
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as e:

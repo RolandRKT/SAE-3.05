@@ -1,6 +1,12 @@
-from .connexion import cnx
-from modele.code_model.composer import Composer
+from connexion import cnx
 from sqlalchemy.sql.expression import text
+import sys
+import os
+
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
+sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
+
+from composer import Composer
 
 class Composer_bd:
     def __init__(self,conx):
@@ -44,7 +50,7 @@ class Composer_bd:
         
     def inserer_compose(self,idparc,idinter):
         try:
-            query = text("insert into COMPOSER values("+str(idparc)+" , "+str(idinter)+")")
+            query = text(f"insert into COMPOSER values({str(idparc)} , {str(idinter)}")
             cnx.execute(query)
             self.cnx.commit()
         except Exception as e:

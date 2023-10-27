@@ -1,7 +1,0 @@
-modele/__init__.py
-modele/models.py
-modele/setup.py
-modele.egg-info/PKG-INFO
-modele.egg-info/SOURCES.txt
-modele.egg-info/dependency_links.txt
-modele.egg-info/top_level.txt

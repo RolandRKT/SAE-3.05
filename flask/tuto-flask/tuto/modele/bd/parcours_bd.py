@@ -1,6 +1,13 @@
-from .connexion import cnx
-from modele.code_model.parcours import Parcours
+from connexion import cnx
 from sqlalchemy.sql.expression import text
+import sys
+import os
+
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
+sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
+
+from parcours import Parcours
+
 
 class Parcours_bd:
     def __init__(self,conx):
@@ -20,7 +27,7 @@ class Parcours_bd:
         
     def get_par_parcours(self,id_parcours):
         try:
-            query = text("select id_parcours, nom_parcours,duree,description_parcours, id_img from PARCOURS where id_parcours= "+id_parcours)
+            query = text("select id_parcours, nom_parcours,duree,description_parcours, id_img from PARCOURS where id_parcours= "+str(id_parcours))
             resultat = self.cnx.execute(query)
             parcours=[]
             for id_parcours, nom,duree, desc, id_img in resultat:
@@ -32,7 +39,7 @@ class Parcours_bd:
         
     def get_par_parcours_image(self,id_image):
         try:
-            query = text("select * from PARCOURS where id_image= "+id_image)
+            query = text("select * from PARCOURS where id_image= "+str(id_image))
             resultat = self.cnx.execute(query)
             parcours=[]
             for id_parcours, nom, duree, desc, id_img in resultat:
@@ -45,7 +52,7 @@ class Parcours_bd:
     
     def inserer_etape(self,idparc,nomparc,duree,descparc,idimg):
         try:
-            query = text("insert into PARCOURS values("+str(idparc)+" , "+nomparc+" ,"+duree+" , "+descparc+" , "+str(idimg)+")")
+            query = text(f"insert into PARCOURS values({str(idparc)} , '{nomparc}' ,'{duree}' , '{descparc}','{str(idimg)}'")
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as e:

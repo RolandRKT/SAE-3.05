@@ -2,11 +2,10 @@ from sqlalchemy.sql.expression import text
 import sys
 import os
 from connexion import cnx
-print(sys.path)
+
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
-print(" gia ga",ROOT)
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
-print(sys)
+
 
 
 from interet_etape import Interet_etape
@@ -42,7 +41,7 @@ class Interet_etape_bd:
     
     def inserer_interet_etape(self,idi,nom_interet,desc):
         try:
-            query = text(f"INSERT INTO INTERETETAPE VALUES({str(idi)}, '{nom_interet}', '{desc}');")
+            query = text(f"INSERT INTO INTERETETAPE VALUES({str(idi)}, '{nom_interet}', '{desc}')")
     
             print(query)
             self.cnx.execute(query)
