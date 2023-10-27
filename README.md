@@ -24,3 +24,17 @@ Thibault SAINT-LÉGER
   - Création et finition de la première version des CU
   - Conception du MCD
   - Implémentation de la BD
+  - Implémentation de la page login
+
+### Jour 2 :
+  - Conception de la maquette de la page home
+  - Corrections de bug de fonctionnement sur les environnements de l'IUT
+  - Implémentation de la maquette de la page home
+  - Conception MCD (suite)
+  - Création des tables en SQLAlchemy (flask)
+
+### Jour 3:
+  - Changement de l'implémentation des tables (python)
+  - Conception de trigger
+  - Problèmes régler au niveau des footers et animations
+  - Conception de la version mobile du site
