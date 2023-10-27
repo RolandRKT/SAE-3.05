@@ -221,3 +221,64 @@ input[type="submit"]:hover {
 }
 
 }
+
+@media (orientation: landscape) {
+  .information{
+    margin-top: 16%;
+    width: 400px;
+    background-color: white;
+    border-radius: 15%;
+    transform: scale(1);
+}
+  .main-base {
+    width: 100%;
+    height: 92%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: scroll;
+  }
+  .img1 {
+    width: 50px;
+    height: auto;
+}
+  .animated-image-position {
+    top: 0;
+    left: -5.1%;
+    position: absolute;
+    z-index: 2;
+  }
+}
+
+@media (max-width: 780px) and (max-height: 380px) {
+  @media (orientation: landscape) {
+    .information{
+      margin-top: 31%;
+      width: 400px;
+      background-color: white;
+      border-radius: 15%;
+      transform: scale(1);
+  }
+    .main-base {
+      width: 100%;
+      height: 92%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: scroll;
+    }
+    .img1 {
+      width: 50px;
+      height: auto;
+  }
+    .animated-image-position {
+      top: 0;
+      left: -6.5%;
+      position: absolute;
+      z-index: 2;
+    }
+  }
+
+}
