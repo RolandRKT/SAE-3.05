@@ -22,10 +22,13 @@
                 </div>
             </form>
             <form action="" method="get" class="form-inscription">
-                <div class="form-label">
+              <div class="form-label">
                   <label for="password" class="label">Mot de passe</label>
-                  <input type="password" name="email" id="email" required/>
-                </div>
+                  <div class="password-input-container">
+                    <input type="password" name="password" id="password" required/>
+                    <img id="togglePassword" class="password-toggle" src="../static/images/oeilFerme.png" alt="Afficher le mot de passe" onclick="togglePasswordVisibility()"/>
+                  </div>                
+              </div>
             </form>
             <form action="" method="get" class="form-inscription">
                 <div class="form-label">
