@@ -75,5 +75,7 @@ Thibault SAINT-LÉGER
   - (AB, RDD) Modification de la BD et le python
   - (RR) Responivité de la page Inscription PC
   - (MP) Mode paysage
+  - (AB, RR) Merge branche Front-End, Back-End
+  - (RR) Nettoyage CSS, HTML
   - (TSL) Rédaction README
 
