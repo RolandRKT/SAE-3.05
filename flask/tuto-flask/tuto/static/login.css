@@ -131,6 +131,13 @@ input[type="password"]:focus {
     align-items: flex-end;
 }
 
+.form-password-forget {
+    width: 80%;
+    display: flex;
+    flex-direction: row-reverse;
+    text-align: center;
+}
+
 .forget-password a {
     text-decoration: none;
     color: #000;
