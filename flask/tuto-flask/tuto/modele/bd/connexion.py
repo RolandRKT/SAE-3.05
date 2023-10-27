@@ -1,5 +1,3 @@
-__package__ = "Modele"
-
 import sqlalchemy
 #pip install mysql-connector-python
 

@@ -5,6 +5,9 @@ class Interet_etape:
         self.__nom_interet = nom_interet
         self.__description_interet = description_interet
 
+    def __repr__(self) -> str:
+        return "interte : "+self.__nom_interet+ " id : "+str(self.__id_interet)
+
     # getter id interet
     def get_id_interet(self):
         return self.__id_interet

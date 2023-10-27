@@ -1,0 +1,10 @@
+[project]
+name="modele"
+version="0.00.1
+authors=[
+    {name="baba",email="test"},
+]
+description="test"
+requires-python=">=3.10"
+readme="Reame.md"
+
