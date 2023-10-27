@@ -1,15 +1,15 @@
 CREATE TABLE PARCOURS (
     id_parcours INT PRIMARY KEY,
     nom_parcours VARCHAR(20),
-    date_debut DATETIME,
-    date_fin DATETIME,
+    duree TIME,
     description_parcours VARCHAR(200),
     id_image int,
-    CHECK(date_debut < date_fin)
+    CHECK('00:05:00' < duree )
 );
 
 CREATE TABLE PARTICIPANT (
     id_participant int primary key,
+    pseudo varchar(200),
     email varchar(200),
     mdp varchar(200)
 );
@@ -46,6 +46,7 @@ create table SUIVRE (
     id_parcours int,
     note decimal(2,1),
     comm varchar(200),
+    num_etape int,
     primary key(id_parcours,id_participant),
     CHECK(0 <= note and 5 >= note)
 );
@@ -59,6 +60,7 @@ create table POSSEDER (
 create table COMPOSER (
     id_parcours int,
     id_etape int,
+    numero int,
     primary key (id_parcours,id_etape)
 );
 
@@ -69,6 +71,8 @@ ALTER TABLE PARCOURS ADD UNIQUE (nom_parcours);
 ALTER TABLE PARCOURS ADD FOREIGN KEY (id_image) REFERENCES IMAGE(id_image);
 
 ALTER TABLE PARTICIPANT ADD UNIQUE (email);
+
+ALTER TABLE PARTICIPANT ADD UNIQUE (pseudo);
 
 ALTER TABLE INSCRIPTION ADD FOREIGN KEY (id_parcours) REFERENCES PARCOURS(id_parcours);
 
@@ -88,63 +92,33 @@ ALTER TABLE COMPOSER ADD FOREIGN KEY (id_parcours) REFERENCES PARCOURS(id_parcou
 
 ALTER TABLE COMPOSER ADD FOREIGN KEY (id_etape) REFERENCES ETAPE(id_etape);
 
--- Fonctions
 DELIMITER |
-CREATE FUNCTION CalculerDureeParcours(parcours_id INT) RETURNS TIME
+CREATE FUNCTION NombreEtapeParcours(parcours_id INT) RETURNS INT
 BEGIN
-    DECLARE debut DATETIME;
-    DECLARE fin DATETIME;
-    DECLARE duree TIME;
-
-    SELECT date_debut, date_fin INTO debut, fin
-    FROM PARCOURS
+    DECLARE num_steps INT;
+    
+    SELECT COUNT(*) INTO num_steps
+    FROM COMPOSER
     WHERE id_parcours = parcours_id;
-
-    SET duree = TIMEDIFF(fin, debut);
-
-    RETURN duree;
-END |
+    
+    RETURN num_steps;
+END;
+|
 DELIMITER ;
 
 
--- Déclencheur pour empêcher que les parcours se chevauchent
-CREATE TRIGGER beforeInsertParcours BEFORE INSERT ON PARCOURS FOR EACH ROW
+DELIMITER |
+CREATE TRIGGER BeforeUpdateSuivre BEFORE UPDATE ON SUIVRE FOR EACH ROW
 BEGIN
-    DECLARE existing_count INT;
+    DECLARE total_steps INT;
     
-    -- Comptez les parcours existants dont la date de fin est après la nouvelle date de début
-    SET existing_count = (
-        SELECT COUNT(*)
-        FROM PARCOURS
-        WHERE (new.date_debut between date_debut AND date_fin) OR (new.date_fin between date_debut and date_fin) 
-        OR (new.date_debut < date_debut and new.date_fin > date_fin)
-    );
+    -- Utilisez la fonction pour obtenir le nombre total d'étapes pour le parcours en question
+    SET total_steps = NombreEtapeParcours(NEW.id_parcours);
     
-    -- Si des parcours se chevauchent, l'insertion est interdite
-    IF existing_count > 0 THEN
+    IF NEW.num_etape > total_steps THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Les dates du parcours se chevauchent avec un parcours existant';
+        SET MESSAGE_TEXT = 'Le numéro d''étape dépasse le nombre total d''étapes du parcours.';
     END IF;
 END;
-
-
--- Déclencheur pour empêcher que les parcours se chevauchent
-CREATE TRIGGER beforeUpdateParcours BEFORE UPDATE ON PARCOURS FOR EACH ROW
-BEGIN
-    DECLARE existing_count INT;
-    
-    -- Comptez les parcours existants dont la date de fin est après la nouvelle date de début
-    SET existing_count = (
-        SELECT COUNT(*)
-        FROM PARCOURS
-        WHERE (new.date_debut between date_debut AND date_fin) OR (new.date_fin between date_debut and date_fin)
-        OR (new.date_debut < date_debut and new.date_fin > date_fin)
-    );
-    
-    -- Si des parcours se chevauchent, l'insertion est interdite
-    IF existing_count > 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Les dates du parcours se chevauchent avec un parcours existant';
-    END IF;
-END;
-
+|
+DELIMITER ;
