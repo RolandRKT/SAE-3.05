@@ -15,11 +15,11 @@ class Participant_bd:
 
     def get_all_participant(self):
         try:
-            query = text("select id_participant, email, mdp from PARTICIPANT")
+            query = text("select id_participant,pseudo email, mdp from PARTICIPANT")
             resultat = self.cnx.execute(query)
             participant=[]
-            for id_participant, email, mdp in resultat:
-                participant.append(Participant(id_participant, email, mdp))
+            for id_participant,pseudo, email, mdp in resultat:
+                participant.append(Participant(id_participant,pseudo, email, mdp))
             return participant
         except Exception as e:
             print("la connexion a échoué")
@@ -28,19 +28,19 @@ class Participant_bd:
         
     def get_par_participant(self,id_participant):
         try:
-            query = text("select id_participant, email, mdp from PARTICIPANT where id_participant= "+str(id_participant))
+            query = text("select id_participant,pseudo, email, mdp from PARTICIPANT where id_participant= "+str(id_participant))
             resultat = self.cnx.execute(query)
             participant=[]
-            for id_participant, email, mdp in resultat:
-                participant.append(Participant(id_participant, email, mdp))
+            for id_participant,pseudo, email, mdp in resultat:
+                participant.append(Participant(id_participant,pseudo, email, mdp))
             return participant
         except Exception as e:
             print("la connexion a échoué")
             return None
 
-    def inserer_participant(self,idpart,mail,mdp):
+    def inserer_participant(self,idpart,pseudo,mail,mdp):
         try:
-            query = text(f"insert into PARTICIPANT values({str(idpart)} , '{mail}' ,'{mdp}')")
+            query = text(f"insert into PARTICIPANT values({str(idpart)} ,'{pseudo}', '{mail}' ,'{mdp}')")
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as e:

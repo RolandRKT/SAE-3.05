@@ -9,6 +9,7 @@ CREATE TABLE PARCOURS (
 
 CREATE TABLE PARTICIPANT (
     id_participant int primary key,
+    pseudo varchar(200),
     email varchar(200),
     mdp varchar(200)
 );
@@ -70,6 +71,8 @@ ALTER TABLE PARCOURS ADD UNIQUE (nom_parcours);
 ALTER TABLE PARCOURS ADD FOREIGN KEY (id_image) REFERENCES IMAGE(id_image);
 
 ALTER TABLE PARTICIPANT ADD UNIQUE (email);
+
+ALTER TABLE PARTICIPANT ADD UNIQUE (pseudo);
 
 ALTER TABLE INSCRIPTION ADD FOREIGN KEY (id_parcours) REFERENCES PARCOURS(id_parcours);
 
