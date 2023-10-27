@@ -1,6 +1,7 @@
 class Participant:
-    def __init__(self, id_participant, email, mdp):
+    def __init__(self, id_participant,pseudo, email, mdp):
         self.__id_participant = id_participant
+        self.__pseudo=pseudo
         self.__email = email
         self.__mdp = mdp
 
@@ -15,6 +16,9 @@ class Participant:
     # Getter pour mdp
     def get_mdp(self):
         return self.__mdp
+    
+    def get_pseudo(self):
+        return self.__pseudo
 
     def __str__(self):
         return "id participant : " + str(self.__id_participant) + " le mail : " + self.__email

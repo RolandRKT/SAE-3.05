@@ -1,10 +1,9 @@
 class Parcours:
 
-    def __init__(self, id, nom_parc, date_debut, date_fin, description, id_photo):
+    def __init__(self, id, nom_parc, duree, description, id_photo):
         self.__id_parc = id
         self.__nom_parc = nom_parc
-        self.__date_debut = date_debut
-        self.__date_fin = date_fin
+        self.__duree=duree
         self.__description = description
         self.__id_photo = id_photo
 
@@ -16,13 +15,9 @@ class Parcours:
     def get_nom_parc(self):
         return self.__nom_parc
 
-    # Getter pour date_debut
-    def get_date_debut(self):
-        return self.__date_debut
-
-    # Getter pour date_fin
-    def get_date_fin(self):
-        return self.__date_fin
+    # Getter pour duree
+    def get_duree(self):
+        return self.__duree
 
     # Getter pour description
     def get_description(self):

@@ -10,33 +10,29 @@
         <section class="information">
             <h1 class="app-name">WADE</h1>
             <form action="" method="get" class="form-inscription">
-                <div class="form-label">
-                  <label for="name" class="label">pseudo</label>
-                  <input type="text" name="name" id="name" required/>
-                </div>
-            </form>
-            <form action="" method="get" class="form-inscription">
-                <div class="form-label">
-                  <label for="name" class="label">email</label>
-                  <input type="email" name="name" id="name" required/>
-                </div>
-            </form>
-            <form action="" method="get" class="form-inscription">
-                <div class="form-label">
+              <div class="form-label">
+                <label for="name" class="label">pseudo</label>
+                <input type="text" name="name" id="name" required />
+              </div>
+              <div class="form-label">
+                <label for="email" class="label">email</label>
+                <input type="email" name="email" id="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" title="Entrez une adresse e-mail valide" />
+              </div>
+              <div class="form-label">
                   <label for="password" class="label">Mot de passe</label>
-                  <input type="password" name="email" id="email" required/>
-                </div>
-            </form>
-            <form action="" method="get" class="form-inscription">
-                <div class="form-label">
+                  <div class="password-input-container">
+                    <input type="password" name="password" id="password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$" title="Le mot de passe doit comporter au moins 8 caractères, y compris au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial." />
+                    <img id="togglePassword" class="password-toggle" src="../static/images/oeilFerme.png" alt="Afficher le mot de passe" onclick="togglePasswordVisibility()"/>
+                  </div>
+              </div>
+              <div class="form-label">
                   <input type="submit" value="S'inscrire" />
-                </div>
-                <div class = "back-login">
+              </div>
+              <div class="back-login">
                   <a href="{{url_for('login')}}">connexion</a>
-                </div>
+              </div>
             </form>
-            
-          </section>
+        </section>
     </div>
 </main>
 {% endblock %}
