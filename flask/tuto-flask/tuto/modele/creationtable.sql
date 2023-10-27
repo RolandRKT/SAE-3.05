@@ -45,6 +45,7 @@ create table SUIVRE (
     id_parcours int,
     note decimal(2,1),
     comm varchar(200),
+    num_etape int,
     primary key(id_parcours,id_participant),
     CHECK(0 <= note and 5 >= note)
 );
@@ -88,3 +89,33 @@ ALTER TABLE COMPOSER ADD FOREIGN KEY (id_parcours) REFERENCES PARCOURS(id_parcou
 
 ALTER TABLE COMPOSER ADD FOREIGN KEY (id_etape) REFERENCES ETAPE(id_etape);
 
+DELIMITER |
+CREATE FUNCTION NombreEtapeParcours(parcours_id INT) RETURNS INT
+BEGIN
+    DECLARE num_steps INT;
+    
+    SELECT COUNT(*) INTO num_steps
+    FROM COMPOSER
+    WHERE id_parcours = parcours_id;
+    
+    RETURN num_steps;
+END;
+|
+DELIMITER ;
+
+
+DELIMITER |
+CREATE TRIGGER BeforeUpdateSuivre BEFORE UPDATE ON SUIVRE FOR EACH ROW
+BEGIN
+    DECLARE total_steps INT;
+    
+    -- Utilisez la fonction pour obtenir le nombre total d'étapes pour le parcours en question
+    SET total_steps = NombreEtapeParcours(NEW.id_parcours);
+    
+    IF NEW.num_etape > total_steps THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Le numéro d''étape dépasse le nombre total d''étapes du parcours.';
+    END IF;
+END;
+|
+DELIMITER ;
