@@ -41,7 +41,7 @@ Thibault SAINT-LÉGER
   - (MP, RR) Implémentation de la page login
 
 ### Jour 2:
- (Thibault absense justifié)
+ (Thibault absence justifié)
   - (RDD) Conception de la maquette de la page home
   - (MP) Corrections de bug de fonctionnement sur les environnements de l'IUT
   - (MP, RR) Implémentation de la maquette de la page home
