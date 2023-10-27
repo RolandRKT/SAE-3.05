@@ -18,10 +18,10 @@ class Interet_etape_bd:
         try:
             query = text("select * from INTERETETAPE")
             resultat = self.cnx.execute(query)
-            composition=[]
+            interets=[]
             for idi,nom,desc in resultat:
-                composition.append(Interet_etape(idi,nom,desc))
-            return composition
+                interets.append(Interet_etape(idi,nom,desc))
+            return interets
         except Exception as e:
             print("la connexion a échoué")
             return None
@@ -30,10 +30,10 @@ class Interet_etape_bd:
         try:
             query = text("select * from INTERETETAPE where id_interet = "+str(idi))
             resultat = self.cnx.execute(query)
-            composition=[]
+            interets=[]
             for id,nom,desc in resultat:
-                composition.append(Interet_etape(id,nom,desc))
-            return composition
+                interets.append(Interet_etape(id,nom,desc))
+            return interets
         except Exception as e:
             print("la connexion a échoué")
             return None
@@ -42,7 +42,6 @@ class Interet_etape_bd:
     def inserer_interet_etape(self,idi,nom_interet,desc):
         try:
             query = text(f"INSERT INTO INTERETETAPE VALUES({str(idi)}, '{nom_interet}', '{desc}')")
-    
             print(query)
             self.cnx.execute(query)
             self.cnx.commit()

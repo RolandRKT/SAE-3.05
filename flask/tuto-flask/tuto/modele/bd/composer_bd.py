@@ -14,11 +14,11 @@ class Composer_bd:
 
     def get_all_composition(self):
         try:
-            query = text("select id_parcours, id_etape from COMPOSER")
+            query = text("select id_parcours, id_etape,numero from COMPOSER")
             resultat = self.cnx.execute(query)
             composition=[]
-            for idp,ide in resultat:
-                composition.append(Composer(idp,ide))
+            for idp,ide,numero in resultat:
+                composition.append(Composer(idp,ide,numero))
             return composition
         except Exception as e:
             print("la connexion a échoué")
@@ -26,11 +26,11 @@ class Composer_bd:
 
     def get_par_etape_composition(self,ide):
         try:
-            query = text("select id_parcours, id_etape from COMPOSER where id_etape= "+str(ide))
+            query = text("select id_parcours, id_etape,numero from COMPOSER where id_etape= "+str(ide))
             resultat = self.cnx.execute(query)
             composition=[]
-            for idp,ide in resultat:
-                composition.append(Composer(idp,ide))
+            for idp,ide,numero in resultat:
+                composition.append(Composer(idp,ide,numero))
             return composition
         except Exception as e:
             print("la connexion a échoué")
@@ -38,19 +38,19 @@ class Composer_bd:
     
     def get_par_parcour_composition(self,idp):
         try:
-            query = text("select id_parcours, id_etape from COMPOSER where id_parcours= "+str(idp))
+            query = text("select id_parcours, id_etape,numero from COMPOSER where id_parcours= "+str(idp))
             resultat = self.cnx.execute(query)
             composition=[]
-            for idp,ide in resultat:
-                composition.append(Composer(idp,ide))
+            for idp,ide,numero in resultat:
+                composition.append(Composer(idp,ide,numero))
             return composition
         except Exception as e:
             print("la connexion a échoué")
             return None
         
-    def inserer_compose(self,idparc,idinter):
+    def inserer_compose(self,idparc,ide,numero):
         try:
-            query = text(f"insert into COMPOSER values({str(idparc)} , {str(idinter)})")
+            query = text(f"insert into COMPOSER values({str(idparc)} , {str(ide)},{str(numero)})")
             cnx.execute(query)
             self.cnx.commit()
         except Exception as e:

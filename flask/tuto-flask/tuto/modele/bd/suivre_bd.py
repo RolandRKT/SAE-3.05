@@ -12,11 +12,11 @@ from suivre import Suivre
 class Suivre_bd:
     def get_all_suivre(self):
         try:
-            query = text("select id_participant, id_parcours, note, comm from SUIVRE")
+            query = text("select id_participant, id_parcours, note, comm,num_etape from SUIVRE")
             resultat = self.cnx.execute(query)
             suivre=[]
-            for id_participant, id_parcours, note, comm in resultat:
-                suivre.append(Suivre(id_participant, id_parcours, note, comm))
+            for id_participant, id_parcours, note, comm,num_etape in resultat:
+                suivre.append(Suivre(id_participant, id_parcours, note, comm,num_etape))
             return suivre
         except Exception as e:
             print("la connexion a échoué")
@@ -24,11 +24,11 @@ class Suivre_bd:
         
     def get_par_suivre_parcours(self,id_parcours):
         try:
-            query = text("select id_participant, id_parcours, note, comm from SUIVRE where id_parcours= "+str(id_parcours))
+            query = text("select id_participant, id_parcours, note, comm,num_etape from SUIVRE where id_parcours= "+str(id_parcours))
             resultat = self.cnx.execute(query)
             suivre=[]
-            for id_participant, id_parcours, note, comm in resultat:
-                suivre.append(Suivre(id_participant, id_parcours, note, comm))
+            for id_participant, id_parcours, note, comm,num_etape in resultat:
+                suivre.append(Suivre(id_participant, id_parcours, note, comm,num_etape))
             return suivre
         except Exception as e:
             print("la connexion a échoué")
@@ -36,19 +36,19 @@ class Suivre_bd:
     
     def get_par_suivre_participant(self,id_participant):
         try:
-            query = text("select id_participant, id_parcours, note, comm from SUIVRE where id_participant= "+str(id_participant))
+            query = text("select id_participant, id_parcours, note, comm,num_etape from SUIVRE where id_participant= "+str(id_participant))
             resultat = self.cnx.execute(query)
             suivre=[]
-            for id_participant, id_parcours, note, comm in resultat:
-                suivre.append(Suivre(id_participant, id_parcours, note, comm))
+            for id_participant, id_parcours, note, comm,num_etape in resultat:
+                suivre.append(Suivre(id_participant, id_parcours, note, comm,num_etape))
             return suivre
         except Exception as e:
             print("la connexion a échoué")
             return None
 
-    def inserer_suivre(self,id_part,id_parc,note,comm):
+    def inserer_suivre(self,id_part,id_parc,note,comm,num_etape):
         try:
-            query = text(f"insert into SUIVRE values({str(id_part)} , {str(id_parc)},{str(note)} , '{comm}')")
+            query = text(f"insert into SUIVRE values({str(id_part)} , {str(id_parc)},{str(note)} , '{comm}',{num_etape})")
             cnx.execute(query)
             self.cnx.commit()
         except Exception as e:

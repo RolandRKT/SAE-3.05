@@ -15,10 +15,10 @@ class Etape_bd:
         try:
             query = text("select * from ETAPE")
             resultat = self.cnx.execute(query)
-            composition=[]
+            etapes=[]
             for ide,nom,idph,local in resultat:
-                composition.append(Etape(ide,nom,idph,local))
-            return composition
+                etapes.append(Etape(ide,nom,idph,local))
+            return etapes
         except Exception as e:
             print("la connexion a échoué")
             return None
@@ -27,10 +27,10 @@ class Etape_bd:
         try:
             query = text("select * from ETAPE where id_photo = "+str(idph))
             resultat = self.cnx.execute(query)
-            composition=[]
+            etapes=[]
             for ide,nom,idp,local in resultat:
-                composition.append(Etape(ide,nom,idp,local))
-            return composition
+                etapes.append(Etape(ide,nom,idp,local))
+            return etapes
         except Exception as e:
             print("la connexion a échoué")
             return None

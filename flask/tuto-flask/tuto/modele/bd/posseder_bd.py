@@ -16,10 +16,10 @@ class Posseder_bd:
         try:
             query = text("select * from POSSEDER")
             resultat = self.cnx.execute(query)
-            composition=[]
+            possession=[]
             for ide,idi in resultat:
-                composition.append(Posseder(ide,idi))
-            return composition
+                possession.append(Posseder(ide,idi))
+            return possession
         except Exception as e:
             print("la connexion a échoué")
             return None
@@ -28,10 +28,10 @@ class Posseder_bd:
         try:
             query = text("select * from POSSEDER where id_interet = "+str(idinteret))
             resultat = self.cnx.execute(query)
-            composition=[]
+            possession=[]
             for ide,idi in resultat:
-                composition.append(Posseder(ide,idi))
-            return composition
+                possession.append(Posseder(ide,idi))
+            return possession
         except Exception as e:
             print("la connexion a échoué")
             return None
@@ -40,10 +40,10 @@ class Posseder_bd:
         try:
             query = text("select * from POSSEDER where id_etape = "+str(idetape))
             resultat = self.cnx.execute(query)
-            composition=[]
+            possession=[]
             for ide,idi in resultat:
-                composition.append(Posseder(ide,idi))
-            return composition
+                possession.append(Posseder(ide,idi))
+            return possession
         except Exception as e:
             print("la connexion a échoué")
             return None
