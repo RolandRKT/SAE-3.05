@@ -5,15 +5,31 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(parcours1);
 
-function hideGuidage(){
-    document.addEventListener('DOMContentLoaded', function(){
+var directionsControl = L.Routing.control({
+    waypoints: [],
+    lineOptions: {
+        styles: [
+            {
+                color: 'deepskyblue',
+                opacity: 0.6,
+                weight: 6
+            }
+        ]
+    },
+    createMarker: function() {
+        return null;
+    }
+}).addTo(parcours1);
+
+function hideGuidage() {
+    document.addEventListener('DOMContentLoaded', function () {
         const guidage = document.querySelector(".leaflet-routing-container");
         guidage.classList.add('hidden-content');
     })
 }
 
-function showGuidage(){
-    document.addEventListener('DOMContentLoaded', function(){
+function showGuidage() {
+    document.addEventListener('DOMContentLoaded', function () {
         const guidage = document.querySelector(".leaflet-routing-container");
         guidage.classList.remove('hidden-content');
     })
@@ -28,43 +44,36 @@ function addMarker(map, coordX, coordY, messagePopUp = "", desc = "", depart = f
                 marker.openPopup();
             }
         } else {
-            marker.bindPopup("<b>" + messagePopUp + "</b><br>Aucune description");
+            marker.bindPopup("<b>" + messagePopUp + "</b><br>Aucune description").openPopup();
         }
     }
     return marker;
 }
 
-function addDirection(map, departure, destination, guidage = true, couleur = "") {
+function addDirection(departure, destination, guidage = true, couleur = "") {
+    var waypoints = [];
+    var waypoint1 = L.Routing.waypoint(departure.getLatLng(), departure._popup.getContent());
+    var waypoint2 = L.Routing.waypoint(destination.getLatLng(), destination._popup.getContent());
+
+    waypoints.push(waypoint1);
+    waypoints.push(waypoint2);
+
     var lineOptions = {
-        styles: [
-            {
-                color: 'deepskyblue',
-                opacity: 0.6,
-                weight: 6
-            }
-        ]
+        styles: [{
+            color: couleur || 'deepskyblue',
+            opacity: 0.6,
+            weight: 6
+        }]
     };
 
-    if (couleur !== "") {
-        lineOptions.styles[0].color = couleur;
-    }
-
-    var directions = L.Routing.control({
-        waypoints: [
-            departure.getLatLng(),
-            destination.getLatLng()
-        ],
-        lineOptions: lineOptions
-    }).addTo(map);
+    directionsControl.setWaypoints(waypoints, lineOptions);
 
     if (!guidage) {
         hideGuidage();
     }
-    return directions;
 }
 
+var step = addMarker(parcours1, 47.8432, 1.92661, "BUT Informatique", "Point de départ", true);
+var step1 = addMarker(parcours1, 47.84395, 1.93274, "Restaurant Universitaire", "Étape 1");
 
-step = addMarker(parcours1, 47.8432, 1.92661, "BUT Informatique", "Point de départ", true);
-step1 = addMarker(parcours1, 47.84395, 1.93274, "Restaurant Universitaire", "Étape 1");
-
-addDirection(parcours1, step, step1, false);
+addDirection(step, step1);
