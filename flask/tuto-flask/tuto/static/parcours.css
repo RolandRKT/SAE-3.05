@@ -128,12 +128,14 @@ input[type="submit"]:hover {
 }
 
 .info-parcours{
-    top: 22%;
+    top: max(20%, 100px);
     left: 5%;
     position: fixed;
     z-index: 4;
     width: 400px;
-    height: 600px;
+    min-height: 520px;
+    height: 65vh;
+    max-height: 650px;
     background-color: white;
     border-radius: 10px;
 }
@@ -185,6 +187,14 @@ input[type="submit"]:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    bottom: 5%;
-    left: 30%;
+    top: 90%;
+    left: 31%;
+}
+
+@media (max-height: 650px) {
+    .info-parcours{
+        transform: scale(0.80);
+        top: max(5%,50px);
+        overflow: visible;
+    }
 }
