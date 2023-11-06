@@ -86,4 +86,6 @@ Thibault SAINT-LÉGER
   - (RDD) Nouvelle maquette
   - (MP, RR) Implémentation de la page parcours
   - (AB, RDD, TSL) Modification BD
+  - (MP) Version mobile de la page Parcours
+  - (RR) Responsivité de la page Parcours version PC
   - (TSL) Rédaction README
