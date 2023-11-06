@@ -76,4 +76,4 @@ function addDirection(departure, destination, guidage = true, couleur = "") {
 var step = addMarker(parcours1, 47.8432, 1.92661, "BUT Informatique", "Point de départ", true);
 var step1 = addMarker(parcours1, 47.84395, 1.93274, "Restaurant Universitaire", "Étape 1");
 
-addDirection(step, step1);
+addDirection(step, step1, false);
