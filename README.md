@@ -79,3 +79,11 @@ Thibault SAINT-LÉGER
   - (RR) Nettoyage CSS, HTML
   - (TSL) Rédaction README
 
+### Jour 6: 
+  - (AB) Fonctionnalité Connexion / Inscription
+  - (RR) Implémentation MAP
+  - (TSL) Correction BD
+  - (RDD) Nouvelle maquette
+  - (MP, RR) Implémentation de la page parcours
+  - (AB, RDD, TSL) Modification BD
+  - (TSL) Rédaction README
