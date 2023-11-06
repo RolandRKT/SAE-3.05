@@ -80,12 +80,13 @@ Thibault SAINT-LÉGER
   - (TSL) Rédaction README
 
 ### Jour 6: 
-  - (AB) Fonctionnalité Connexion / Inscription
+  - (AB) Fonctionnalité Connexion / Inscription, recherche parcours
   - (RR) Implémentation MAP
   - (TSL) Correction BD
-  - (RDD) Nouvelle maquette
+  - (RDD) Nouvelles maquettes
   - (MP, RR) Implémentation de la page parcours
   - (AB, RDD, TSL) Modification BD
   - (MP) Version mobile de la page Parcours
   - (RR) Responsivité de la page Parcours version PC
+  - (AB) Commencement de la page création Parcours
   - (TSL) Rédaction README
