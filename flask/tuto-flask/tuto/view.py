@@ -29,7 +29,7 @@ def inscription():
         return render_template("inscription_mobile.html", page_mobile=True, page_login=False)
     else:
         return render_template("inscription.html", page_mobile=False, page_login=False)
-    
+
 @app.route("/parcours")
 def parcours():
     return render_template("parcours.html")

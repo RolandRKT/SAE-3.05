@@ -1,4 +1,4 @@
-var parcours1 = L.map('map').setView([47.8432, 1.92661], 13);
+var parcours1 = L.map(('map').setView([47.8432, 1.92661], 13));
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
