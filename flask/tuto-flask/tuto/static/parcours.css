@@ -195,6 +195,5 @@ input[type="submit"]:hover {
     .info-parcours{
         transform: scale(0.80);
         top: max(5%,50px);
-        overflow: visible;
     }
 }
