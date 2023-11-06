@@ -18,10 +18,10 @@
         <div class="right-part">
             <section class="information">
                 <h1 class="app-name">WADE</h1>
-                <form action="" method="get" class="form-inscription">
+                <form action="" role="form" method="POST" class="form-inscription">
                     <div class="form-label">
                         <label for="name" class="label">pseudo</label>
-                        <input type="text" name="name" id="name" required />
+                        <input type="text" name="username" id="username" required />
                     </div>
                     <div class="form-label">
                         <label for="email" class="label">email</label>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="form-label">
-                        <input type="submit" value="S'inscrire" />
+                        <input action="{{url_for('inscrire')}}" type="submit" value="S'inscrire" />
                     </div>
                     <div class="back-login">
                         <a href="{{url_for('login')}}">connexion</a>

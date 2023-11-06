@@ -1,4 +1,4 @@
-from .app import app, db
+
 from flask import jsonify, render_template, url_for, redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField
@@ -9,6 +9,15 @@ from wtforms import PasswordField
 from flask import request, redirect, url_for
 from wtforms import FloatField
 from flask import flash
+from .app import app, db
+import sqlalchemy
+import os
+import sys
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
+sys.path.append(os.path.join(ROOT, 'modele/bd/'))
+from participant_bd import *
+from connexion import cnx,close_cnx
+
 
 @app.route("/")
 def home():
@@ -16,11 +25,13 @@ def home():
 
 @app.route("/login")
 def login():
+    print("hahaha")
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("login_mobile.html", page_mobile=True, page_login=True)
     else:
         return render_template("login.html", page_mobile=False, page_login=True)
+
 
 @app.route("/inscription")
 def inscription():
@@ -33,3 +44,41 @@ def inscription():
 @app.route("/parcours")
 def parcours():
     return render_template("parcours.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def connecter():
+    username=request.form.get("username")
+    password=request.form.get("password")
+    print(username,password)
+    user = Participant_bd(cnx)
+    liste_user=user.get_all_participant()
+    for part in liste_user:
+        if (username==part.get_pseudo() or username==part.get_email())and password==part.get_mdp():
+            print("votre connexion a marche")
+            return render_template("login.html", page_mobile=False, page_login=True)
+    close_cnx()
+    return render_template("login.html", page_mobile=False, page_login=True)
+
+@app.route("/inscription",methods=["GET", "POST"])
+def inscrire():
+    username=request.form.get("username")
+    email=request.form.get("email")
+    password=request.form.get("password")
+    print(username)
+    user = Participant_bd(cnx)
+    print("test")
+    liste_user=user.get_all_participant()
+    print(liste_user)
+    for part in liste_user:
+        if username==part.get_pseudo() and email==part.get_email() and password==part.get_mdp():
+            print("vous etes deja inscrit")
+            cnx.close()
+            return render_template("login.html", page_mobile=False, page_login=True)
+    user.inserer_participant(user.get_prochain_id_participant(),username,email,password)
+    print("vous etes inscrit")
+    cnx.close()
+    return render_template("login.html", page_mobile=False, page_login=True)
+
+
+
+

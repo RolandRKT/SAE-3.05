@@ -11,14 +11,14 @@ def ouvrir_connexion(user, passwd, host, database):
         print("Connexion réussie")
         return cnx
     except Exception as err:
-        print(err)
-        raise err
+        print("le serveur n'est pas connecter")
+        return err
 
 
-cnx = ouvrir_connexion("dahouede","dahouede","servinfo-maria","DBdahouede")
+cnx = ouvrir_connexion("rakotomalala","rakotomalala","servinfo-maria","DBrakotomalala")
 
-def get_cnx():
-    return cnx
+def close_cnx():
+    cnx.close()
 
 #import sqlalchemy
 #
