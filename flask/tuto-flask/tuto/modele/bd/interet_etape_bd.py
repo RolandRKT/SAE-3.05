@@ -52,8 +52,10 @@ class Interet_etape_bd:
     def get_prochain_id_interet_etape(self):
         try:
             query = text("select max(id_interet) as m from INTERETETAPE")
-            result = self.cnx.execute(query)
-            return result[0]+1
+            result = self.cnx.execute(query).fetchone()
+            if result and result.m:
+                print(int(result.m) + 1)
+                return int(result.m) + 1
         except Exception as e:
             print("la connexion a échoué")
             return None

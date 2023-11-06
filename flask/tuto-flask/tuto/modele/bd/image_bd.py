@@ -51,8 +51,10 @@ class Image_bd:
     def get_prochain_id_image(self):
         try:
             query = text("select max(id_image) as m from IMAGE")
-            result = self.cnx.execute(query)
-            return result[0]+1
+            result = self.cnx.execute(query).fetchone()
+            if result and result.m:
+                print(int(result.m) + 1)
+                return int(result.m) + 1
         except Exception as e:
             print("la connexion a échoué")
             return None
