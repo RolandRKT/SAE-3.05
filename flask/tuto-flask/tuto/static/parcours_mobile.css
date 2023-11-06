@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:200');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
+
+@font-face {
+    font-family: 'Leckerli One';
+    src: url('../static/fonts/Leckerli_One/LeckerliOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+header {
+    background-color: white;
+    min-width: 100%;
+    min-height: 3vw;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    border-bottom: 2px solid #ccc;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.animated-image-position {
+    top: 5px;
+    left: -5%;
+    position: absolute;
+    z-index: 2;
+}
+
+.image-container {
+    overflow: hidden;
+    position: relative;
+    width: 100vw;
+}
+
+.img1 {
+    width: 100px;
+    height: auto;
+    z-index: 3;
+    position: fixed;
+    top: 5px;
+    left: -100px;
+}
+
+.hidden{
+    display:none;
+}
+
+.img3 {
+    width: 56px;
+    height: 56px;
+    padding-right: 0.5vw;
+    transition: transform 0.3s ease; /* Ajoutez une transition douce sur la transformation */
+}
+
+.img3:hover {
+    transform: scale(1.05); /* Par exemple, agrandissez l'image au survol */
+    cursor: pointer;
+}
+
+.transition-logo{
+    transform: translateX(100%);
+    transition: transform 0.5s ease-in;
+}
+footer {
+    margin: 0;
+    bottom: 0;
+    font-family: 'Lato', sans-serif;
+    background-color: white;
+    border-top: 2px solid #ccc;
+    box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
+    display: flex;
+}
+
+.img2 {
+    width: 5%;
+    height: auto;
+    transform: translateX(100vw) scaleX(-1); /* Point de départ (à droite) et effet miroir horizontal */
+    transition: transform 1s linear; /* Durée et type de transition */
+  }
+
+.copyright{
+    position: fixed;
+    bottom: 0;
+    left: 10px;
+    margin-bottom: 0.8%;
+}
+
+.top-page{
+    width: 55%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-name{
+    margin: 0;
+    font-family: 'Leckerli One', cursive;
+    color: #2EBEDD;
+    font-size: 45px;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    user-select: none;
+}
+
+input[type="submit"] {
+    width: 150px;
+    padding: 10px;
+    padding-left: 25px;
+    padding-right: 30px;
+    font-size: 16px;
+    background-color: #238AB6;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+input[type="submit"]:hover {
+    background-color: #1BBCD2;
+}
+
+.box-parcours{
+    position: relative;
+}
+
+.info-parcours{
+    top: 7%;
+    left: 0%;
+    position: fixed;
+    z-index: 4;
+    width: 100%;
+    height: 86.4%;
+    background-color: white;
+    border-radius: 10px;
+    display: none;
+}
+
+.box-etape{
+    position: absolute;
+    top: -20px;
+    left: 46%;
+}
+
+.num-etape {
+    background-color: #1BBCD2;
+    color: white;
+    border-radius: 50%;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    z-index: 8;
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    user-select: none;
+}
+
+#parcours-cover{
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#parcours-name{
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+}
+
+#parcours-desc{
+    margin-left: 10px;
+    margin-right: 10px;
+    font-family: 'Lato', sans-serif;
+    text-align: left;
+}
+
+.form-label{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 5%;
+    left: 30%;
+    margin-bottom: 10px;
+}
+
+.menu-container {
+    text-align: right;
+    padding: 0px;
+}
+
+#toggle-menu {
+    position: fixed;
+    bottom: 2.3%;
+    right: 0;
+    background-color: black;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 6;
+    font-weight: bold;
+    font-size: 12px;
+}
+#menu.show {
+    display: block;
+}
+
+@media (orientation: landscape) {
+    .info-parcours{
+        top: 15%;
+        left: 25%;
+        position: fixed;
+        z-index: 4;
+        width: 50%;
+        height: 78.4%;
+        background-color: white;
+        border-radius: 10px;
+        display: none;
+        overflow: scroll;
+    }
+
+    #toggle-menu {
+        position: fixed;
+        bottom: 7%;
+        right: 0;
+        background-color: black;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 6;
+        font-weight: bold;
+        font-size: 12px;
+    }
+
+    .num-etape {
+
+        background-color: #1BBCD2;
+        color: white;
+        border-radius: 50%;
+        padding: 10px;
+        padding-left: 15px;
+        padding-right: 15px;
+        z-index: 8;
+        margin: 0;
+        font-family: 'Lato', sans-serif;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid white;
+        user-select: none;
+    }
+  }
