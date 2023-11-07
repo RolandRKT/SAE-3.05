@@ -29,6 +29,11 @@ def home():
   """
     return render_template("home.html", page_home=True)
 
+
+@app.route("/home")
+def portails():
+    return render_template("portails.html")
+
 @app.route("/login")
 def login():
     """

@@ -32,6 +32,16 @@ header {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+/* Style des boutons Portail Participant et Portail Administrateur */
+.button-format .portail-button input[type="submit"] {
+  border-radius: 10px;
+  width:15vw;
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+
+
 .img3 {
   width: 56px;
   height: 56px;
@@ -283,3 +293,4 @@ a{
     padding-bottom: 20px;
   }
 }
+
