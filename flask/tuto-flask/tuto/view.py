@@ -24,13 +24,12 @@ from admin_bd import *
 
 @app.route("/")
 def home():
-  """
-     Nous montre la premiere page la du lancement du site
-  """
+    """
+        Nous montre la premiere page la du lancement du site
+    """
     return render_template("home.html", page_home=True)
 
-
-@app.route("/home")
+@app.route("/portails")
 def portails():
     return render_template("portails.html")
 
