@@ -203,8 +203,11 @@ main {
   }
 }
 
+.form-label{
+  padding-top: 50px;
+}
 
-input[type="submit"] {
+.transition {
     width: 100%;
     padding: 10px;
     padding-left: 40px;
@@ -216,12 +219,16 @@ input[type="submit"] {
     color: #fff;
     border: none;
     cursor: pointer;
-
     transition: background-color 0.3s ease;
+    font-family: 'Lato', sans-serif;
 }
 
-input[type="submit"]:hover {
+.transition:hover {
     background-color: #1493A7;
+}
+
+a{
+  text-decoration: none;
 }
 
 .copyright{
@@ -261,7 +268,11 @@ input[type="submit"]:hover {
     width: 150px;
     margin: 5px;
   }
-  input[type="submit"] {
+  .transition {
     margin: 5px;
+  }
+  .form-label{
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 }
