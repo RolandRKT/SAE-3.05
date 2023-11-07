@@ -27,7 +27,8 @@
                     </div>
                 </div>
                 <div class="form-label">
-                    <a class="transition"><input type="submit" value="Se connecter" /></a>
+                    <input action="{{url_for('connecter')}}" type="submit" value="Se connecter" />
+
                 </div>
                 <div class="create-account">
                     <p>Nouveau ? <a href="{{url_for('inscription')}}" class="transition">Créer un compte</a></p>

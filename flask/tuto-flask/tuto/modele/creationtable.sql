@@ -1,3 +1,13 @@
+drop table INSCRIPTION;
+drop table SUIVRE;
+drop table POSSEDER;
+drop table COMPOSER;
+drop table INTERETETAPE;
+drop table ETAPE;
+drop table PARCOURS;
+drop table PARTICIPANT;
+drop table IMAGE;
+
 CREATE TABLE PARCOURS (
     id_parcours INT PRIMARY KEY,
     nom_parcours VARCHAR(20),
@@ -8,17 +18,10 @@ CREATE TABLE PARCOURS (
 );
 
 CREATE TABLE PARTICIPANT (
-    id_participant int primary key,
+    id_participant int PRIMARY KEY,
     pseudo varchar(200),
     email varchar(200),
     mdp varchar(200)
-);
-
-CREATE TABLE INSCRIPTION (
-    id_parcours INT,
-    id_participant INT,
-    date_inscription DATE,
-    PRIMARY KEY (id_parcours, id_participant)
 );
 
 create table IMAGE (
@@ -37,8 +40,9 @@ create table INTERETETAPE (
 create table ETAPE (
     id_etape int primary key,
     nom_etape varchar(200),
-    localisation varchar(200),
-    id_image int 
+    id_image int,
+    coordonneX float,
+    coordonneY float
 );
 
 create table SUIVRE (
@@ -64,6 +68,13 @@ create table COMPOSER (
     primary key (id_parcours,id_etape)
 );
 
+create table ADMIN(
+    id_admin int,
+    pseudo varchar(200),
+    mdp varchar(200),
+    primary key(id_admin)
+)
+
 -- ALTER TABLE pour attribuer les foreign key
 
 ALTER TABLE PARCOURS ADD UNIQUE (nom_parcours);
@@ -73,10 +84,6 @@ ALTER TABLE PARCOURS ADD FOREIGN KEY (id_image) REFERENCES IMAGE(id_image);
 ALTER TABLE PARTICIPANT ADD UNIQUE (email);
 
 ALTER TABLE PARTICIPANT ADD UNIQUE (pseudo);
-
-ALTER TABLE INSCRIPTION ADD FOREIGN KEY (id_parcours) REFERENCES PARCOURS(id_parcours);
-
-ALTER TABLE INSCRIPTION ADD FOREIGN KEY (id_participant) REFERENCES PARTICIPANT(id_participant);
 
 ALTER TABLE ETAPE ADD FOREIGN KEY (id_image) REFERENCES IMAGE(id_image);
 
