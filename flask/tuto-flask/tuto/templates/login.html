@@ -24,7 +24,6 @@
                 <label for="name" class="label">Email ou pseudo</label>
                 <input type="text" name="username" id="username" required/>
             </div>
-        
             <div class="form-label">
                 <label for="password" class="label">Mot de passe</label>
                 <div class="password-input-container">
@@ -32,19 +31,18 @@
                     <img id="togglePassword" class="password-toggle" src="../static/images/oeilFerme.png" alt="Afficher le mot de passe" onclick="togglePasswordVisibility()"/>
                 </div>
             </div>
-        
             <div class="form-password-forget">
                 <div class="forget-password">
                     <a href="#">Mot de passe oublié ?</a>
                 </div>
             </div>
-        
             <div class="form-label">
                 <input action="{{url_for('connecter')}}" type="submit" value="Se connecter" />
+
             </div>
         
             <div class="create-account">
-                <p>Nouveau ? <a href="{{url_for('inscription')}}">Créer un compte</a></p>
+              <p>Nouveau ? <a href="{{url_for('inscription')}}" class="transition">Créer un compte</a></p>
             </div>
         </form>
         </section>
