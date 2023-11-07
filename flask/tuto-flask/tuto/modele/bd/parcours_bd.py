@@ -82,7 +82,7 @@ class Parcours_bd:
             param idimg: ID de l'image associée au parcours.
         """
         try:
-            query = text(f"insert into PARCOURS values({str(idparc)} , '{nomparc}' ,'{duree}' , '{descparc}','{str(idimg)}')")
+            query = text(f"insert into PARCOURS values({str(idparc)} , '{nomparc}' ,'{str(duree)}' , '{descparc}','{str(idimg)}')")
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as e:
