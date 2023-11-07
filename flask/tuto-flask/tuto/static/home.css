@@ -68,14 +68,15 @@ header {
     width: 100vw;
 }
 
-footer{
+footer {
   margin: 0;
   position: fixed;
-  bottom: 0; 
+  bottom: 0;
   font-family: 'Lato', sans-serif;
   background-color: white;
   border-top: 2px solid #ccc;
   box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
+  display: flex;
 }
 
 .img1 {
@@ -224,11 +225,11 @@ input[type="submit"]:hover {
 }
 
 .copyright{
-    position: fixed;
-    bottom: 0;
-    left: 10px;
-    margin: 0;
+  position: fixed;
+  bottom: 0;
+  left: 10px;
 }
+
 @media (max-height: 540px) or (max-width: 748px) {
   main {
     overflow: scroll;
