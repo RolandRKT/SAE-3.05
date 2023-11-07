@@ -25,6 +25,11 @@ from connexion import cnx,close_cnx
 def home():
     return render_template("home.html")
 
+
+@app.route("/home")
+def portails():
+    return render_template("portails.html")
+
 @app.route("/login")
 def login():
     print("hahaha")

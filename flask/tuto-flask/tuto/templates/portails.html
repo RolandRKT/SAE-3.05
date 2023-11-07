@@ -16,16 +16,18 @@
     </header>
     <main class="main-base">
         <h1 class="app-name">WADE</h1>
-        <section class="main-animation">
-          <img class="infinite-travel" src="../static/images/logo.png" alt="Logo Wade"></img>
-        </section>
-        <form action="{{url_for('portails')}}" method="get" class="button-format">
-          <div class="form-label">
-            <input type="submit" value="Commencer" />
+        <form action="{{url_for('login')}}" method="get" class="button-format">
+          <div class="portail-button">
+            <input type="submit" value="Portail Participant" />
           </div>
           <a></a>
         </form>
-        <h2 class = "slogan">Commencez votre parcours avec Wade</h2>
+        <form action="{{url_for('login')}}" method="get" class="button-format">
+            <div class="portail-button">
+              <input type="submit" value="Portail Administrateur" />
+            </div>
+            <a></a>
+          </form>
     </main>
       
     <footer>
