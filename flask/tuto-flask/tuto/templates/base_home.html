@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Wade - Accueil</title>
+    <link rel="stylesheet" href="../static/home.css">
+</head>
+<body>
+    <header>
+        <div class="animated-image-position">
+            <div class="image-container">
+              <img id="animation-button" class="img1" src="../static/images/logo.png" alt="Image à animer">
+            </div>
+        </div>
+        <img id="user-logo" class="img3" src="../static/images/user.png" alt="Image à animer">
+    </header>
+    <main class="main-base">
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+      <div class="image-container">
+        <img id="animation-button1" class="img2" src="../static/images/logo.png" alt="Image à animer">
+      </div>
+      <p class="copyright">Wade Copyright © 2023</p>
+    </footer>
+    <script src="../static/script/apparition_logo.js"></script>
+    <script src="../static/script/script.js"></script>
+    <script>
+      var userLogo = document.getElementById("user-logo");
+      userLogo.addEventListener("click", function() {
+        window.location.href = "/login";
+      });
+    </script>
+</body>
+</html>
