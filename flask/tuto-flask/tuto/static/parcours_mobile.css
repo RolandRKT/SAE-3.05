@@ -86,7 +86,7 @@ footer {
 }
 
 .top-page{
-    width: 55%;
+    width: 68%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -244,7 +244,7 @@ input[type="submit"]:hover {
     }
 
     .num-etape {
-
+        position: fixed;
         background-color: #1BBCD2;
         color: white;
         border-radius: 50%;
@@ -262,3 +262,20 @@ input[type="submit"]:hover {
         user-select: none;
     }
   }
+
+@media (min-width: 780px) {
+    .top-page{
+        width: 60%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    @media (orientation: landscape) {
+        .top-page{
+            width: 57.8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+}
