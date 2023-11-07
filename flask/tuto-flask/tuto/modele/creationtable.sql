@@ -67,6 +67,13 @@ create table COMPOSER (
     primary key (id_parcours,id_etape)
 );
 
+create table ADMIN(
+    id_admin int,
+    pseudo varchar(200),
+    mdp varchar(200),
+    primary key(id_admin)
+)
+
 -- ALTER TABLE pour attribuer les foreign key
 
 ALTER TABLE PARCOURS ADD UNIQUE (nom_parcours);
