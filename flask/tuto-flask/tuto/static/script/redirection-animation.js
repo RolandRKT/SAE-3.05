@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function handleLinkClick(event) {
     event.preventDefault(); // Empêche le lien de déclencher la navigation par défaut
 
-    animatedImage.style.transform = 'translateX(100vw)'; // Déclenche l'animation
+    animatedImage.style.transform = 'translateX(107vw)'; // Déclenche l'animation
 
     // Mettez un délai de 0.5s avant de naviguer vers le lien
     setTimeout(function () {
