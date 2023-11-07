@@ -24,10 +24,16 @@ from admin_bd import *
 
 @app.route("/")
 def home():
+    """
+        Nous montre la premiere page la du lancement du site
+    """
     return render_template("home.html")
 
 @app.route("/login")
 def login():
+    """
+        permet de se diriger vers la page login
+    """
     print("hahaha")
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
@@ -38,6 +44,9 @@ def login():
 
 @app.route("/inscription")
 def inscription():
+    """
+        Permet de se diriger vers la page inscription
+    """
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("inscription_mobile.html", page_mobile=True, page_login=False)
@@ -46,10 +55,19 @@ def inscription():
 
 @app.route("/parcours")
 def parcours():
+    """
+        se dirige vers la page parcours
+    """
     return render_template("parcours.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def connecter():
+    """
+        recupere les champs entrer dans la page de connexion et verifie 
+        si l'utilisateur à déja un compte.
+        Si il a un compte on le dirige vers la page des parcours
+        Sinon on le redirige sur la page connexion
+    """
     username=request.form.get("username")
     password=request.form.get("password")
     print(username,password)
@@ -90,6 +108,9 @@ def connecter():
 
 @app.route("/inscription",methods=["GET", "POST"])
 def inscrire():
+    """
+        Permet d'inscrire les utilisateur qui n'ont pas de compte
+    """
     username=request.form.get("username")
     email=request.form.get("email")
     password=request.form.get("password")
@@ -112,6 +133,9 @@ def inscrire():
 
 @app.route("/les_parcours")
 def search():
+    """
+        Permet de chercher avec le titre des parcours et affiche le resultat
+    """
     search_query = request.args.get("query")
     user =Parcours_bd(cnx)
     liste_parc=user.get_all_parcours()
