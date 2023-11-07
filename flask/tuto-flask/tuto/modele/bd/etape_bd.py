@@ -16,8 +16,8 @@ class Etape_bd:
             query = text("select * from ETAPE")
             resultat = self.cnx.execute(query)
             etapes=[]
-            for ide,nom,idph,local in resultat:
-                etapes.append(Etape(ide,nom,idph,local))
+            for ide,nom,idph,coordX, coordY in resultat:
+                etapes.append(Etape(ide,nom,idph,coordX, coordY))
             return etapes
         except Exception as e:
             print("la connexion a échoué")
@@ -28,16 +28,16 @@ class Etape_bd:
             query = text("select * from ETAPE where id_photo = "+str(idph))
             resultat = self.cnx.execute(query)
             etapes=[]
-            for ide,nom,idp,local in resultat:
-                etapes.append(Etape(ide,nom,idp,local))
+            for ide,nom,idp,coordX, coordY in resultat:
+                etapes.append(Etape(ide,nom,idp,coordX, coordY))
             return etapes
         except Exception as e:
             print("la connexion a échoué")
             return None
     
-    def inserer_etape(self,idetape,nometape,localisation,idimage):
+    def inserer_etape(self,idetape,nometape,idimage, coordX, coordY):
         try:
-            query = text(f"insert into ETAPE values({str(idetape)},'{nometape}','{localisation}' , {str(idimage)})")
+            query = text(f"insert into ETAPE values({str(idetape)},'{nometape}', {str(idimage)}, '{coordX}', '{coordY}')")
             self.cnx.execute(query)
             self.cnx.commit()
 
