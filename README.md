@@ -79,3 +79,22 @@ Thibault SAINT-LÉGER
   - (RR) Nettoyage CSS, HTML
   - (TSL) Rédaction README
 
+### Jour 6: 
+  - (AB) Fonctionnalité Connexion / Inscription, recherche parcours
+  - (RR) Implémentation MAP
+  - (TSL) Correction BD
+  - (RDD) Nouvelles maquettes, petites corrections BD (python)
+  - (MP, RR) Implémentation de la page parcours
+  - (AB, RDD, TSL) Modification BD
+  - (MP) Version mobile de la page Parcours
+  - (RR) Responsivité de la page Parcours version PC
+  - (AB) Commencement de la page création Parcours
+  - (TSL) Rédaction README
+
+### Jour 7:
+  - (AB, MP) Début pages des parcours 
+  - (AB) afficher les images, implémentation pages portails, docstring
+  - (TSL) Implémentation connexion Admin, modification BD (Python, SQL) + correction BD
+  - (RR) Correction des liens, Ajout de base Flask (Pour les extends), Responsivité page home et parcours, Début page profil
+  - (MP) Page mobile vertical horizontal (Parcours)
+  - (RDD) Nouvelles maquettes, rédaction README

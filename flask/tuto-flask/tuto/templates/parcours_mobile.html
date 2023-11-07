@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ url_for('static', filename='map.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='parcours.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='parcours_mobile.css') }}">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
             integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
             crossorigin=""
@@ -28,7 +28,6 @@
                 </div>
             </div>
             <div class="top-page">
-                <div></div>
                 <h1 class="app-name">WADE</h1>
                 <img id="user-logo" class="img3" src="../static/images/user.png" alt="Image à animer">
             </div>
@@ -36,20 +35,15 @@
         </header>
         <div id="map"></div>
         <div class="box-parcours">
-            <section class="info-parcours">
-                <div class="box-etape">
-                    <p class="num-etape">1</p>
-                </div>
-                <img id="parcours-cover" src="https://lh3.googleusercontent.com/p/AF1QipMFivmjlrnBFO2ldlShNzXo2gAWtqarlWmBmsrR=s680-w680-h510">
-                <h3 id="parcours-name">BUT Informatique</h3>
-                <div class="p-content">
+            <div class="menu-container">
+                <button id="toggle-menu">Description étape</button>
+                <section class="info-parcours" id="menu">
+                    <div class="box-etape">
+                        <p class="num-etape">1</p>
+                    </div>
+                    <img id="parcours-cover" src="https://lh3.googleusercontent.com/p/AF1QipMFivmjlrnBFO2ldlShNzXo2gAWtqarlWmBmsrR=s680-w680-h510">
+                    <h3 id="parcours-name">BUT Informatique</h3>
                     <p id="parcours-desc">
-                        Lorem ipsum dolor sit amet, 
-                        consectetur adipiscing elit. 
-                        Donec mattis ex neque, in aliquet nunc 
-                        feugiat vehicula. Ut non lacinia diam.
-                        Fusce id purus laoreet, ultricies lectus at, 
-                        aliquet nisi. Donec vehicula blandit 
                         Lorem ipsum dolor sit amet, 
                         consectetur adipiscing elit. 
                         Donec mattis ex neque, in aliquet nunc 
@@ -60,8 +54,9 @@
                     <div class="form-label">
                         <input type="submit" value="Commencer"/>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
+            
         </div>
         <footer>
             <div class="image-container">
@@ -78,6 +73,7 @@
             window.location.href = "/login";
           });
         </script>
+        <script src="../static/script/hamburger.js"></script>
     </body>
 
 </html>

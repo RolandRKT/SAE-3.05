@@ -58,7 +58,11 @@ def parcours():
     """
         se dirige vers la page parcours
     """
-    return render_template("parcours.html")
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("parcours_mobile.html", page_mobile=True, page_login=False)
+    else:
+        return render_template("parcours.html", page_mobile=False, page_login=False)
 
 @app.route("/login", methods=["GET", "POST"])
 def connecter():
