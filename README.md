@@ -97,4 +97,4 @@ Thibault SAINT-LÉGER
   - (TSL) Implémentation connexion Admin, modification BD (Python, SQL) + correction BD
   - (RR) Correction des liens, Ajout de base Flask (Pour les extends), Responsivité page home et parcours, Début page profil
   - (MP) Page mobile vertical horizontal (Parcours)
-  - (RDD) Nouvelles maquettes
+  - (RDD) Nouvelles maquettes, rédaction README
