@@ -3,16 +3,28 @@
 <head>
     <meta charset="utf-8">
     <title>Wade - Accueil</title>
-    <link rel="stylesheet" href="../static/home.css">
+    {% if page_home %}
+      <link rel="stylesheet" href="../static/home.css">
+    {% else %}
+      <link rel="stylesheet" href="{{ url_for('static', filename='mon_profil.css') }}">
+    {% endif %}
 </head>
-<body>
+  <body>
     <header>
-        <div class="animated-image-position">
-            <div class="image-container">
-              <img id="animation-button" class="img1" src="../static/images/logo.png" alt="Image à animer">
-            </div>
+      <div class="animated-image-position">
+        <div class="image-container">
+          <img id="animation-button" class="img1" src="../static/images/logo.png" alt="Image à animer">
         </div>
+      </div>
+      {% if not page_home %}
+        <div class="top-page">
+          <div></div>
+          <h1 class="app-name">WADE</h1>
+          <img id="burg-menu" class="img3" src="../static/images/menu.png" alt="Image à animer">
+        </div>
+      {% else %}
         <img id="user-logo" class="img3" src="../static/images/user.png" alt="Image à animer">
+      {% endif %}
     </header>
     <main class="main-base">
         {% block content %}
@@ -32,5 +44,5 @@
         window.location.href = "/login";
       });
     </script>
-</body>
+  </body>
 </html>

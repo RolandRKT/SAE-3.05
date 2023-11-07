@@ -12,7 +12,7 @@ from flask import flash
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", page_home=True)
 
 @app.route("/login")
 def login():
@@ -34,6 +34,14 @@ def inscription():
 def parcours():
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("parcours_mobile.html", page_mobile=True, page_login=False)
+        return render_template("parcours_mobile.html", page_mobile=True)
     else:
-        return render_template("parcours.html", page_mobile=False, page_login=False)
+        return render_template("parcours.html", page_mobile=False)
+
+@app.route("/mon-profil")
+def mon_profil():
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("base_mon_profil.html", page_mobile=True, page_home=False)
+    else:
+        return render_template("base_mon_profil.html", page_mobile=False, page_home=False)
