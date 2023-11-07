@@ -26,8 +26,8 @@ class Etape_bd:
             query = text("select * from ETAPE")
             resultat = self.cnx.execute(query)
             etapes=[]
-            for ide,nom,idph,local in resultat:
-                etapes.append(Etape(ide,nom,idph,local))
+            for ide,nom,idph,coordX, coordY in resultat:
+                etapes.append(Etape(ide,nom,idph,coordX, coordY))
             return etapes
         except Exception as e:
             print("la connexion a échoué")
@@ -43,24 +43,25 @@ class Etape_bd:
             query = text("select * from ETAPE where id_photo = "+str(idph))
             resultat = self.cnx.execute(query)
             etapes=[]
-            for ide,nom,idp,local in resultat:
-                etapes.append(Etape(ide,nom,idp,local))
+            for ide,nom,idp,coordX, coordY in resultat:
+                etapes.append(Etape(ide,nom,idp,coordX, coordY))
             return etapes
         except Exception as e:
             print("la connexion a échoué")
             return None
     
-    def inserer_etape(self,idetape,nometape,localisation,idimage):
+    def inserer_etape(self,idetape,nometape,idimage, coordX, coordY):
         """
             Insère une nouvelle étape dans la base de données.
 
             param idetape: ID de l'étape.
             param nometape: Nom de l'étape.
-            param localisation: Localisation de l'étape.
+            param coordX : coordonnée x de l'étape.
+            param coordY : coordonnée y de l'étape.
             param idimage: ID de l'image associée à l'étape.
         """
         try:
-            query = text(f"insert into ETAPE values({str(idetape)},'{nometape}','{localisation}' , {str(idimage)})")
+            query = text(f"insert into ETAPE values({str(idetape)},'{nometape}', {str(idimage)}, '{str(coordX)}', '{str(coordY)}')")
             self.cnx.execute(query)
             self.cnx.commit()
 
@@ -76,8 +77,10 @@ class Etape_bd:
         """
         try:
             query = text("select max(id_etape) as m from ETAPE")
-            result = self.cnx.execute(query)
-            return result[0]+1
+            result = self.cnx.execute(query).fetchone()
+            if result and result.m:
+                print(int(result.m) + 1)
+                return int(result.m) + 1
         except Exception as e:
             print("la connexion a échoué")
             return None

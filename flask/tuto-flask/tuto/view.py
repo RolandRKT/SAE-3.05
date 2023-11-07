@@ -19,6 +19,7 @@ from participant_bd import *
 from parcours_bd import *
 from image_bd import *
 from connexion import cnx,close_cnx
+from admin_bd import *
 
 
 @app.route("/")
@@ -71,7 +72,9 @@ def connecter():
     password=request.form.get("password")
     print(username,password)
     user = Participant_bd(cnx)
+    adm = Admin_bd(cnx)
     liste_user=user.get_all_participant()
+    liste_admin = adm.get_all_admin()
     for part in liste_user:
         if (username==part.get_pseudo() or username==part.get_email())and password==part.get_mdp():
             print("votre connexion fonctionne")
@@ -85,6 +88,21 @@ def connecter():
                 monimage=images[0].get_img_filename()
                 lesparcs.append((parc,monimage))
             return render_template("les_parcours.html", liste_parc=lesparcs)
+
+    for admi in liste_admin:
+        if username == admi.get_pseudo() and password == admi.get_mdp():
+            print("votre connexion fonctionne")
+            parcour=Parcours_bd(cnx)
+            liste_parc=parcour.get_all_parcours()
+            lesparcs=[]
+            monimage=""
+            for parc in liste_parc:
+                i=Image_bd(cnx)
+                images=i.get_par_image(parc.get_id_photo())
+                monimage=images[0].get_img_filename()
+                lesparcs.append((parc,monimage))
+            return render_template("les_parcours.html", liste_parc=lesparcs)
+        
     close_cnx()
     return render_template("login.html", page_mobile=False, page_login=True)
 

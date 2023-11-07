@@ -40,8 +40,9 @@ create table INTERETETAPE (
 create table ETAPE (
     id_etape int primary key,
     nom_etape varchar(200),
-    localisation varchar(200),
-    id_image int 
+    id_image int,
+    coordonneX float,
+    coordonneY float
 );
 
 create table SUIVRE (
@@ -66,6 +67,13 @@ create table COMPOSER (
     numero int,
     primary key (id_parcours,id_etape)
 );
+
+create table ADMIN(
+    id_admin int,
+    pseudo varchar(200),
+    mdp varchar(200),
+    primary key(id_admin)
+)
 
 -- ALTER TABLE pour attribuer les foreign key
 

@@ -1,32 +1,45 @@
+{% block styles %}
+<link rel="stylesheet" href="../static/les_parcours.css">
+{% endblock %}
 {% block content %}
-<div>
-    <h1>Commencez votre parcours avec Wade</h1>
-</div>
-<div>
-    <h2>Parcours Disponible</h2>
-    <div >
-        <form class="d-flex " action="{{ url_for('search') }}" method="GET">
-            <input class="form-control me-2" type="search" name="query" placeholder="Name" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-    </div>
-    <div>
-        <p><b>Les parcours</b></p>
+<div class = "main-part">
+    <section class="left-part">
+        <div class="search-input-container">
+            <input class="form-control me-2" type="search" name="query" placeholder="Rechercher un parcours" aria-label="Search">
+            <img id="toggleSearch" class="search-toggle" src="../static/images/chercher.png" alt="Rechercher" onclick="redirectToSearch()"/>
+        </div>
+        <div>
+            <h2 class="parcours-left">Les parcours</h2> 
+            <div class = "liste-parcours">
+                {% for parc in liste_parc %}
+                    <a href="#">{{ parc[0].get_nom_parc() }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section class="right-part">
+        <h2>Parcours Disponible</h2>
         {% for parc in liste_parc %}
-            <p>{{ parc[0].get_nom_parc() }}</p>
+            <div class="box-parcours">
+                <h3>{{ parc[0].get_nom_parc() }}</h3>
+                <div class="img-desc">
+                    {% if parc[1] %}
+                        <img src="{{ url_for('static', filename='images/' + parc[1]) }}" alt="image de l'element static">
+                    {% else %}
+                        <img src="{{parc[1]}}" alt="image internet ne marche pas">
+                    {% endif %}
+                    <p>{{ parc[0].get_description() }}</p>
+                </div>
+            </div>
         {% endfor %}
-    </div>
+    </section>
 </div>
-<div>
-    <p><b>Les parcours</b></p>
-    {% for parc in liste_parc %}
-        <p>{{ parc[0].get_nom_parc() }}</p>
-        <p>{{ parc[0].get_description() }}</p>
-        {% if parc[1] %}
-            <img src="{{ url_for('static', filename='images/' + parc[1]) }}" alt="image de l'element static">
-        {% else %}
-            <img src="{{parc[1]}}" alt="image internet ne marche pas">
-        {% endif %}
-    {% endfor %}
-</div>
+<script>
+    function redirectToSearch() {
+        var searchQuery = document.getElementById("search-input").value;
+        var searchUrl = "{{ url_for('search') }}?query=" + searchQuery;
+        window.location.href = searchUrl;
+    }
+</script>
+    
 {% endblock %}

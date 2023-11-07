@@ -1,19 +1,22 @@
 class Etape:
-    def __init__(self, id, nom_etape, id_photo, localisation):
-        """
+
+    def __init__(self,id, nom_etape, id_photo, coordonneX, coordonneY):
+    """
         Initialise un objet Etape avec les informations de l'étape.
 
         Args:
             id (int): L'ID de l'étape.
             nom_etape (str): Le nom de l'étape.
             id_photo (int): L'ID de la photo associée à l'étape.
-            localisation (str): La localisation de l'étape.
+            coordonneeX (float): coordonnée x de l'étape
+            coordonneeY (float) : coordonnée y de l'étape
         """
         self.__id_etape = id
         self.__nom_etape = nom_etape
         self.__id_photo = id_photo
-        self.__localisation = localisation
-    
+        self._coordonneX = coordonneX
+        self._coordonneY = coordonneY
+        
     def get_id_etape(self):
         """
         Getter pour l'ID de l'étape.
@@ -41,11 +44,8 @@ class Etape:
         """
         return self.__id_photo
 
-    def get_localisation(self):
-        """
-        Getter pour la localisation de l'étape.
-
-        Returns:
-            str: La localisation de l'étape.
-        """
-        return self.__localisation
+    def get_coordonneX(self):
+        return self._coordonneX
+    
+    def get_coordonneY(self):
+        return self._coordonneY
