@@ -100,8 +100,15 @@ def search():
     lesparcs=[]
     monimage=""
     for parc in liste_parc:
-        if search_query in parc.get_nom_parc():
-            images=Image_bd.get_par_image(parc.get_id_photo())
+        if search_query!="" :
+            if search_query in parc.get_nom_parc():
+                i=Image_bd(cnx)
+                images=i.get_par_image(parc.get_id_photo())
+                monimage=images[0].get_img_filename()
+                lesparcs.append((parc,monimage))
+        else:
+            i=Image_bd(cnx)
+            images=i.get_par_image(parc.get_id_photo())
             monimage=images[0].get_img_filename()
-            lesparcs.append(parc)
-    return render_template("les_parcours.html", liste_parc=lesparcs,monimage=monimage)
+            lesparcs.append((parc,monimage))
+    return render_template("les_parcours.html", liste_parc=lesparcs)
