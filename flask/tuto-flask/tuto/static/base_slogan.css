@@ -108,7 +108,6 @@ footer {
   position: relative;
   overflow: scroll;
   margin: 0;
-  position: fixed;
   background-image: url('../static/images/nuages_infini_v1.png');
   background-size: cover;
   -webkit-animation: slidein 6000000s infinite linear;

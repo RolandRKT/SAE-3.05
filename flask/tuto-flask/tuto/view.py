@@ -72,9 +72,9 @@ def parcours():
 def mon_profil():
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("base_slogan.html", page_mobile=True, page_home=False)
+        return render_template("mon_profil.html", page_mobile=True, page_home=False)
     else:
-        return render_template("base_slogan.html", page_mobile=False, page_home=False)
+        return render_template("mon_profil.html", page_mobile=False, page_home=False)
 
 @app.route("/login", methods=["GET", "POST"])
 def connecter():
