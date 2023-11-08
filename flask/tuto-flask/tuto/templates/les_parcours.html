@@ -16,7 +16,7 @@
             <h2 class="parcours-left">Les parcours</h2> 
             <div class = "liste-parcours">
                 {% for parc in liste_parc %}
-                    <a href="#">{{ parc[0].get_nom_parc() }}</a>
+                    <a href="#parcours-{{ parc[0].get_nom_parc() }}">{{ parc[0].get_nom_parc() }}</a>
                 {% endfor %}
             </div>
         </div>
@@ -25,7 +25,7 @@
         <h2>Parcours Disponible</h2>
         {% for parc in liste_parc %}
             <div class="box-parcours">
-                <h3>{{ parc[0].get_nom_parc() }}</h3>
+                <h3 id="parcours-{{ parc[0].get_nom_parc() }}">{{ parc[0].get_nom_parc() }}</h3>
                 <div class="img-desc">
                     {% if parc[1] %}
                         <img src="{{ url_for('static', filename='images/' + parc[1]) }}" alt="image de l'element static">
