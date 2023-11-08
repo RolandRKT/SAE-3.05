@@ -61,9 +61,8 @@ img{
 
 .search-toggle {
     position: absolute;
-    left: 220;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 30%;
+    transform: translateX(-150%);
     cursor: pointer;
     font-size: 20px;
     color: #888;
@@ -82,7 +81,7 @@ img{
 input[type="search"] {
     width: 100%;
     padding: 10px;
-    padding-right: 0;
+    padding-right: 30px;
     border-radius: 10px;
     border: 1px solid #111;
     font-size: 16px;
