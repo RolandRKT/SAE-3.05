@@ -43,23 +43,15 @@
                 <section class="info-parcours">
                     <div class="box-etape">
                         <p class="num-etape">{{ etape.get_id_etape()}}</p>
+                        <div id = "id_etape" class="{{etape.get_id_etape()}}"></div>
+                        <div id="coord_X_{{etape.get_id_etape()}}" class="{{etape.get_coordonneX()}}"></div>
+                        <div id="coord_Y_{{etape.get_id_etape()}}" class="{{etape.get_coordonneY()}}"></div>
                     </div>
                     <img id="parcours-cover" src="{{ url_for('static', filename='images/' + img) }}">
-                    <h3 id="parcours-name">BUT Informatique</h3>
+                    <h3 id="parcours-name">{{etape.get_nom_etape()}}</h3>
                     <div class="p-content">
                         <p id="parcours-desc">
-                            Lorem ipsum dolor sit amet, 
-                            consectetur adipiscing elit. 
-                            Donec mattis ex neque, in aliquet nunc 
-                            feugiat vehicula. Ut non lacinia diam.
-                            Fusce id purus laoreet, ultricies lectus at, 
-                            aliquet nisi. Donec vehicula blandit 
-                            Lorem ipsum dolor sit amet, 
-                            consectetur adipiscing elit. 
-                            Donec mattis ex neque, in aliquet nunc 
-                            feugiat vehicula. Ut non lacinia diam.
-                            Fusce id purus laoreet, ultricies lectus at, 
-                            aliquet nisi. Donec vehicula blandit
+                            X : {{etape.get_coordonneX()}}, Y : {{etape.get_coordonneY()}}
                         </p>
                         {% if (x == 1)%}
                         <div class="form-label">

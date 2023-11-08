@@ -1,3 +1,15 @@
+
+
+
+var nb_etape =  document.getElementById("id_etape").classList[0]
+console.log(nb_etape)
+var coord_X = document.getElementById("coord_X_" + nb_etape).classList[0];
+console.log(coord_X);
+var coord_Y = document.getElementById("coord_Y_" + nb_etape).classList[0];
+console.log(coord_Y);
+
+
+
 var parcours1 = L.map('map').setView([47.8432, 1.92661], 13);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -75,5 +87,8 @@ function addDirection(departure, destination, guidage = true, couleur = "") {
 
 var step = addMarker(parcours1, 47.8432, 1.92661, "BUT Informatique", "Point de départ", true);
 var step1 = addMarker(parcours1, 47.84395, 1.93274, "Restaurant Universitaire", "Étape 1");
+var step2 = addMarker(parcours1, 50.84395, 1.93274, "Restaurant Universitaire", "Étape 1");
 
 addDirection(step, step1, false);
+
+
