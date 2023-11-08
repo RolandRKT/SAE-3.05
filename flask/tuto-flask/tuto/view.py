@@ -17,11 +17,16 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
 from participant_bd import *
 from parcours_bd import *
+
 from image_bd import *
 from connexion import cnx,close_cnx
 from admin_bd import *
 
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
+sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
+from participant import *
 
+test=Participant(-1,"","","")
 @app.route("/")
 def home():
     """
@@ -76,7 +81,7 @@ def mon_profil():
     else:
         return render_template("mon_profil.html", page_mobile=False, page_home=False)
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/les-parcours", methods=["GET", "POST"])
 def connecter():
     """
         recupere les champs entrer dans la page de connexion et verifie 
@@ -94,6 +99,9 @@ def connecter():
     for part in liste_user:
         if (username==part.get_pseudo() or username==part.get_email())and password==part.get_mdp():
             print("votre connexion fonctionne")
+            test.set_email(part.get_email())
+            test.set_mdp(part.get_mdp())
+            test.set_pseudo(part.get_pseudo())
             parcour=Parcours_bd(cnx)
             liste_parc=parcour.get_all_parcours()
             lesparcs=[]
@@ -103,6 +111,7 @@ def connecter():
                 images=i.get_par_image(parc.get_id_photo())
                 monimage=images[0].get_img_filename()
                 lesparcs.append((parc,monimage))
+
             return render_template("les_parcours.html", liste_parc=lesparcs)
 
     for admi in liste_admin:
