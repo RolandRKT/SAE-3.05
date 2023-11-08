@@ -63,18 +63,17 @@ header {
   position: relative;
   overflow: scroll;
   margin: 0;
-  background-image: url('../static/images/nuages_infini_versionAdmin.png');
+  /*background-image: url('../static/images/nuages_infini_versionAdmin.png');*/
   background-size: cover;
-  -webkit-animation: slidein 6000000s infinite linear;
+  /* -webkit-animation: slidein 6000000s infinite linear;
   animation: slidein 6000000s infinite linear;
   -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
+  animation-fill-mode: forwards; */
   background-size: 150%;
   min-width: 100%;
   border-top: 1px solid rgb(128, 128, 128, 0.5);
   border-bottom: 2px solid rgb(128, 128, 128, 0.5);
 }
-
 
 .top-page{
     display: flex;
@@ -132,23 +131,19 @@ header {
 
 @-webkit-keyframes slidein {
   from {
-    background-position: 0px 1500px;
-    background-size: 3000px;
+    left: 0;
   }
   to {
-    background-position: -150000000px 1500px; /*1500 2eme val de base*/
-    background-size: 3000px;
+    left: -9999999999;
   }
 }
 
 @keyframes slidein {
   from {
-    background-position: 0px 1500px;
-    background-size: 3000px;
+    left: 0;
   }
   to {
-    background-position: -150000000px 1500px; /*1500 2eme val de base*/
-    background-size: 3000px;
+    left: -9999999999;
   }
 }
 
@@ -218,4 +213,20 @@ header {
   100% {
     transform: rotate(360deg); /* Rotation complète de 360 degrés */
   }
+}
+
+video{
+  height: 100vh;
+  width: 100vw;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  -webkit-animation: slidein 6000000s infinite linear;
+  animation: slidein 6000000s infinite linear;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
 }
