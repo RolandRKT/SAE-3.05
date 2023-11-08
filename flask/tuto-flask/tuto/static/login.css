@@ -93,8 +93,8 @@ label {
 .password-toggle {
     position: absolute;
     right: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 35%;
+    transform: translateX(-0.1em);
     cursor: pointer;
     font-size: 20px;
     color: #888;
@@ -112,8 +112,9 @@ label {
 
 input[type="text"],
 input[type="password"] {
-    width: 100%;
+    width: 80%;
     padding: 10px;
+    padding-right: 45px;
     border-radius: 10px;
     border: 1px solid #111;
     font-size: 16px;

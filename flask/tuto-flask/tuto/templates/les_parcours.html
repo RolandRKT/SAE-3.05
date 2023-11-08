@@ -1,13 +1,17 @@
+{% extends "base_slogan.html" %}
 {% block styles %}
-<link rel="stylesheet" href="../static/les_parcours.css">
+    {{ super() }}
+    <link rel="stylesheet" href="../static/les_parcours.css">
 {% endblock %}
-{% block content %}
+{% block main_content %}
 <div class = "main-part">
     <section class="left-part">
-        <div class="search-input-container">
-            <input class="form-control me-2" type="search" name="query" placeholder="Rechercher un parcours" aria-label="Search">
-            <img id="toggleSearch" class="search-toggle" src="../static/images/chercher.png" alt="Rechercher" onclick="redirectToSearch()"/>
-        </div>
+        <form action="" onsubmit="search(); return false;">
+            <div class="search-input-container">
+                <input class="form-control me-2" type="search" name="query" placeholder="Rechercher un parcours" aria-label="Search">
+                <img id="toggleSearch" class="search-toggle" src="../static/images/chercher.png" alt="Rechercher" onclick="search()"/>
+            </div>
+        </form>
         <div>
             <h2 class="parcours-left">Les parcours</h2> 
             <div class = "liste-parcours">
@@ -33,13 +37,8 @@
             </div>
         {% endfor %}
     </section>
-</div>
-<script>
-    function redirectToSearch() {
-        var searchQuery = document.getElementById("search-input").value;
-        var searchUrl = "{{ url_for('search') }}?query=" + searchQuery;
-        window.location.href = searchUrl;
-    }
-</script>
-    
+</div>   
+<script src="../static/script/search.js"></script>
+
 {% endblock %}
+
