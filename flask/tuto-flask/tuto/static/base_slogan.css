@@ -3,6 +3,8 @@
 
 body{
     margin: 0;
+    font-family: 'Lato', sans-serif;
+
 }
 
 .hidden{
@@ -37,7 +39,8 @@ header {
     height: 56px;
     padding-right: 0.5vw;
     transition: transform 0.3s ease; /* Ajoutez une transition douce sur la transformation */
-}
+    z-index: 7;
+  }
 
 .img3:hover {
     transform: scale(1.05); /* Par exemple, agrandissez l'image au survol */
@@ -106,7 +109,6 @@ footer {
   position: relative;
   overflow: scroll;
   margin: 0;
-  position: fixed;
   background-image: url('../static/images/nuages_infini_v1.png');
   background-size: cover;
   -webkit-animation: slidein 6000000s infinite linear;
@@ -199,4 +201,65 @@ footer {
   position: fixed;
   bottom: 0;
   left: 10px;
+}
+
+#menu {
+  position: fixed;
+  top: 50px;
+  right: 40px;
+  background-color: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+  width: 200px;
+  height: 105px;
+  z-index: 6;
+  padding: 5px;
+  padding-top: 15px;
+}
+
+#menu p {
+  margin-top: 0;
+  font-weight: bold;
+}
+
+#menu p a{
+  text-decoration: none;
+  color: black;
+}
+
+.deco{
+  width: 100%;
+  text-align: right;
+}
+
+.deco a{
+  font-weight: lighter;
+}
+
+#menu p:hover{
+  text-decoration: underline;
+  transform: scale(1.01);
+  transition: ease 0.3s;
+}
+
+.rotate-animation{
+  animation: rotateMenuIcon 0.2s linear forwards;
+}
+
+@keyframes rotateMenuIcon {
+  0% {
+    transform: rotate(0deg); /* Rotation initiale de 0 degrés */
+  }
+  100% {
+    transform: rotate(360deg); /* Rotation complète de 360 degrés */
+  }
+}
+
+/* Animation de rotation pour l'image "menu-open" (fermer.png) */
+@keyframes rotateCloseIcon {
+  0% {
+    transform: rotate(0deg); /* Rotation initiale de 0 degrés */
+  }
+  100% {
+    transform: rotate(360deg); /* Rotation complète de 360 degrés */
+  }
 }
