@@ -50,5 +50,12 @@ class Participant:
         """
         return self.__pseudo
 
+    def set_pseudo(self,pseudo):
+        self.__pseudo=pseudo
+    def set_email(self,email):
+        self.__email=email
+    def set_mdp(self,mdp):
+        self.__mdp=mdp
+
     def __str__(self):
         return "id participant : " + str(self.__id_participant) + " le mail : " + self.__email
