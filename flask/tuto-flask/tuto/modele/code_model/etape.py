@@ -1,7 +1,7 @@
 class Etape:
 
     def __init__(self,id, nom_etape, id_photo, coordonneX, coordonneY):
-    """
+        """
         Initialise un objet Etape avec les informations de l'étape.
 
         Args:

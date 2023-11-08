@@ -35,34 +35,60 @@
             
         </header>
         <div id="map"></div>
-        <div class="box-parcours">
-            <section class="info-parcours">
-                <div class="box-etape">
-                    <p class="num-etape">1</p>
-                </div>
-                <img id="parcours-cover" src="https://lh3.googleusercontent.com/p/AF1QipMFivmjlrnBFO2ldlShNzXo2gAWtqarlWmBmsrR=s680-w680-h510">
-                <h3 id="parcours-name">BUT Informatique</h3>
-                <div class="p-content">
-                    <p id="parcours-desc">
-                        Lorem ipsum dolor sit amet, 
-                        consectetur adipiscing elit. 
-                        Donec mattis ex neque, in aliquet nunc 
-                        feugiat vehicula. Ut non lacinia diam.
-                        Fusce id purus laoreet, ultricies lectus at, 
-                        aliquet nisi. Donec vehicula blandit 
-                        Lorem ipsum dolor sit amet, 
-                        consectetur adipiscing elit. 
-                        Donec mattis ex neque, in aliquet nunc 
-                        feugiat vehicula. Ut non lacinia diam.
-                        Fusce id purus laoreet, ultricies lectus at, 
-                        aliquet nisi. Donec vehicula blandit
-                    </p>
-                    <div class="form-label">
-                        <input type="submit" value="Commencer"/>
+        {% block content %}
+        {% for (etape, img) in liste_etape %}
+            {% if (x == etape.get_id_etape()) %}
+            <div class="box-parcours">
+
+                <section class="info-parcours">
+                    <div class="box-etape">
+                        <p class="num-etape">{{ etape.get_id_etape()}}</p>
                     </div>
-                </div>
-            </section>
-        </div>
+                    <img id="parcours-cover" src="{{ url_for('static', filename='images/' + img) }}">
+                    <h3 id="parcours-name">BUT Informatique</h3>
+                    <div class="p-content">
+                        <p id="parcours-desc">
+                            Lorem ipsum dolor sit amet, 
+                            consectetur adipiscing elit. 
+                            Donec mattis ex neque, in aliquet nunc 
+                            feugiat vehicula. Ut non lacinia diam.
+                            Fusce id purus laoreet, ultricies lectus at, 
+                            aliquet nisi. Donec vehicula blandit 
+                            Lorem ipsum dolor sit amet, 
+                            consectetur adipiscing elit. 
+                            Donec mattis ex neque, in aliquet nunc 
+                            feugiat vehicula. Ut non lacinia diam.
+                            Fusce id purus laoreet, ultricies lectus at, 
+                            aliquet nisi. Donec vehicula blandit
+                        </p>
+                        {% if (x == 1)%}
+                        <div class="form-label">
+                            <input type="submit" value="Commencer"/>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% if (x < longueur) %}
+                    <form action="{{url_for('parcours', nb_etape = x + 1)}}" method="get" class="button-format">
+                        <div class="portail-button">
+                          <input type="submit" value="PLUS" />
+                        </div>
+                        <a></a>
+                    </form>
+                    {% endif %}
+                    {% if (x > 1 ) %}
+                    <form action="{{url_for('parcours', nb_etape = x - 1)}}" method="get" class="button-format">
+                        <div class="portail-button">
+                          <input type="submit" value="MOINS" />
+                        </div>
+                        <a></a>
+                    </form>
+                    {% endif %}
+                </section>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endblock%}
+            
         <footer>
             <div class="image-container">
               <img id="animation-button1" class="img2" src="../static/images/logo.png" alt="Image à animer">
