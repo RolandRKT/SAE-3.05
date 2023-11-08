@@ -38,7 +38,6 @@ def login():
     """
         permet de se diriger vers la page login
     """
-    print("hahaha")
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("login_mobile.html", page_mobile=True, page_login=True)
@@ -144,27 +143,3 @@ def inscrire():
     print("vous etes inscrit")
     cnx.close()
     return render_template("login.html", page_mobile=False, page_login=True)
-
-@app.route("/les_parcours")
-def search():
-    """
-        Permet de chercher avec le titre des parcours et affiche le resultat
-    """
-    search_query = request.args.get("query")
-    user =Parcours_bd(cnx)
-    liste_parc=user.get_all_parcours()
-    lesparcs=[]
-    monimage=""
-    for parc in liste_parc:
-        if search_query!="" :
-            if search_query in parc.get_nom_parc():
-                i=Image_bd(cnx)
-                images=i.get_par_image(parc.get_id_photo())
-                monimage=images[0].get_img_filename()
-                lesparcs.append((parc,monimage))
-        else:
-            i=Image_bd(cnx)
-            images=i.get_par_image(parc.get_id_photo())
-            monimage=images[0].get_img_filename()
-            lesparcs.append((parc,monimage))
-    return render_template("les_parcours.html", liste_parc=lesparcs)

@@ -9,7 +9,7 @@
         <form action="" onsubmit="search(); return false;">
             <div class="search-input-container">
                 <input class="form-control me-2" type="search" name="query" placeholder="Rechercher un parcours" aria-label="Search">
-                <img id="toggleSearch" class="search-toggle" src="../static/images/chercher.png" alt="Rechercher" onclick="search()"/>
+                <img id="toggleSearch" class="search-toggle" src="../static/images/chercher.png" alt="Rechercher" onclick="search()" class="image"/>
             </div>
         </form>
         <div>
@@ -28,11 +28,11 @@
                 <h3>{{ parc[0].get_nom_parc() }}</h3>
                 <div class="img-desc">
                     {% if parc[1] %}
-                        <img src="{{ url_for('static', filename='images/' + parc[1]) }}" alt="image de l'element static">
+                        <img src="{{ url_for('static', filename='images/' + parc[1]) }}" alt="image de l'element static" class="image">
                     {% else %}
-                        <img src="{{parc[1]}}" alt="image internet ne marche pas">
+                        <img src="{{parc[1]}}" alt="image internet ne marche pas" class="image">
                     {% endif %}
-                    <p>{{ parc[0].get_description() }}</p>
+                    <p class="para">{{ parc[0].get_description() }}</p>
                 </div>
             </div>
         {% endfor %}
