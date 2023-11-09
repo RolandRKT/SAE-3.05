@@ -1,0 +1,98 @@
+
+
+.main-part {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.liste-parcours {
+    display: none;
+    /* display: flex; */
+    flex-direction: column;
+    border: 3px solid black;
+    font-size: 30px;
+    padding: 1em;
+}
+
+h2{
+    font-size: 32px;
+}
+
+a{
+    text-decoration: none;
+    color: #0D4862;
+}
+
+.para{
+    font-size: 22px;
+}
+
+h3{
+    font-size: 28px;
+    color: #238AB6;
+}
+
+.image{
+    width: 20em;
+    margin-right: 3em;
+}
+
+.img-desc{
+    display: flex;
+    flex-direction: row;
+}
+
+.box-parcours{
+    margin-top: 4em;
+}
+
+.parcours-left{
+    padding-left: 0.5em;
+    border-left: 7px #238AB6 solid;
+}
+
+.left-part{
+    margin-top: 5em;
+}
+
+.search-input-container {
+    position: relative;
+}
+
+.search-toggle {
+    position: absolute;
+    top: 30%;
+    transform: translateX(-150%);
+    cursor: pointer;
+    font-size: 20px;
+    color: #888;
+    padding: 0;
+}
+
+.search-toggle.hidden {
+    color: #ccc;
+}
+
+#toggleSearch {
+    width: 20px;
+    height: auto;
+}
+
+input[type="search"] {
+    width: 100%;
+    padding: 10px;
+    padding-right: 30px;
+    border-radius: 10px;
+    border: 1px solid #111;
+    font-size: 16px;
+}
+
+input[type="search"]:focus {
+    border: 2px solid #2EBEDD;
+    outline: none;
+}
+
+.liste-parcours.visible {
+    display: block;
+}

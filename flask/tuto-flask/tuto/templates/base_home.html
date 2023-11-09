@@ -6,8 +6,13 @@
   {% if page_home %}
     <link rel="stylesheet" href="../static/home.css">
   {% else %}
+    {% if page_mobile %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='les_parcours_mobile.css') }}">
+    {% else %}
     <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='les_parcours.css') }}">
+    {% endif %}
   {% endif %}
 </head>
   <body>
