@@ -129,23 +129,7 @@ header {
   }
 }
 
-@-webkit-keyframes slidein {
-  from {
-    left: 0;
-  }
-  to {
-    left: -9999999999;
-  }
-}
 
-@keyframes slidein {
-  from {
-    left: 0;
-  }
-  to {
-    left: -9999999999;
-  }
-}
 
 
 .copyright{
