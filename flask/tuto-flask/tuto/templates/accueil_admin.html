@@ -1,0 +1,28 @@
+{% extends "base_slogan_admin.html" %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+{% block main_content %}
+    <div class="background">
+        <div class="conteneur-bouton">
+            <button class="bouton-adm" type="button">
+                <p class="paragraphe">Création parcours</p>
+                <img src="../static/images/parcours-client.png" height ="183" width="183" alt="bouton de création parcours" >
+            </button>
+            <button class="bouton-adm" type="button">
+                <p class="paragraphe">Gestion parcours</p>
+                <img src="../static/images/editer.png" height ="183" width="183" alt="bouton de gestion parcours" >
+            </button>
+        </div>
+        <div class="conteneur-bouton">
+            <button class="bouton-adm" type="button">
+                <p class="paragraphe">Gestion comptes</p>
+                <img src="../static/images/avatar.png" height ="183" width="183" alt="bouton de gestion comptes">
+            </button>
+            <button class="bouton-adm" type="button">
+                <p class="paragraphe">Création étape</p>
+                <img src="../static/images/emplacement.png" height ="183" width="183" alt="bouton de création étaoe">
+            </button>
+        </div>
+    </div>
+{% endblock %}

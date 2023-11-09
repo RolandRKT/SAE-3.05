@@ -186,3 +186,7 @@ def search():
             monimage=images[0].get_img_filename()
             lesparcs.append((parc,monimage))
     return render_template("les_parcours.html", liste_parc=lesparcs)
+
+@app.route("/accueil_admin")
+def accueil_admin():
+    return render_template("accueil_admin.html")
