@@ -14,7 +14,7 @@ class Participant:
         self.__email = email
         self.__mdp = mdp
 
-    def get_id_participant(self):
+    def get_id(self):
         """
         Getter pour l'ID du participant.
 
@@ -56,6 +56,8 @@ class Participant:
         self.__email=email
     def set_mdp(self,mdp):
         self.__mdp=mdp
+    def set_id(self,id):
+        self.__id_participant=id
 
     def __str__(self):
         return "id participant : " + str(self.__id_participant) + " le mail : " + self.__email

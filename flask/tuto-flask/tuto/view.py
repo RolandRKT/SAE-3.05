@@ -86,9 +86,9 @@ def parcours(nb_etape):
 def mon_profil():
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("mon_profil.html", page_mobile=True, page_home=False)
+        return render_template("mon_profil.html", page_mobile=True, page_home=False, participant=test)
     else:
-        return render_template("mon_profil.html", page_mobile=False, page_home=False)
+        return render_template("mon_profil.html", page_mobile=False, page_home=False, participant=test)
 
 @app.route("/les-parcours", methods=["GET", "POST"])
 def connecter():
@@ -111,6 +111,7 @@ def connecter():
             test.set_email(part.get_email())
             test.set_mdp(part.get_mdp())
             test.set_pseudo(part.get_pseudo())
+            test.set_id(part.get_id())
             parcour=Parcours_bd(cnx)
             liste_parc=parcour.get_all_parcours()
             lesparcs=[]
