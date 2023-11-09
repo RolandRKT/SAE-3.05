@@ -31,7 +31,7 @@ class Participant_bd:
                 participant.append(Participant(id_participant,pseudo, email, mdp))
             return participant
         except Exception as e:
-            print("aaaaaaaaaaaaaaah")
+            print(f"Erreur lors de la récupération des participants : {e}")
             return None
         
     def get_par_participant(self,id_participant):

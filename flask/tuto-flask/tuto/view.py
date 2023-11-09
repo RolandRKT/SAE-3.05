@@ -26,8 +26,11 @@ from etape_bd import *
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
 from participant import *
+from admin import *
 
-test=Participant(-1,"","","")
+le_participant=Participant(-1,"","","")
+administrateur = Admin(-1, "", "")
+statut = "client"
 @app.route("/")
 def home():
     """
@@ -45,12 +48,16 @@ def login():
         permet de se diriger vers la page login
     """
     print("hahaha")
+    statut = "client"
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("login_mobile.html", page_mobile=True, page_login=True)
     else:
         return render_template("login.html", page_mobile=False, page_login=True)
-
+    
+@app.route("/les-parcours")
+def les_parcours(liste):
+    return render_template("les_parcours.html", liste_parc=liste)
 
 @app.route("/inscription")
 def inscription():
@@ -86,9 +93,9 @@ def parcours(nb_etape):
 def mon_profil():
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("mon_profil.html", page_mobile=True, page_home=False, participant=test)
+        return render_template("mon_profil.html", page_mobile=True, page_home=False, participant=le_participant)
     else:
-        return render_template("mon_profil.html", page_mobile=False, page_home=False, participant=test)
+        return render_template("mon_profil.html", page_mobile=False, page_home=False, participant=le_participant)
 
 @app.route("/les-parcours", methods=["GET", "POST"])
 def connecter():
@@ -104,39 +111,49 @@ def connecter():
     user = Participant_bd(cnx)
     adm = Admin_bd(cnx)
     liste_user=user.get_all_participant()
+    print(liste_user)
     liste_admin = adm.get_all_admin()
-    for part in liste_user:
-        if (username==part.get_pseudo() or username==part.get_email())and password==part.get_mdp():
-            print("votre connexion fonctionne")
-            test.set_email(part.get_email())
-            test.set_mdp(part.get_mdp())
-            test.set_pseudo(part.get_pseudo())
-            test.set_id(part.get_id())
-            parcour=Parcours_bd(cnx)
-            liste_parc=parcour.get_all_parcours()
-            lesparcs=[]
-            monimage=""
-            for parc in liste_parc:
-                i=Image_bd(cnx)
-                images=i.get_par_image(parc.get_id_photo())
-                monimage=images[0].get_img_filename()
-                lesparcs.append((parc,monimage))
+    
+    print("test")
+    if statut == "client":
+        if liste_user != [] and liste_user != None:
+            for part in liste_user:
+                if (username==part.get_pseudo() or username==part.get_email())and password==part.get_mdp():
+                    print("votre connexion fonctionne")
+                    le_participant.set_email(part.get_email())
+                    le_participant.set_mdp(part.get_mdp())
+                    le_participant.set_pseudo(part.get_pseudo())
+                    le_participant.set_id(part.get_id())
+                    parcour=Parcours_bd(cnx)
+                    liste_parc=parcour.get_all_parcours()
+                    lesparcs=[]
+                    monimage=""
+                    for parc in liste_parc:
+                        i=Image_bd(cnx)
+                        images=i.get_par_image(parc.get_id_photo())
+                        monimage=images[0].get_img_filename()
+                        lesparcs.append((parc,monimage))
 
-            return render_template("les_parcours.html", liste_parc=lesparcs)
-
-    for admi in liste_admin:
-        if username == admi.get_pseudo() and password == admi.get_mdp():
-            print("votre connexion fonctionne")
-            parcour=Parcours_bd(cnx)
-            liste_parc=parcour.get_all_parcours()
-            lesparcs=[]
-            monimage=""
-            for parc in liste_parc:
-                i=Image_bd(cnx)
-                images=i.get_par_image(parc.get_id_photo())
-                monimage=images[0].get_img_filename()
-                lesparcs.append((parc,monimage))
-            return render_template("les_parcours.html", liste_parc=lesparcs)
+                    return render_template("les_parcours.html", liste_parc=lesparcs)
+    elif statut == "admin" : 
+        if liste_admin != [] and liste_admin != None:
+            for admi in liste_admin:
+                if username == admi.get_pseudo() and password == admi.get_mdp():
+                    administrateur.set_pseudo(admi.get_pseudo())
+                    administrateur.set_mdp(admi.get_mdp())
+                    administrateur.set_id(admi.get_id_admin())
+                    
+                    print("votre connexion fonctionne")
+                    parcour=Parcours_bd(cnx)
+                    liste_parc=parcour.get_all_parcours()
+                    lesparcs=[]
+                    monimage=""
+                    for parc in liste_parc:
+                        i=Image_bd(cnx)
+                        images=i.get_par_image(parc.get_id_photo())
+                        monimage=images[0].get_img_filename()
+                        lesparcs.append((parc,monimage))
+                    return render_template("accueil_admin.html")
         
     close_cnx()
     return render_template("login.html", page_mobile=False, page_login=True)
@@ -151,18 +168,16 @@ def inscrire():
     password=request.form.get("password")
     print(username)
     user = Participant_bd(cnx)
-    print("test")
     liste_user=user.get_all_participant()
-    print(liste_user)
-    for part in liste_user:
-        if username==part.get_pseudo() and email==part.get_email() and password==part.get_mdp():
-            print("vous etes deja inscrit")
-            cnx.close()
-            return render_template("login.html", page_mobile=False, page_login=True)
+    if liste_user != [] and liste_user != None:
+        for part in liste_user:
+            if username==part.get_pseudo() and email==part.get_email() and password==part.get_mdp():
+                print("vous etes deja inscrit")
+                
+                return render_template("login.html", page_mobile=False, page_login=True)
     user.inserer_participant(user.get_prochain_id_participant(),username,email,password)
-    print("vous etes inscrit")
-    cnx.close()
-    return render_template("login.html", page_mobile=False, page_login=True)
+
+    return redirect(url_for("login"))
 
 @app.route("/les_parcours")
 def search():
@@ -191,3 +206,14 @@ def search():
 @app.route("/accueil_admin")
 def accueil_admin():
     return render_template("accueil_admin.html")
+
+@app.route("/login_admin")
+def login_admin():
+    print("hahaha")
+    statut = "admin"
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("login_admin.html", page_mobile = True)
+    else:
+        return render_template("login_admin.html", page_mobile = False)
+
