@@ -21,6 +21,7 @@ from parcours_bd import *
 from image_bd import *
 from connexion import cnx,close_cnx
 from admin_bd import *
+from etape_bd import *
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
@@ -62,16 +63,24 @@ def inscription():
     else:
         return render_template("inscription.html", page_mobile=False, page_login=False)
 
-@app.route("/parcours")
-def parcours():
+@app.route("/parcours/<int:nb_etape>")
+def parcours(nb_etape):
     """
         se dirige vers la page parcours
     """
     user_agent = request.user_agent.string
+    etape = Etape_bd(cnx)
+    liste_etape = etape.get_all_etape()
+    lesetapes = []
+    for eta in liste_etape:
+                i=Image_bd(cnx)
+                images=i.get_par_image(eta.get_id_photo())
+                monimage=images[0].get_img_filename()
+                lesetapes.append((eta,monimage))
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("parcours_mobile.html", page_mobile=True)
     else:
-        return render_template("parcours.html", page_mobile=False)
+        return render_template("parcours.html", page_mobile=False, liste_etape = lesetapes, x = nb_etape, longueur = len(liste_etape))
 
 @app.route("/mon-profil")
 def mon_profil():
