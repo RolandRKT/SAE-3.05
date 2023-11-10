@@ -5,7 +5,7 @@ class Admin:
         self.__mdp = mdp
 
     # Getter pour id_admin
-    def get_id_admin(self):
+    def get_id(self):
         return self.__id_admin
 
     # Getter pour mdp

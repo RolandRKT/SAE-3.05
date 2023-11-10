@@ -166,7 +166,7 @@ def connecter():
             if username == admi.get_pseudo() and password == admi.get_mdp():
                 administrateur.set_pseudo(admi.get_pseudo())
                 administrateur.set_mdp(admi.get_mdp())
-                administrateur.set_id(admi.get_id_admin())
+                administrateur.set_id(admi.get_id())
                 
                 print("votre connexion fonctionne")
                 parcour=Parcours_bd(cnx)
