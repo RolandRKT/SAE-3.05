@@ -221,6 +221,14 @@ def accueil_admin():
         return render_template("accueil_admin.html", page_mobile = True)
     else:
         return render_template("accueil_admin.html", page_mobile = False)
+    
+@app.route("/création_parcours")
+def creation_parcours():
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("creation_parcours.html", page_mobile = True)
+    else:
+        return render_template("creation_parcours.html", page_mobile = False)
 
 @app.route("/redirect")
 def redirection():

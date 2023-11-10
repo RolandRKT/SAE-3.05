@@ -1,0 +1,43 @@
+{% extends "base_slogan_admin.html" %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+{% block main_content %}
+    <div class="background">
+        <div class="titre-creer">
+            <h3>Créer un parcours:</h3>
+        </div>
+        <section class="conteneur-champs-formulaires">
+            <form role="form" method="POST" class="form-champ">
+                <div class="trois-champs">
+                    <div class="form-label-admin">
+                        <label for="name" class="label">Nom du parcours:</label>
+                        <input type="text" name="nom_parcours" maxlength="20" size="40" id="nom_parcours" required/>
+                    </div>
+                    <div class="form-label-admin-desc">
+                        <label for="description" class="label">Description du parcours:</label>
+                        <input type="text" name="desc_parcours" maxlength="200" size= "40" id="desc_parcours" required/>
+                    </div>
+                    <div>
+                        <label for="etapes" class="label">Choisir les étapes:</label>
+                        <select name="pets" id="pet-select">
+                            <option value="">--Choisissez une étape--</option>
+                            <option value="dog">Dog</option>
+                            <option value="cat">Cat</option>
+                            <option value="hamster">Hamster</option>
+                            <option value="parrot">Parrot</option>
+                            <option value="spider">Spider</option>
+                            <option value="goldfish">Goldfish</option>
+                          </select>
+                    </div>
+                </div>
+                <div class="etapes">
+
+                </div>
+                <div class="conteneur-img-parcours">
+
+                </div>
+            </form>
+        </section>
+    </div>
+{% endblock %}
