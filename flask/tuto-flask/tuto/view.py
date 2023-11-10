@@ -30,7 +30,6 @@ from admin import *
 
 le_participant=Participant(-1,"","","")
 administrateur = Admin(-1, "", "")
-statut = "client"
 @app.route("/")
 def home():
     """
@@ -48,7 +47,6 @@ def login():
         permet de se diriger vers la page login
     """
     print("hahaha")
-    statut = "client"
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("login_mobile.html", page_mobile=True, page_login=True)
@@ -113,47 +111,43 @@ def connecter():
     liste_user=user.get_all_participant()
     print(liste_user)
     liste_admin = adm.get_all_admin()
-    
-    print("test")
-    if statut == "client":
-        if liste_user != [] and liste_user != None:
-            for part in liste_user:
-                if (username==part.get_pseudo() or username==part.get_email())and password==part.get_mdp():
-                    print("votre connexion fonctionne")
-                    le_participant.set_email(part.get_email())
-                    le_participant.set_mdp(part.get_mdp())
-                    le_participant.set_pseudo(part.get_pseudo())
-                    le_participant.set_id(part.get_id())
-                    parcour=Parcours_bd(cnx)
-                    liste_parc=parcour.get_all_parcours()
-                    lesparcs=[]
-                    monimage=""
-                    for parc in liste_parc:
-                        i=Image_bd(cnx)
-                        images=i.get_par_image(parc.get_id_photo())
-                        monimage=images[0].get_img_filename()
-                        lesparcs.append((parc,monimage))
-
-                    return render_template("les_parcours.html", liste_parc=lesparcs)
-    elif statut == "admin" : 
-        if liste_admin != [] and liste_admin != None:
-            for admi in liste_admin:
-                if username == admi.get_pseudo() and password == admi.get_mdp():
-                    administrateur.set_pseudo(admi.get_pseudo())
-                    administrateur.set_mdp(admi.get_mdp())
-                    administrateur.set_id(admi.get_id_admin())
-                    
-                    print("votre connexion fonctionne")
-                    parcour=Parcours_bd(cnx)
-                    liste_parc=parcour.get_all_parcours()
-                    lesparcs=[]
-                    monimage=""
-                    for parc in liste_parc:
-                        i=Image_bd(cnx)
-                        images=i.get_par_image(parc.get_id_photo())
-                        monimage=images[0].get_img_filename()
-                        lesparcs.append((parc,monimage))
-                    return render_template("accueil_admin.html")
+    print(liste_admin)
+    if liste_user != [] and liste_user != None:
+        for part in liste_user:
+            if (username==part.get_pseudo() or username==part.get_email())and password==part.get_mdp():
+                print("votre connexion fonctionne")
+                le_participant.set_email(part.get_email())
+                le_participant.set_mdp(part.get_mdp())
+                le_participant.set_pseudo(part.get_pseudo())
+                le_participant.set_id(part.get_id())
+                parcour=Parcours_bd(cnx)
+                liste_parc=parcour.get_all_parcours()
+                lesparcs=[]
+                monimage=""
+                for parc in liste_parc:
+                    i=Image_bd(cnx)
+                    images=i.get_par_image(parc.get_id_photo())
+                    monimage=images[0].get_img_filename()
+                    lesparcs.append((parc,monimage))
+                return render_template("les_parcours.html", liste_parc=lesparcs)
+    if liste_admin != [] and liste_admin != None:
+        for admi in liste_admin:
+            if username == admi.get_pseudo() and password == admi.get_mdp():
+                administrateur.set_pseudo(admi.get_pseudo())
+                administrateur.set_mdp(admi.get_mdp())
+                administrateur.set_id(admi.get_id_admin())
+                
+                print("votre connexion fonctionne")
+                parcour=Parcours_bd(cnx)
+                liste_parc=parcour.get_all_parcours()
+                lesparcs=[]
+                monimage=""
+                for parc in liste_parc:
+                    i=Image_bd(cnx)
+                    images=i.get_par_image(parc.get_id_photo())
+                    monimage=images[0].get_img_filename()
+                    lesparcs.append((parc,monimage))
+                return redirect(url_for("accueil_admin"))
         
     close_cnx()
     return render_template("login.html", page_mobile=False, page_login=True)
@@ -203,17 +197,19 @@ def search():
             lesparcs.append((parc,monimage))
     return render_template("les_parcours.html", liste_parc=lesparcs)
 
-@app.route("/accueil_admin")
-def accueil_admin():
-    return render_template("accueil_admin.html")
-
 @app.route("/login_admin")
 def login_admin():
     print("hahaha")
-    statut = "admin"
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("login_admin.html", page_mobile = True)
     else:
         return render_template("login_admin.html", page_mobile = False)
 
+@app.route("/accueil_admin")
+def accueil_admin():
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("accueil_admin.html", page_mobile = True)
+    else:
+        return render_template("accueil_admin.html", page_mobile = False)
