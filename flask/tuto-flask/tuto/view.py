@@ -41,12 +41,11 @@ def home():
 def portails():
     return render_template("portails.html")
 
-@app.route("/login")
+@app.route("/login", methods=['GET','POST'])
 def login():
     """
         permet de se diriger vers la page login
     """
-    print("hahaha")
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("login_mobile.html", page_mobile=True, page_login=True)
@@ -150,7 +149,7 @@ def connecter():
                 return redirect(url_for("accueil_admin"))
         
     close_cnx()
-    return render_template("login.html", page_mobile=False, page_login=True)
+    return redirect(url_for("login"))
 
 @app.route("/inscription",methods=["GET", "POST"])
 def inscrire():

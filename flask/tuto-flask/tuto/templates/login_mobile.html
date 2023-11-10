@@ -9,7 +9,7 @@
     <div class="center-part">
         <section class="information">
             <h1 class="app-name">WADE</h1>
-            <form action="" method="get" class="form-login">
+            <form action="{{ url_for('connecter') }}" role="form" method="POST" class="form-login">
                 <div class="form-label">
                     <label for="name" class="label">Email ou pseudo</label>
                     <input type="text" name="name" id="name" required/>
