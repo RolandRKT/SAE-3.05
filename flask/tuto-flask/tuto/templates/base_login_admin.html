@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <!doctype html>
+  <html lang="fr">
+  <head>
+    <meta charset="utf-8">
+      <title>Wade - Connexion</title>
+    {% if page_mobile %}
+      <link rel="stylesheet" href="../static/base_login_mobile_admin.css">
+      <link rel="stylesheet" href="../static/login_mobile_admin.css">
+    {% else %}
+      <link rel="stylesheet" href="../static/login_admin.css">
+    {% endif %}
+  </head>
+  <body>
+    {% block content %}
+    {% endblock %}
+    <footer>
+      <div class="image-container">
+        <img id="animation-button1" class = "img2" src="../static/images/logo.png" alt="Image à animer">
+      </div>
+      <p class="copyright">Wade Copyright © 2023</p>
+    </footer>
+    <script src="../static/script/apparition_logo.js"></script>
+    <script src="../static/script/redirection-animation.js"></script>
+    <script src="../static/script/toggle_password.js"></script>
+  </body>
+</html>

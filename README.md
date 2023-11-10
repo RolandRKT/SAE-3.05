@@ -93,8 +93,21 @@ Thibault SAINT-LÉGER
 
 ### Jour 7:
   - (AB, MP) Début pages des parcours 
-  - (AB) afficher les images, implémentation pages portails, docstring
+  - (AB) Afficher les images, implémentation pages portails, docstring
   - (TSL) Implémentation connexion Admin, modification BD (Python, SQL) + correction BD
   - (RR) Correction des liens, Ajout de base Flask (Pour les extends), Responsivité page home et parcours, Début page profil
   - (MP) Page mobile vertical horizontal (Parcours)
   - (RDD) Nouvelles maquettes, rédaction README
+
+### Jour 8:
+  - (AB) Début page mon-profil, rédaction README
+  - (RDD, MP) Page admin
+  - (MP) Recherche sur la page les-parcours
+  - (TSL) Sommaire page les-parcours, changement sur la localisations de l'étape sur la base de données et début de la map
+  - (RR) menu burger, correction route, fixer le header base slogan
+
+### Jour 9
+  - (AB) fin page mon-profil, correction connection pour les mobils et rédaction README
+  - (RDD) Fin page admin
+  - (RR, TSL) Vue client parcours
+  - (MP) version mobile

@@ -10,8 +10,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan_mobile.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='les_parcours_mobile.css') }}">
     {% else %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='les_parcours.css') }}">
+        {% if page_profil %}
+            <link rel="stylesheet" href="../static/mon_profil.css">
+        {% else %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='les_parcours.css') }}">
+        {% endif %}
     {% endif %}
   {% endif %}
 </head>
@@ -45,6 +49,7 @@
     <script src="../static/script/apparition_logo.js"></script>
     <script src="../static/script/redirection-animation.js"></script>
     <script src="../static/script/menu_burger.js"></script>
+    <script src="../static/script/toggle_profil.js"></script>
     <script>
       var userLogo = document.getElementById("user-logo");
       userLogo.addEventListener("click", function() {

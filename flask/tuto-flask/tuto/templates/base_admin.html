@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Wade - Accueil Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan_admin.css') }}">
+    <link rel="stylesheet" href="../static/accueil_admin.css">
+</head>
+  <body>
+    <header>
+        <div class="top-page">
+          <div></div>
+          <h1 class="app-name">Admin</h1>
+          <img id="burg-menu" class="img3" src="../static/images/menu.png" alt="Image à animer">
+        </div>
+    </header>
+    <main class="main-base">
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+      <p class="copyright">Wade Copyright © 2023</p>
+    </footer>
+    <script src="../static/script/menu_burger.js"></script>
+    <script>
+      var userLogo = document.getElementById("user-logo");
+      userLogo.addEventListener("click", function() {
+        window.location.href = "/login";
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+{% extends "base_admin.html" %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div id="menu">
+        <p><a href="#">Parcours suivis</a></p>
+        <p><a href="#">Mon profil</a></p>
+        <p class="deco"><a href="#">Se déconnecter</a></p>
+    </div>
+    <div class="animation">
+        <video id="background-video" autoplay loop muted>
+
+            <source src="../static/images/background_Admin_final.mp4" type="video/mp4">
+            
+            </video>
+        <h2 class = "slogan">Gérez vos parcours <br> avec Wade</h2>
+    </div>
+    {% block main_content %}
+    {% endblock %}
+{% endblock %}
