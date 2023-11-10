@@ -23,7 +23,7 @@ a{
     color: #0D4862;
 }
 
-p{
+.para{
     font-size: 22px;
 }
 
@@ -32,7 +32,7 @@ h3{
     color: #238AB6;
 }
 
-img{
+.image{
     width: 40em;
     margin-right: 3em;
 }
