@@ -39,6 +39,13 @@ def home():
 
 @app.route("/portails")
 def portails():
+    le_participant.set_email("")
+    le_participant.set_mdp("")
+    le_participant.set_pseudo("")
+    le_participant.set_id(-1)
+    administrateur.set_pseudo("")
+    administrateur.set_mdp("")
+    administrateur.set_id(-1)
     return render_template("portails.html")
 
 @app.route("/login", methods=['GET','POST'])
@@ -53,8 +60,21 @@ def login():
         return render_template("login.html", page_mobile=False, page_login=True)
     
 @app.route("/les-parcours")
-def les_parcours(liste):
-    return render_template("les_parcours.html", liste_parc=liste, page_profil=False)
+def les_parcours():
+    if le_participant.get_id() == -1:
+        return redirect(url_for("portails"))
+    
+    parcour=Parcours_bd(cnx)
+    liste_parc=parcour.get_all_parcours()
+    lesparcs=[]
+    monimage=""
+    for parc in liste_parc:
+        i=Image_bd(cnx)
+        images=i.get_par_image(parc.get_id_photo())
+        monimage=images[0].get_img_filename()
+        lesparcs.append((parc,monimage))
+    return render_template("les_parcours.html", liste_parc=lesparcs)
+
 
 @app.route("/inscription")
 def inscription():
@@ -72,6 +92,8 @@ def parcours(nb_etape):
     """
         se dirige vers la page parcours
     """
+    if le_participant.get_id() == -1:
+        return redirect(url_for("portails"))
     user_agent = request.user_agent.string
     etape = Etape_bd(cnx)
     liste_etape = etape.get_all_etape()
@@ -88,10 +110,15 @@ def parcours(nb_etape):
 
 @app.route("/mon-profil")
 def mon_profil():
+    
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        if le_participant.get_id() == -1:
+            return redirect(url_for("portails"))
         return render_template("mon_profil.html", page_mobile=True, page_home=False, participant=le_participant, page_profil=True)
     else:
+        if le_participant.get_id() == -1:
+            return redirect(url_for("portails"))
         return render_template("mon_profil.html", page_mobile=False, page_home=False, participant=le_participant,page_profil=True)
 
 @app.route("/les-parcours", methods=["GET", "POST"])
@@ -187,6 +214,8 @@ def login_admin():
 
 @app.route("/accueil_admin")
 def accueil_admin():
+    if administrateur.get_id() == -1:
+        return redirect(url_for("portails"))
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("accueil_admin.html", page_mobile = True)
