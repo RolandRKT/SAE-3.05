@@ -84,3 +84,21 @@ class Etape_bd:
         except Exception as e:
             print("la connexion a échoué")
             return None
+        
+    def get_par_id_etape(self, idetape):
+        """
+            Récupère une étape spécifique en fonction de son ID.
+
+            param idetape: ID de l'étape que l'on souhaite récupérer.
+            return: Une liste contenant un objet Etape représentant le parcours correspondant.
+        """
+        try:
+            query = text("select * from ETAPE where id_etape = " +str(idetape))
+            resultat = self.cnx.execute(query)
+            for ide,nom,idp,coordX, coordY in resultat:
+                return Etape(ide,nom,idp,coordX, coordY)
+            
+            return None
+        except Exception as e:
+            print("la connexion a échoué")
+            return None

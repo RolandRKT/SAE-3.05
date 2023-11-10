@@ -34,30 +34,50 @@
             
         </header>
         <div id="map"></div>
+        {% block content %}
+        {% for (etape, img) in etape_actu %}
         <div class="box-parcours">
             <div class="menu-container">
                 <button id="toggle-menu">Description étape</button>
                 <section class="info-parcours" id="menu">
                     <div class="box-etape">
-                        <p class="num-etape">1</p>
+                        <p class="num-etape">{{x}}</p>
+                        <div id = "id_etape" class="{{etape.get_id_etape()}}"></div>
+                        <div id="coord_X_{{etape.get_id_etape()}}" class="{{etape.get_coordonneX()}}"></div>
+                        <div id="coord_Y_{{etape.get_id_etape()}}" class="{{etape.get_coordonneY()}}"></div>
                     </div>
                     <img id="parcours-cover" src="https://lh3.googleusercontent.com/p/AF1QipMFivmjlrnBFO2ldlShNzXo2gAWtqarlWmBmsrR=s680-w680-h510">
-                    <h3 id="parcours-name">BUT Informatique</h3>
+                    <h3 id="parcours-name">{{etape.get_nom_etape()}}</h3>
                     <p id="parcours-desc">
-                        Lorem ipsum dolor sit amet, 
-                        consectetur adipiscing elit. 
-                        Donec mattis ex neque, in aliquet nunc 
-                        feugiat vehicula. Ut non lacinia diam.
-                        Fusce id purus laoreet, ultricies lectus at, 
-                        aliquet nisi. Donec vehicula blandit
+                        X : {{etape.get_coordonneX()}}, Y : {{etape.get_coordonneY()}}
                     </p>
+                    {% if (x == 1)%}
                     <div class="form-label">
                         <input type="submit" value="Commencer"/>
                     </div>
+                    {% endif %}
+                    {% if (x < longueur) %}
+                    <form action="{{url_for('parcours', nb_etape = x + 1)}}" method="get" class="button-format">
+                        <div class="parcours-button">
+                          <input type="submit" value="PLUS" />
+                        </div>
+                        <a></a>
+                    </form>
+                    {% endif %}
+                    {% if (x > 1 ) %}
+                    <form action="{{url_for('parcours', nb_etape = x - 1)}}" method="get" class="button-format">
+                        <div class="parcours-button">
+                          <input type="submit" value="MOINS" />
+                        </div>
+                        <a></a>
+                    </form>
+                    {% endif %}
                 </section>
             </div>
             
         </div>
+        {% endfor %}
+        {% endblock%}
         <footer>
             <div class="image-container">
               <img id="animation-button1" class="img2" src="../static/images/logo.png" alt="Image à animer">

@@ -1,3 +1,4 @@
+
 var nb_etape =  document.getElementById("id_etape").classList[0]
 console.log(nb_etape)
 var coord_X = document.getElementById("coord_X_" + nb_etape).classList[0];

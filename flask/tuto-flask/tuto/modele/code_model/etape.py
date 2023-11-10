@@ -49,3 +49,6 @@ class Etape:
     
     def get_coordonneY(self):
         return self._coordonneY
+    
+    def __repr__(self):
+        return "nom : " + self.__nom_etape + " id : " + str(self.__id_etape)

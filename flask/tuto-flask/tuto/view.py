@@ -22,10 +22,13 @@ from image_bd import *
 from connexion import cnx,close_cnx
 from admin_bd import *
 from etape_bd import *
+from composer_bd import *
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
 from participant import *
+
+num_parcours = 1
 
 test=Participant(-1,"","","")
 @app.route("/")
@@ -68,19 +71,63 @@ def parcours(nb_etape):
     """
         se dirige vers la page parcours
     """
+    
+    # bon = False
     user_agent = request.user_agent.string
     etape = Etape_bd(cnx)
-    liste_etape = etape.get_all_etape()
+    composer =  Composer_bd(cnx)
+
+    liste_composer = composer.get_par_parcour_composition(num_parcours)
+    
+    liste_etape = []
+    
+    for comp in liste_composer:    
+        liste_etape.append(etape.get_par_id_etape(comp.get_parcours_id()))
+    
     lesetapes = []
+
     for eta in liste_etape:
                 i=Image_bd(cnx)
                 images=i.get_par_image(eta.get_id_photo())
                 monimage=images[0].get_img_filename()
                 lesetapes.append((eta,monimage))
+                
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("parcours_mobile.html", page_mobile=True)
+        return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[nb_etape - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
     else:
-        return render_template("parcours.html", page_mobile=False, liste_etape = lesetapes, x = nb_etape, longueur = len(liste_etape))
+        return render_template("parcours.html", page_mobile=False, etape_actu = [lesetapes[nb_etape - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
+    
+    
+# @app.route("/parcours_num/<int:num_parcours>")
+# def parcours_num(num_parcours):
+#     """
+#         se dirige vers la page parcours
+#     """
+#     user_agent = request.user_agent.string
+#     etape = Etape_bd(cnx)
+#     composer =  Composer_bd(cnx)
+    
+#     liste_composer = composer.get_par_parcour_composition(num_parcours)
+    
+#     liste_etape = []
+    
+#     print(liste_composer)
+    
+#     for comp in liste_composer:
+#         liste_etape.append(etape.get_par_id_etape(comp.get_participant_id()))
+    
+#     lesetapes = []
+#     print(liste_etape)
+#     for eta in liste_etape:
+#                 i=Image_bd(cnx)
+#                 images=i.get_par_image(eta.get_id_photo())
+#                 monimage=images[0].get_img_filename()
+#                 lesetapes.append((eta,monimage))
+                
+#     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+#         return render_template("parcours_mobile.html", page_mobile=True)
+#     else:
+#         return render_template("parcours.html", page_mobile=False, liste_etape = lesetapes, longueur = len(liste_etape), x = 1)
 
 @app.route("/mon-profil")
 def mon_profil():
@@ -186,3 +233,24 @@ def search():
             monimage=images[0].get_img_filename()
             lesparcs.append((parc,monimage))
     return render_template("les_parcours.html", liste_parc=lesparcs)
+
+
+
+
+
+@app.route('/get_etapes_parcours', methods=['POST'])
+def get_etapes_parcours_route():
+    # Récupérez l'identifiant du parcours depuis la requête
+    parcours_id = request.json['parcours_id']
+
+    composer =  Composer_bd(cnx)
+
+    
+    # Appelez la fonction Python
+    etapes = composer.get_par_parcour_composition(parcours_id)
+
+    # Renvoyez les résultats au format JSON
+    return jsonify(etapes=etapes)
+
+if __name__ == '__main__':
+    app.run(debug=True)
