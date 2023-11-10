@@ -12,6 +12,7 @@
     {% else %}
         {% if page_profil %}
             <link rel="stylesheet" href="../static/mon_profil.css">
+            <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan.css') }}">
         {% else %}
             <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan.css') }}">
             <link rel="stylesheet" href="{{ url_for('static', filename='les_parcours.css') }}">
