@@ -12,7 +12,7 @@
             </div>
         </form>
         <div class="liste-parcours-container">
-            <a href="#" id="dropdown-trigger">Parcours</a>
+            <button class="button-71" role="button" id="dropdown-trigger">Parcours</button>
             <div class="liste-parcours" id="parcours-dropdown">
                 {% for parc in liste_parc %}
                     <a href="#parcours-{{ parc[0].get_nom_parc() }}">{{ parc[0].get_nom_parc() }}</a>

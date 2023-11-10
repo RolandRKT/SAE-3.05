@@ -2,21 +2,19 @@
 
 .main-part {
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
+
 
 .liste-parcours {
     display: none;
-    /* display: flex; */
-    flex-direction: column;
-    border: 3px solid black;
-    font-size: 30px;
-    padding: 1em;
 }
 
 h2{
-    font-size: 32px;
+    font-size: 48px;
 }
 
 a{
@@ -25,16 +23,16 @@ a{
 }
 
 .para{
-    font-size: 22px;
+    font-size: 33px;
 }
 
 h3{
-    font-size: 28px;
+    font-size: 42px;
     color: #238AB6;
 }
 
 .image{
-    width: 20em;
+    width: 30em;
     margin-right: 3em;
 }
 
@@ -54,15 +52,27 @@ h3{
 
 .left-part{
     margin-top: 5em;
+    margin-bottom: 5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-part{
+    margin-left: 3em;
+    margin-bottom: 2em;
 }
 
 .search-input-container {
     position: relative;
+    width: 30em;
+    height: 5em;
 }
 
 .search-toggle {
     position: absolute;
-    top: 30%;
+    top: 15%;
     transform: translateX(-150%);
     cursor: pointer;
     font-size: 20px;
@@ -84,7 +94,7 @@ input[type="search"] {
     padding: 10px;
     padding-right: 30px;
     border-radius: 10px;
-    border: 1px solid #111;
+    border: 2px solid #111;
     font-size: 16px;
 }
 
@@ -94,5 +104,57 @@ input[type="search"]:focus {
 }
 
 .liste-parcours.visible {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    border: 3px solid black;
+    font-size: 3em;
+    padding: 1em;
+}
+
+.button-71 {
+    margin-top: 3em;
+    margin-bottom: 2em;
+    background-color: #0078d0;
+    border: 0;
+    border-radius: 56px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: system-ui,-apple-system,system-ui,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    outline: 0;
+    padding: 16px 21px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: all .3s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-71:before {
+    background-color: initial;
+    background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+    border-radius: 125px;
+    content: "";
+    height: 50%;
+    left: 4%;
+    opacity: .5;
+    position: absolute;
+    top: 0;
+    transition: all .3s;
+    width: 92%;
+}
+
+.button-71:hover {
+    box-shadow: rgba(255, 255, 255, .2) 0 3px 15px inset, rgba(0, 0, 0, .1) 0 3px 5px, rgba(0, 0, 0, .1) 0 10px 13px;
+    transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+    .button-71 {
+        padding: 16px 48px;
+    }
 }
