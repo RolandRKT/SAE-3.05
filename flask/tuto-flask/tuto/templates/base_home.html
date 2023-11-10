@@ -30,7 +30,7 @@
       {% if not page_home %}
         <div class="top-page">
           <div></div>
-          <h1 class="app-name">WADE</h1>
+          <h1><a href="{{ url_for('redirection') }}" class="app-name">WADE</a></h1>
           <img id="burg-menu" class="img3" src="../static/images/menu.png" alt="Image à animer">
         </div>
       {% else %}
@@ -51,11 +51,13 @@
     <script src="../static/script/redirection-animation.js"></script>
     <script src="../static/script/menu_burger.js"></script>
     <script src="../static/script/toggle_profil.js"></script>
-    <script>
-      var userLogo = document.getElementById("user-logo");
-      userLogo.addEventListener("click", function() {
-        window.location.href = "/portails";
-      });
-    </script>
+    {% if page_home %}
+      <script>
+        var userLogo = document.getElementById("user-logo");
+        userLogo.addEventListener("click", function() {
+          window.location.href = "/portails";
+        });
+      </script>
+    {% endif %}
   </body>
 </html>

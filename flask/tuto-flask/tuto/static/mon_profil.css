@@ -104,3 +104,7 @@ input[type="password"] {
   margin-left: 10px;
   margin-right: 20px;
 }
+
+.app-name{
+  text-decoration: none;
+}

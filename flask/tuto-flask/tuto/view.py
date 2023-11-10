@@ -222,3 +222,6 @@ def accueil_admin():
     else:
         return render_template("accueil_admin.html", page_mobile = False)
 
+@app.route("/redirect")
+def redirection():
+    return redirect(url_for('les_parcours'))
