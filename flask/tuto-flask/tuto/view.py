@@ -13,11 +13,12 @@ from .app import app, db
 import sqlalchemy
 import os
 import sys
+
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
 from participant_bd import *
 from parcours_bd import *
-
+from suivre_bd import *
 from image_bd import *
 from connexion import cnx,close_cnx
 from admin_bd import *
@@ -179,7 +180,6 @@ def connecter():
                     monimage=images[0].get_img_filename()
                     lesparcs.append((parc,monimage))
                 return redirect(url_for("accueil_admin"))
-    close_cnx()
     return redirect(url_for("login"))
 
 
@@ -225,3 +225,16 @@ def accueil_admin():
 @app.route("/redirect")
 def redirection():
     return redirect(url_for('les_parcours'))
+
+@app.route("/mes-parcours")
+def mes_parcours():
+    if le_participant.get_id() == -1:
+        return redirect(url_for("portails"))
+    user_agent = request.user_agent.string
+    user = Suivre_bd(cnx)
+    liste = user.get_par_suivre_participant(le_participant.get_id())
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("mes_parcours.html", liste=liste, page_mobile=True, page_home=False, page_profil=False, page_mes_parcours=True)
+    else:
+        return render_template("mes_parcours.html", liste=liste, page_mobile=False, page_home=False, page_profil=False, page_mes_parcours=True)
+    

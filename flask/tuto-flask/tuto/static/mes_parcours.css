@@ -1,0 +1,71 @@
+.search-toggle {
+    position: absolute;
+    top: 30%;
+    transform: translateX(-150%);
+    cursor: pointer;
+    font-size: 20px;
+    color: #888;
+    padding: 0;
+}
+
+.search-toggle.hidden {
+    color: #ccc;
+}
+
+#toggleSearch {
+    width: 20px;
+    height: auto;
+}
+
+input[type="search"] {
+    width: 100%;
+    padding: 10px;
+    padding-right: 30px;
+    border: 1px solid #111;
+    font-size: 16px;
+}
+
+input[type="search"]:focus {
+    border: 2px solid #2EBEDD;
+    outline: none;
+}
+
+.search-input-container {
+    position: relative;
+}
+
+.page-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mid-content{
+    margin-top: max(1rem,30px);
+    display: flex;
+    width: 25%;
+    justify-content: space-between;
+}
+
+.parcours-title{
+    margin: 0;
+}
+
+.bottom-content{
+    width: 100%;
+    margin-top: max(1rem,30px);
+    display: flex;
+    justify-content: space-between;
+}
+
+.choice-content {
+    display: flex;
+    width: 15%;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid blue; /* Ajout d'une bordure inférieure en bleu */
+}
+
+.choice-content h2 {
+    margin: 0; /* Supprimer la marge par défaut pour éviter l'espace supplémentaire */
+}

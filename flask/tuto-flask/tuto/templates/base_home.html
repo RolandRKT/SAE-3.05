@@ -14,8 +14,13 @@
             <link rel="stylesheet" href="../static/mon_profil.css">
             <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan.css') }}">
         {% else %}
+          {% if page_mes_parcours %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='mes_parcours.css') }}">
+          {% else %}
             <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan.css') }}">
             <link rel="stylesheet" href="{{ url_for('static', filename='les_parcours.css') }}">
+          {% endif %}  
         {% endif %}
     {% endif %}
   {% endif %}

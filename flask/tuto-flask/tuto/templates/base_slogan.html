@@ -4,7 +4,7 @@
     {% endblock %}
 {% block content %}
     <div id="menu">
-        <p><a href="#">Parcours suivis</a></p>
+        <p><a href="{{ url_for('mes_parcours') }}" class="mes_parcours">Parcours suivis</a></p>
         <p><a href="{{ url_for('mon_profil') }}" class="page-profil">Mon profil</a></p>
         <p class="deco"><a href="{{ url_for('portails') }}">Se déconnecter</a></p>
     </div>
