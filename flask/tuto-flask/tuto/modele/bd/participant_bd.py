@@ -86,3 +86,4 @@ class Participant_bd:
         except Exception as e:
             print("La connexion a échoué shushduz")
             return None
+

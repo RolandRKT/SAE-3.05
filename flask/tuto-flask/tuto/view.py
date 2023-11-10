@@ -22,6 +22,7 @@ from image_bd import *
 from connexion import cnx,close_cnx
 from admin_bd import *
 from etape_bd import *
+from suivre_bd import *
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
@@ -225,3 +226,13 @@ def accueil_admin():
 @app.route("/redirect")
 def redirection():
     return redirect(url_for('les_parcours'))
+
+@app.route('/gerer-compte')
+def gerer_compte():
+    adm = Participant_bd(cnx)
+    liste_participant=adm.get_all_participant()
+    return render_template("gerer_compte.html",liste_part=liste_participant)
+
+@app.route('/gerer_compte')
+def suppresion_participant(pseudo):
+    adm=A

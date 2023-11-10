@@ -57,3 +57,22 @@ class Admin_bd:
         except Exception as e:
             print("La connexion a échoué shushduz")
             return None
+
+    def delete_part(self,pseudo):
+        try:
+            query = text(f"delete from PARTICPANT where pseudo = {str(pseudo)}")
+            self.cnx.execute(query)
+            self.cnx.commit()
+        except Exception as e:
+            print("la connexion a échoué")
+            return None
+        
+    
+    def delete_suivre_par_part(self,pseudo):
+        try:
+            query = text(f"delete from SUIVRE natural join PARTICPANT where pseudo = {str(pseudo)}")
+            self.cnx.execute(query)
+            self.cnx.commit()
+        except Exception as e:
+            print("la connexion a échoué")
+            return None
