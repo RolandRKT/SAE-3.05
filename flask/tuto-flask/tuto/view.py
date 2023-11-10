@@ -54,7 +54,7 @@ def login():
     
 @app.route("/les-parcours")
 def les_parcours(liste):
-    return render_template("les_parcours.html", liste_parc=liste)
+    return render_template("les_parcours.html", liste_parc=liste, page_profil=False)
 
 @app.route("/inscription")
 def inscription():
@@ -82,17 +82,17 @@ def parcours(nb_etape):
                 monimage=images[0].get_img_filename()
                 lesetapes.append((eta,monimage))
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("parcours_mobile.html", page_mobile=True)
+        return render_template("parcours_mobile.html", page_mobile=True, page_profil=False)
     else:
-        return render_template("parcours.html", page_mobile=False, liste_etape = lesetapes, x = nb_etape, longueur = len(liste_etape))
+        return render_template("parcours.html", page_mobile=False, liste_etape = lesetapes, x = nb_etape, longueur = len(liste_etape), page_profil=False)
 
 @app.route("/mon-profil")
 def mon_profil():
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("mon_profil.html", page_mobile=True, page_home=False, participant=le_participant)
+        return render_template("mon_profil.html", page_mobile=True, page_home=False, participant=le_participant, page_profil=True)
     else:
-        return render_template("mon_profil.html", page_mobile=False, page_home=False, participant=le_participant)
+        return render_template("mon_profil.html", page_mobile=False, page_home=False, participant=le_participant,page_profil=True)
 
 @app.route("/les-parcours", methods=["GET", "POST"])
 def connecter():
@@ -108,6 +108,7 @@ def connecter():
     user = Participant_bd(cnx)
     adm = Admin_bd(cnx)
     liste_user=user.get_all_participant()
+
     print(liste_user)
     liste_admin = adm.get_all_admin()
     print(liste_admin)
@@ -128,7 +129,11 @@ def connecter():
                     images=i.get_par_image(parc.get_id_photo())
                     monimage=images[0].get_img_filename()
                     lesparcs.append((parc,monimage))
-                return render_template("les_parcours.html", liste_parc=lesparcs)
+                user_agent = request.user_agent.string
+                if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+                    return render_template("les_parcours_mobile.html", liste_parc=lesparcs, page_mobile=True)
+                else:
+                    return render_template("les_parcours.html", liste_parc=lesparcs, page_mobile=False)
     if liste_admin != [] and liste_admin != None:
         for admi in liste_admin:
             if username == admi.get_pseudo() and password == admi.get_mdp():
@@ -147,9 +152,9 @@ def connecter():
                     monimage=images[0].get_img_filename()
                     lesparcs.append((parc,monimage))
                 return redirect(url_for("accueil_admin"))
-        
     close_cnx()
     return redirect(url_for("login"))
+
 
 @app.route("/inscription",methods=["GET", "POST"])
 def inscrire():
@@ -169,32 +174,7 @@ def inscrire():
                 
                 return render_template("login.html", page_mobile=False, page_login=True)
     user.inserer_participant(user.get_prochain_id_participant(),username,email,password)
-
     return redirect(url_for("login"))
-
-@app.route("/les_parcours")
-def search():
-    """
-        Permet de chercher avec le titre des parcours et affiche le resultat
-    """
-    search_query = request.args.get("query")
-    user =Parcours_bd(cnx)
-    liste_parc=user.get_all_parcours()
-    lesparcs=[]
-    monimage=""
-    for parc in liste_parc:
-        if search_query!="" :
-            if search_query in parc.get_nom_parc():
-                i=Image_bd(cnx)
-                images=i.get_par_image(parc.get_id_photo())
-                monimage=images[0].get_img_filename()
-                lesparcs.append((parc,monimage))
-        else:
-            i=Image_bd(cnx)
-            images=i.get_par_image(parc.get_id_photo())
-            monimage=images[0].get_img_filename()
-            lesparcs.append((parc,monimage))
-    return render_template("les_parcours.html", liste_parc=lesparcs)
 
 @app.route("/login_admin")
 def login_admin():
@@ -212,3 +192,4 @@ def accueil_admin():
         return render_template("accueil_admin.html", page_mobile = True)
     else:
         return render_template("accueil_admin.html", page_mobile = False)
+
