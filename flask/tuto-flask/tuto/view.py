@@ -222,13 +222,16 @@ def accueil_admin():
     else:
         return render_template("accueil_admin.html", page_mobile = False)
     
-@app.route("/création_parcours")
+@app.route("/creation_parcours")
 def creation_parcours():
+    etape = Etape_bd(cnx)
+    liste_etape = etape.get_all_etape()
+    print(liste_etape)
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("creation_parcours.html", page_mobile = True)
+        return render_template("creation_parcours.html", liste_etape , page_mobile = True,)
     else:
-        return render_template("creation_parcours.html", page_mobile = False)
+        return render_template("creation_parcours.html", liste = liste_etape , page_mobile = False)
 
 @app.route("/redirect")
 def redirection():
