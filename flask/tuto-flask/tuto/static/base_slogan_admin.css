@@ -1,10 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:200');
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
 
+
+html{
+  height: 100%;
+}
+
+
+
 body{
     margin: 0;
     font-family: 'Lato', sans-serif;
     background-color: #d9d9d9;
+    height: 100%;
 }
 
 .hidden{

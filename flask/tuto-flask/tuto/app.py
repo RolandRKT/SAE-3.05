@@ -1,7 +1,6 @@
 import os.path
 from flask import Flask
 from flask_bootstrap import Bootstrap
-from flask_login import LoginManager
 
 app = Flask(__name__)
 app.config['BOOTSTRAP_SERVE8LOCAL']=True

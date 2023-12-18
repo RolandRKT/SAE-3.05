@@ -1,16 +1,8 @@
 
 from flask import jsonify, render_template, url_for, redirect
-from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField
-from wtforms.validators import DataRequired
 from flask import request
-from hashlib import sha256
-from wtforms import PasswordField
 from flask import request, redirect, url_for
-from wtforms import FloatField
-from flask import flash
-from .app import app, db
-import sqlalchemy
+from .app import app
 import os
 import sys
 
@@ -24,6 +16,7 @@ from connexion import cnx,close_cnx
 from admin_bd import *
 from etape_bd import *
 from composer_bd import *
+from suivre_bd import *
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
@@ -48,7 +41,11 @@ def portails():
     administrateur.set_pseudo("")
     administrateur.set_mdp("")
     administrateur.set_id(-1)
-    return render_template("portails.html")
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("portail_mobile.html")
+    else:
+        return render_template("portails.html")
 
 @app.route("/login", methods=['GET','POST'])
 def login():
@@ -112,7 +109,9 @@ def parcours(nb_etape):
 
 @app.route("/mon-profil")
 def mon_profil():
-    
+    """
+        se dirige vers la page mon profil
+    """
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         if le_participant.get_id() == -1:
@@ -168,7 +167,7 @@ def connecter():
             if username == admi.get_pseudo() and password == admi.get_mdp():
                 administrateur.set_pseudo(admi.get_pseudo())
                 administrateur.set_mdp(admi.get_mdp())
-                administrateur.set_id(admi.get_id_admin())
+                administrateur.set_id(admi.get_id())
                 
                 print("votre connexion fonctionne")
                 parcour=Parcours_bd(cnx)
@@ -181,6 +180,7 @@ def connecter():
                     monimage=images[0].get_img_filename()
                     lesparcs.append((parc,monimage))
                 return redirect(url_for("accueil_admin"))
+        return redirect(url_for("login_admin"))
     return redirect(url_for("login"))
 
 
@@ -206,10 +206,9 @@ def inscrire():
 
 @app.route("/login_admin")
 def login_admin():
-    print("hahaha")
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("login_admin.html", page_mobile = True)
+        return render_template("login_admin_mobile.html", page_mobile = True)
     else:
         return render_template("login_admin.html", page_mobile = False)
 
@@ -271,3 +270,16 @@ def mes_parcours_terminees():
         return render_template("mes_parcours.html", liste_termines=liste_termine, liste_suivis=liste_suivi, page_mobile=True, page_home=False, page_profil=False, page_mes_parcours=True, onglet=2)
     else:
         return render_template("mes_parcours.html", liste_termines=liste_termine, liste_suivis=liste_suivi, page_mobile=False, page_home=False, page_profil=False, page_mes_parcours=True, onglet=2)
+
+@app.route('/gerer-compte')
+def gerer_compte():
+    adm = Participant_bd(cnx)
+    liste_participant = adm.get_all_participant()
+    return render_template("gerer_compte.html", liste_part=liste_participant, adm=adm)
+
+@app.route('/suppression-participant/<pseudo>', methods=['POST', 'DELETE'])
+def suppression_participant(pseudo):
+    print("je ")
+    adm = Admin_bd(cnx)
+    adm.delete_part(pseudo)
+    return redirect(url_for("gerer_compte"))
