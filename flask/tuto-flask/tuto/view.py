@@ -233,15 +233,19 @@ def mes_parcours_en_cours():
         return redirect(url_for("portails"))
     user_agent = request.user_agent.string
     user = Suivre_bd(cnx)
-    parcour=Parcours_bd(cnx)
+    parcour = Parcours_bd(cnx)
     liste_suivi = user.get_par_suivre_participant(le_participant.get_id())
     liste_parcour = list()
+    i = Image_bd(cnx)
     for suivi in liste_suivi:
-        liste_parcour.append(parcour.get_par_parcours(suivi.get_id_parc()))
+        parcour_courant = parcour.get_par_parcours(suivi.get_id_parc())[0]
+        images = i.get_par_image(parcour_courant.get_id_photo())
+        monimage = images[0].get_img_filename()
+        liste_parcour.append((parcour_courant, monimage))
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("mes_parcours.html", liste_termines=None, liste_suivis=liste_parcour, page_mobile=True, page_home=False, page_profil=False, page_mes_parcours=True, onglet=1)
     else:
-        return render_template("mes_parcours.html", liste_termines=None, liste_suivis=liste_suivi, page_mobile=False, page_home=False, page_profil=False, page_mes_parcours=True, onglet=1)
+        return render_template("mes_parcours.html", liste_termines=None, liste_suivis=liste_parcour, page_mobile=False, page_home=False, page_profil=False, page_mes_parcours=True, onglet=1)
 
 @app.route("/mes-parcours/terminees")
 def mes_parcours_terminees():
@@ -250,11 +254,19 @@ def mes_parcours_terminees():
     user_agent = request.user_agent.string
     user = Suivre_bd(cnx)
     composer = Composer_bd(cnx)
+    parcour = Parcours_bd(cnx)
     liste_suivi = user.get_par_suivre_participant(le_participant.get_id())
     liste_termine = list()
-    for parcour_suivi in liste_suivi:
-        if composer.get_max_etape_composer(parcour_suivi.get_id_parc()) == user.get_num_etape_suivre(parcour_suivi.get_id_parc()):
-            liste_termine.append(parcour_suivi)
+    i = Image_bd(cnx)
+    for suivi in liste_suivi:
+        print("ID Parcours: ", suivi.get_id_parc())
+        print("composer:", composer.get_max_etape_composer(suivi.get_id_parc()))
+        if composer.get_max_etape_composer(suivi.get_id_parc()) == user.get_num_etape_suivre(suivi.get_id_parc()):
+            print("bbbbbbbbb")
+            parcour_courant = parcour.get_par_parcours(suivi.get_id_parc())[0]
+            images = i.get_par_image(parcour_courant.get_id_photo())
+            monimage = images[0].get_img_filename()
+            liste_termine.append((parcour_courant, monimage))
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("mes_parcours.html", liste_termines=liste_termine, liste_suivis=liste_suivi, page_mobile=True, page_home=False, page_profil=False, page_mes_parcours=True, onglet=2)
     else:

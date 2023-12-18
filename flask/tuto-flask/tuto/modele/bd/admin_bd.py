@@ -34,6 +34,7 @@ class Admin_bd:
             return admin
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
 
     def inserer_admin(self, idadmin, pseudo, mail, mdp):
@@ -44,6 +45,7 @@ class Admin_bd:
             print("Reussi")
         except Exception as e:
             print("La connexion a échoué")
+            print(e)
             return None
 
 
@@ -56,4 +58,5 @@ class Admin_bd:
                 return int(result.m) + 1
         except Exception as e:
             print("La connexion a échoué shushduz")
+            print(e)
             return None

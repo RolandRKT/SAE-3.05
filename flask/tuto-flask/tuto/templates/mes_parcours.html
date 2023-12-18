@@ -44,32 +44,40 @@
             {% endif %}
         </div>
         {% if onglet==1 %}
-            {% for parc in liste_suivi %}
-            <div class="box-parcours">
-                <h3 id="parcours-{{ parc.get_nom_parc() }}">{{ parc[0].get_nom_parc() }}</h3>
-                <div class="img-desc">
-                    {% if parc[1] %}
-                        <img src="{{ url_for('static', filename='images/' + parc[1]) }}" alt="image de l'element static" class="image">
-                    {% else %}
-                        <img src="{{parc[1]}}" alt="image internet ne marche pas" class="image">
-                    {% endif %}
-                    <p class="para">{{ parc[0].get_description() }}</p>
+            <div class="box">
+                {% for parc, image_parc in liste_suivis %}
+                <div class="box-parcours">
+                    <div class="info-parc">
+                        <h3 id="parcours-{{ parc.get_nom_parc() }}" class="title-parcours">{{ parc.get_nom_parc() }}</h3>
+                        <div class="img-desc">
+                            {% if image_parc %}
+                                <img src="{{ url_for('static', filename='images/' + image_parc) }}" alt="image de l'element static" class="image">
+                            {% else %}
+                                <img src="{{image_parc}}" alt="image internet ne marche pas" class="image">
+                            {% endif %}
+                            <p class="para">{{ parc.get_description() }}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
+            <div>
         {% else %}
-            <h3 class="en-cours">
-                <a href="{{url_for('mes_parcours_en_cours')}}">
-                    En cours
-                    <div class="rectangle-02"></div>
-                </a>
-            </h3>
-            <h3 class="termine">
-                <a href="#">
-                    Terminés
-                    <div class="rectangle-01"></div>
-                </a>
-            </h3>
+            <div class="box">
+                {% for parc, image_parc in liste_termines %}
+                <div class="box-parcours">
+                    <div class="info-parc">
+                        <h3 id="parcours-{{ parc.get_nom_parc() }}" class="title-parcours">{{ parc.get_nom_parc() }}</h3>
+                        <div class="img-desc">
+                            {% if image_parc %}
+                                <img src="{{ url_for('static', filename='images/' + image_parc) }}" alt="image de l'element static" class="image">
+                            {% else %}
+                                <img src="{{image_parc}}" alt="image internet ne marche pas" class="image">
+                            {% endif %}
+                            <p class="para">{{ parc.get_description() }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
         {% endif %}
     </section>
 </div>   

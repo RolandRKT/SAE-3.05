@@ -34,6 +34,7 @@ class Interet_etape_bd:
             return interets
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
         
     def get_par_photo_etape(self,idi):
@@ -52,6 +53,7 @@ class Interet_etape_bd:
             return interets
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
     
     
@@ -70,6 +72,7 @@ class Interet_etape_bd:
             self.cnx.commit()
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
 
     def get_prochain_id_interet_etape(self):
@@ -86,5 +89,6 @@ class Interet_etape_bd:
                 return int(result.m) + 1
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
         

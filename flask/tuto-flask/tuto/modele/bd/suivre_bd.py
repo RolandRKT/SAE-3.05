@@ -95,10 +95,11 @@ class Suivre_bd:
         
     def get_num_etape_suivre(self,idP):
         try :
-            query=text(f"select num_etape from SUIVRE where id_parcours={idP}")
-            resultat=self.cnx.execute(query)
-            for numero in resultat:
-                return int(numero)
+            query=text(f"select num_etape as m from SUIVRE where id_parcours={idP}")
+            result = self.cnx.execute(query).fetchone()
+            if result and result.m:
+                print(int(result.m))
+                return int(result.m)
         except Exception as e:
             print("la connexion a échoué")
             print(e)

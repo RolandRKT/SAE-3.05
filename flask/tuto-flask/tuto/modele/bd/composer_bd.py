@@ -32,6 +32,7 @@ class Composer_bd:
             return composition
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
 
     def get_par_etape_composition(self,ide):
@@ -50,6 +51,7 @@ class Composer_bd:
             return composition
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
     
     def get_par_parcour_composition(self,idp):
@@ -68,6 +70,7 @@ class Composer_bd:
             return composition
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
         
     def inserer_compose(self,idparc,ide,numero):
@@ -84,14 +87,17 @@ class Composer_bd:
             self.cnx.commit()
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
 
     def get_max_etape_composer(self,idP):
         try :
-            query=text(f"select max(numero) from COMPOSER where id_parcours={idP}")
-            resultat=self.cnx.execute(query)
-            for numero in resultat:
-                return numero
+            query=text(f"select max(numero) as m from COMPOSER where id_parcours={idP}")
+            result = self.cnx.execute(query).fetchone()
+            if result and result.m:
+                print(int(result.m))
+                return int(result.m)
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
