@@ -33,6 +33,7 @@ class Parcours_bd:
             return parcours
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
         
     def get_par_parcours(self,id_parcours):
@@ -43,7 +44,7 @@ class Parcours_bd:
             return: Une liste contenant un objet Parcours représentant le parcours correspondant.
         """
         try:
-            query = text("select id_parcours, nom_parcours,duree,description_parcours, id_img from PARCOURS where id_parcours= "+str(id_parcours))
+            query = text("select id_parcours, nom_parcours,duree,description_parcours, id_image from PARCOURS where id_parcours= "+str(id_parcours))
             resultat = self.cnx.execute(query)
             parcours=[]
             for id_parcours, nom,duree, desc, id_img in resultat:
@@ -51,6 +52,7 @@ class Parcours_bd:
             return parcours
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
         
     def get_par_parcours_image(self,id_image):
@@ -69,6 +71,7 @@ class Parcours_bd:
             return parcours
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
     
     def inserer_etape(self,idparc,nomparc,duree,descparc,idimg):
@@ -87,6 +90,7 @@ class Parcours_bd:
             self.cnx.commit()
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
     
     def get_prochain_id_parcours(self):
@@ -103,4 +107,5 @@ class Parcours_bd:
                 return int(result.m) + 1
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None

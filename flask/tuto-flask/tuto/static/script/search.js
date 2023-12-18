@@ -4,7 +4,7 @@ function search() {
     parcoursElements.forEach(function(element) {
         var h3Text = element.querySelector('h3').textContent.toLowerCase();
         if (h3Text.includes(query)) {
-            element.style.display = 'block';
+            element.style.display = 'flex';
         } else {
             element.style.display = 'none';
         }
