@@ -63,7 +63,7 @@ body {
 .app-name {
     margin-top: 10%;
     font-family: 'Leckerli One', cursive;
-    color: #2EBEDD;
+    color: #AABBCE;
     font-size: 64px;
     display: flex;
     justify-content: center;
@@ -130,7 +130,7 @@ input[type="password"] {
 
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border: 2px solid #2EBEDD;
+    border: 2px solid #AABBCE;
     outline: none;
 }
 
@@ -164,7 +164,7 @@ input[type="submit"] {
     border-radius: 40px;
     font-size: 16px;
     margin-top: 25%;
-    background-color: #1BBCD2;
+    background-color: #AABBCE;
     color: #fff;
     border: none;
     cursor: pointer;
@@ -196,42 +196,6 @@ input[type="submit"]:hover {
   }
   100% {
     opacity: 1;
-  }
-}
-
-@keyframes floatSlogan {
-  0% {
-    transform: translate(0, 0);
-  }
-  10% {
-    transform: translate(5px, -5px);
-  }
-  20% {
-    transform: translate(10px, 0);
-  }
-  30% {
-    transform: translate(5px, 5px);
-  }
-  40% {
-    transform: translate(0, 10px);
-  }
-  50% {
-    transform: translate(-5px, 5px);
-  }
-  60% {
-    transform: translate(-10px, 0);
-  }
-  70% {
-    transform: translate(-5px, -5px);
-  }
-  80% {
-    transform: translate(0, -10px);
-  }
-  90% {
-    transform: translate(5px, -5px);
-  }
-  100% {
-    transform: translate(0, 0);
   }
 }
 
