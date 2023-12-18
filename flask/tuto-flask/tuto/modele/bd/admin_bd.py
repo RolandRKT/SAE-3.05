@@ -38,7 +38,7 @@ class Admin_bd:
 
     def inserer_admin(self, idadmin, pseudo, mail, mdp):
         try:
-            query = text(f"insert into ADMIN values({str(idadmin)}, '{pseudo}', '{mdp}')")
+            query = text(f"insert into ADMIN values({str(idadmin)}, '{pseudo}', '{mail}','{mdp}')")
             self.cnx.execute(query)
             self.cnx.commit()
             print("Reussi")
@@ -57,3 +57,24 @@ class Admin_bd:
         except Exception as e:
             print("La connexion a échoué shushduz")
             return None
+
+        
+    
+    def delete_suivre_par_part(self,pseudo):
+        try:
+            print("hehehehehe")
+            query = text(f"DELETE FROM SUIVRE USING SUIVRE NATURAL JOIN PARTICIPANT WHERE PARTICIPANT.pseudo = :pseudo")
+            self.cnx.execute(query, {'pseudo': pseudo})
+            self.cnx.commit()
+        except Exception as e:
+            print("Erreur lors de la suppression :", str(e))
+        
+    def delete_part(self, pseudo):
+        try:
+            print("hzhzhzhz")
+            self.delete_suivre_par_part(pseudo)
+            query = text(f"delete from PARTICIPANT where pseudo = '{str(pseudo)}'")
+            self.cnx.execute(query)
+            self.cnx.commit()
+        except Exception as e:
+            print("Erreur lors de la suppression :", str(e))

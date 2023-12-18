@@ -1,45 +1,94 @@
 body {
-    height: 100vh;
+  height: 100vh;
     position: relative;
     overflow: scroll;
     margin: 0;
     position: fixed;
-    background-image: url('../static/images/nuages_infini_v1.png');
+    background-image: url('../static/images/nuages_infini_versionAdmin.png');
     background-size: cover;
     -webkit-animation: slidein 6000000s infinite linear;
     animation: slidein 6000000s infinite linear;
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
-    background-size: 150%;
     min-width: 100%;
 }
 
-
 @-webkit-keyframes slidein {
-    from {
-      background-position: 0px 1500px;
-      background-size: 3000px;
-    }
-    to {
-      background-position: -150000000px 1500px; /*1500 2eme val de base*/
-      background-size: 3000px;
-    }
+  from {
+    background-position: 0px 1500px;
+    background-size: 3000px;
   }
-  
-  @keyframes slidein {
-    from {
-      background-position: 0px 1500px;
-      background-size: 3000px;
-    }
-    to {
-      background-position: -150000000px 1500px; /*1500 2eme val de base*/
-      background-size: 3000px;
-    }
+  to {
+    background-position: -150000000px 1500px; /*1500 2eme val de base*/
+    background-size: 3000px;
   }
+}
 
+@keyframes slidein {
+  from {
+    background-position: 0px 1500px;
+    background-size: 3000px;
+  }
+  to {
+    background-position: -150000000px 1500px; /*1500 2eme val de base*/
+    background-size: 3000px;
+  }
+}
 
+footer{
+margin: 0;
+position: fixed;
+bottom: 0; 
+font-family: 'Lato', sans-serif;
+background-color: white;
+border-top: 2px solid #ccc;
+box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
+transform: scale(1.8);
+display: flex;
+justify-content: center;
+}
 
+.copyright{
+padding-bottom: 5px;
+margin: 0;
+position: fixed;
+bottom: 0;
+left: 220px;
+font-size: 20px;
+}
 
+.img2 {
+  width: 5%;
+  height: auto;
+  transform: translateX(1100px) scaleX(-1);
+  transition: transform 1s linear;
+}
+
+@media (max-width: 380px) and (max-height: 780px) {
+footer{
+margin: 0;
+position: fixed;
+bottom: 0; 
+font-family: 'Lato', sans-serif;
+background-color: white;
+border-top: 2px solid #ccc;
+box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
+transform: scale(1.8);
+display: flex;
+justify-content: center;
+}
+
+.copyright{
+padding-bottom: 5px;
+margin: 0;
+position: fixed;
+bottom: 0;
+left: 80px;
+font-size: 10px;
+}
+}
+
+@media (orientation: landscape) {
 footer{
   margin: 0;
   position: fixed;
@@ -48,57 +97,21 @@ footer{
   background-color: white;
   border-top: 2px solid #ccc;
   box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
-  transform: scale(1.8);
+  transform: scale(1);
   display: flex;
   justify-content: center;
 }
-
 .copyright{
-  padding-bottom: 5px;
+  padding-bottom: 0px;
   margin: 0;
   position: fixed;
-  bottom: 0;
-  left: 220px;
-  font-size: 20px;
-}
-
-.img2 {
-    width: 5%;
-    height: auto;
-    transform: translateX(1100px) scaleX(-1);
-    transition: transform 1s linear;
-}
-
-.image-container {
-    overflow: hidden;
-    position: relative;
-    width: 100vw;
-}
-
-@media (max-width: 380px) and (max-height: 780px) {
-  footer{
-  margin: 0;
-  position: fixed;
-  bottom: 0; 
-  font-family: 'Lato', sans-serif;
-  background-color: white;
-  border-top: 2px solid #ccc;
-  box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
-  transform: scale(1.8);
-  display: flex;
-  justify-content: center;
-}
-
-.copyright{
-  padding-bottom: 5px;
-  margin: 0;
-  position: fixed;
-  bottom: 0;
-  left: 80px;
-  font-size: 10px;
+  bottom: 4px;
+  left: 0px;
+  font-size: 15px;
 }
 }
 
+@media (max-width: 780px) and (max-height: 380px) {
 @media (orientation: landscape) {
   footer{
     margin: 0;
@@ -116,34 +129,10 @@ footer{
     padding-bottom: 0px;
     margin: 0;
     position: fixed;
-    bottom: 4px;
+    bottom: 2px;
     left: 0px;
     font-size: 15px;
   }
 }
-
-@media (max-width: 780px) and (max-height: 380px) {
-  @media (orientation: landscape) {
-    footer{
-      margin: 0;
-      position: fixed;
-      bottom: 0; 
-      font-family: 'Lato', sans-serif;
-      background-color: white;
-      border-top: 2px solid #ccc;
-      box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
-      transform: scale(1);
-      display: flex;
-      justify-content: center;
-    }
-    .copyright{
-      padding-bottom: 0px;
-      margin: 0;
-      position: fixed;
-      bottom: 2px;
-      left: 0px;
-      font-size: 15px;
-    }
-  }
 
 }
