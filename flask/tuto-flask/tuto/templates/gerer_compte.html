@@ -18,8 +18,8 @@
                 <tr>
                     <td class="valeurs">{{ part.get_pseudo() }}</td>
                     <td class="valeurs">{{ part.get_email() }}</td>
-                    <td class="valeurs supprimer">
-                        <form method="POST" action="{{url_for('suppression_participant', pseudo=part.get_pseudo())}}">
+                    <td class="valeurs">
+                        <form id="supprimer" method="POST" action="{{url_for('suppression_participant', pseudo=part.get_pseudo())}}">
                             <input type="hidden" name="_method" value="DELETE">
                             <button type="submit" class="noselect">
                                 <span class="text">Delete</span>

@@ -1,14 +1,10 @@
 html{
-    height: 100%;
-    flex-grow: 1;
-}
-
-body{
-    height: 100%;
+    min-height: 941;
 }
 
 main{
-    height: calc(100% - 250px);
+    height: calc(100%);
+    position: relative;
 }
 
 .animation{
@@ -20,6 +16,8 @@ main{
     border-collapse: collapse;
     margin-top: 20px;
     height: 50%;
+    position: absolute;
+    overflow: scroll;
 }
 
 .cle {
@@ -38,10 +36,12 @@ main{
     display: flex;
     justify-content: center;
     height: 100%;
+    width: 100%;
+    
+    position: relative;
 }
-.supprimer{
+#supprimer{
     display: flex;
-    align-content: center;
     justify-content: center;
 }
 
