@@ -1,16 +1,8 @@
 
 from flask import jsonify, render_template, url_for, redirect
-from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField
-from wtforms.validators import DataRequired
 from flask import request
-from hashlib import sha256
-from wtforms import PasswordField
 from flask import request, redirect, url_for
-from wtforms import FloatField
-from flask import flash
-from .app import app, db
-import sqlalchemy
+from .app import app
 import os
 import sys
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
@@ -111,7 +103,9 @@ def parcours(nb_etape):
 
 @app.route("/mon-profil")
 def mon_profil():
-    
+    """
+        se dirige vers la page mon profil
+    """
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         if le_participant.get_id() == -1:
@@ -180,7 +174,6 @@ def connecter():
                     monimage=images[0].get_img_filename()
                     lesparcs.append((parc,monimage))
                 return redirect(url_for("accueil_admin"))
-    close_cnx()
     return redirect(url_for("login"))
 
 
@@ -206,7 +199,6 @@ def inscrire():
 
 @app.route("/login_admin")
 def login_admin():
-    print("hahaha")
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("login_admin.html", page_mobile = True)
@@ -230,9 +222,12 @@ def redirection():
 @app.route('/gerer-compte')
 def gerer_compte():
     adm = Participant_bd(cnx)
-    liste_participant=adm.get_all_participant()
-    return render_template("gerer_compte.html",liste_part=liste_participant)
+    liste_participant = adm.get_all_participant()
+    return render_template("gerer_compte.html", liste_part=liste_participant, adm=adm)
 
-@app.route('/gerer_compte')
-def suppresion_participant(pseudo):
-    adm=A
+@app.route('/suppression-participant/<pseudo>', methods=['POST', 'DELETE'])
+def suppression_participant(pseudo):
+    print("je ")
+    adm = Admin_bd(cnx)
+    adm.delete_part(pseudo)
+    return redirect(url_for("gerer_compte"))
