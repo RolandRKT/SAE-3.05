@@ -1,14 +1,13 @@
-
-from flask import jsonify, render_template, url_for, redirect
+from flask import jsonify, render_template, url_for, redirect, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField
 from wtforms.validators import DataRequired
 from flask import request
 from hashlib import sha256
 from wtforms import PasswordField
-from flask import request, redirect, url_for
 from wtforms import FloatField
 from flask import flash
+from werkzeug.utils import secure_filename
 from .app import app, db
 import sqlalchemy
 import os
@@ -27,6 +26,9 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
 from participant import *
 from admin import *
+
+UPLOAD_FOLDER = 'static/images'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 le_participant=Participant(-1,"","","")
 administrateur = Admin(-1, "", "")
@@ -227,6 +229,23 @@ def creation_parcours():
     etape = Etape_bd(cnx)
     liste_etape = etape.get_all_etape()
     print(liste_etape)
+
+    if request.method == 'POST':
+        # Traitement des autres champs
+        #nom_parcours = request.form.get('nom_parcours')
+        #description = request.form.get('textarea')
+        #etape = request.form.get('pets')
+
+        # Traitement de l'image téléchargée
+        if 'image' in request.files:
+            image = request.files['image']
+            if image.filename != '':
+                # Générez un nom de fichier unique
+                filename = secure_filename(image.filename)
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                image.save(filepath)
+                # Enregistrez le chemin du fichier dans la base de données ou utilisez comme nécessaire
+
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("creation_parcours.html", liste_etape , page_mobile = True,)
