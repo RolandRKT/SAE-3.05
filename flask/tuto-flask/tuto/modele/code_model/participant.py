@@ -59,5 +59,11 @@ class Participant:
     def set_id(self,id):
         self.__id_participant=id
 
+    def set_all(self,id,pseudo,mail,mdp):
+        self.set_id(id)
+        self.set_mdp(mdp)
+        self.set_email(mail)
+        self.set_pseudo(pseudo)
+
     def __str__(self):
         return "id participant : " + str(self.__id_participant) + " le mail : " + self.__email
