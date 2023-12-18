@@ -5,6 +5,7 @@
 {% block main_content %}
 
 <div id="div-centre">
+    
     <table class="table">
         <thead>
             <tr>
@@ -19,7 +20,7 @@
                     <td class="valeurs">{{ part.get_pseudo() }}</td>
                     <td class="valeurs">{{ part.get_email() }}</td>
                     <td class="valeurs">
-                        <form id="supprimer" method="POST" action="{{url_for('suppression_participant', pseudo=part.get_pseudo())}}">
+                        <form id="supprimer" method="POST" action="{{url_for('suppression_participant', pseudo=part.get_pseudo())}}" onsubmit="return confirmDelete('{{ part.get_pseudo() }}')">
                             <input type="hidden" name="_method" value="DELETE">
                             <button type="submit" class="noselect">
                                 <span class="text">Delete</span>
@@ -36,5 +37,12 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    function confirmDelete(pseudo) {
+        var confirmation = confirm("Etes vous sur de vouloir supprimer l utilisateur : '" + pseudo + "'?");
+        return confirmation;
+    }
+</script>
 
 {% endblock %}
