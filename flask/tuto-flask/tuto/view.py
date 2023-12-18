@@ -174,6 +174,7 @@ def connecter():
                     monimage=images[0].get_img_filename()
                     lesparcs.append((parc,monimage))
                 return redirect(url_for("accueil_admin"))
+        return redirect(url_for("login_admin"))
     return redirect(url_for("login"))
 
 
@@ -201,7 +202,7 @@ def inscrire():
 def login_admin():
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("login_admin.html", page_mobile = True)
+        return render_template("login_admin_mobile.html", page_mobile = True)
     else:
         return render_template("login_admin.html", page_mobile = False)
 
