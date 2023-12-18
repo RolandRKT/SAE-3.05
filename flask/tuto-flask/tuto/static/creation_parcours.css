@@ -45,10 +45,10 @@ main{
     padding: 0.5rem;
 }
 
-.form-label-admin-desc input[type="text"]{
+textarea{
     border-radius: 5px;
     border: 1px solid #111;
-    padding: 3rem;
+    padding: 1.2rem;
 }
 
 
