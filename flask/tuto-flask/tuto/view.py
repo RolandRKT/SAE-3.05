@@ -223,8 +223,8 @@ def accueil_admin():
         return render_template("accueil_admin.html", page_mobile = True)
     else:
         return render_template("accueil_admin.html", page_mobile = False)
-    
-@app.route("/creation_parcours")
+
+@app.route("/creation_parcours", methods=['GET', 'POST'])
 def creation_parcours():
     etape = Etape_bd(cnx)
     liste_etape = etape.get_all_etape()

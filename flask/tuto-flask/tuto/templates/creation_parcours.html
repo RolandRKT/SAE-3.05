@@ -8,7 +8,7 @@
             <h3>Créer un parcours:</h3>
         </div>
         <section class="conteneur-champs-formulaires">
-            <form role="form" method="POST" class="form-champ">
+            <form role="form" method="POST" class="form-champ" enctype="multipart/form-data">
                 <div class="trois-champs">
                     <div class="form-label-admin">
                         <label for="name" class="label">Nom du parcours:</label>
@@ -31,18 +31,18 @@
                 <div class="etapes">
 
                 </div>
+                <div class="conteneur-img-parcours">
+                    <div class="uploadOuter">
+                        <label for="uploadFile" class="btn btn-primary">Upload Image</label>
+                        <strong>OR</strong>
+                      <span class="dragBox">
+                        Drag and Drop image here
+                      <input type="file" onChange="dragNdrop(event)"  ondragover="drag()" ondrop="drop()" id="uploadFile"  />
+                      </span>
+                      </div>
+                      <div id="preview"></div>                      
+                </div>
             </form>
-            <div class="conteneur-img-parcours">
-                <div class="uploadOuter">
-                    <label for="uploadFile" class="btn btn-primary">Upload Image</label>
-                    <strong>OR</strong>
-                  <span class="dragBox">
-                    Drag and Drop image here
-                  <input type="file" onChange="dragNdrop(event)"  ondragover="drag()" ondrop="drop()" id="uploadFile"  />
-                  </span>
-                  </div>
-                  <div id="preview"></div>                      
-            </div>
             <script>
                 "use strict";
                 function dragNdrop(event) {
