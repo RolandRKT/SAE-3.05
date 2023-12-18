@@ -6,7 +6,6 @@ var coord_Y = document.getElementById("coord_Y_" + nb_etape).classList[0];
 console.log(coord_Y);
 
 
-
 var parcours1 = L.map('map').setView([coord_X, coord_Y], 13);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {

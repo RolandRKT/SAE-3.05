@@ -91,13 +91,65 @@ def parcours(nb_etape):
                 images=i.get_par_image(eta.get_id_photo())
                 monimage=images[0].get_img_filename()
                 lesetapes.append((eta,monimage))
-                
+    
+
+    print(lesetapes)
+
+    lesetapes_json = []
+
+    for eta, monimage in lesetapes:
+        etape_data = {
+            'id': eta.get_id_etape(),
+            'nom': eta.get_nom_etape(),
+            'coordonneX': eta.get_coordonneX(),
+            'coordonneY': eta.get_coordonneY(),
+            # Ajoutez d'autres propriétés selon vos besoins
+            'image': monimage,
+        }
+        lesetapes_json.append(etape_data)
+    
+    print(lesetapes_json)
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[nb_etape - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
     else:
-        return render_template("parcours.html", page_mobile=False, etape_actu = [lesetapes[nb_etape - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
+        return render_template("parcours.html", page_mobile=False, etape_actu = [lesetapes[nb_etape - 1 ]],  x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
+
+@app.route("/admin/parcours/<int:nb_etape>")
+def parcours_admin(nb_etape):
+    """
+        se dirige vers la page parcours
+    """
     
+    # bon = False
+    user_agent = request.user_agent.string
+    etape = Etape_bd(cnx)
+    composer =  Composer_bd(cnx)
+
+    liste_composer = composer.get_par_parcour_composition(num_parcours)
     
+    liste_etape = []
+    
+    for comp in liste_composer:    
+        liste_etape.append(etape.get_par_id_etape(comp.get_parcours_id()))
+    
+    lesetapes = []
+
+    for eta in liste_etape:
+                i=Image_bd(cnx)
+                images=i.get_par_image(eta.get_id_photo())
+                monimage=images[0].get_img_filename()
+                lesetapes.append((eta,monimage))
+
+
+    print(lesetapes)
+
+
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[nb_etape - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
+    else:
+        return render_template("parcours_admin.html", page_mobile=False, etape_actu = [lesetapes[nb_etape - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
+
+
 # @app.route("/parcours_num/<int:num_parcours>")
 # def parcours_num(num_parcours):
 #     """

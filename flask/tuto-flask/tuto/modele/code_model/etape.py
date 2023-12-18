@@ -17,6 +17,16 @@ class Etape:
         self._coordonneX = coordonneX
         self._coordonneY = coordonneY
         
+        
+    def to_dict(self):
+        return {
+            'id_etape': self.__id_etape,
+            'nom_etape': self.__nom_etape,
+            'id_photo': self.__id_photo,
+            'coordonneX': self._coordonneX,
+            'coordonneY': self._coordonneY
+        }
+        
     def get_id_etape(self):
         """
         Getter pour l'ID de l'étape.

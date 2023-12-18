@@ -1,3 +1,5 @@
+import json
+
 class Composer:
     def __init__(self, participant_id, parcours_id, numero):
         """
@@ -10,6 +12,14 @@ class Composer:
         self.__participant_id = participant_id
         self.__parcours_id = parcours_id
         self.__num = numero
+
+    def to_dict(self):
+        return {
+            'id_parcours': self.__participant_id,
+            'id_etape': self.__parcours_id,
+            'numero': self.__num
+        }
+
 
     def get_participant_id(self):
         """
@@ -34,3 +44,13 @@ class Composer:
             return: Le numéro de la composition.
         """
         return self.__num
+
+def convert_to_json(obj):
+    if isinstance(obj, Composer):
+        return obj.__json__()
+    
+composer = Composer(1, 2, 3)
+
+composer_json = json.dumps(composer, default=lambda o: o.__json__() if hasattr(o, '__json__') else None)
+
+print(composer_json)

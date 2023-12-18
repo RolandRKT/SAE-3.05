@@ -20,7 +20,7 @@
         <script src="https://cdn.jsdelivr.net/npm/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
     </head>
-    <body data-liste-etapes='{{ lesetapes_json | tojson | safe }}'>
+    <body>
         <header>
             <div class="animated-image-position">
                 <div class="image-container">
@@ -80,15 +80,14 @@
             </div>
             {% endfor %}
             {% endblock%}
-
-
+            
         <footer>
             <div class="image-container">
               <img id="animation-button1" class="img2" src="../static/images/logo.png" alt="Image à animer">
             </div>
             <p class="copyright">Wade Copyright © 2023</p>
         </footer>
-        <script src="{{url_for('static', filename='script/map_client.js')}}"></script>
+        <script src="{{url_for('static', filename='script/map.js')}}"></script>
         <script src="../static/script/apparition_logo.js"></script>
         <script src="../static/script/redirection-animation.js"></script>
         <script>
