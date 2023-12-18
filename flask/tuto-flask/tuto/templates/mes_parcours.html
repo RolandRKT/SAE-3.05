@@ -15,12 +15,38 @@
     </section>
     <section class="bottom-content">
         <div class="choice-content">
-            <h3>En cours</h3>
-            <h3>Terminés</h3>
+            {% if onglet==1 %}
+                <h3 class="en-cours">
+                    <a href="#">
+                        En cours
+                        <div class="rectangle-01"></div>
+                    </a>
+                </h3>
+                <h3 class="termine">
+                    <a href="{{url_for('mes_parcours_terminees')}}">
+                        Terminés
+                        <div class="rectangle-02"></div>
+                    </a>
+                </h3>
+            {% else %}
+                <h3 class="en-cours">
+                    <a href="{{url_for('mes_parcours_en_cours')}}">
+                        En cours
+                        <div class="rectangle-02"></div>
+                    </a>
+                </h3>
+                <h3 class="termine">
+                    <a href="#">
+                        Terminés
+                        <div class="rectangle-01"></div>
+                    </a>
+                </h3>
+            {% endif %}
         </div>
-        {% for parc in liste %}
+        {% if onglet==1 %}
+            {% for parc in liste_suivi %}
             <div class="box-parcours">
-                <h3 id="parcours-{{ parc[0].get_nom_parc() }}">{{ parc[0].get_nom_parc() }}</h3>
+                <h3 id="parcours-{{ parc.get_nom_parc() }}">{{ parc[0].get_nom_parc() }}</h3>
                 <div class="img-desc">
                     {% if parc[1] %}
                         <img src="{{ url_for('static', filename='images/' + parc[1]) }}" alt="image de l'element static" class="image">
@@ -30,7 +56,21 @@
                     <p class="para">{{ parc[0].get_description() }}</p>
                 </div>
             </div>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            <h3 class="en-cours">
+                <a href="{{url_for('mes_parcours_en_cours')}}">
+                    En cours
+                    <div class="rectangle-02"></div>
+                </a>
+            </h3>
+            <h3 class="termine">
+                <a href="#">
+                    Terminés
+                    <div class="rectangle-01"></div>
+                </a>
+            </h3>
+        {% endif %}
     </section>
 </div>   
 <script src="../static/script/search.js"></script>

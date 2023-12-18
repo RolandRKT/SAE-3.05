@@ -1,3 +1,7 @@
+html, body {
+    height: 100%;
+}
+
 .search-toggle {
     position: absolute;
     top: 30%;
@@ -55,17 +59,42 @@ input[type="search"]:focus {
     width: 100%;
     margin-top: max(1rem,30px);
     display: flex;
-    justify-content: space-between;
 }
 
 .choice-content {
     display: flex;
-    width: 15%;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid blue; /* Ajout d'une bordure inférieure en bleu */
+    justify-content: center;
+    width: 100%;
 }
 
 .choice-content h2 {
     margin: 0; /* Supprimer la marge par défaut pour éviter l'espace supplémentaire */
+}
+
+.app-name {
+    text-decoration: none;
+}
+
+.en-cours {
+    text-align: center;
+}
+
+.termine {
+    text-align: center;
+}
+
+.rectangle-01 {
+    width: 287px;
+    height: 8px;
+    border: 1px solid #000;
+    background: #238AB6;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.rectangle-02 {
+    width: 287px;
+    height: 8px;
+    border: 1px solid #000;
+    background: #D9D9D9; 
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }

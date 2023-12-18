@@ -23,6 +23,7 @@ from image_bd import *
 from connexion import cnx,close_cnx
 from admin_bd import *
 from etape_bd import *
+from composer_bd import *
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
@@ -226,15 +227,35 @@ def accueil_admin():
 def redirection():
     return redirect(url_for('les_parcours'))
 
-@app.route("/mes-parcours")
-def mes_parcours():
+@app.route("/mes-parcours/en-cours")
+def mes_parcours_en_cours():
     if le_participant.get_id() == -1:
         return redirect(url_for("portails"))
     user_agent = request.user_agent.string
     user = Suivre_bd(cnx)
-    liste = user.get_par_suivre_participant(le_participant.get_id())
+    parcour=Parcours_bd(cnx)
+    liste_suivi = user.get_par_suivre_participant(le_participant.get_id())
+    liste_parcour = list()
+    for suivi in liste_suivi:
+        liste_parcour.append(parcour.get_par_parcours(suivi.get_id_parc()))
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("mes_parcours.html", liste=liste, page_mobile=True, page_home=False, page_profil=False, page_mes_parcours=True)
+        return render_template("mes_parcours.html", liste_termines=None, liste_suivis=liste_parcour, page_mobile=True, page_home=False, page_profil=False, page_mes_parcours=True, onglet=1)
     else:
-        return render_template("mes_parcours.html", liste=liste, page_mobile=False, page_home=False, page_profil=False, page_mes_parcours=True)
-    
+        return render_template("mes_parcours.html", liste_termines=None, liste_suivis=liste_suivi, page_mobile=False, page_home=False, page_profil=False, page_mes_parcours=True, onglet=1)
+
+@app.route("/mes-parcours/terminees")
+def mes_parcours_terminees():
+    if le_participant.get_id() == -1:
+        return redirect(url_for("portails"))
+    user_agent = request.user_agent.string
+    user = Suivre_bd(cnx)
+    composer = Composer_bd(cnx)
+    liste_suivi = user.get_par_suivre_participant(le_participant.get_id())
+    liste_termine = list()
+    for parcour_suivi in liste_suivi:
+        if composer.get_max_etape_composer(parcour_suivi.get_id_parc()) == user.get_num_etape_suivre(parcour_suivi.get_id_parc()):
+            liste_termine.append(parcour_suivi)
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("mes_parcours.html", liste_termines=liste_termine, liste_suivis=liste_suivi, page_mobile=True, page_home=False, page_profil=False, page_mes_parcours=True, onglet=2)
+    else:
+        return render_template("mes_parcours.html", liste_termines=liste_termine, liste_suivis=liste_suivi, page_mobile=False, page_home=False, page_profil=False, page_mes_parcours=True, onglet=2)

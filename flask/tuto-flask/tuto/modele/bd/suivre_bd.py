@@ -32,6 +32,7 @@ class Suivre_bd:
             return suivre
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
         
     def get_par_suivre_parcours(self,id_parcours):
@@ -50,6 +51,7 @@ class Suivre_bd:
             return suivre
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
     
     def get_par_suivre_participant(self,id_participant):
@@ -63,11 +65,12 @@ class Suivre_bd:
             query = text("select id_participant, id_parcours, note, comm,num_etape from SUIVRE where id_participant= "+str(id_participant))
             resultat = self.cnx.execute(query)
             suivre=[]
-            for id_participant, id_parcours, note, comm,num_etape in resultat:
+            for id_participant, id_parcours, note, comm, num_etape in resultat:
                 suivre.append(Suivre(id_participant, id_parcours, note, comm,num_etape))
             return suivre
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
 
     def inserer_suivre(self,id_part,id_parc,note,comm,num_etape):
@@ -86,4 +89,17 @@ class Suivre_bd:
             self.cnx.commit()
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
+            return None
+
+        
+    def get_num_etape_suivre(self,idP):
+        try :
+            query=text(f"select num_etape from SUIVRE where id_parcours={idP}")
+            resultat=self.cnx.execute(query)
+            for numero in resultat:
+                return int(numero)
+        except Exception as e:
+            print("la connexion a échoué")
+            print(e)
             return None

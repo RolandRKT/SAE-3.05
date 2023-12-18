@@ -85,4 +85,13 @@ class Composer_bd:
         except Exception as e:
             print("la connexion a échoué")
             return None
-    
+
+    def get_max_etape_composer(self,idP):
+        try :
+            query=text(f"select max(numero) from COMPOSER where id_parcours={idP}")
+            resultat=self.cnx.execute(query)
+            for numero in resultat:
+                return numero
+        except Exception as e:
+            print("la connexion a échoué")
+            return None
