@@ -1,5 +1,14 @@
+"""
+    Le fichier contenant la class image
+"""
+
+
 class Image:
-    def __init__(self, id, name, img_filename, img_data):
+    """
+        La class image
+    """
+
+    def __init__(self, id_image, name, img_filename, img_data):
         """
         Initialise un objet Image avec les informations de l'image.
 
@@ -9,7 +18,7 @@ class Image:
             img_filename (str): Le nom de fichier de l'image.
             img_data (bytes): Les données de l'image au format binaire.
         """
-        self.__id_photo = id
+        self.__id_photo = id_image
         self.__name = name
         self.__img_filename = img_filename
         self.__img_data = img_data

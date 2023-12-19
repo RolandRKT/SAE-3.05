@@ -1,7 +1,6 @@
 {% extends "base_slogan.html" %}
 {% block styles %}
     {{ super() }}
-    <link rel="stylesheet" href="../static/les_parcours.css">
 {% endblock %}
 {% block main_content %}
 <div class = "main-part">
@@ -12,7 +11,7 @@
                 <img id="toggleSearch" class="search-toggle" src="../static/images/chercher.png" alt="Rechercher" onclick="search()"/>
             </div>
         </form>
-        <div>
+        <div class="sommaire-content">
             <h2 class="parcours-left">Les parcours</h2> 
             <div class = "liste-parcours">
                 {% for parc in liste_parc %}
@@ -22,17 +21,19 @@
         </div>
     </section>
     <section class="right-part">
-        <h2>Parcours Disponible</h2>
+        <h2 class="title-h2">Parcours Disponible</h2>
         {% for parc in liste_parc %}
             <div class="box-parcours">
-                <h3 id="parcours-{{ parc[0].get_nom_parc() }}">{{ parc[0].get_nom_parc() }}</h3>
-                <div class="img-desc">
-                    {% if parc[1] %}
-                        <img src="{{ url_for('static', filename='images/' + parc[1]) }}" alt="image de l'element static">
-                    {% else %}
-                        <img src="{{parc[1]}}" alt="image internet ne marche pas">
-                    {% endif %}
-                    <p>{{ parc[0].get_description() }}</p>
+                <div class="info-parc">
+                    <h3 id="parcours-{{ parc[0].get_nom_parc() }}" class="parc-title">{{ parc[0].get_nom_parc() }}</h3>
+                    <div class="img-desc">
+                        {% if parc[1] %}
+                            <img src="{{ url_for('static', filename='images/' + parc[1]) }}" alt="image de l'element static" class="image">
+                        {% else %}
+                            <img src="{{parc[1]}}" alt="image internet ne marche pas" class="image">
+                        {% endif %}
+                        <p class="para">{{ parc[0].get_description() }}</p>
+                    </div>
                 </div>
             </div>
         {% endfor %}
