@@ -1,0 +1,22 @@
+.darkmode-toggle {
+    z-index: 100;
+}
+
+.fixed-element {
+    background-color: #fff;
+    color: #000;
+}
+
+.darkmode--activated .fixed-element {
+    background-color: #333;
+    color: #fff;
+}
+
+.darkmode--activated header {
+    background-color: #9999!important;
+}
+
+.darkmode--activated .card-front p {
+    color: white !important;
+}
+

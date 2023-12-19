@@ -5,6 +5,7 @@ const documentBody = document.body;
 function triggerRotationAnimation() {
     // Ajoutez la classe d'animation pour la rotation
     burgMenu.classList.add("rotate-animation");
+    menu.classList.add("fixed-element");
   
     // Supprimez la classe d'animation après un certain délai (1 seconde dans cet exemple)
     setTimeout(function() {
