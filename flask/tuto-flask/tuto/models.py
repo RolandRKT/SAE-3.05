@@ -21,10 +21,11 @@ PARTICIPANT=Participant_bd(cnx)
 
 def lister_les_parcours() -> list:
     """
-        Cette methode va nous permettre de retourner une liste de tuple avec le premier
-        element qui est le parcours et le second qui est son images.
-        Args:
-            return (list): une liste de tuple
+        Retourne une liste de tuples contenant chaque parcours et son image associée.
+
+        Returns:
+            List[Tuple[Parcours, str]]:
+                Une liste de tuples où chaque tuple contient un objet Parcours et le nom de son image associée.
     """
     return [(parc, IMAGE.get_par_image(parc.get_id_photo())[0].get_img_filename()) for parc in PARCOURS.get_all_parcours()]
 
@@ -37,7 +38,14 @@ def inserer_le_participant(user,mail,paw):
 
 def les_parcour_suivi(id):
     """
-        Cette focntion va nous retourner une liste des differents parcours que l'utilisateur est en-train de faire.
+        Récupère la liste des parcours actuellement suivis par un utilisateur.
+
+        Args:
+            id (int): L'identifiant unique de l'utilisateur.
+
+        Returns:
+            List[Tuple[Parcours, str]]:
+                Une liste de tuples où chaque tuple contient un parcours en cours et le nom de son image associée.
     """
     liste_suivi = SUIVRE.get_par_suivre_participant(id)
     liste_parcour = list()    
@@ -51,7 +59,15 @@ def les_parcour_suivi(id):
 
 def les_parcours_terminer(id):
     """
-       Cette focntion va nous retourner une liste des differents parcours que l'utilisateur a terminer. 
+    Récupère les parcours terminés par un utilisateur.
+
+    Args:
+        id (int): L'identifiant de l'utilisateur.
+
+    Returns:
+        Tuple[List[Tuple[Parcours, str]], List[Suivi]]:
+            - Une liste de tuples où chaque tuple contient un parcours terminé et le nom de son image associée.
+            - Une liste des objets Suivi représentant le suivi de chaque parcours par l'utilisateur.
     """
     liste_suivi = SUIVRE.get_par_suivre_participant(id)
     liste_termine = list()
