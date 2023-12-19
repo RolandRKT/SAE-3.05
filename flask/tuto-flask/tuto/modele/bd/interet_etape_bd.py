@@ -1,24 +1,31 @@
-from sqlalchemy.sql.expression import text
+"""
+    Fichier interet des etapes.
+"""
 import sys
 import os
-from connexion import cnx
+from sqlalchemy.sql.expression import text
+
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
 
-
-
 from interet_etape import Interet_etape
 
+
 class Interet_etape_bd:
-    def __init__(self,conx):
+    """
+        class interet etapes
+    """
+
+    def __init__(self, conx):
         """
-            Initialise une instance de la classe Interet_etape_bd avec une connexion à la base de données.
+            Initialise une instance de la classe Interet_etape_bd avec une connexion
+            à la base de données.
 
             param conx: Objet de connexion à la base de données.
         """
-        self.cnx=conx
-        
+        self.cnx = conx
+
     def get_all_interet_etape(self):
         """
             Récupère tous les intérêts d'étape depuis la base de données.
@@ -28,36 +35,37 @@ class Interet_etape_bd:
         try:
             query = text("select * from INTERETETAPE")
             resultat = self.cnx.execute(query)
-            interets=[]
-            for idi,nom,desc in resultat:
-                interets.append(Interet_etape(idi,nom,desc))
+            interets = []
+            for idi, nom, desc in resultat:
+                interets.append(Interet_etape(idi, nom, desc))
             return interets
-        except Exception as e:
+        except Exception as exp:
             print("la connexion a échoué")
-            print(e)
+            print(exp)
             return None
-        
-    def get_par_photo_etape(self,idi):
+
+    def get_par_photo_etape(self, idi):
         """
             Récupère un intérêt d'étape spécifique en fonction de son ID.
 
             param idi: ID de l'intérêt d'étape que l'on souhaite récupérer.
-            return: Une liste contenant un objet Interet_etape représentant l'intérêt d'étape correspondant.
+            return: Une liste contenant un objet Interet_etape représentant
+            l'intérêt d'étape correspondant.
         """
         try:
-            query = text("select * from INTERETETAPE where id_interet = "+str(idi))
+            query = text("select * from INTERETETAPE where id_interet = " +
+                         str(idi))
             resultat = self.cnx.execute(query)
-            interets=[]
-            for id,nom,desc in resultat:
-                interets.append(Interet_etape(id,nom,desc))
+            interets = []
+            for id, nom, desc in resultat:
+                interets.append(Interet_etape(id, nom, desc))
             return interets
-        except Exception as e:
+        except Exception as exp:
             print("la connexion a échoué")
-            print(e)
+            print(exp)
             return None
-    
-    
-    def inserer_interet_etape(self,idi,nom_interet,desc):
+
+    def inserer_interet_etape(self, idi, nom_interet, desc):
         """
             Insère un nouvel intérêt d'étape dans la base de données.
 
@@ -66,13 +74,15 @@ class Interet_etape_bd:
             param desc: Description de l'intérêt d'étape.
         """
         try:
-            query = text(f"INSERT INTO INTERETETAPE VALUES({str(idi)}, '{nom_interet}', '{desc}')")
+            query = text(
+                f"INSERT INTO INTERETETAPE VALUES({str(idi)}, '{nom_interet}', '{desc}')"
+            )
             print(query)
             self.cnx.execute(query)
             self.cnx.commit()
-        except Exception as e:
+        except Exception as exp:
             print("la connexion a échoué")
-            print(e)
+            print(exp)
             return None
 
     def get_prochain_id_interet_etape(self):
@@ -87,8 +97,7 @@ class Interet_etape_bd:
             if result and result.m:
                 print(int(result.m) + 1)
                 return int(result.m) + 1
-        except Exception as e:
+        except Exception as exp:
             print("la connexion a échoué")
-            print(e)
+            print(exp)
             return None
-        

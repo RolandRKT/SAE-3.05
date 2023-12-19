@@ -1,7 +1,9 @@
-from connexion import cnx
-from sqlalchemy.sql.expression import text
+"""
+    fichier image connexion avec bd pour recup les valeurs.
+"""
 import os
 import sys
+from sqlalchemy.sql.expression import text
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
@@ -10,14 +12,17 @@ from image import Image
 
 
 class Image_bd:
-    def __init__(self,conx):
+    """
+        Class images bd
+    """
+
+    def __init__(self, conx):
         """
             Initialise une instance de la classe Image_bd avec une connexion à la base de données.
 
             param conx: Objet de connexion à la base de données.
         """
-        self.cnx=conx
-
+        self.cnx = conx
 
     def get_all_image(self):
         """
@@ -26,18 +31,19 @@ class Image_bd:
             return: Une liste d'objets Image représentant les images.
         """
         try:
-            query = text("select id_image, nom_image, img_data, nom_fic from IMAGE")
+            query = text(
+                "select id_image, nom_image, img_data, nom_fic from IMAGE")
             resultat = self.cnx.execute(query)
-            image=[]
+            image = []
             for id_image, nom, img_d, img_f in resultat:
                 image.append(Image(id_image, nom, img_f, img_d))
             return image
-        except Exception as e:
+        except Exception as exp:
             print("la connexion a échoué")
-            print(e)
+            print(exp)
             return None
-        
-    def get_par_image(self,id_image):
+
+    def get_par_image(self, id_image):
         """
             Récupère une image spécifique en fonction de son ID.
 
@@ -45,19 +51,20 @@ class Image_bd:
             return: Une liste contenant un objet Image représentant l'image correspondante.
         """
         try:
-            query = text("select id_image, nom_image, img_data, nom_fic from IMAGE where id_image= "+str(id_image))
+            query = text(
+                "select id_image, nom_image, img_data, nom_fic from IMAGE where id_image= "
+                + str(id_image))
             resultat = self.cnx.execute(query)
-            image=[]
+            image = []
             for id_image, nom, img_d, img_f in resultat:
                 image.append(Image(id_image, nom, img_f, img_d))
             return image
-        except Exception as e:
+        except Exception as exp:
             print("la connexion a échoué")
-            print(e)
+            print(exp)
             return None
-        
-    
-    def inserer_image(self,idimage,nomimage,img_data,nomfic):
+
+    def inserer_image(self, idimage, nomimage, img_data, nomfic):
         """
             Insère une nouvelle image dans la base de données.
 
@@ -67,12 +74,14 @@ class Image_bd:
             param nomfic: Nom du fichier image.
         """
         try:
-            query = text(f"insert into IMAGE values({str(idimage)}, '{nomimage} , '{img_data}' , '{nomfic}')")
+            query = text(
+                f"insert into IMAGE values({str(idimage)}, '{nomimage} , '{img_data}' , '{nomfic}')"
+            )
             self.cnx.execute(query)
             self.cnx.commit()
-        except Exception as e:
+        except Exception as exp:
             print("la connexion a échoué")
-            print(e)
+            print(exp)
             return None
 
     def get_prochain_id_image(self):
@@ -87,7 +96,7 @@ class Image_bd:
             if result and result.m:
                 print(int(result.m) + 1)
                 return int(result.m) + 1
-        except Exception as e:
+        except Exception as exp:
             print("la connexion a échoué")
-            print(e)
+            print(exp)
             return None

@@ -1,7 +1,9 @@
-from connexion import cnx
-from sqlalchemy.sql.expression import text
+"""
+    La class parcours avec la liaison à la bd sera faite ici
+"""
 import sys
 import os
+from sqlalchemy.sql.expression import text
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
@@ -10,13 +12,18 @@ from parcours import Parcours
 
 
 class Parcours_bd:
-    def __init__(self,conx):
+    """
+        Class Parcours
+    """
+
+    def __init__(self, conx):
         """
-            Initialise une instance de la classe Parcours_bd avec une connexion à la base de données.
+            Initialise une instance de la classe Parcours_bd avec une
+            connexion à la base de données.
 
             param conx: Objet de connexion à la base de données.
         """
-        self.cnx=conx
+        self.cnx = conx
 
     def get_all_parcours(self):
         """
@@ -25,18 +32,21 @@ class Parcours_bd:
             return: Une liste d'objets Parcours représentant les parcours.
         """
         try:
-            query = text("select id_parcours, nom_parcours, duree, description_parcours, id_image from PARCOURS")
+            query = text(
+                "select id_parcours, nom_parcours, duree, description_parcours, id_image from PARCOURS"
+            )
             resultat = self.cnx.execute(query)
-            parcours=[]
+            parcours = []
             for id_parcours, nom, duree, desc, id_img in resultat:
-                parcours.append(Parcours(id_parcours, nom,duree, desc, id_img))
+                parcours.append(Parcours(id_parcours, nom, duree, desc,
+                                         id_img))
             return parcours
-        except Exception as e:
+        except Exception as exp:
             print("la connexion a échoué")
-            print(e)
+            print(exp)
             return None
-        
-    def get_par_parcours(self,id_parcours):
+
+    def get_par_parcours(self, id_parcours):
         """
             Récupère un parcours spécifique en fonction de son ID.
 
@@ -44,18 +54,21 @@ class Parcours_bd:
             return: Une liste contenant un objet Parcours représentant le parcours correspondant.
         """
         try:
-            query = text("select id_parcours, nom_parcours,duree,description_parcours, id_image from PARCOURS where id_parcours= "+str(id_parcours))
+            query = text(
+                "select id_parcours, nom_parcours,duree,description_parcours, id_image from PARCOURS where id_parcours= "
+                + str(id_parcours))
             resultat = self.cnx.execute(query)
-            parcours=[]
-            for id_parcours, nom,duree, desc, id_img in resultat:
-                parcours.append(Parcours(id_parcours, nom, duree, desc, id_img))
+            parcours = []
+            for id_parcours, nom, duree, desc, id_img in resultat:
+                parcours.append(Parcours(id_parcours, nom, duree, desc,
+                                         id_img))
             return parcours
-        except Exception as e:
+        except Exception as exp:
             print("la connexion a échoué")
-            print(e)
+            print(exp)
             return None
-        
-    def get_par_parcours_image(self,id_image):
+
+    def get_par_parcours_image(self, id_image):
         """
             Récupère les parcours associés à une image spécifique.
 
@@ -63,18 +76,20 @@ class Parcours_bd:
             return: Une liste d'objets Parcours représentant les parcours associés à l'image donnée.
         """
         try:
-            query = text("select * from PARCOURS where id_image= "+str(id_image))
+            query = text("select * from PARCOURS where id_image= " +
+                         str(id_image))
             resultat = self.cnx.execute(query)
-            parcours=[]
+            parcours = []
             for id_parcours, nom, duree, desc, id_img in resultat:
-                parcours.append(Parcours(id_parcours, nom,duree, desc, id_img))
+                parcours.append(Parcours(id_parcours, nom, duree, desc,
+                                         id_img))
             return parcours
-        except Exception as e:
+        except Exception as exp:
             print("la connexion a échoué")
-            print(e)
+            print(exp)
             return None
-    
-    def inserer_etape(self,idparc,nomparc,duree,descparc,idimg):
+
+    def inserer_etape(self, idparc, nomparc, duree, descparc, idimg):
         """
             Insère un nouveau parcours dans la base de données.
 
@@ -85,14 +100,16 @@ class Parcours_bd:
             param idimg: ID de l'image associée au parcours.
         """
         try:
-            query = text(f"insert into PARCOURS values({str(idparc)} , '{nomparc}' ,'{str(duree)}' , '{descparc}','{str(idimg)}')")
+            query = text(
+                f"insert into PARCOURS values({str(idparc)} , '{nomparc}' ,'{str(duree)}' , '{descparc}','{str(idimg)}')"
+            )
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as e:
             print("la connexion a échoué")
             print(e)
             return None
-    
+
     def get_prochain_id_parcours(self):
         """
             Récupère l'ID disponible pour le prochain parcours à insérer dans la base de données.
@@ -105,7 +122,7 @@ class Parcours_bd:
             if result and result.m:
                 print(int(result.m) + 1)
                 return int(result.m) + 1
-        except Exception as e:
+        except Exception as exp:
             print("la connexion a échoué")
-            print(e)
+            print(exp)
             return None
