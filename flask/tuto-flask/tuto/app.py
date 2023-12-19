@@ -17,11 +17,17 @@ app = Flask(__name__)
 app.config['BOOTSTRAP_SERVE8LOCAL']=True
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465  # or your mail server's port
-app.config['MAIL_USERNAME'] = 'test123wade@gmail.com'
-app.config['MAIL_PASSWORD'] = 'Baba45ls!'
-app.config['MAIL_DEFAULT_SENDER'] = 'test123wade@gmail.com'
-app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_PORT'] = 587  # or your mail server's port
+app.config['MAIL_USERNAME'] = 'nekokami022@gmail.com'
+app.config['MAIL_PASSWORD'] = 'cgij jfdl bcuk vibk'
+app.config['MAIL_DEFAULT_SENDER'] = ('koway','nekokami022@gmail.com')
+app.config['MAIL_DEBUG'] = True
+app.config['MAIL_SUPPRESS_SEND'] = False
+app.config['MAIL_MAX_EMAILS'] = None
+app.config['MAIL_ASCII_ATTACHMENTS'] = False
+
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USE_TLS'] = True
 mail = Mail(app)
 
 bootstrap = Bootstrap(app)

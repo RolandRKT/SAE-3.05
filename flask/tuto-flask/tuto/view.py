@@ -5,7 +5,7 @@
 import os
 import sys
 from flask import jsonify, render_template, url_for, redirect, request, redirect, url_for
-from flask_mail import Message
+from flask_mail import Mail, Message
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
@@ -487,36 +487,58 @@ def suppression_participant(pseudo):
     ADMIN.delete_part(pseudo)
     return redirect(url_for("gerer_compte"))
 
+
 @app.route('/forget-password', methods=['POST', 'GET'])
 def forget_password():
     if request.method == 'POST':
         email = request.form.get('email')
-        password = PARTICIPANT.get_par_mail_mdp(email)
+        # password = PARTICIPANT.get_par_mail_mdp(email)
+        password = "SuperStrngon"
         
         if password is not None:
             message_reset_password = """
-            Cher utilisateur,
-
-            Nous avons reçu une demande de réinitialisation du mot de passe associé à cette adresse e-mail. Si vous n'avez pas fait cette demande, veuillez ignorer cet e-mail.
-
-            Votre mot de passe est : {}
-
-            Veuillez vous connecter à votre compte avec ce mot de passe. Après vous être connecté, nous vous recommandons de modifier votre mot de passe pour des raisons de sécurité.
-
-            Merci de faire partie de notre communauté.
-
-            Cordialement,
-            L'équipe de Wade
+            <body style="width:100%; height:100%;">
+                <div class="page" style="position: relative; box-sizing: border-box; max-width:500px; font-family: cursive; font-size: 20px; border-radius: 10px; background: #fff; background-image: linear-gradient(#f5f5f0 1.1rem, #ccc 1.2rem); background-size: 100% 1.2rem; line-height: 1.2rem; padding: 1.4rem 1.5rem 0.2rem 1.5rem;">
+                    <div style="display: flex; width: 100%; justify-content: center">
+                        <img src="https://raw.githubusercontent.com/RolandRKT/SAE-3.05/develop/flask/tuto-flask/tuto/static/images/wade-title.png" alt="Image" style="max-width: auto; height: 70px; display: block; margin-left:auto; margin-right:auto;">
+                    </div>
+                    <div class="margin"></div>
+                    <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                        Cher utilisateur,
+                    </p>
+                    <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                        Nous avons reçu une demande de réinitialisation du mot de passe associé à cette adresse e-mail. Si vous n'avez pas fait cette demande, veuillez ignorer cet e-mail.
+                    </p>
+                    <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                        Pour rappel, votre mot de passe est :
+                    </p>
+                    <p class="px-10 text-[10px] sm:text-[12px] text-gray-700" style="background-color:white; text-align:center; font-weight:bold; height:25px; font-size:20px;">
+                        {}
+                    </p>
+                    <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                        Veuillez vous connecter à votre compte avec ce mot de passe.
+                    </p>
+                    <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                        Merci de faire partie de notre communauté.
+                    </p>
+                    <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                        Cordialement,
+                    </p>
+                    <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                        L'équipe de Wade
+                    </p>
+                    <div style="display: flex; width: 100%; justify-content: center">
+                        <img src="https://raw.githubusercontent.com/RolandRKT/SAE-3.05/develop/flask/tuto-flask/tuto/static/images/logo.png" alt="Image" style="max-width: 70px; height: auto; display: block; margin-left:auto; margin-right:auto;">
+                    </div>
+                </div>
+            </body>
             """.format(password)
 
-            msg = Message("Réinitialisation du mot de passe - Wade",  # Subject here
-                          sender=app.config['MAIL_DEFAULT_SENDER'],
-                          recipients=[email])
-            msg.body = message_reset_password
-
-            print("Avant l'envoi du message")
+            msg = Message("Wade - Mot de passe oublié ?",
+                          recipients=['nekokami022@gmail.com'])
+            msg.body = "Cher utilisateur..."
+            msg.html = message_reset_password
             mail.send(msg)
-            print("zuiahduiahdzui")
             return render_template("forget.password.html")
 
     return render_template("forget.password.html")
