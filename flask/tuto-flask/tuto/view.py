@@ -224,16 +224,24 @@ def accueil_admin():
     else:
         return render_template("accueil_admin.html", page_mobile = False)
 
-@app.route("/creation_parcours", methods=['GET', 'POST'])
+@app.route("/creation_parcours")
 def creation_parcours():
     etape = Etape_bd(cnx)
     liste_etape = etape.get_all_etape()
     print(liste_etape)
-
+    
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("creation_parcours.html", liste_etape , page_mobile = True,)
+    else:
+        return render_template("creation_parcours.html", liste = liste_etape , page_mobile = False)
+    
+@app.route("/creation_parcours", methods=['GET', 'POST'])
+def creer_parcours():
     if request.method == 'POST':
         # Traitement des autres champs
-        #nom_parcours = request.form.get('nom_parcours')
-        #description = request.form.get('textarea')
+        nom_parcours = request.form.get('nom_parcours')
+        description = request.form.get('textarea')
         #etape = request.form.get('pets')
 
         # Traitement de l'image téléchargée
@@ -245,12 +253,8 @@ def creation_parcours():
                 filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 image.save(filepath)
                 # Enregistrez le chemin du fichier dans la base de données ou utilisez comme nécessaire
-
-    user_agent = request.user_agent.string
-    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("creation_parcours.html", liste_etape , page_mobile = True,)
-    else:
-        return render_template("creation_parcours.html", liste = liste_etape , page_mobile = False)
+                return redirect(url_for("accueil_admin"))
+        return redirect(url_for("creation_parcours"))
 
 @app.route("/redirect")
 def redirection():

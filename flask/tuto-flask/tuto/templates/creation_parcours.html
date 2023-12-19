@@ -7,9 +7,9 @@
         <div class="titre-creer">
             <h3>Créer un parcours:</h3>
         </div>
-        <section class="conteneur-champs-formulaires">
-            <form role="form" method="POST" class="form-champ" enctype="multipart/form-data">
-                <div class="trois-champs">
+        <div class="conteneur-champs-formulaires">
+            <form action="{{ url_for('creer_parcours') }}"role="form" method="POST" class="form-champ" enctype="multipart/form-data">
+                <!-- <div class="trois-champs">
                     <div class="form-label-admin">
                         <label for="name" class="label">Nom du parcours:</label>
                         <input type="text" name="nom_parcours" maxlength="20" size="40" id="nom_parcours" required/>
@@ -20,29 +20,49 @@
                     </div>
                     <div>
                         <label for="etapes" class="label">Choisir les étapes:</label>
-                        <select name="pets" id="pet-select">
+                        <select name="etapes" id="etape-select">
                         <option>Choisir</option>
                         {% for etape in liste %}
-                            <option value="{{etape.get_nom_etape()}}">{{etape.get_nom_etape()}}</option>
+                            <option value="{{etape.get_nom_etape()}}" id="{{etape.get_id_etape()}}">{{etape.get_nom_etape()}}</option>
                         {% endfor %}
                         </select>
                     </div>
+                </div> -->
+                <div class="trois-champs">
+                    <div class="form-label-admin">
+                        <label for="name" class="label">Nom du parcours:</label>
+                        <input type="text" name="nom_parcours" maxlength="20" size="40" id="nom_parcours" required/>
+                    </div>
+                    <div class="form-label-admin-desc">
+                        <label for="description" class="label">Description du parcours:</label>
+                        <textarea name="textarea" rows="7" cols="50" maxlength="200">Vous pouvez écrire ici.</textarea>
+                    </div>
+                    <div class="form-label-admin">
+                        <label for="etapes" class="label">Choisir les étapes:</label>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Sélectionner des étapes
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                {% for etape in liste %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="etapes[]" value="{{ etape.get_nom_etape() }}" id="etape_{{ etape.get_id_etape() }}">
+                                        <label class="form-check-label" for="etape_{{ etape.get_id_etape() }}">{{ etape.get_nom_etape() }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="etapes">
-
+                <div class="form-label-admin">
+                    <label for="image" class="label">Image du parcours:</label>
+                    <input type="file" name="image" id="uploadFile" onchange="dragNdrop(event)" ondragover="drag()" ondrop="drop()" />
                 </div>
-                <div class="conteneur-img-parcours">
-                    <div class="uploadOuter">
-                        <label for="uploadFile" class="btn btn-primary">Upload Image</label>
-                        <strong>OR</strong>
-                      <span class="dragBox">
-                        Drag and Drop image here
-                      <input type="file" onChange="dragNdrop(event)"  ondragover="drag()" ondrop="drop()" id="uploadFile"  />
-                      </span>
-                      </div>
-                      <div id="preview"></div>                      
+                <div class="creation-parcours">
+                    <input type="submit" value="Créer le parcours" />
                 </div>
             </form>
+            <div id="preview"></div> 
             <script>
                 "use strict";
                 function dragNdrop(event) {
@@ -60,6 +80,14 @@
                     document.getElementById('uploadFile').parentNode.className = 'dragBox';
                 }
             </script>
-        </section>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-lAeLq5NOkUNT1IQWv5L40WtGrmXMAsf/BJtQabB8HAsjFuCZSmKbSSUnQlmh/j0" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>            
+            <script>
+                $(document).ready(function () {
+                    $('.dropdown-toggle').dropdown();
+                });
+            </script>            
+        </div>
     </div>
 {% endblock %}
