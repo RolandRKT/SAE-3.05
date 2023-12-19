@@ -27,9 +27,19 @@ class Etape:
         self.__id_etape = id_etape
         self.__nom_etape = nom_etape
         self.__id_photo = id_photo
-        self._coordonne_x = coordonne_x
-        self._coordonne_y = coordonne_y
-
+        self._coordonneX = coordonneX
+        self._coordonneY = coordonneY
+        
+        
+    def to_dict(self):
+        return {
+            'id_etape': self.__id_etape,
+            'nom_etape': self.__nom_etape,
+            'id_photo': self.__id_photo,
+            'coordonneX': self._coordonneX,
+            'coordonneY': self._coordonneY
+        }
+        
     def get_id_etape(self):
         """
         Récupère l'ID de l'étape.
@@ -67,10 +77,9 @@ class Etape:
         return self._coordonne_x
 
     def get_coordonneY(self):
-        """
-        Récupère la coordonnée Y de l'étape.
 
-        Returns:
-            float: La coordonnée Y de l'étape.
-        """
-        return self._coordonne_y
+        return self._coordonneY
+    
+    def __repr__(self):
+        return "nom : " + self.__nom_etape + " id : " + str(self.__id_etape)
+
