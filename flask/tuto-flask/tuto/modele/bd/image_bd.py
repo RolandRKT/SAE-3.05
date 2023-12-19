@@ -39,7 +39,7 @@ class Image_bd:
                 image.append(Image(id_image, nom, img_f, img_d))
             return image
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, all image")
             print(exp)
             return None
 
@@ -60,7 +60,7 @@ class Image_bd:
                 image.append(Image(id_image, nom, img_f, img_d))
             return image
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, par image")
             print(exp)
             return None
 
@@ -80,7 +80,7 @@ class Image_bd:
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, insere image")
             print(exp)
             return None
 
@@ -97,6 +97,6 @@ class Image_bd:
                 print(int(result.m) + 1)
                 return int(result.m) + 1
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, prochain id image")
             print(exp)
             return None

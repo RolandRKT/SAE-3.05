@@ -53,12 +53,23 @@
                             X : {{etape.get_coordonneX()}}, Y : {{etape.get_coordonneY()}}
                         </p>
                         {% if (x == 1)%}
-                        <div class="form-label">
-                            <input onclick="appelerFonctionPython()" type="submit" value="Commencer"/>
-                        </div>
+                        <form action="{{url_for('parcours', nb_etape = x + 1)}}" method="get" class="button-format">
+                            <div class="form-label">
+                              <input type="submit" value="Commencer" />
+                            </div>
+                            <a></a>
+                        </form>
+                        {% endif %}
+                        {% if (x == longueur) %}
+                        <form action="{{url_for('les_parcours')}}" method="get" class="button-format">
+                            <div class="form-label">
+                                <input type="submit" value="Terminer" />
+                            </div>
+                            <a></a>
+                        </form>
                         {% endif %}
                     </div>
-                    {% if (x < longueur) %}
+                    {% if (x < longueur and x > 1) %}
                     <form action="{{url_for('parcours', nb_etape = x + 1)}}" method="get" class="button-format">
                         <div class="parcours-button">
                           <input type="submit" value="PLUS" />
@@ -74,7 +85,6 @@
                         <a></a>
                     </form>
                     {% endif %}
-
                 </section>
             </div>
             {% endfor %}
