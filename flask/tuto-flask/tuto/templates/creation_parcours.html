@@ -1,6 +1,17 @@
 {% extends "base_slogan_admin.html" %}
 {% block styles %}
     {{ super() }}
+    <style>
+        /* Ajoutez vos styles personnalisés ici si nécessaire */
+        .checkbox-list {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .checkbox-list label {
+            display: block;
+        }
+    </style>
 {% endblock %}
 {% block main_content %}
     <div class="background">
@@ -40,13 +51,13 @@
                     <div class="form-label-admin">
                         <label for="etapes" class="label">Choisir les étapes:</label>
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" onclick="toggleCheckboxList()" aria-haspopup="true" aria-expanded="false">
                                 Sélectionner des étapes
                             </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div class="checkbox-list" id="checkboxList">
                                 {% for etape in liste %}
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="etapes[]" value="{{ etape.get_nom_etape() }}" id="etape_{{ etape.get_id_etape() }}">
+                                        <input class="form-check-input" onclick="" type="checkbox" name="etapes[]" value="{{ etape.get_nom_etape() }}" id="etape_{{ etape.get_id_etape() }}">
                                         <label class="form-check-label" for="etape_{{ etape.get_id_etape() }}">{{ etape.get_nom_etape() }}</label>
                                     </div>
                                 {% endfor %}
@@ -79,15 +90,11 @@
                 function drop() {
                     document.getElementById('uploadFile').parentNode.className = 'dragBox';
                 }
+                function toggleCheckboxList() {
+                    var checkboxList = document.getElementById("checkboxList");
+                    checkboxList.style.display = (checkboxList.style.display === "none") ? "block" : "none";
+                }
             </script>
-            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-lAeLq5NOkUNT1IQWv5L40WtGrmXMAsf/BJtQabB8HAsjFuCZSmKbSSUnQlmh/j0" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>            
-            <script>
-                $(document).ready(function () {
-                    $('.dropdown-toggle').dropdown();
-                });
-            </script>            
         </div>
     </div>
 {% endblock %}

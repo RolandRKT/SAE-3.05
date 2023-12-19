@@ -27,7 +27,7 @@ sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
 from participant import *
 from admin import *
 
-UPLOAD_FOLDER = 'static/images'
+UPLOAD_FOLDER = './tuto/static/images'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 le_participant=Participant(-1,"","","")
@@ -244,6 +244,11 @@ def creer_parcours():
         description = request.form.get('textarea')
         #etape = request.form.get('pets')
 
+        app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+        if not os.path.exists(app.config['UPLOAD_FOLDER']):
+            os.makedirs(app.config['UPLOAD_FOLDER'])
+
         # Traitement de l'image téléchargée
         if 'image' in request.files:
             image = request.files['image']
@@ -251,9 +256,14 @@ def creer_parcours():
                 # Générez un nom de fichier unique
                 filename = secure_filename(image.filename)
                 filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                print("Chemin du fichier :", filepath)
                 image.save(filepath)
                 # Enregistrez le chemin du fichier dans la base de données ou utilisez comme nécessaire
-                return redirect(url_for("accueil_admin"))
+                user_agent = request.user_agent.string
+                if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+                    return render_template("accueil_admin.html", page_mobile = True)
+                else:
+                    return render_template("accueil_admin.html", page_mobile = False)
         return redirect(url_for("creation_parcours"))
 
 @app.route("/redirect")
