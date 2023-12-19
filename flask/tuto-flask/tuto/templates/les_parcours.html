@@ -8,10 +8,10 @@
         <form action="" onsubmit="search(); return false;">
             <div class="search-input-container">
                 <input class="form-control me-2" type="search" name="query" placeholder="Rechercher un parcours" aria-label="Search">
-                <img id="toggleSearch" class="search-toggle" src="../static/images/chercher.png" alt="Rechercher" onclick="search()" class="image"/>
+                <img id="toggleSearch" class="search-toggle" src="../static/images/chercher.png" alt="Rechercher" onclick="search()"/>
             </div>
         </form>
-        <div>
+        <div class="sommaire-content">
             <h2 class="parcours-left">Les parcours</h2> 
             <div class = "liste-parcours">
                 {% for parc in liste_parc %}
@@ -21,7 +21,7 @@
         </div>
     </section>
     <section class="right-part">
-        <h2>Parcours Disponible</h2>
+        <h2 class="title-h2">Parcours Disponible</h2>
         {% for parc in liste_parc %}
             <div class="box-parcours">
                 <div class="info-parc">
