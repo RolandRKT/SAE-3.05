@@ -35,7 +35,7 @@ ADMIN = Admin_bd(cnx)
 
 from .app import app
 
-num_parcours = 1
+num_parcours = 2
 test=Participant(-1,"","","")
 
 @app.route("/")
@@ -170,17 +170,21 @@ def parcours_admin(nb_etape):
     etape = Etape_bd(cnx)
     composer =  Composer_bd(cnx)
 
+    print(num_parcours)
+
     liste_composer = composer.get_par_parcour_composition(num_parcours)
-    
     liste_etape = []
     
-    for comp in liste_composer:    
+    for comp in liste_composer:
+        print("hhehehehe")
+        print(comp,comp.get_parcours_id())
         liste_etape.append(etape.get_par_id_etape(comp.get_parcours_id()))
-    
+    print(liste_etape)
     lesetapes = []
 
     for eta in liste_etape:
                 i=Image_bd(cnx)
+                print(eta.get_id_photo())
                 images=i.get_par_image(eta.get_id_photo())
                 try:
                     monimage=images[0].get_img_filename()

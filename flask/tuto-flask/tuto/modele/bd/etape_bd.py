@@ -38,7 +38,7 @@ class Etape_bd:
                 etapes.append(Etape(ide, nom, idph, coordX, coordY))
             return etapes
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, get_all_etape")
             print(exp)
             return None
 
@@ -56,7 +56,7 @@ class Etape_bd:
                 etapes.append(Etape(ide, nom, idp, coordX, coordY))
             return etapes
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, get_par_photo_etape")
             print(exp)
             return None
 
@@ -79,7 +79,7 @@ class Etape_bd:
             self.cnx.commit()
 
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, inserer_etape")
             print(exp)
             return None
 
@@ -96,7 +96,7 @@ class Etape_bd:
                 print(int(result.m) + 1)
                 return int(result.m) + 1
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, get_prochain_id_etape")
             return None
         
     def get_par_id_etape(self, idetape):
@@ -114,6 +114,6 @@ class Etape_bd:
             
             return None
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, get_par_id_etape")
             print(exp)
             return None
