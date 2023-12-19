@@ -93,8 +93,25 @@ class Composer_bd:
             query = text(
                 f"insert into COMPOSER values({str(idparc)} , {str(ide)},{str(numero)})"
             )
-            self.conx.execute(query)
+            cnx.execute(query)
             self.cnx.commit()
+        except Exception as exp:
+            print("la connexion a échoué")
+            print(exp)
+            return None
+    
+    def get_prochain_numero_composer(self, idparc):
+        """
+            Récupère le prochain numero à insérer dans la base de données.
+
+            return: Le prochain numero de la table COMPOSER
+        """
+        try:
+            query = text("select max(numero) as m from COMPOSER where id_parcours = " + str(idparc))
+            result = self.cnx.execute(query).fetchone()
+            if result and result.m:
+                print(int(result.m) + 1)
+                return int(result.m) + 1
         except Exception as exp:
             print("la connexion a échoué")
             print(exp)
@@ -116,3 +133,4 @@ class Composer_bd:
             print("la connexion a échoué")
             print(exp)
             return None
+

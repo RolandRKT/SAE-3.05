@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ url_for('static', filename='map.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='parcours.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='parcours_admin.css') }}">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
             integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
             crossorigin=""
@@ -29,7 +29,8 @@
             </div>
             <div class="top-page">
                 <div></div>
-                <h1><a href="{{ url_for('redirection') }}" class="app-name">WADE</a></h1>                <img id="user-logo" class="img3" src="../static/images/user.png" alt="Image à animer">
+                <h1 class="app-name">WADE</h1>
+                <img id="user-logo" class="img3" src="../static/images/user.png" alt="Image à animer">
             </div>
             
         </header>
@@ -37,57 +38,32 @@
         {% block content %}
         {% for (etape, img) in etape_actu %}
             <div class="box-parcours">
-
                 <section class="info-parcours">
                     <div class="box-etape">
-                        <p class="num-etape">{{ x }}</p>
                         <div id = "num_parcours" class="{{num_parcours}}"></div>
                         <div id = "id_etape" class="{{etape.get_id_etape()}}"></div>
                         <div id="coord_X_{{etape.get_id_etape()}}" class="{{etape.get_coordonneX()}}"></div>
                         <div id="coord_Y_{{etape.get_id_etape()}}" class="{{etape.get_coordonneY()}}"></div>
                     </div>
-                    <img id="parcours-cover" src="{{ url_for('static', filename='images/' + img) }}">
-                    <h3 id="parcours-name">{{etape.get_nom_etape()}}</h3>
-                    <div class="p-content">
-                        <p id="parcours-desc">
-                            X : {{etape.get_coordonneX()}}, Y : {{etape.get_coordonneY()}}
-                        </p>
-                        {% if (x == 1)%}
-                        <div class="form-label">
-                            <input onclick="appelerFonctionPython()" type="submit" value="Commencer"/>
-                        </div>
-                        {% endif %}
-                    </div>
-                    {% if (x < longueur) %}
-                    <form action="{{url_for('parcours', nb_etape = x + 1)}}" method="get" class="button-format">
-                        <div class="parcours-button">
-                          <input type="submit" value="PLUS" />
-                        </div>
-                        <a></a>
-                    </form>
-                    {% endif %}
-                    {% if (x > 1 ) %}
-                    <form action="{{url_for('parcours', nb_etape = x - 1)}}" method="get" class="button-format">
-                        <div class="parcours-button">
-                          <input type="submit" value="MOINS" />
-                        </div>
-                        <a></a>
-                    </form>
-                    {% endif %}
-
+        {% endfor %}
+                    <h2>Liste de Coordonnées</h2>
+                    <ul>
+                    {% for etape in lesetapes_json %}
+                            <li class="etape-info">id = {{etape.id}} coord_X = {{etape.coordonneX}}, coord_Y = {{etape.coordonneY}}, nom = {{etape.nom}}</li>
+                            <button> test</button>
+                    {% endfor %}
+                    </ul>
                 </section>
             </div>
-            {% endfor %}
-            {% endblock%}
-
-
+        {% endblock%}
+            
         <footer>
             <div class="image-container">
               <img id="animation-button1" class="img2" src="../static/images/logo.png" alt="Image à animer">
             </div>
             <p class="copyright">Wade Copyright © 2023</p>
         </footer>
-        <script src="{{url_for('static', filename='script/map_client.js')}}"></script>
+        <script src="{{url_for('static', filename='script/map_admin.js')}}"></script>
         <script src="../static/script/apparition_logo.js"></script>
         <script src="../static/script/redirection-animation.js"></script>
         <script>
@@ -97,5 +73,4 @@
           });
         </script>
     </body>
-
 </html>
