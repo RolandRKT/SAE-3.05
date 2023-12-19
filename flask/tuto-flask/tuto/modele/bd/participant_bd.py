@@ -63,6 +63,25 @@ class Participant_bd:
         except Exception as exp:
             print("la connexion a échoué")
             return None
+        
+    def get_par_mail_mdp(self, mail):
+        """
+            Récupère un participant spécifique en fonction de son mail car il est  unique.
+
+            param id_participant: ID du participant que l'on souhaite récupérer.
+            return: le mot de passe
+        """
+        try:
+            query = text(
+                f"select id_participant, pseudo, email, mdp from PARTICIPANT where email= '{str(mail)}'")
+            resultat = self.cnx.execute(query)
+            for _, _, _, mdp in resultat:
+                return mdp
+            return None
+        except Exception as exp:
+            print("la connexion a échoué, mail echoue")
+            print(exp)
+            return None
 
     def inserer_participant(self, idpart, pseudo, mail, mdp):
         """

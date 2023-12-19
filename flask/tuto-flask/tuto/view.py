@@ -5,6 +5,7 @@
 import os
 import sys
 from flask import jsonify, render_template, url_for, redirect, request, redirect, url_for
+from flask_mail import Message
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
@@ -16,6 +17,9 @@ from connexion import cnx,close_cnx
 from admin_bd import *
 from etape_bd import *
 from composer_bd import *
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
+sys.path.append(os.path.join(ROOT, './'))
+from app import mail
 
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
@@ -482,3 +486,40 @@ def suppression_participant(pseudo):
     """
     ADMIN.delete_part(pseudo)
     return redirect(url_for("gerer_compte"))
+
+@app.route('/forget-password', methods=['POST', 'GET'])
+def forget_password():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = PARTICIPANT.get_par_mail_mdp(email)
+        
+        if password is not None:
+            message_reset_password = """
+            Cher utilisateur,
+
+            Nous avons reçu une demande de réinitialisation du mot de passe associé à cette adresse e-mail. Si vous n'avez pas fait cette demande, veuillez ignorer cet e-mail.
+
+            Votre mot de passe est : {}
+
+            Veuillez vous connecter à votre compte avec ce mot de passe. Après vous être connecté, nous vous recommandons de modifier votre mot de passe pour des raisons de sécurité.
+
+            Merci de faire partie de notre communauté.
+
+            Cordialement,
+            L'équipe de Wade
+            """.format(password)
+
+            msg = Message("Réinitialisation du mot de passe - Wade",  # Subject here
+                          sender=app.config['MAIL_DEFAULT_SENDER'],
+                          recipients=[email])
+            msg.body = message_reset_password
+
+            print("Avant l'envoi du message")
+            mail.send(msg)
+            print("zuiahduiahdzui")
+            return render_template("forget.password.html")
+
+    return render_template("forget.password.html")
+
+#test123wade@gmail.com
+#Baba45ls!
