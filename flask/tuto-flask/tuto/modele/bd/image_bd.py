@@ -34,6 +34,7 @@ class Image_bd:
             return image
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
         
     def get_par_image(self,id_image):
@@ -52,6 +53,7 @@ class Image_bd:
             return image
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
         
     
@@ -70,6 +72,7 @@ class Image_bd:
             self.cnx.commit()
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
 
     def get_prochain_id_image(self):
@@ -86,4 +89,5 @@ class Image_bd:
                 return int(result.m) + 1
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None

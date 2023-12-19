@@ -34,3 +34,4 @@ class Composer:
             return: Le numéro de la composition.
         """
         return self.__num
+        

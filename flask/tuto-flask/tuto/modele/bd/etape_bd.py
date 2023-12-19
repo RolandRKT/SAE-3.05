@@ -31,6 +31,7 @@ class Etape_bd:
             return etapes
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
 
     def get_par_photo_etape(self,idph):
@@ -48,6 +49,7 @@ class Etape_bd:
             return etapes
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
     
     def inserer_etape(self,idetape,nometape,idimage, coordX, coordY):
@@ -67,6 +69,7 @@ class Etape_bd:
 
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
 
     def get_prochain_id_etape(self):
@@ -83,4 +86,5 @@ class Etape_bd:
                 return int(result.m) + 1
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None

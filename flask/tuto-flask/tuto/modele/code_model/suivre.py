@@ -1,5 +1,5 @@
 class Suivre:
-    def __init__(self,id_user, id_parc,  point, comm, numero_etape):
+    def __init__(self,id_user, id_parc, point, comm, numero_etape):
         """
         Initialise un objet Suivre pour représenter la relation entre un utilisateur et un parcours suivi.
 

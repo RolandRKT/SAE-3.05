@@ -32,6 +32,7 @@ class Posseder_bd:
             return possession
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
     
     def get_posseder_by_idinteret(self,idinteret):
@@ -50,6 +51,7 @@ class Posseder_bd:
             return possession
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
     
     def get_posseder_by_etape(self,idetape):
@@ -68,6 +70,7 @@ class Posseder_bd:
             return possession
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
     
     def inserer_possede(self,idetape,idinteret):
@@ -83,4 +86,5 @@ class Posseder_bd:
             self.cnx.commit()
         except Exception as e:
             print("la connexion a échoué")
+            print(e)
             return None
