@@ -209,8 +209,7 @@ def inscrire():
         for part in liste_user:
             if username == part.get_pseudo() or email == part.get_email():
                 return jsonify({"error": "exists"})
-        inserer_le_participant(PARTICIPANT.get_prochain_id_participant(),
-                               username, email, password)
+        inserer_le_participant(username, email, password)
         le_participant.set_all(PARTICIPANT.get_prochain_id_participant() - 1,
                                username, email, password)
         return jsonify({"success": "registered"})
@@ -305,6 +304,10 @@ def mes_parcours_terminees():
                            page_mes_parcours=True,
                            onglet=2)
 
+
+@app.route("/redirect")
+def redirection():
+    return redirect(url_for('les_parcours'))
 
 @app.route('/gerer-compte')
 def gerer_compte():
