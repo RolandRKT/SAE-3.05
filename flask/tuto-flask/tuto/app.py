@@ -17,10 +17,10 @@ app = Flask(__name__)
 app.config['BOOTSTRAP_SERVE8LOCAL']=True
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587  # or your mail server's port
-app.config['MAIL_USERNAME'] = 'nekokami022@gmail.com'
-app.config['MAIL_PASSWORD'] = 'cgij jfdl bcuk vibk'
-app.config['MAIL_DEFAULT_SENDER'] = ('koway','nekokami022@gmail.com')
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'wade.contact.assistance@gmail.com'
+app.config['MAIL_PASSWORD'] = 'jjyp pyth gaka dsos'
+app.config['MAIL_DEFAULT_SENDER'] = ('Wade','wade.contact.assistance@gmail.com')
 app.config['MAIL_DEBUG'] = True
 app.config['MAIL_SUPPRESS_SEND'] = False
 app.config['MAIL_MAX_EMAILS'] = None
