@@ -81,7 +81,6 @@ class Participant_bd:
             query = text("SELECT MAX(id_participant) as m FROM PARTICIPANT")
             result = self.cnx.execute(query).fetchone()
             if result and result.m:
-                print(int(result.m) + 1)
                 return int(result.m) + 1
         except Exception as e:
             print("La connexion a échoué shushduz")

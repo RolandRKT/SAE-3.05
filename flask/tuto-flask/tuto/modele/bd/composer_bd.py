@@ -91,6 +91,9 @@ class Composer_bd:
             return None
 
     def get_max_etape_composer(self,idP):
+        """
+            Cette methode va nous retourner le numero de la derniere etape dans un parcours donner
+        """
         try :
             query=text(f"select max(numero) as m from COMPOSER where id_parcours={idP}")
             result = self.cnx.execute(query).fetchone()

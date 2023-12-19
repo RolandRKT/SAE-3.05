@@ -65,7 +65,6 @@ class Admin_bd:
     
     def delete_suivre_par_part(self,pseudo):
         try:
-            print("hehehehehe")
             query = text(f"DELETE FROM SUIVRE USING SUIVRE NATURAL JOIN PARTICIPANT WHERE PARTICIPANT.pseudo = :pseudo")
             self.cnx.execute(query, {'pseudo': pseudo})
             self.cnx.commit()
@@ -74,7 +73,6 @@ class Admin_bd:
         
     def delete_part(self, pseudo):
         try:
-            print("hzhzhzhz")
             self.delete_suivre_par_part(pseudo)
             query = text(f"delete from PARTICIPANT where pseudo = '{str(pseudo)}'")
             self.cnx.execute(query)
