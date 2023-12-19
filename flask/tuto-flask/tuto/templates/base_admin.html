@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan_admin.css') }}">
     <link rel="stylesheet" href="../static/accueil_admin.css">
     <link rel="stylesheet" href="../static/gerer_compte.css">
+    {% if page_mobile %}
+    <link rel="stylesheet" href="../static/accueil_admin_mobile.css">
+    {% endif %}
 </head>
   <body>
     <header>
