@@ -2,7 +2,8 @@
     Ce fichier va nous permettre de faire les redirection vers
     d'autres pages aprés une action.
 """
-
+import os
+import sys
 from flask import jsonify, render_template, url_for, redirect, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField
@@ -15,31 +16,28 @@ from flask import flash
 from werkzeug.utils import secure_filename
 from .app import app, db
 import sqlalchemy
-
-import os
-import sys
 from flask import jsonify, render_template, url_for, redirect, request, redirect, url_for
-
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
-sys.path.append(os.path.join(ROOT, 'modele/bd/'))
 from participant_bd import *
 from parcours_bd import *
-
 from image_bd import *
 from connexion import cnx,close_cnx
 from admin_bd import *
 from etape_bd import *
 from composer_bd import *
-from models import les_parcour_suivi, les_parcours_terminer,lister_etape_du_parcours, lister_les_parcours, inserer_le_participant
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
+sys.path.append(os.path.join(ROOT, 'modele/bd/'))
+
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
+sys.path.append(os.path.join(ROOT, ''))
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
+from models import les_parcour_suivi, les_parcours_terminer,inserer_parcours_view, lister_les_parcours, inserer_le_participant
 from participant import *
 from admin import *
 
 UPLOAD_FOLDER = './tuto/static/images'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
 
 le_participant = Participant(-1, "", "", "")
 administrateur = Admin(-1, "", "")
@@ -504,9 +502,16 @@ def creer_parcours():
                 # Générez un nom de fichier unique
                 filename = secure_filename(image.filename)
                 filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
                 print("Chemin du fichier :", filepath)
                 image.save(filepath)
-                # Enregistrez le chemin du fichier dans la base de données ou utilisez comme nécessaire
+                image = Image_bd(cnx)
+                next_id = image.get_prochain_id_image()
+                # Enregistrez le nom du fichier dans la base de données ou utilisez comme nécessaire
+                image.inserer_image(next_id, filename+str("'"), str(filename)+str(next_id), str(filename))
+
+                # Insertion du parcours
+                inserer_parcours_view(nom_parcours, description, next_id)
                 user_agent = request.user_agent.string
                 if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
                     return render_template("accueil_admin.html", page_mobile = True)
