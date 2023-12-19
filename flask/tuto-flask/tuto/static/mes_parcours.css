@@ -22,12 +22,12 @@ html, body {
 }
 
 input[type="search"] {
-    min-width: 100px;
     width: 100%;
     padding: 10px;
     padding-right: 30px;
     border: 1px solid #111;
     font-size: 16px;
+    max-width: 198px;
 }
 
 input[type="search"]:focus {
@@ -146,6 +146,8 @@ input[type="search"]:focus {
 .image{
     width: 40em;
     margin-right: 1em;
+    max-width: 640px;
+    min-width: 450px;
 }
 
 .img-desc{
@@ -182,3 +184,108 @@ input[type="search"]:focus {
 .para {
     text-align: justify;
 }
+
+@media screen and (max-width: 945px) {
+    .main-part {
+        flex-direction: column;
+    }
+
+    .left-part, .right-part {
+        width: 100%;
+    }
+
+    .image {
+        width: 100%;
+        margin-right: 0;
+        max-width: 640px;
+    }
+
+    .info-parc {
+        width: 100%;
+    }
+
+    .img-desc {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .search-input-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .search-toggle {
+        transform: translateX(425%);
+    }
+
+    .parc-title {
+        text-align: center;
+    }
+
+    .parcours-left {
+        text-align: center;
+        border-right: 7px #238AB6 solid;
+        padding-right: 0.5em;
+    }
+
+    .title-h2 {
+        text-align: center;
+    }
+
+    .parcours-title {
+        text-align: center;
+        padding-bottom: 20px;
+    }
+
+    .sommaire-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    footer{
+        margin: 0;
+        position: fixed;
+        bottom: 0; 
+        font-family: 'Lato', sans-serif;
+        background-color: white;
+        border-top: 2px solid #ccc;
+        box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
+        transform: scale(1);
+        display: flex;
+        justify-content: center;
+      }
+
+    .copyright{
+        padding-bottom: 0px;
+        margin: 0;
+        position: fixed;
+        bottom: 2px;
+        left: 0px;
+        font-size: 15px;
+    }
+
+    .box-parcours {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .mid-content {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .choice-content {
+        flex-wrap: nowrap;
+    }
+
+    .box-parcours {
+        width: 100%;
+    }
+
+    .rectangle-02 {
+        width: 152px;
+    }
+} 
