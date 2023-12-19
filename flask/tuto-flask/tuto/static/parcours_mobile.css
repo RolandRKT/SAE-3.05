@@ -207,7 +207,7 @@ input[type="submit"]:hover {
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    z-index: 6;
+    z-index: 11;
     font-weight: bold;
     font-size: 12px;
 }
@@ -239,7 +239,7 @@ input[type="submit"]:hover {
         padding: 10px 20px;
         border-radius: 5px;
         cursor: pointer;
-        z-index: 6;
+        z-index: 11;
         font-weight: bold;
         font-size: 12px;
     }

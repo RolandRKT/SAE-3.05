@@ -17,13 +17,14 @@
         <link rel="stylesheet" href="../static/inscription_mobile.css">
       {% endif %}
     {% else %}
+      <link rel="stylesheet" href="../static/darkmode.css">
       <link rel="stylesheet" href="../static/login.css">
     {% endif %}
   </head>
   <body>
     {% block content %}
     {% endblock %}
-    <footer>
+    <footer class="fixed-element">
       <div class="image-container">
         <img id="animation-button1" class = "img2" src="../static/images/logo.png" alt="Image à animer">
       </div>
@@ -32,5 +33,14 @@
     <script src="../static/script/apparition_logo.js"></script>
     <script src="../static/script/redirection-animation.js"></script>
     <script src="../static/script/toggle_password.js"></script>
+    {% if not page_mobile %}
+      <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+      <script>
+        function addDarkmodeWidget() {
+          new Darkmode().showWidget();
+        }
+        window.addEventListener('load', addDarkmodeWidget);
+      </script>
+    {% endif %}
   </body>
 </html>

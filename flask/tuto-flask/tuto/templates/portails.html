@@ -2,8 +2,9 @@
 <html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title>Wade - Accueil</title>
+    <title>Wade - Portail</title>
     <link rel="stylesheet" href="../static/home.css">
+    <link rel="stylesheet" href="../static/darkmode.css">
 </head>
 <body>
     <header>
@@ -30,7 +31,7 @@
           </form>
     </main>
       
-    <footer>
+    <footer class="fixed-element">
       <div class="image-container">
         <img id="animation-button1" class="img2" src="../static/images/logo.png" alt="Image à animer">
       </div>
@@ -43,6 +44,13 @@
       userLogo.addEventListener("click", function() {
         window.location.href = "/login";
       });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+    <script>
+      function addDarkmodeWidget() {
+        new Darkmode().showWidget();
+      }
+      window.addEventListener('load', addDarkmodeWidget);
     </script>
 </body>
 </html>

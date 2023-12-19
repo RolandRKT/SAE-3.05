@@ -17,26 +17,26 @@
         <div class="choice-content">
             {% if onglet==1 %}
                 <h3 class="en-cours">
-                    <a href="#">
+                    <a href="#" class="darkmode-ignore">
                         En cours
                         <div class="rectangle-01"></div>
                     </a>
                 </h3>
                 <h3 class="termine">
-                    <a href="{{url_for('mes_parcours_terminees')}}">
+                    <a href="{{url_for('mes_parcours_terminees')}}"  class="darkmode-ignore">
                         Terminés
                         <div class="rectangle-02"></div>
                     </a>
                 </h3>
             {% else %}
                 <h3 class="en-cours">
-                    <a href="{{url_for('mes_parcours_en_cours')}}">
+                    <a href="{{url_for('mes_parcours_en_cours')}}" class="darkmode-ignore">
                         En cours
                         <div class="rectangle-02"></div>
                     </a>
                 </h3>
                 <h3 class="termine">
-                    <a href="#">
+                    <a href="#" class="darkmode-ignore">
                         Terminés
                         <div class="rectangle-01"></div>
                     </a>
@@ -48,7 +48,7 @@
                 {% for parc, image_parc in liste_suivis %}
                 <div class="box-parcours">
                     <div class="info-parc">
-                        <h3 id="parcours-{{ parc.get_nom_parc() }}" class="title-parcours">{{ parc.get_nom_parc() }}</h3>
+                        <h3 id="parcours-{{ parc.get_nom_parc() }}" class="title-parcours darkmode-ignore">{{ parc.get_nom_parc() }}</h3>
                         <div class="img-desc">
                             {% if image_parc %}
                                 <img src="{{ url_for('static', filename='images/' + image_parc) }}" alt="image de l'element static" class="image">
