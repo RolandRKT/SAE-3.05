@@ -111,3 +111,16 @@ Thibault SAINT-LÉGER
   - (RDD) Fin page admin
   - (RR, TSL) Vue client parcours
   - (MP) version mobile
+
+### Jour 10
+  - (MP) version mobile, finalisation page admin
+  - (RDD) Début page création parcours, rédaction README
+  - (TSL) Implémentation de la Map et page HTML
+  - (RR) Début page "Mes Parcours"
+  - (AB) Début page Gestion des comptes (Admin)
+### Jour 11
+  - (RR) Correction BD, page "Mes parcours" finie, aider Ahmet
+  - (RDD) page création parcours en cours, README
+  - (AB) Page gestion de comptes et résolution du problème de la connexion
+  - (TSL) Implémentation de la Map en cours
+  - (MP) Page mobile login admin et portails
