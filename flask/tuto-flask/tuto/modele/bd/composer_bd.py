@@ -35,7 +35,7 @@ class Composer_bd:
                 composition.append(Composer(idp, ide, numero))
             return composition
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, get_all_composition")
             print(exp)
             return None
 
@@ -56,7 +56,7 @@ class Composer_bd:
                 composition.append(Composer(idp, ide, numero))
             return composition
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, get_par_etape_composition")
             print(exp)
             return None
 
@@ -77,7 +77,7 @@ class Composer_bd:
                 composition.append(Composer(idp, ide, numero))
             return composition
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, get_par_parcour_composition")
             print(exp)
             return None
 
@@ -90,13 +90,14 @@ class Composer_bd:
             param numero: Numéro d'ordre de la composition.
         """
         try:
+            print(idparc, ide, numero)
             query = text(
                 f"insert into COMPOSER values({str(idparc)} , {str(ide)},{str(numero)})"
             )
-            cnx.execute(query)
+            self.cnx.execute(query)
             self.cnx.commit()
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, inserer_compose")
             print(exp)
             return None
     
@@ -113,7 +114,7 @@ class Composer_bd:
                 print(int(result.m) + 1)
                 return int(result.m) + 1
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, get_prochain_numero_composer")
             print(exp)
             return None
 
@@ -130,7 +131,7 @@ class Composer_bd:
                 print(int(result.m))
                 return int(result.m)
         except Exception as exp:
-            print("la connexion a échoué")
+            print("la connexion a échoué, max_etape_composer")
             print(exp)
             return None
 

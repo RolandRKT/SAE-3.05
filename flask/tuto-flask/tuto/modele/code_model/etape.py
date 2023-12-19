@@ -27,8 +27,8 @@ class Etape:
         self.__id_etape = id_etape
         self.__nom_etape = nom_etape
         self.__id_photo = id_photo
-        self._coordonneX = coordonneX
-        self._coordonneY = coordonneY
+        self._coordonneX = coordonne_x
+        self._coordonneY = coordonne_y
         
     def to_dict(self):
         return {
@@ -73,7 +73,7 @@ class Etape:
         Returns:
             float: La coordonnée X de l'étape.
         """
-        return self._coordonne_x
+        return self._coordonneX
 
     def get_coordonneY(self):
       """
