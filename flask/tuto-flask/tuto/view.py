@@ -307,6 +307,49 @@ def inscrire():
         inserer_le_participant(username, email, password)
         le_participant.set_all(PARTICIPANT.get_prochain_id_participant() - 1,
                                username, email, password)
+        #À TESTER
+        message_reset_password = f"""
+        <body style="width:100%; height:100%; color:black;">
+            <div class="page" style="position: relative; box-sizing: border-box; max-width:500px; font-family: cursive; font-size: 20px; border-radius: 10px; background: #fff; background-image: linear-gradient(#f5f5f0 1.1rem, #ccc 1.2rem); background-size: 100% 1.2rem; line-height: 1.2rem; padding: 1.4rem 1.5rem 0.2rem 1.5rem;">
+                <div style="display: flex; width: 100%; justify-content: center">
+                    <img src="https://raw.githubusercontent.com/RolandRKT/SAE-3.05/develop/flask/tuto-flask/tuto/static/images/wade-title.png" alt="Image" style="max-width: auto; height: 70px; display: block; margin-left:auto; margin-right:auto;">
+                </div>
+                <div class="margin"></div>
+                <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                    Bienvenue {username} chez Wade !
+                </p>
+                <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                    Nous sommes ravis de vous accueillir parmi nous.
+                </p>
+                <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                    Votre compte a été créé avec succès.
+                </p>
+                <p class="px-10 text-[10px] sm:text-[12px] text-gray-700" style="background-color:white; text-align:center; font-weight:bold; height:25px; font-size:20px;">
+                    Votre mot de passe : {password}
+                </p>
+                <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                    Connectez-vous à votre compte en utilisant votre adresse e-mail et le mot de passe fourni.
+                </p>
+                <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                    Merci de faire partie de notre communauté.
+                </p>
+                <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                    Cordialement,
+                </p>
+                <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                    L'équipe de Wade
+                </p>
+                <div style="display: flex; width: 100%; justify-content: center">
+                    <img src="https://raw.githubusercontent.com/RolandRKT/SAE-3.05/develop/flask/tuto-flask/tuto/static/images/logo.png" alt="Image" style="max-width: 70px; height: auto; display: block; margin-left:auto; margin-right:auto;">
+                </div>
+            </div>
+        </body>
+        """
+        msg = Message("✨Bienvenue chez Wade !✨",
+                      recipients=[email])
+        msg.body = "Cher utilisateur..."
+        msg.html = message_reset_password
+        mail.send(msg)
         return jsonify({"success": "registered"})
 
     return render_template("login.html", page_mobile=False, page_login=True)
@@ -497,7 +540,7 @@ def forget_password():
         
         if password is not None:
             message_reset_password = """
-            <body style="width:100%; height:100%;">
+            <body style="width:100%; height:100%; color:black;">
                 <div class="page" style="position: relative; box-sizing: border-box; max-width:500px; font-family: cursive; font-size: 20px; border-radius: 10px; background: #fff; background-image: linear-gradient(#f5f5f0 1.1rem, #ccc 1.2rem); background-size: 100% 1.2rem; line-height: 1.2rem; padding: 1.4rem 1.5rem 0.2rem 1.5rem;">
                     <div style="display: flex; width: 100%; justify-content: center">
                         <img src="https://raw.githubusercontent.com/RolandRKT/SAE-3.05/develop/flask/tuto-flask/tuto/static/images/wade-title.png" alt="Image" style="max-width: auto; height: 70px; display: block; margin-left:auto; margin-right:auto;">
@@ -539,6 +582,7 @@ def forget_password():
             msg.body = "Cher utilisateur..."
             msg.html = message_reset_password
             mail.send(msg)
+            # Ajouter une redirection vers une page qui dit envoie validé, ou juste une popup
             return render_template("forget.password.html")
 
     return render_template("forget.password.html")
