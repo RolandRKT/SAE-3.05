@@ -218,7 +218,7 @@ def accueil_admin():
         return redirect(url_for("portails"))
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("accueil_admin.html", page_mobile = True)
+        return render_template("accueil_admin_mobile.html", page_mobile = True)
     else:
         return render_template("accueil_admin.html", page_mobile = False)
 
