@@ -3,7 +3,6 @@ import sys
 
 from flask import Flask, jsonify
 from flask_bootstrap import Bootstrap
-from flask_login import LoginManager
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))

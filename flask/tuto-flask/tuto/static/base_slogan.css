@@ -62,7 +62,6 @@ header {
     justify-content: center;
     align-items: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    user-select: none;
 }
 
 .image-container {
@@ -70,17 +69,6 @@ header {
     position: relative;
     width: 100vw;
     height: 100%;
-}
-
-footer {
-  margin: 0;
-  position: fixed;
-  bottom: 0;
-  font-family: 'Lato', sans-serif;
-  background-color: white;
-  border-top: 2px solid #ccc;
-  box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
-  display: flex;
 }
 
 .img1 {
@@ -127,6 +115,7 @@ footer {
     align-items: center;
     width: 100%;
     height: 100px;
+    z-index: 10;
 }
 
 .slogan {
@@ -197,12 +186,6 @@ footer {
   }
 }
 
-.copyright{
-  position: fixed;
-  bottom: 0;
-  left: 10px;
-}
-
 #menu {
   position: fixed;
   top: 50px;
@@ -211,7 +194,7 @@ footer {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
   width: 200px;
   height: 105px;
-  z-index: 6;
+  z-index: 11;
   padding: 5px;
   padding-top: 15px;
 }
@@ -262,4 +245,20 @@ footer {
   100% {
     transform: rotate(360deg); /* Rotation complète de 360 degrés */
   }
+}
+
+.copyright{
+  position: fixed;
+  bottom: 0;
+  left: 10px;
+}
+footer {
+  margin: 0;
+  position: fixed;
+  bottom: 0;
+  font-family: 'Lato', sans-serif;
+  background-color: white;
+  border-top: 2px solid #ccc;
+  box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
+  display: flex;
 }

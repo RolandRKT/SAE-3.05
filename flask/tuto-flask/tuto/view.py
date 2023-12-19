@@ -1,18 +1,11 @@
-
-from flask import jsonify, render_template, url_for, redirect
-from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField
-from wtforms.validators import DataRequired
-from flask import request
-from hashlib import sha256
-from wtforms import PasswordField
-from flask import request, redirect, url_for
-from wtforms import FloatField
-from flask import flash
-from .app import app, db
-import sqlalchemy
+"""
+    Ce fichier va nous permettre de faire les redirection vers
+    d'autres pages aprés une action.
+"""
 import os
 import sys
+from flask import jsonify, render_template, url_for, redirect, request, redirect, url_for
+
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
 from participant_bd import *
@@ -24,13 +17,27 @@ from admin_bd import *
 from etape_bd import *
 from composer_bd import *
 
+
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
 from participant import *
+from admin import *
+
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
+sys.path.append(os.path.join(ROOT, ''))
+from models import les_parcour_suivi, les_parcours_terminer,lister_etape_du_parcours, lister_les_parcours, inserer_le_participant
+
+le_participant = Participant(-1, "", "", "")
+administrateur = Admin(-1, "", "")
+
+PARTICIPANT = Participant_bd(cnx)
+ADMIN = Admin_bd(cnx)
+
+from .app import app
 
 num_parcours = 1
-
 test=Participant(-1,"","","")
+
 @app.route("/")
 def home():
     """
@@ -38,21 +45,54 @@ def home():
     """
     return render_template("home.html", page_home=True)
 
+
 @app.route("/portails")
 def portails():
+    """
+        Cette fonction va nous diriger vers la pages des portails.
+    """
+    le_participant.set_all(-1, "", "", "")
+    administrateur.set_all(-1, "", "")
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent
+           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("portail_mobile.html")
     return render_template("portails.html")
 
-@app.route("/login")
+
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     """
         permet de se diriger vers la page login
     """
-    print("hahaha")
     user_agent = request.user_agent.string
-    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("login_mobile.html", page_mobile=True, page_login=True)
-    else:
-        return render_template("login.html", page_mobile=False, page_login=True)
+    if any(keyword in user_agent
+           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("login_mobile.html",
+                               page_mobile=True,
+                               page_login=True)
+    return render_template("login.html",
+                               page_mobile=False,
+                               page_login=True)
+
+
+@app.route("/les-parcours")
+def les_parcours():
+    """
+        Cette fonction nous permet de nous diriger vers la page qui
+        liste les parcours
+    """
+    if le_participant.get_id() == -1:
+        return redirect(url_for("portails"))
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent
+           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("les_parcours_mobile.html",
+                               liste_parc=lister_les_parcours(),
+                               page_mobile=True)
+    return render_template("les_parcours.html",
+                               liste_parc=lister_les_parcours(),
+                               page_mobile=False)
 
 
 @app.route("/inscription")
@@ -61,18 +101,21 @@ def inscription():
         Permet de se diriger vers la page inscription
     """
     user_agent = request.user_agent.string
-    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("inscription_mobile.html", page_mobile=True, page_login=False)
-    else:
-        return render_template("inscription.html", page_mobile=False, page_login=False)
+    if any(keyword in user_agent
+           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("inscription_mobile.html",
+                               page_mobile=True,
+                               page_login=False)
+    return render_template("inscription.html",
+                               page_mobile=False,
+                               page_login=False)
+
 
 @app.route("/parcours/<int:nb_etape>")
 def parcours(nb_etape):
     """
         se dirige vers la page parcours
-    """
-    
-    # bon = False
+    """    
     user_agent = request.user_agent.string
     etape = Etape_bd(cnx)
     composer =  Composer_bd(cnx)
@@ -169,114 +212,96 @@ def parcours_admin(nb_etape):
         return render_template("parcours_admin.html", page_mobile=False, etape_actu = [lesetapes[nb_etape - 1 ]],  x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
 
 
+
 @app.route("/mon-profil")
 def mon_profil():
+    """
+        se dirige vers la page mon profil
+    """
     user_agent = request.user_agent.string
-    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("mon_profil.html", page_mobile=True, page_home=False)
-    else:
-        return render_template("mon_profil.html", page_mobile=False, page_home=False)
+    if any(keyword in user_agent
+           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        if le_participant.get_id() == -1:
+            return redirect(url_for("portails"))
+        return render_template("mon_profil.html",
+                               page_mobile=True,
+                               page_home=False,
+                               participant=le_participant,
+                               page_profil=True)
+    if le_participant.get_id() == -1:
+        return redirect(url_for("portails"))
+    return render_template("mon_profil.html",
+                               page_mobile=False,
+                               page_home=False,
+                               participant=le_participant,
+                               page_profil=True)
+
 
 @app.route("/les-parcours", methods=["GET", "POST"])
 def connecter():
     """
-        recupere les champs entrer dans la page de connexion et verifie 
+        recupere les champs entrer dans la page de connexion et verifie
         si l'utilisateur à déja un compte.
         Si il a un compte on le dirige vers la page des parcours
         Sinon on le redirige sur la page connexion
     """
-    username=request.form.get("username")
-    password=request.form.get("password")
-    print(username,password)
-    user = Participant_bd(cnx)
-    adm = Admin_bd(cnx)
-    liste_user=user.get_all_participant()
-    liste_admin = adm.get_all_admin()
-    for part in liste_user:
-        if (username==part.get_pseudo() or username==part.get_email())and password==part.get_mdp():
-            print("votre connexion fonctionne")
-            test.set_email(part.get_email())
-            test.set_mdp(part.get_mdp())
-            test.set_pseudo(part.get_pseudo())
-            parcour=Parcours_bd(cnx)
-            liste_parc=parcour.get_all_parcours()
-            lesparcs=[]
-            monimage=""
-            for parc in liste_parc:
-                i=Image_bd(cnx)
-                images=i.get_par_image(parc.get_id_photo())
-                monimage=images[0].get_img_filename()
-                lesparcs.append((parc,monimage))
+    username = request.form.get("username")
+    password = request.form.get("password")
+    liste_user = PARTICIPANT.get_all_participant()
+    if liste_user:
+        found_user = next(
+            (part for part in liste_user
+             if (username == part.get_pseudo() or username == part.get_email())
+             and password == part.get_mdp()), None)
+        if found_user:
+            le_participant.set_all(found_user.get_id(),
+                                   found_user.get_pseudo(),
+                                   found_user.get_email(),
+                                   found_user.get_mdp())
+            return redirect(url_for("les_parcours"))
+    return redirect(url_for("login"))
 
-            return render_template("les_parcours.html", liste_parc=lesparcs)
 
-    for admi in liste_admin:
-        if username == admi.get_pseudo() and password == admi.get_mdp():
-            print("votre connexion fonctionne")
-            parcour=Parcours_bd(cnx)
-            liste_parc=parcour.get_all_parcours()
-            lesparcs=[]
-            monimage=""
-            for parc in liste_parc:
-                i=Image_bd(cnx)
-                images=i.get_par_image(parc.get_id_photo())
-                monimage=images[0].get_img_filename()
-                lesparcs.append((parc,monimage))
-            return render_template("les_parcours.html", liste_parc=lesparcs)
-        
-    close_cnx()
-    return render_template("login.html", page_mobile=False, page_login=True)
+@app.route("/accueil_admin", methods=["POST"])
+def connecter_admin():
+    """
+        recupere les champs entrer dans la page de connexion et verifie
+        si l'admin à déja un compte.
+        Si il a un compte on le dirige vers la page des parcours
+        Sinon on le redirige sur la page connexion
+    """
+    username = request.form.get("username")
+    password = request.form.get("password")
+    liste_admin = ADMIN.get_all_admin()
+    if liste_admin != [] and liste_admin is not None:
+        for admi in liste_admin:
+            if username == admi.get_pseudo() and password == admi.get_mdp():
+                administrateur.set_all(admi.get_id(), admi.get_pseudo(),
+                                       admi.get_mdp())
+                return redirect(url_for("accueil_admin"))
+    return redirect(url_for("login_admin"))
 
-@app.route("/inscription",methods=["GET", "POST"])
+
+@app.route("/inscription", methods=["GET", "POST"])
 def inscrire():
     """
-        Permet d'inscrire les utilisateur qui n'ont pas de compte
+    Permet d'inscrire les utilisateur qui n'ont pas de compte
     """
-    username=request.form.get("username")
-    email=request.form.get("email")
-    password=request.form.get("password")
-    print(username)
-    user = Participant_bd(cnx)
-    print("test")
-    liste_user=user.get_all_participant()
-    print(liste_user)
-    for part in liste_user:
-        if username==part.get_pseudo() and email==part.get_email() and password==part.get_mdp():
-            print("vous etes deja inscrit")
-            cnx.close()
-            return render_template("login.html", page_mobile=False, page_login=True)
-    user.inserer_participant(user.get_prochain_id_participant(),username,email,password)
-    print("vous etes inscrit")
-    cnx.close()
+    if request.method == "POST":
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        liste_user = PARTICIPANT.get_all_participant()
+
+        for part in liste_user:
+            if username == part.get_pseudo() or email == part.get_email():
+                return jsonify({"error": "exists"})
+        inserer_le_participant(username, email, password)
+        le_participant.set_all(PARTICIPANT.get_prochain_id_participant() - 1,
+                               username, email, password)
+        return jsonify({"success": "registered"})
+
     return render_template("login.html", page_mobile=False, page_login=True)
-
-@app.route("/les_parcours")
-def search():
-    """
-        Permet de chercher avec le titre des parcours et affiche le resultat
-    """
-    search_query = request.args.get("query")
-    user =Parcours_bd(cnx)
-    liste_parc=user.get_all_parcours()
-    lesparcs=[]
-    monimage=""
-    for parc in liste_parc:
-        if search_query!="" :
-            if search_query in parc.get_nom_parc():
-                i=Image_bd(cnx)
-                images=i.get_par_image(parc.get_id_photo())
-                monimage=images[0].get_img_filename()
-                lesparcs.append((parc,monimage))
-        else:
-            i=Image_bd(cnx)
-            images=i.get_par_image(parc.get_id_photo())
-            monimage=images[0].get_img_filename()
-            lesparcs.append((parc,monimage))
-    return render_template("les_parcours.html", liste_parc=lesparcs)
-
-
-
-
 
 @app.route('/get_etapes_parcours', methods=['POST'])
 def get_etapes_parcours_route():
@@ -342,7 +367,114 @@ def inserer_composer():
 
     return jsonify(success=True, message='Composer insérée avec succès')
 
+@app.route("/login_admin")
+def login_admin():
+    """
+        Cette fonction permet de nous diriger vers la page login.
+    """
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent
+           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("login_admin_mobile.html", page_mobile=True)
+    return render_template("login_admin.html", page_mobile=False)
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route("/accueil_admin")
+def accueil_admin():
+    """
+        Cette fonction nous dirige vers la page accueil admin.
+    """
+    if administrateur.get_id() == -1:
+        return redirect(url_for("portails"))
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent
+           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("accueil_admin.html", page_mobile=True)
+    return render_template("accueil_admin.html", page_mobile=False)
+
+
+@app.route("/mes-parcours/en-cours")
+def mes_parcours_en_cours():
+    """
+        Cette focntion va nous permettre d'afficher
+        les differents parcours que l'utilisateur est en-train de faire.
+    """
+    if le_participant.get_id() == -1:
+        return redirect(url_for("portails"))
+    user_agent = request.user_agent.string
+
+    liste_parcour = les_parcour_suivi(le_participant.get_id())
+    if any(keyword in user_agent
+           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("mes_parcours.html",
+                               liste_termines=None,
+                               liste_suivis=liste_parcour,
+                               page_mobile=True,
+                               page_home=False,
+                               page_profil=False,
+                               page_mes_parcours=True,
+                               onglet=1)
+    return render_template("mes_parcours.html",
+                               liste_termines=None,
+                               liste_suivis=liste_parcour,
+                               page_mobile=False,
+                               page_home=False,
+                               page_profil=False,
+                               page_mes_parcours=True,
+                               onglet=1)
+
+
+@app.route("/mes-parcours/terminees")
+def mes_parcours_terminees():
+    """
+       Cette focntion va nous permettre d'afficher
+       les differents parcours que l'utilisateur a terminer.
+    """
+    if le_participant.get_id() == -1:
+        return redirect(url_for("portails"))
+    user_agent = request.user_agent.string
+    liste_termine = les_parcours_terminer(le_participant.get_id())[0]
+    liste_suivi = les_parcours_terminer(le_participant.get_id())[1]
+    if any(keyword in user_agent
+           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("mes_parcours.html",
+                               liste_termines=liste_termine,
+                               liste_suivis=liste_suivi,
+                               page_mobile=True,
+                               page_home=False,
+                               page_profil=False,
+                               page_mes_parcours=True,
+                               onglet=2)
+    return render_template("mes_parcours.html",
+                           liste_termines=liste_termine,
+                           liste_suivis=liste_suivi,
+                           page_mobile=False,
+                           page_home=False,
+                           page_profil=False,
+                           page_mes_parcours=True,
+                           onglet=2)
+
+
+@app.route("/redirect")
+def redirection():
+    return redirect(url_for('les_parcours'))
+
+@app.route('/gerer-compte')
+def gerer_compte():
+    """
+        Cette methode va nous permettre de nous diriger vers la page gerer compte
+    """
+    liste_participant = PARTICIPANT.get_all_participant()
+    return render_template("gerer_compte.html",
+                           liste_part=liste_participant,
+                           adm=PARTICIPANT)
+
+
+@app.route('/suppression-participant/<pseudo>', methods=['POST', 'DELETE'])
+def suppression_participant(pseudo):
+    """
+        Cette fonction va nous permettre de supprimer un participant
+        et de nous rediriger vers la page gerer compte
+    """
+    ADMIN.delete_part(pseudo)
+    return redirect(url_for("gerer_compte"))

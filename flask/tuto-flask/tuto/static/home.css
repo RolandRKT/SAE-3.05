@@ -68,7 +68,6 @@ header {
     justify-content: center;
     align-items: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    user-select: none;
     margin-top: 12vh;
 }
 
@@ -255,6 +254,7 @@ a{
 @media (max-height: 540px) or (max-width: 748px) {
   main {
     overflow: scroll;
+    scale: 1.8;
   }
   .img3 {
     width: 35px;

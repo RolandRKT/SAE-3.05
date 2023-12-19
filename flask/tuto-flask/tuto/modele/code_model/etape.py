@@ -1,6 +1,19 @@
+"""
+    Fichier contenant les etapes
+"""
 class Etape:
+    """
+    Classe représentant une étape dans un parcours.
 
-    def __init__(self,id, nom_etape, id_photo, coordonneX, coordonneY):
+    Attributes:
+        __id_etape (int): L'ID de l'étape.
+        __nom_etape (str): Le nom de l'étape.
+        __id_photo (int): L'ID de la photo associée à l'étape.
+        _coordonneX (float): La coordonnée X de l'étape.
+        _coordonneY (float): La coordonnée Y de l'étape.
+    """
+
+    def __init__(self, id_etape, nom_etape, id_photo, coordonne_x, coordonne_y):
         """
         Initialise un objet Etape avec les informations de l'étape.
 
@@ -8,15 +21,14 @@ class Etape:
             id (int): L'ID de l'étape.
             nom_etape (str): Le nom de l'étape.
             id_photo (int): L'ID de la photo associée à l'étape.
-            coordonneeX (float): coordonnée x de l'étape
-            coordonneeY (float) : coordonnée y de l'étape
+            coordonneX (float): La coordonnée X de l'étape.
+            coordonneY (float): La coordonnée Y de l'étape.
         """
-        self.__id_etape = id
+        self.__id_etape = id_etape
         self.__nom_etape = nom_etape
         self.__id_photo = id_photo
         self._coordonneX = coordonneX
         self._coordonneY = coordonneY
-        
         
     def to_dict(self):
         return {
@@ -29,7 +41,7 @@ class Etape:
         
     def get_id_etape(self):
         """
-        Getter pour l'ID de l'étape.
+        Récupère l'ID de l'étape.
 
         Returns:
             int: L'ID de l'étape.
@@ -38,7 +50,7 @@ class Etape:
 
     def get_nom_etape(self):
         """
-        Getter pour le nom de l'étape.
+        Récupère le nom de l'étape.
 
         Returns:
             str: Le nom de l'étape.
@@ -47,7 +59,7 @@ class Etape:
 
     def get_id_photo(self):
         """
-        Getter pour l'ID de la photo associée à l'étape.
+        Récupère l'ID de la photo associée à l'étape.
 
         Returns:
             int: L'ID de la photo.
@@ -55,10 +67,22 @@ class Etape:
         return self.__id_photo
 
     def get_coordonneX(self):
-        return self._coordonneX
-    
+        """
+        Récupère la coordonnée X de l'étape.
+
+        Returns:
+            float: La coordonnée X de l'étape.
+        """
+        return self._coordonne_x
+
     def get_coordonneY(self):
-        return self._coordonneY
+      """
+        Récupère la coordonnée Y de l'étape.
+
+        Returns:
+            float: La coordonnée Y de l'étape.
+      """
+      return self._coordonneY
     
     def __repr__(self):
-        return "nom : " + self.__nom_etape + " id : " + str(self.__id_etape)
+      return "nom : " + self.__nom_etape + " id : " + str(self.__id_etape)

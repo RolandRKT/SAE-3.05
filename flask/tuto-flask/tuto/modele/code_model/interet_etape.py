@@ -1,4 +1,13 @@
+"""
+    Ce fichier va contenir l'interet des etapes
+"""
+
+
 class Interet_etape:
+    """
+        La class interet etape
+    """
+
     def __init__(self, id_interet, nom_interet, description_interet):
         """
         Initialise un objet Interet_etape avec les informations de l'intérêt lié à une étape.
@@ -13,7 +22,8 @@ class Interet_etape:
         self.__description_interet = description_interet
 
     def __repr__(self) -> str:
-        return "interte : " + self.__nom_interet + " id : " + str(self.__id_interet)
+        return "interte : " + self.__nom_interet + " id : " + str(
+            self.__id_interet)
 
     def get_id_interet(self):
         """
@@ -23,7 +33,7 @@ class Interet_etape:
             int: L'ID de l'intérêt.
         """
         return self.__id_interet
-    
+
     def get_nom_interet(self):
         """
         Getter pour le nom de l'intérêt.
@@ -32,7 +42,7 @@ class Interet_etape:
             str: Le nom de l'intérêt.
         """
         return self.__nom_interet
-    
+
     def get_description_interet(self):
         """
         Getter pour la description de l'intérêt.
