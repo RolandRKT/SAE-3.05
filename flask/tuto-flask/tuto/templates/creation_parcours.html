@@ -1,0 +1,82 @@
+{% extends "base_slogan_admin.html" %}
+{% block styles %}
+    {{ super() }}
+    <style>
+        /* Ajoutez vos styles personnalisés ici si nécessaire */
+        .checkbox-list {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .checkbox-list label {
+            display: block;
+        }
+    </style>
+{% endblock %}
+{% block main_content %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> 
+    <div class="background">
+        <div class="titre-creer">
+            <h3>Créer un parcours:</h3>
+        </div>
+        <div class="conteneur-champs-formulaires">
+            <form action="{{ url_for('creer_parcours') }}"role="form" method="POST" class="form-champ" enctype="multipart/form-data">
+                <div class="trois-champs">
+                    <div class="form-label-admin">
+                        <label for="name" class="label">Nom du parcours:</label>
+                        <input type="text" name="nom_parcours" maxlength="20" size="40" id="nom_parcours" required/>
+                    </div>
+                    <div class="form-label-admin-desc">
+                        <label for="description" class="label">Description du parcours:</label>
+                        <textarea name="textarea" rows="7" cols="50" maxlength="200">Vous pouvez écrire ici.</textarea>
+                    </div>
+                    <div class="form-label-admin">
+                        <label for="etapes" class="label">Choisir les étapes:</label>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" onclick="toggleCheckboxList()" aria-haspopup="true" aria-expanded="false">
+                                Sélectionner des étapes
+                            </button>
+                            <div class="checkbox-list" id="checkboxList">
+                                {% for etape in liste %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" onclick="" type="checkbox" name="etapes[]" value="{{ etape.get_nom_etape() }}" id="etape_{{ etape.get_id_etape() }}">
+                                        <label class="form-check-label" for="etape_{{ etape.get_id_etape() }}">{{ etape.get_nom_etape() }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-label-admin">
+                    <label for="image" class="label">Image du parcours:</label>
+                    <input type="file" name="image" id="uploadFile" onchange="dragNdrop(event)" ondragover="drag()" ondrop="drop()" />
+                </div>
+                <div class="creation-parcours">
+                    <input type="submit" value="Créer le parcours" />
+                </div>
+            </form>
+            <div id="preview"></div> 
+            <script>
+                "use strict";
+                function dragNdrop(event) {
+                    var fileName = URL.createObjectURL(event.target.files[0]);
+                    var preview = document.getElementById("preview");
+                    var previewImg = document.createElement("img");
+                    previewImg.setAttribute("src", fileName);
+                    preview.innerHTML = "";
+                    preview.appendChild(previewImg);
+                }
+                function drag() {
+                    document.getElementById('uploadFile').parentNode.className = 'draging dragBox';
+                }
+                function drop() {
+                    document.getElementById('uploadFile').parentNode.className = 'dragBox';
+                }
+                function toggleCheckboxList() {
+                    var checkboxList = document.getElementById("checkboxList");
+                    checkboxList.style.display = (checkboxList.style.display === "none") ? "block" : "none";
+                }
+            </script>
+        </div>
+    </div>
+{% endblock %}

@@ -73,13 +73,17 @@ create table ADMIN(
     pseudo varchar(200),
     mdp varchar(200),
     primary key(id_admin)
-)
+);
 
 -- ALTER TABLE pour attribuer les foreign key
 
 ALTER TABLE PARCOURS ADD UNIQUE (nom_parcours);
 
 ALTER TABLE PARCOURS ADD FOREIGN KEY (id_image) REFERENCES IMAGE(id_image);
+
+ALTER TABLE IMAGE ADD UNIQUE (nom_image);
+
+ALTER TABLE IMAGE ADD UNIQUE (nom_fic);
 
 ALTER TABLE PARTICIPANT ADD UNIQUE (email);
 

@@ -107,3 +107,9 @@ def lister_etape_du_parcours():
         monimage = images[0].get_img_filename()
         lesetapes.append((eta, monimage))
     return (lesetapes, liste_etape)
+
+
+def inserer_parcours_view( nom_parcours, description, id_img, duree='00:06:00'):
+    parcours = Parcours_bd(cnx)
+    next_id_parcours = parcours.get_prochain_id_parcours()
+    parcours.inserer_parcours(next_id_parcours, nom_parcours, duree, description, id_img)

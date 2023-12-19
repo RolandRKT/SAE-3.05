@@ -2,7 +2,7 @@ import os.path
 import sys
 
 from flask import Flask, jsonify
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap4
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
@@ -14,7 +14,7 @@ from etape_bd import *
 
 app = Flask(__name__)
 app.config['BOOTSTRAP_SERVE8LOCAL']=True
-bootstrap = Bootstrap(app)
+bootstrap = Bootstrap4(app)
 app.config['SECRET_KEY'] = "bcc090e2-26b2-4c16-84ab-e766cc644320"
 
 def mkpath(path):

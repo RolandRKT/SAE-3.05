@@ -89,7 +89,7 @@ class Parcours_bd:
             print(exp)
             return None
 
-    def inserer_etape(self, idparc, nomparc, duree, descparc, idimg):
+    def inserer_parcours(self, idparc, nomparc, duree, descparc, idimg):
         """
             Insère un nouveau parcours dans la base de données.
 

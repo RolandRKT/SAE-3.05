@@ -5,10 +5,10 @@
 {% block main_content %}
     <div class="background">
         <div class="conteneur-bouton">
-            <button class="bouton-adm" type="button">
+            <a class="bouton-adm" type="button" href="{{ url_for('creation_parcours') }}">
                 <p class="paragraphe">Création parcours</p>
                 <img src="../static/images/parcours-client.png" height ="183" width="183" alt="bouton de création parcours" >
-            </button>
+            </a>
             <button class="bouton-adm" type="button">
                 <p class="paragraphe">Gestion parcours</p>
                 <img src="../static/images/editer.png" height ="183" width="183" alt="bouton de gestion parcours" >

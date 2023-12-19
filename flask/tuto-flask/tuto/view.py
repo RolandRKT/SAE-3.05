@@ -4,28 +4,40 @@
 """
 import os
 import sys
+from flask import jsonify, render_template, url_for, redirect, request
+from flask_wtf import FlaskForm
+from wtforms import StringField, HiddenField
+from wtforms.validators import DataRequired
+from flask import request
+from hashlib import sha256
+from wtforms import PasswordField
+from wtforms import FloatField
+from flask import flash
+from werkzeug.utils import secure_filename
+from .app import app, db
+import sqlalchemy
 from flask import jsonify, render_template, url_for, redirect, request, redirect, url_for
-
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
-sys.path.append(os.path.join(ROOT, 'modele/bd/'))
 from participant_bd import *
 from parcours_bd import *
-
 from image_bd import *
 from connexion import cnx,close_cnx
 from admin_bd import *
 from etape_bd import *
 from composer_bd import *
-
-
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
-sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
-from participant import *
-from admin import *
+sys.path.append(os.path.join(ROOT, 'modele/bd/'))
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, ''))
-from models import les_parcour_suivi, les_parcours_terminer,lister_etape_du_parcours, lister_les_parcours, inserer_le_participant
+
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
+sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
+from models import les_parcour_suivi, les_parcours_terminer,inserer_parcours_view, lister_les_parcours, inserer_le_participant
+from participant import *
+from admin import *
+
+UPLOAD_FOLDER = './tuto/static/images'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 le_participant = Participant(-1, "", "", "")
 administrateur = Admin(-1, "", "")
@@ -36,7 +48,6 @@ ADMIN = Admin_bd(cnx)
 from .app import app
 
 num_parcours = 2
-test=Participant(-1,"","","")
 
 @app.route("/")
 def home():
@@ -467,6 +478,55 @@ def mes_parcours_terminees():
                            page_mes_parcours=True,
                            onglet=2)
 
+
+@app.route("/creation_parcours")
+def creation_parcours():
+    etape = Etape_bd(cnx)
+    liste_etape = etape.get_all_etape()
+    print(liste_etape)
+    
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("creation_parcours.html", liste_etape , page_mobile = True,)
+    else:
+        return render_template("creation_parcours.html", liste = liste_etape , page_mobile = False)
+    
+@app.route("/creation_parcours", methods=['GET', 'POST'])
+def creer_parcours():
+    if request.method == 'POST':
+        # Traitement des autres champs
+        nom_parcours = request.form.get('nom_parcours')
+        description = request.form.get('textarea')
+        #etape = request.form.get('pets')
+
+        app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+        if not os.path.exists(app.config['UPLOAD_FOLDER']):
+            os.makedirs(app.config['UPLOAD_FOLDER'])
+
+        # Traitement de l'image téléchargée
+        if 'image' in request.files:
+            image = request.files['image']
+            if image.filename != '':
+                # Générez un nom de fichier unique
+                filename = secure_filename(image.filename)
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+                print("Chemin du fichier :", filepath)
+                image.save(filepath)
+                image = Image_bd(cnx)
+                next_id = image.get_prochain_id_image()
+                # Enregistrez le nom du fichier dans la base de données ou utilisez comme nécessaire
+                image.inserer_image(next_id, filename+str("'"), str(filename)+str(next_id), str(filename))
+
+                # Insertion du parcours
+                inserer_parcours_view(nom_parcours, description, next_id)
+                user_agent = request.user_agent.string
+                if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+                    return render_template("accueil_admin.html", page_mobile = True)
+                else:
+                    return render_template("accueil_admin.html", page_mobile = False)
+        return redirect(url_for("creation_parcours"))
 
 @app.route("/redirect")
 def redirection():
