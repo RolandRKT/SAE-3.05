@@ -89,8 +89,12 @@ def parcours(nb_etape):
     for eta in liste_etape:
                 i=Image_bd(cnx)
                 images=i.get_par_image(eta.get_id_photo())
-                monimage=images[0].get_img_filename()
-                lesetapes.append((eta,monimage))
+                try:
+                    monimage=images[0].get_img_filename()
+                    print(monimage)
+                    lesetapes.append((eta,monimage))
+                except:
+                    lesetapes.append((eta, "image_default.jpg"))
     
 
     print(lesetapes)
@@ -119,8 +123,6 @@ def parcours_admin(nb_etape):
     """
         se dirige vers la page parcours
     """
-    
-    # bon = False
     user_agent = request.user_agent.string
     etape = Etape_bd(cnx)
     composer =  Composer_bd(cnx)
@@ -137,49 +139,35 @@ def parcours_admin(nb_etape):
     for eta in liste_etape:
                 i=Image_bd(cnx)
                 images=i.get_par_image(eta.get_id_photo())
-                monimage=images[0].get_img_filename()
-                lesetapes.append((eta,monimage))
-
+                try:
+                    monimage=images[0].get_img_filename()
+                    lesetapes.append((eta,monimage))
+                except:
+                    lesetapes.append((eta, "image_default.jpg"))
+    
 
     print(lesetapes)
 
+    lesetapes_json = []
 
+    for eta, monimage in lesetapes:
+        etape_data = {
+            'id': eta.get_id_etape(),
+            'nom': eta.get_nom_etape(),
+            'coordonneX': eta.get_coordonneX(),
+            'coordonneY': eta.get_coordonneY(),
+            # Ajoutez d'autres propriétés selon vos besoins
+            'image': monimage,
+        }
+        print(etape_data)
+        lesetapes_json.append(etape_data)
+    
+    print(lesetapes_json)
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[nb_etape - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
     else:
-        return render_template("parcours_admin.html", page_mobile=False, etape_actu = [lesetapes[nb_etape - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
+        return render_template("parcours_admin.html", page_mobile=False, etape_actu = [lesetapes[nb_etape - 1 ]],  x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
 
-
-# @app.route("/parcours_num/<int:num_parcours>")
-# def parcours_num(num_parcours):
-#     """
-#         se dirige vers la page parcours
-#     """
-#     user_agent = request.user_agent.string
-#     etape = Etape_bd(cnx)
-#     composer =  Composer_bd(cnx)
-    
-#     liste_composer = composer.get_par_parcour_composition(num_parcours)
-    
-#     liste_etape = []
-    
-#     print(liste_composer)
-    
-#     for comp in liste_composer:
-#         liste_etape.append(etape.get_par_id_etape(comp.get_participant_id()))
-    
-#     lesetapes = []
-#     print(liste_etape)
-#     for eta in liste_etape:
-#                 i=Image_bd(cnx)
-#                 images=i.get_par_image(eta.get_id_photo())
-#                 monimage=images[0].get_img_filename()
-#                 lesetapes.append((eta,monimage))
-                
-#     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-#         return render_template("parcours_mobile.html", page_mobile=True)
-#     else:
-#         return render_template("parcours.html", page_mobile=False, liste_etape = lesetapes, longueur = len(liste_etape), x = 1)
 
 @app.route("/mon-profil")
 def mon_profil():
@@ -303,6 +291,58 @@ def get_etapes_parcours_route():
 
     # Renvoyez les résultats au format JSON
     return jsonify(etapes=etapes)
+
+
+
+etape = Etape_bd(cnx)  # Assurez-vous de créer une instance appropriée de votre classe
+
+@app.route('/api/inserer_etape', methods=['POST'])
+def inserer_etape():
+    print("Route /api/inserer_etape appelée")
+    data = request.json
+    idetape = data.get('idetape')
+    nometape = data.get('nometape')
+    idimage = data.get('idimage')
+    coordX = data.get('coordX')
+    coordY = data.get('coordY')
+
+    etape.inserer_etape(idetape, nometape, idimage, coordX, coordY)
+
+    return jsonify(success=True, message='Étape insérée avec succès')
+
+@app.route('/api/get_prochain_id', methods=['GET'])
+def get_prochain_id():
+    prochain_id = etape.get_prochain_id_etape()
+
+    return jsonify(prochain_id = prochain_id)
+
+composer = Composer_bd(cnx)
+
+@app.route('/api/get_prochain_numero', methods=['GET'])
+def get_prochain_numero():
+    idparc = request.args.get('idparc')
+    print(idparc, "loupe")
+    prochain_num = composer.get_prochain_numero_composer(idparc)
+    print()
+    actu_id = etape.get_prochain_id_etape()
+    print(actu_id)
+    return jsonify(prochain_num=prochain_num, actu_id = actu_id - 1)
+
+@app.route('/api/inserer_composer', methods=['POST'])
+def inserer_composer():
+    print("Route /api/inserer_composer appelée")
+    data = request.json
+    idetape = data.get('idetape')
+    idparc = data.get('idparc')
+    numero = data.get('numero')
+
+    print(f'idetape: {idetape}, idparc: {idparc}, numero: {numero}')
+
+    composer.inserer_compose(idparc, idetape, numero)
+
+    return jsonify(success=True, message='Composer insérée avec succès')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

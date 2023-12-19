@@ -61,12 +61,15 @@ class Etape_bd:
             param idimage: ID de l'image associée à l'étape.
         """
         try:
-            query = text(f"insert into ETAPE values({str(idetape)},'{nometape}', {str(idimage)}, '{str(coordX)}', '{str(coordY)}')")
+            if(idimage == None):
+                query = text(f"insert into ETAPE values({str(idetape)},'{nometape}', null, '{str(coordX)}', '{str(coordY)}')")
+            else:
+                query = text(f"insert into ETAPE values({str(idetape)},'{nometape}', {str(idimage)}, '{str(coordX)}', '{str(coordY)}')")
             self.cnx.execute(query)
             self.cnx.commit()
 
         except Exception as e:
-            print("la connexion a échoué")
+            print(e)
             return None
 
     def get_prochain_id_etape(self):

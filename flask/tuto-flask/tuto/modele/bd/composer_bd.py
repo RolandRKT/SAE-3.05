@@ -79,10 +79,26 @@ class Composer_bd:
             param numero: Numéro d'ordre de la composition.
         """
         try:
+            print(idparc, ide, numero)
             query = text(f"insert into COMPOSER values({str(idparc)} , {str(ide)},{str(numero)})")
             cnx.execute(query)
             self.cnx.commit()
         except Exception as e:
-            print("la connexion a échoué")
+            print("l'insertion composer a échoué" + e)
             return None
     
+    def get_prochain_numero_composer(self, idparc):
+        """
+            Récupère le prochain numero à insérer dans la base de données.
+
+            return: Le prochain numero de la table COMPOSER
+        """
+        try:
+            query = text("select max(numero) as m from COMPOSER where id_parcours = " + str(idparc))
+            result = self.cnx.execute(query).fetchone()
+            if result and result.m:
+                print(int(result.m) + 1)
+                return int(result.m) + 1
+        except Exception as e:
+            print("la connexion a échoué" + e)
+            return None
