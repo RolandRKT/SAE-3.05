@@ -1,6 +1,9 @@
-from sqlalchemy.sql.expression import text
+"""
+    La class qui va nous pemrettre de recup des valeurs utilisateurs.
+"""
 import sys
 import os
+from sqlalchemy.sql.expression import text
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
@@ -9,13 +12,17 @@ from participant import Participant
 
 
 class Participant_bd:
-    def __init__(self,conx):
+    """
+        La class des utilisateurs.
+    """
+
+    def __init__(self, conx):
         """
             Initialise une instance de la classe Participant_bd avec une connexion à la base de données.
 
             param conx: Objet de connexion à la base de données.
         """
-        self.cnx=conx
+        self.cnx = conx
 
     def get_all_participant(self):
         """
@@ -24,17 +31,19 @@ class Participant_bd:
             return: Une liste d'objets Participant représentant les participants.
         """
         try:
-            query = text("select id_participant,pseudo, email, mdp from PARTICIPANT")
+            query = text(
+                "select id_participant,pseudo, email, mdp from PARTICIPANT")
             resultat = self.cnx.execute(query)
-            participant=[]
-            for id_participant,pseudo, email, mdp in resultat:
-                participant.append(Participant(id_participant,pseudo, email, mdp))
+            participant = []
+            for id_participant, pseudo, email, mdp in resultat:
+                participant.append(
+                    Participant(id_participant, pseudo, email, mdp))
             return participant
-        except Exception as e:
-            print(f"Erreur lors de la récupération des participants : {e}")
+        except Exception as exp:
+            print(f"Erreur lors de la récupération des participants : {exp}")
             return None
-        
-    def get_par_participant(self,id_participant):
+
+    def get_par_participant(self, id_participant):
         """
             Récupère un participant spécifique en fonction de son ID.
 
@@ -42,13 +51,16 @@ class Participant_bd:
             return: Une liste contenant un objet Participant représentant le participant correspondant.
         """
         try:
-            query = text("select id_participant,pseudo, email, mdp from PARTICIPANT where id_participant= "+str(id_participant))
+            query = text(
+                "select id_participant,pseudo, email, mdp from PARTICIPANT where id_participant= "
+                + str(id_participant))
             resultat = self.cnx.execute(query)
-            participant=[]
-            for id_participant,pseudo, email, mdp in resultat:
-                participant.append(Participant(id_participant,pseudo, email, mdp))
+            participant = []
+            for id_participant, pseudo, email, mdp in resultat:
+                participant.append(
+                    Participant(id_participant, pseudo, email, mdp))
             return participant
-        except Exception as e:
+        except Exception as exp:
             print("la connexion a échoué")
             return None
 
@@ -62,14 +74,15 @@ class Participant_bd:
             param mdp: Mot de passe du participant.
         """
         try:
-            query = text(f"insert into PARTICIPANT values({str(idpart)} ,'{pseudo}', '{mail}' ,'{mdp}')")
+            query = text(
+                f"insert into PARTICIPANT values({str(idpart)} ,'{pseudo}', '{mail}' ,'{mdp}')"
+            )
             self.cnx.execute(query)
             self.cnx.commit()
             print("Reussi")
-        except Exception as e:
+        except Exception as exp:
             print("La connexion a échoué")
             return None
-
 
     def get_prochain_id_participant(self):
         """
@@ -81,9 +94,7 @@ class Participant_bd:
             query = text("SELECT MAX(id_participant) as m FROM PARTICIPANT")
             result = self.cnx.execute(query).fetchone()
             if result and result.m:
-                print(int(result.m) + 1)
                 return int(result.m) + 1
-        except Exception as e:
+        except Exception as exp:
             print("La connexion a échoué shushduz")
             return None
-

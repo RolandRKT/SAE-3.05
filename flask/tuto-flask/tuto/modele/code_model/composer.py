@@ -1,7 +1,14 @@
+"""
+    Class permettant de crée une composition
+"""
 class Composer:
+    """
+        La Class Composer avec un parcour et un participant
+    """
     def __init__(self, participant_id, parcours_id, numero):
         """
-            Initialise un objet Composer avec les informations du participant, du parcours, et du numéro.
+            Initialise un objet Composer avec les informations
+            du participant, du parcours, et du numéro.
 
             param participant_id: ID du participant lié à la composition.
             param parcours_id: ID du parcours lié à la composition.
@@ -30,7 +37,6 @@ class Composer:
     def get_numero(self):
         """
             Getter pour le numéro de la composition.
-        
             return: Le numéro de la composition.
         """
         return self.__num
