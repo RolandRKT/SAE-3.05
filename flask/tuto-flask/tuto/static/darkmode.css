@@ -20,3 +20,18 @@
     color: white !important;
 }
 
+.darkmode--activated .darkmode-toggle::before {
+    content: '🌗' !important;
+}
+
+.darkmode-toggle::before {
+    content: '🌓';
+}
+
+.darkmode--activated .forget-password a {
+    color: #fff;
+}
+
+.darkmode--activated .transition {
+    color: white !important;
+}
