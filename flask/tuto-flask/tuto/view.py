@@ -131,7 +131,7 @@ def connecter():
                 return render_template("les_parcours_mobile.html", liste_parc=lesparcs, page_mobile=True)
             else:
                 return render_template("les_parcours.html", liste_parc=lesparcs, page_mobile=False)
-    return redirect(url_for("login"))
+    return redirect(url_for("les_parcours"))
     
     
     
@@ -155,22 +155,28 @@ def connecter_admin():
                 return redirect(url_for("accueil_admin"))
     return redirect(url_for("login_admin"))
 
-@app.route("/inscription",methods=["GET", "POST"])
+@app.route("/inscription", methods=["GET", "POST"])
 def inscrire():
     """
-        Permet d'inscrire les utilisateur qui n'ont pas de compte
+    Permet d'inscrire les utilisateur qui n'ont pas de compte
     """
-    username=request.form.get("username")
-    email=request.form.get("email")
-    password=request.form.get("password")
-    user = Participant_bd(cnx)
-    liste_user=user.get_all_participant()
-    if liste_user != [] and liste_user != None:
+    if request.method == "POST":
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        user = Participant_bd(cnx)
+        liste_user = user.get_all_participant()
+
         for part in liste_user:
-            if username==part.get_pseudo() and email==part.get_email() and password==part.get_mdp():              
-                return render_template("login.html", page_mobile=False, page_login=True)
-    user.inserer_participant(user.get_prochain_id_participant(),username,email,password)
-    return redirect(url_for("login"))
+            if username == part.get_pseudo() or email == part.get_email():
+                return jsonify({"error": "exists"})
+
+        user.inserer_participant(user.get_prochain_id_participant(), username, email, password)
+        le_participant.set_all(user.get_prochain_id_participant()-1,username,email,password)
+        return jsonify({"success": "registered"})
+
+    return render_template("login.html", page_mobile=False, page_login=True) 
 
 @app.route("/login_admin")
 def login_admin():
