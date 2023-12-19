@@ -23,3 +23,8 @@ class Admin:
         
     def set_id(self,id):
         self.__id_admin=id
+
+    def set_all(self,id,pseudo,mdp):
+        self.set_pseudo(pseudo)
+        self.set_id(id)
+        self.set_mdp(mdp)
