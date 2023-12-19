@@ -1,7 +1,17 @@
+"""
+    Ce fichier va contenir la class suivre entre un user et un parcours
+"""
+
+
 class Suivre:
-    def __init__(self, id_parc, id_user, point, comm, numero_etape):
+    """
+        La class suivre
+    """
+
+    def __init__(self, id_user, id_parc, point, comm, numero_etape):
         """
-        Initialise un objet Suivre pour représenter la relation entre un utilisateur et un parcours suivi.
+        Initialise un objet Suivre pour représenter
+        la relation entre un utilisateur et un parcours suivi.
 
         Args:
             id_parc (int): L'ID du parcours suivi.
@@ -10,8 +20,8 @@ class Suivre:
             comm (str): Le commentaire laissé par l'utilisateur sur le parcours.
             numero_etape (int): Le numéro de l'étape atteinte dans le parcours.
         """
-        self.__id_parc = id_parc
         self.__id_user = id_user
+        self.__id_parc = id_parc
         self.__point = point
         self.__comm = comm
         self.__num_etape = numero_etape

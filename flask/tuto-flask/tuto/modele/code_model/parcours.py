@@ -1,5 +1,14 @@
+"""
+    Fichier contenant les parcours
+"""
+
+
 class Parcours:
-    def __init__(self, id, nom_parc, duree, description, id_photo):
+    """
+        La class parcours
+    """
+
+    def __init__(self, id_parc, nom_parc, duree, description, id_photo):
         """
         Initialise un objet Parcours avec les informations du parcours.
 
@@ -10,7 +19,7 @@ class Parcours:
             description (str): La description du parcours.
             id_photo (int): L'ID de la photo associée au parcours.
         """
-        self.__id_parc = id
+        self.__id_parc = id_parc
         self.__nom_parc = nom_parc
         self.__duree = duree
         self.__description = description

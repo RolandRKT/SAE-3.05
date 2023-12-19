@@ -1,0 +1,87 @@
+{% extends "base_slogan.html" %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+{% block main_content %}
+<div class = "page-content">
+    <section class="mid-content">
+        <h2 class="parcours-title">Mes parcours</h2> 
+        <form action="" onsubmit="search(); return false;">
+            <div class="search-input-container">
+                <input class="form-control me-2" type="search" name="query" placeholder="Votre recherche" aria-label="Search">
+                <img id="toggleSearch" class="search-toggle" src="../static/images/chercher.png" alt="Rechercher" onclick="search()"/>
+            </div>
+        </form>
+    </section>
+    <section class="bottom-content">
+        <div class="choice-content">
+            {% if onglet==1 %}
+                <h3 class="en-cours">
+                    <a href="#">
+                        En cours
+                        <div class="rectangle-01"></div>
+                    </a>
+                </h3>
+                <h3 class="termine">
+                    <a href="{{url_for('mes_parcours_terminees')}}">
+                        Terminés
+                        <div class="rectangle-02"></div>
+                    </a>
+                </h3>
+            {% else %}
+                <h3 class="en-cours">
+                    <a href="{{url_for('mes_parcours_en_cours')}}">
+                        En cours
+                        <div class="rectangle-02"></div>
+                    </a>
+                </h3>
+                <h3 class="termine">
+                    <a href="#">
+                        Terminés
+                        <div class="rectangle-01"></div>
+                    </a>
+                </h3>
+            {% endif %}
+        </div>
+        {% if onglet==1 %}
+            <div class="box">
+                {% for parc, image_parc in liste_suivis %}
+                <div class="box-parcours">
+                    <div class="info-parc">
+                        <h3 id="parcours-{{ parc.get_nom_parc() }}" class="title-parcours">{{ parc.get_nom_parc() }}</h3>
+                        <div class="img-desc">
+                            {% if image_parc %}
+                                <img src="{{ url_for('static', filename='images/' + image_parc) }}" alt="image de l'element static" class="image">
+                            {% else %}
+                                <img src="{{image_parc}}" alt="image internet ne marche pas" class="image">
+                            {% endif %}
+                            <p class="para">{{ parc.get_description() }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            <div>
+        {% else %}
+            <div class="box">
+                {% for parc, image_parc in liste_termines %}
+                <div class="box-parcours">
+                    <div class="info-parc">
+                        <h3 id="parcours-{{ parc.get_nom_parc() }}" class="title-parcours">{{ parc.get_nom_parc() }}</h3>
+                        <div class="img-desc">
+                            {% if image_parc %}
+                                <img src="{{ url_for('static', filename='images/' + image_parc) }}" alt="image de l'element static" class="image">
+                            {% else %}
+                                <img src="{{image_parc}}" alt="image internet ne marche pas" class="image">
+                            {% endif %}
+                            <p class="para">{{ parc.get_description() }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+        {% endif %}
+    </section>
+</div>   
+<script src="../static/script/search.js"></script>
+
+{% endblock %}
+
