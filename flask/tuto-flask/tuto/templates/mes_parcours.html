@@ -51,7 +51,9 @@
                         <h3 id="parcours-{{ parc.get_nom_parc() }}" class="title-parcours darkmode-ignore">{{ parc.get_nom_parc() }}</h3>
                         <div class="img-desc">
                             {% if image_parc %}
-                                <img src="{{ url_for('static', filename='images/' + image_parc) }}" alt="image de l'element static" class="image">
+                                <a href="{{ url_for('changement_parcours',num = parc[0].get_id_parc()) }}">    
+                                    <img src="{{ url_for('static', filename='images/' + image_parc) }}" alt="image de l'element static" class="image">
+                                </a>
                             {% else %}
                                 <img src="{{image_parc}}" alt="image internet ne marche pas" class="image">
                             {% endif %}
