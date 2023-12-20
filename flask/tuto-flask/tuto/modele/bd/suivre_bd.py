@@ -103,14 +103,9 @@ class Suivre_bd:
             param num_etape: Numéro de l'étape liée à l'entrée de suivi.
         """
         try:
-            if comm == None:
-                query = text(
-                    f"insert into SUIVRE values({str(id_part)} , {str(id_parc)},{str(note)} , 'null',{str(num_etape)})"
-                )
-            else:
-                query = text(
-                    f"insert into SUIVRE values({str(id_part)} , {str(id_parc)},{str(note)} , '{comm}',{str(num_etape)})"
-                )
+            query = text(
+                f"insert into SUIVRE values({str(id_part)} , {str(id_parc)} ,{str(num_etape)})"
+            )
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as exp:
