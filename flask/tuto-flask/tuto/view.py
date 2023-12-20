@@ -453,7 +453,8 @@ def mes_parcours_en_cours():
                                page_home=False,
                                page_profil=False,
                                page_mes_parcours=True,
-                               onglet=1)
+                               onglet=1,
+                               en_cours=True)
     return render_template("mes_parcours.html",
                                liste_termines=None,
                                liste_suivis=liste_parcour,
@@ -484,7 +485,8 @@ def mes_parcours_terminees():
                                page_home=False,
                                page_profil=False,
                                page_mes_parcours=True,
-                               onglet=2)
+                               onglet=2,
+                               en_cours=False)
     return render_template("mes_parcours.html",
                            liste_termines=liste_termine,
                            liste_suivis=liste_suivi,
