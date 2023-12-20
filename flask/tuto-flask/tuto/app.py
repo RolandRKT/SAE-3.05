@@ -12,6 +12,21 @@ from etape_bd import *
 
 
 app = Flask(__name__)
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'wade.contact.assistance@gmail.com'
+app.config['MAIL_PASSWORD'] = 'jjyp pyth gaka dsos'
+app.config['MAIL_DEFAULT_SENDER'] = ('Wade','wade.contact.assistance@gmail.com')
+app.config['MAIL_DEBUG'] = True
+app.config['MAIL_SUPPRESS_SEND'] = False
+app.config['MAIL_MAX_EMAILS'] = None
+app.config['MAIL_ASCII_ATTACHMENTS'] = False
+
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USE_TLS'] = True
+mail = Mail(app)
+
 app.config['SECRET_KEY'] = "bcc090e2-26b2-4c16-84ab-e766cc644320"
 
 def mkpath(path):

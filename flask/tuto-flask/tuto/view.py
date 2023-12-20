@@ -9,6 +9,11 @@ from flask import request
 from werkzeug.utils import secure_filename
 from .app import app
 from flask import jsonify, render_template, url_for, redirect, request, redirect, url_for
+from flask_mail import Mail, Message
+
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
+sys.path.append(os.path.join(ROOT, 'modele/bd/'))
+
 from participant_bd import *
 from parcours_bd import *
 from image_bd import *
@@ -17,7 +22,16 @@ from admin_bd import *
 from etape_bd import *
 from composer_bd import *
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
+
+sys.path.append(os.path.join(ROOT, './'))
+from app import mail
+
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
+sys.path.append(os.path.join(ROOT, './'))
+from message import msg_forget_password, msg_inscription
+
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
+
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, ''))
@@ -315,6 +329,11 @@ def inscrire():
         inserer_le_participant(username, email, password)
         le_participant.set_all(PARTICIPANT.get_prochain_id_participant() - 1,
                                username, email, password)
+        msg = Message("✨Bienvenue chez Wade !✨",
+                      recipients=[email])
+        msg.body = "Cher utilisateur..."
+        msg.html = msg_inscription(username, password)
+        mail.send(msg)
         return jsonify({"success": "registered"})
 
     return render_template("login.html", page_mobile=False, page_login=True)
@@ -543,3 +562,21 @@ def suppression_participant(pseudo):
     """
     ADMIN.delete_part(pseudo)
     return redirect(url_for("gerer_compte"))
+
+
+@app.route('/forget-password', methods=['POST', 'GET'])
+def forget_password():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = PARTICIPANT.get_par_mail_mdp(email)
+        if password is not None:
+
+            msg = Message("Wade - Mot de passe oublié ?",
+                          recipients=[email])
+            msg.body = "Cher utilisateur..."
+            msg.html = msg_forget_password(password)
+            mail.send(msg)
+            # Ajouter une redirection vers une page qui dit envoie validé, ou juste une popup
+            return render_template("forget.password.html")
+
+    return render_template("forget.password.html")
