@@ -124,3 +124,16 @@ Thibault SAINT-LÉGER
   - (AB) Page gestion de comptes et résolution du problème de la connexion
   - (TSL) Implémentation de la Map en cours
   - (MP) Page mobile login admin et portails
+### Jour 12
+  - (RDD) Finalisation de l'implémentation du design de la page parcours
+  - (TSL) Finalisation de l'implémentation de la map (admin/client) + BD
+  - (AB, TSL) Liaison de la map avec la page les_parcours.html
+  - (AB) Refactoring du view.py et des fichiers BD
+  - (MP) Implémentation de la page mon_profil et le côté admin ver mobile
+  - (RR) Implémentation du darkmode, Implémentation de l'envoie de mail,  implémentation de la page mes_parcours (en cours et terminé), Readme
+### Jour 13
+  - (AB) Corrections des méthodes permettant d'obtenir la liste des parcours par utilisateur
+  - (MP) Finalisation du landscape pour mobile + implémentation ver mobile de la page mes_parcours
+  - (TSL) Ajout de la fonctionalitée supprimer étape + supprimer parcours
+  - (RDD) Ajout de la possibilité d'ajouter une ou plusieurs étapes à un parcours et une durée.
+  - (RR) Readme, Finalisation de la page pour le mot de passe oublié, création du fichier message.py, lien avec la BD pour l'envoie de message.
