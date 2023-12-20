@@ -594,3 +594,7 @@ def forget_password():
             return render_template("forget.password.html")
 
     return render_template("forget.password.html")
+
+@app.route('/gestion_parcours')
+def gerer_parcours():
+    return render_template("")
