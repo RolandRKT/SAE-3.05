@@ -47,9 +47,7 @@ class Termine_bd:
         try:
             query = text(
                 f"select * from TERMINE where id_participant={id_participant} and id_parcours={id_parcours}")
-            print(query)
             resultat = self.cnx.execute(query)
-            print(resultat)
             termine = []
             for id_parcours, id_participant, note, comm in resultat:
                 termine.append(Termine(id_parcours, id_participant, note, comm))

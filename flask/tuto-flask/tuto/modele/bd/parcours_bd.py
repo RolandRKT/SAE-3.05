@@ -137,6 +137,8 @@ class Parcours_bd:
             query1 = text(f"delete from PARCOURS where id_parcours ={id_parcours}")
             query2 = text(f"delete from SUIVRE where id_parcours ={id_parcours}")
             query3 = text(f"delete from COMPOSER where id_parcours ={id_parcours}")
+            query4 = text(f"delete from TERMINE where id_parcours ={id_parcours}")
+            self.cnx.execute(query4)
             self.cnx.execute(query3)
             self.cnx.execute(query2)
             self.cnx.execute(query1)

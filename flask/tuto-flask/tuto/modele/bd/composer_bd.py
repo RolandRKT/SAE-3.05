@@ -144,7 +144,7 @@ class Composer_bd:
                 deleted_numero = result[0]
 
                 # Supprimer l'étape
-                query_delete_etape = text(f"DELETE FROM COMPOSER WHERE id_parcours = '{str(id_parc)}' AND id_etape= '{str(id_etape)}'")
+                query_delete_etape = text(f"DELETE FROM COMPOSER WHERE id_parcours = '{str(id_parc)}' AND id_etape= '{str(id_etape)}'")                
                 self.cnx.execute(query_delete_etape)
                 self.cnx.commit()
 
