@@ -51,6 +51,10 @@
                     <label for="image" class="label">Image du parcours:</label>
                     <input type="file" name="image" id="uploadFile" onchange="dragNdrop(event)" ondragover="drag()" ondrop="drop()" />
                 </div>
+                <div class="form-label-admin">
+                    <label for="duree" class="label">Durée du parcours (format HH:MM):</label>
+                    <input type="time" name="duree" id="duree" required/>
+                </div>
                 <div class="creation-parcours">
                     <input type="submit" value="Créer le parcours" />
                 </div>

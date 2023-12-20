@@ -508,6 +508,7 @@ def creer_parcours():
         # Traitement des autres champs
         nom_parcours = request.form.get('nom_parcours')
         description = request.form.get('textarea')
+        duree = request.form.get('duree')
         #etape = request.form.get('pets')
 
         app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -531,7 +532,7 @@ def creer_parcours():
                 image.inserer_image(next_id, filename+str("'"), str(filename)+str(next_id), str(filename))
 
                 # Insertion du parcours
-                inserer_parcours_view(nom_parcours, description, next_id)
+                inserer_parcours_view(nom_parcours, description, next_id, str(duree))
                 user_agent = request.user_agent.string
                 if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
                     return render_template("accueil_admin.html", page_mobile = True)
