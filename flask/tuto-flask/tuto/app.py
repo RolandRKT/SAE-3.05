@@ -2,19 +2,16 @@ import os.path
 import sys
 
 from flask import Flask, jsonify
-from flask_bootstrap import Bootstrap
-from flask_mail import Mail
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
 
-from connexion import cnx,close_cnx
+from connexion import cnx
 from composer_bd import *
 from etape_bd import *
 
 
 app = Flask(__name__)
-app.config['BOOTSTRAP_SERVE8LOCAL']=True
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -30,7 +27,6 @@ app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USE_TLS'] = True
 mail = Mail(app)
 
-bootstrap = Bootstrap(app)
 app.config['SECRET_KEY'] = "bcc090e2-26b2-4c16-84ab-e766cc644320"
 
 def mkpath(path):
