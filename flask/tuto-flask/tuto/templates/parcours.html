@@ -54,7 +54,7 @@
                             X : {{etape.get_coordonneX()}}, Y : {{etape.get_coordonneY()}}
                         </p>
                         {% if (x == 0)%}
-                        <form action="{{url_for('parcours', nb_etape = x + 1)}}" method="get" class="button-format">
+                        <form action="{{url_for('commencer')}}" method="get" class="button-format">
                             <div class="form-label">
                               <input type="submit" value="Commencer" />
                             </div>
