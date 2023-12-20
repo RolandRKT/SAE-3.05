@@ -1,4 +1,4 @@
-drop table INSCRIPTION;
+drop table TERMINE;
 drop table SUIVRE;
 drop table POSSEDER;
 drop table COMPOSER;
@@ -7,6 +7,7 @@ drop table ETAPE;
 drop table PARCOURS;
 drop table PARTICIPANT;
 drop table IMAGE;
+
 
 CREATE TABLE PARCOURS (
     id_parcours INT PRIMARY KEY,
@@ -31,34 +32,20 @@ create table IMAGE (
     nom_fic varchar(200)
 );
 
-create table INTERETETAPE (
-    id_interet int primary key,
-    nom_interet varchar(200),
-    description_interet varchar(200)
-);
-
 create table ETAPE (
     id_etape int primary key,
     nom_etape varchar(200),
     id_image int,
     coordonneX float,
-    coordonneY float
+    coordonneY float,
+    interet varchar(200)
 );
 
 create table SUIVRE (
     id_participant int,
     id_parcours int,
-    note decimal(2,1),
-    comm varchar(200),
     num_etape int,
-    primary key(id_parcours,id_participant),
-    CHECK(0 <= note and 5 >= note)
-);
-
-create table POSSEDER (
-    id_etape int,
-    id_interet int,
-    primary key(id_interet,id_etape)
+    primary key(id_parcours,id_participant)
 );
 
 create table COMPOSER (
@@ -75,11 +62,24 @@ create table ADMIN(
     primary key(id_admin)
 );
 
+create table TERMINE(
+    id_parcours int,
+    id_participant int,
+    note decimal(2,1),
+    comm varchar(200),
+    CHECK(0 <= note and 5 >= note),
+    primary key(id_parcours,id_participant)
+);
+
 -- ALTER TABLE pour attribuer les foreign key
 
 ALTER TABLE PARCOURS ADD UNIQUE (nom_parcours);
 
 ALTER TABLE PARCOURS ADD FOREIGN KEY (id_image) REFERENCES IMAGE(id_image);
+
+ALTER TABLE TERMINE ADD FOREIGN KEY (id_parcours) REFERENCES PARCOURS(id_parcours);
+ALTER TABLE TERMINE ADD FOREIGN KEY (id_participant) REFERENCES PARTICIPANT(id_participant);
+
 
 ALTER TABLE IMAGE ADD UNIQUE (nom_image);
 
@@ -94,10 +94,6 @@ ALTER TABLE ETAPE ADD FOREIGN KEY (id_image) REFERENCES IMAGE(id_image);
 ALTER TABLE SUIVRE ADD FOREIGN KEY (id_parcours) REFERENCES PARCOURS(id_parcours);
 
 ALTER TABLE SUIVRE ADD FOREIGN KEY (id_participant) REFERENCES PARTICIPANT(id_participant);
-
-ALTER TABLE POSSEDER ADD FOREIGN KEY (id_interet) REFERENCES INTERETETAPE(id_interet);
-
-ALTER TABLE POSSEDER ADD FOREIGN KEY (id_etape) REFERENCES ETAPE(id_etape);
 
 ALTER TABLE COMPOSER ADD FOREIGN KEY (id_parcours) REFERENCES PARCOURS(id_parcours);
 
