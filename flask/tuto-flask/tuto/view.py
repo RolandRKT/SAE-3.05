@@ -606,5 +606,5 @@ def suppression_parcours(id_parc):
         Cette fonction va nous permettre de supprimer un participant
         et de nous rediriger vers la page gerer compte
     """
-    PARCOURS.delete_parcours(id_parc)
-    return redirect(url_for("gerer_compte"))
+    PARCOURS.delete_parcours(int(id_parc))
+    return redirect(url_for("gerer_parcours"))
