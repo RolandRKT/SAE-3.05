@@ -5,22 +5,14 @@
 import os
 import sys
 from flask import jsonify, render_template, url_for, redirect, request
-from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField
-from wtforms.validators import DataRequired
 from flask import request
-from hashlib import sha256
-from wtforms import PasswordField
-from wtforms import FloatField
-from flask import flash
 from werkzeug.utils import secure_filename
-from .app import app, db
-import sqlalchemy
+from .app import app
 from flask import jsonify, render_template, url_for, redirect, request, redirect, url_for
 from participant_bd import *
 from parcours_bd import *
 from image_bd import *
-from connexion import cnx,close_cnx
+from connexion import cnx
 from admin_bd import *
 from etape_bd import *
 from composer_bd import *
