@@ -136,4 +136,4 @@ Thibault SAINT-LÉGER
   - (MP) Finalisation du landscape pour mobile + implémentation ver mobile de la page mes_parcours
   - (TSL) Ajout de la fonctionalitée supprimer étape + supprimer parcours
   - (RDD) Ajout de la possibilité d'ajouter une ou plusieurs étapes à un parcours et une durée.
-  - (RR) Readme, Finalisation de la page pour le mot de passe oublié, création du fichier message.py, lien avec la BD pour l'envoie de message.
+  - (RR) Readme, Finalisation de la page pour le mot de passe oublié, création du fichier message.py, lien avec la BD pour l'envoie de message, correction du fichier bash pour l'installation de modules
