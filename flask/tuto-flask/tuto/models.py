@@ -12,12 +12,14 @@ from connexion import cnx
 from etape_bd import Etape_bd
 from suivre_bd import Suivre_bd
 from composer_bd import Composer_bd
+from terminer_bd import Termine_bd
 
 SUIVRE = Suivre_bd(cnx)
 COMPOSER = Composer_bd(cnx)
 PARCOURS = Parcours_bd(cnx)
 IMAGE = Image_bd(cnx)
 PARTICIPANT = Participant_bd(cnx)
+TERMINE=Termine_bd(cnx)
 
 
 def lister_les_parcours(id_participant) -> list:
@@ -71,9 +73,7 @@ def les_parcour_suivi(id_participant):
     liste_suivi = SUIVRE.get_par_suivre_participant(id_participant)
     liste_parcour = []
     for suivi in liste_suivi:
-        if COMPOSER.get_max_etape_composer(
-                suivi.get_id_parc()) != SUIVRE.get_num_etape_suivre(
-                    suivi.get_id_parc()):
+        if not TERMINE.get_termine_id_part(id_participant,suivi.get_id_parc()):
             parcour_courant = PARCOURS.get_par_parcours(suivi.get_id_parc())[0]
             images = IMAGE.get_par_image(parcour_courant.get_id_photo())
             monimage = images[0].get_img_filename()
@@ -96,11 +96,10 @@ def les_parcours_terminer(id_participant):
             le suivi de chaque parcours par l'utilisateur.
     """
     liste_suivi = SUIVRE.get_par_suivre_participant(id_participant)
+    liste_des_parcours=PARCOURS.get_all_parcours()
     liste_termine = []
-    for suivi in liste_suivi:
-        if COMPOSER.get_max_etape_composer(
-                suivi.get_id_parc()) == SUIVRE.get_num_etape_suivre(
-                    suivi.get_id_parc()):
+    for suivi in liste_des_parcours:
+        if TERMINE.get_termine_id_part(id_participant,suivi.get_id_parc()):
             parcour_courant = PARCOURS.get_par_parcours(suivi.get_id_parc())[0]
             images = IMAGE.get_par_image(parcour_courant.get_id_photo())
             monimage = images[0].get_img_filename()
@@ -110,13 +109,27 @@ def les_parcours_terminer(id_participant):
 
 def liste_terminer_et_suivi(id_part):
     """
-        Cette fonction 
+    Cette fonction retourne la liste des parcours suivis et terminés par un participant.
+
+    Parameters:
+        id_part (int): L'ID du participant.
+
+    Returns:
+        list: Une liste contenant les parcours suivis et terminés par le participant.
     """
     liste_suivi = SUIVRE.get_par_suivre_participant(id_part)
-    liste_termine = []
-    for suivi in liste_suivi:
-        liste_termine.append(suivi)
-    return liste_termine
+    liste_termine = TERMINE.get_all_termine(id_part)
+
+    if liste_suivi and liste_termine:
+        return liste_suivi + liste_termine
+    elif liste_suivi:
+        return liste_suivi
+    elif liste_termine:
+        return liste_termine
+
+    return []
+
+
 
 
 

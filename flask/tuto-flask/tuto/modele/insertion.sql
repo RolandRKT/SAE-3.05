@@ -1,8 +1,9 @@
 -- Insertion des données dans la table PARCOURS
 INSERT INTO PARCOURS (id_parcours, nom_parcours, duree, description_parcours, id_image)
 VALUES (1, 'Parcours A', '00:30:00', 'Description du parcours A', 1),
-       (2, 'Parcours B', '01:15:00', 'Description du parcours B', 2);
-
+       (2, 'Parcours B', '01:15:00', 'Description du parcours B', 2),
+       (3, 'Parcours C', '01:15:00', 'Description du parcours C', 1),
+       (4, 'Parcours D', '01:15:00', 'Description du parcours D', 2);
 -- Insertion des données dans la table PARTICIPANT
 INSERT INTO PARTICIPANT (id_participant, pseudo, email, mdp)
 VALUES (1, 'test', 'test@example.com', 'test'),
@@ -23,7 +24,8 @@ VALUES (1, 'Monument', 1, 10.5, 20.3, 'permet de visite un monument'),
        
 -- Insertion des données dans la table SUIVRE
 INSERT INTO SUIVRE (id_participant, id_parcours, num_etape)
-VALUES (2, 2, 2);
+VALUES (2, 2, 2),
+       (1,3,1);
 
 -- Insertion des données dans la table COMPOSER
 INSERT INTO COMPOSER (id_parcours, id_etape, numero)
@@ -31,7 +33,12 @@ VALUES (1, 1, 1),
        (1, 2, 2),
        (2, 2, 1),
        (2, 3, 2),
-       (2, 4, 3);
+       (2, 4, 3),
+       (3, 1, 1),
+       (3, 2, 2),
+       (3, 3, 3);
+
+
 
 -- Insertion des données dans la table ADMIN
 INSERT INTO ADMIN (id_admin, pseudo, mdp)
