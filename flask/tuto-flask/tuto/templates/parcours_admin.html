@@ -50,7 +50,12 @@
                     <ul>
                     {% for etape in lesetapes_json %}
                             <li class="etape-info">id = {{etape.id}} coord_X = {{etape.coordonneX}}, coord_Y = {{etape.coordonneY}}, nom = {{etape.nom}}</li>
-                            <button> test</button>
+                            <form action="{{ url_for('supprimer_etape_parcours', num_etape=etape.id, num_parcours=num_parcours) }}" method="get" class="button-format">
+                                <div class="delete-button">
+                                  <input type="submit" value="Supprimer" />
+                                </div>
+                                <a></a>
+                            </form>
                     {% endfor %}
                     </ul>
                 </section>
