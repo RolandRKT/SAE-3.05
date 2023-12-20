@@ -135,3 +135,23 @@ class Composer_bd:
             print(exp)
             return None
 
+    def supprimer_etape_parcours(self, id_parc, id_etape):
+        try:
+            # Récupérer le numéro de l'étape à supprimer
+            query_get_numero = text(f"SELECT numero FROM COMPOSER WHERE id_parcours = '{str(id_parc)}' AND id_etape = '{str(id_etape)}'")
+            result = self.cnx.execute(query_get_numero).fetchone()
+            if result:
+                deleted_numero = result[0]
+
+                # Supprimer l'étape
+                query_delete_etape = text(f"DELETE FROM COMPOSER WHERE id_parcours = '{str(id_parc)}' AND id_etape= '{str(id_etape)}'")
+                self.cnx.execute(query_delete_etape)
+                self.cnx.commit()
+
+                # Décrémenter les numéros des étapes suivantes
+                query_update_numeros = text(f"UPDATE COMPOSER SET numero = numero - 1 WHERE id_parcours = '{str(id_parc)}' AND numero > {deleted_numero}")
+                self.cnx.execute(query_update_numeros)
+                self.cnx.commit()
+
+        except Exception as exp:
+            print("Erreur lors de la suppression de la composition :", str(exp))

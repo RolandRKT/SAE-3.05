@@ -106,10 +106,10 @@ def les_parcours():
     if any(keyword in user_agent
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("les_parcours_mobile.html",
-                               liste_parc=lister_les_parcours(),
+                               liste_parc=lister_les_parcours(le_participant.get_id()),
                                page_mobile=True)
     return render_template("les_parcours.html",
-                               liste_parc=lister_les_parcours(),
+                               liste_parc=lister_les_parcours(le_participant.get_id()),
                                page_mobile=False)
 
 
@@ -135,14 +135,18 @@ def changement_parcours(num):
     """
     global num_parcours
     num_parcours = num
-    return redirect(url_for("parcours", nb_etape=1))
+    return redirect(url_for("parcours", nb_etape=0))
     
 
 @app.route("/parcours/<int:nb_etape>")
 def parcours(nb_etape):
     """
         se dirige vers la page parcours
-    """    
+    """
+    if nb_etape == 0:
+        val = 1
+    else:
+        val = nb_etape
     user_agent = request.user_agent.string
     
     etape = Etape_bd(cnx)
@@ -177,9 +181,9 @@ def parcours(nb_etape):
     
     print(lesetapes_json)
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[nb_etape - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
+        return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[val - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
     else:
-        return render_template("parcours.html", page_mobile=False, etape_actu = [lesetapes[nb_etape - 1 ]],  x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
+        return render_template("parcours.html", page_mobile=False, etape_actu = [lesetapes[val - 1 ]],  x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
 
 
 
@@ -188,8 +192,8 @@ def parcours(nb_etape):
 
 
 
-@app.route("/admin/parcours/<int:nb_etape>")
-def parcours_admin(nb_etape):
+@app.route("/admin/parcours")
+def parcours_admin():
     """
         se dirige vers la page parcours
     """
@@ -238,9 +242,10 @@ def parcours_admin(nb_etape):
     
     print(lesetapes_json)
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[nb_etape - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
+        print("Pas encore implémenter")
+        return None
     else:
-        return render_template("parcours_admin.html", page_mobile=False, etape_actu = [lesetapes[nb_etape - 1 ]],  x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
+        return render_template("parcours_admin.html", page_mobile=False, etape_actu = [lesetapes[0]], longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
 
 
 
@@ -564,6 +569,10 @@ def suppression_participant(pseudo):
     ADMIN.delete_part(pseudo)
     return redirect(url_for("gerer_compte"))
 
+@app.route('/supprimer_etape_parcours<int:num_etape>/<int:num_parcours>', methods=['GET'])
+def supprimer_etape_parcours(num_etape, num_parcours):
+    composer.supprimer_etape_parcours(num_parcours, num_etape)
+    return redirect(url_for("parcours_admin"))
 
 @app.route('/forget-password', methods=['POST', 'GET'])
 def forget_password():
@@ -581,7 +590,6 @@ def forget_password():
             return render_template("forget.password.html")
 
     return render_template("forget.password.html")
-
 @app.route('/gestion_parcours')
 def gerer_parcours():
     les_parcours = PARCOURS.get_all_parcours()

@@ -115,6 +115,13 @@ class Suivre_bd:
             return None
 
     def get_num_etape_suivre(self, idP):
+        """
+            Récupère le numéro de l'étape atteinte dans un parcours par un participant.
+            Args:
+            Paramètres :
+                idP (int): L'ID du parcours.
+            return : Le numéro de l'étape atteinte.
+        """
         try:
             query = text(
                 f"select num_etape as m from SUIVRE where id_parcours={idP}")
@@ -122,6 +129,26 @@ class Suivre_bd:
             if result and result.m:
                 print(int(result.m))
                 return int(result.m)
+        except Exception as exp:
+            print("la connexion a échoué")
+            print(exp)
+            return None
+        
+    def update_numero_etape(self, id_participant,id_parcours, num_etape):
+        """
+            Met à jour le numéro de l'étape atteinte dans un parcours par un participant.
+            Args:
+            Paramètres :
+                id_participant (int): L'ID du participant.
+                id_parcours (int): L'ID du parcours.
+                num_etape (int): Le numéro de l'étape atteinte.
+            return : None
+        """
+        try:
+            query = text(
+                f"update SUIVRE set num_etape = {num_etape} where id_parcours={id_parcours} and id_participant={id_participant}")
+            self.cnx.execute(query)
+            self.cnx.commit()
         except Exception as exp:
             print("la connexion a échoué")
             print(exp)
