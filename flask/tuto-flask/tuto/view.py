@@ -52,6 +52,11 @@ administrateur = Admin(-1, "", "")
 
 PARTICIPANT = Participant_bd(cnx)
 ADMIN = Admin_bd(cnx)
+PARCOURS = Parcours_bd(cnx)
+ETAPE = Etape_bd(cnx)
+COMPOSER =  Composer_bd(cnx)
+SUIVRE = Suivre_bd(cnx)
+IMAGE = Image_bd(cnx)
 
 from .app import app
 
@@ -144,33 +149,29 @@ def parcours(nb_etape):
     """
         se dirige vers la page parcours
     """
-    suivre = Suivre_bd(cnx)
     if nb_etape == 0:
         val = 1
-        suivre.inserer_suivre(le_participant.get_id(), num_parcours, 0, None, val)
+        SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, val)
     else:
         val = nb_etape
-        suivre.update_numero_etape(le_participant.get_id(),num_parcours, nb_etape)
+        SUIVRE.update_numero_etape(le_participant.get_id(),num_parcours, nb_etape)
     user_agent = request.user_agent.string
     
-    etape = Etape_bd(cnx)
-    composer =  Composer_bd(cnx)
-    liste_composer = composer.get_par_parcour_composition(num_parcours)
+    liste_composer = COMPOSER.get_par_parcour_composition(num_parcours)
     liste_etape = []
     for comp in liste_composer:    
-        liste_etape.append(etape.get_par_id_etape(comp.get_parcours_id()))
+        liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
     
     lesetapes = []
 
     for eta in liste_etape:
-                i=Image_bd(cnx)
-                images=i.get_par_image(eta.get_id_photo())
-                try:
-                    monimage=images[0].get_img_filename()
-                    lesetapes.append((eta,monimage))
-                except:
-                    print("I m here")
-                    lesetapes.append((eta, "image_default.jpg"))
+        images=IMAGE.get_par_image(eta.get_id_photo())
+        try:
+            monimage=images[0].get_img_filename()
+            lesetapes.append((eta,monimage))
+        except:
+            print("I m here")
+            lesetapes.append((eta, "image_default.jpg"))
     lesetapes_json = []
 
     for eta, monimage in lesetapes:
@@ -189,45 +190,34 @@ def parcours(nb_etape):
     else:
         return render_template("parcours.html", page_mobile=False, etape_actu = [lesetapes[val - 1 ]],  x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
 
-
-
-
-
-
-
-
 @app.route("/admin/parcours")
 def parcours_admin():
     """
         se dirige vers la page parcours
     """
     user_agent = request.user_agent.string
-    etape = Etape_bd(cnx)
-    composer =  Composer_bd(cnx)
 
     print(num_parcours)
 
-    liste_composer = composer.get_par_parcour_composition(num_parcours)
+    liste_composer = COMPOSER.get_par_parcour_composition(num_parcours)
     liste_etape = []
     
     for comp in liste_composer:
         print("hhehehehe")
         print(comp,comp.get_parcours_id())
-        liste_etape.append(etape.get_par_id_etape(comp.get_parcours_id()))
+        liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
     print(liste_etape)
     lesetapes = []
 
     for eta in liste_etape:
-                i=Image_bd(cnx)
-                print(eta.get_id_photo())
-                images=i.get_par_image(eta.get_id_photo())
-                try:
-                    monimage=images[0].get_img_filename()
-                    lesetapes.append((eta,monimage))
-                except:
-                    lesetapes.append((eta, "image_default.jpg"))
+        print(eta.get_id_photo())
+        images=IMAGE.get_par_image(eta.get_id_photo())
+        try:
+            monimage=images[0].get_img_filename()
+            lesetapes.append((eta,monimage))
+        except:
+            lesetapes.append((eta, "image_default.jpg"))
     
-
     print(lesetapes)
 
     lesetapes_json = []
@@ -238,7 +228,6 @@ def parcours_admin():
             'nom': eta.get_nom_etape(),
             'coordonneX': eta.get_coordonneX(),
             'coordonneY': eta.get_coordonneY(),
-            # Ajoutez d'autres propriétés selon vos besoins
             'image': monimage,
         }
         print(etape_data)
@@ -250,8 +239,6 @@ def parcours_admin():
         return None
     else:
         return render_template("parcours_admin.html", page_mobile=False, etape_actu = [lesetapes[0]], longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
-
-
 
 @app.route("/mon-profil")
 def mon_profil():
@@ -276,7 +263,6 @@ def mon_profil():
                                participant=le_participant,
                                page_profil=True)
 
-
 @app.route("/les-parcours", methods=["GET", "POST"])
 def connecter():
     """
@@ -300,7 +286,6 @@ def connecter():
                                    found_user.get_mdp())
             return redirect(url_for("les_parcours"))
     return redirect(url_for("login"))
-
 
 @app.route("/accueil_admin", methods=["POST"])
 def connecter_admin():
@@ -352,19 +337,11 @@ def inscrire():
 def get_etapes_parcours_route():
     # Récupérez l'identifiant du parcours depuis la requête
     parcours_id = request.json['parcours_id']
-
-    composer =  Composer_bd(cnx)
-
     
-    # Appelez la fonction Python
-    etapes = composer.get_par_parcour_composition(parcours_id)
+    etapes = COMPOSER.get_par_parcour_composition(parcours_id)
 
-    # Renvoyez les résultats au format JSON
     return jsonify(etapes=etapes)
 
-
-
-etape = Etape_bd(cnx)  # Assurez-vous de créer une instance appropriée de votre classe
 
 @app.route('/api/inserer_etape', methods=['POST'])
 def inserer_etape():
@@ -376,25 +353,22 @@ def inserer_etape():
     coordX = data.get('coordX')
     coordY = data.get('coordY')
 
-    etape.inserer_etape(idetape, nometape, idimage, coordX, coordY)
+    ETAPE.inserer_etape(idetape, nometape, idimage, coordX, coordY)
 
     return jsonify(success=True, message='Étape insérée avec succès')
 
 @app.route('/api/get_prochain_id', methods=['GET'])
 def get_prochain_id():
-    prochain_id = etape.get_prochain_id_etape()
+    prochain_id = ETAPE.get_prochain_id_etape()
 
     return jsonify(prochain_id = prochain_id)
-
-composer = Composer_bd(cnx)
 
 @app.route('/api/get_prochain_numero', methods=['GET'])
 def get_prochain_numero():
     idparc = request.args.get('idparc')
     print(idparc, "loupe")
-    prochain_num = composer.get_prochain_numero_composer(idparc)
-    print()
-    actu_id = etape.get_prochain_id_etape()
+    prochain_num = COMPOSER.get_prochain_numero_composer(idparc)
+    actu_id = ETAPE.get_prochain_id_etape()
     print(actu_id)
     return jsonify(prochain_num=prochain_num, actu_id = actu_id - 1)
 
@@ -408,7 +382,7 @@ def inserer_composer():
 
     print(f'idetape: {idetape}, idparc: {idparc}, numero: {numero}')
 
-    composer.inserer_compose(idparc, idetape, numero)
+    COMPOSER.inserer_compose(idparc, idetape, numero)
 
     return jsonify(success=True, message='Composer insérée avec succès')
 
@@ -508,11 +482,9 @@ def mes_parcours_terminees():
                            page_mes_parcours=True,
                            onglet=2)
 
-
 @app.route("/creation_parcours")
 def creation_parcours():
-    etape = Etape_bd(cnx)
-    liste_etape = etape.get_all_etape()
+    liste_etape = ETAPE.get_all_etape()
     print(liste_etape)
     
     user_agent = request.user_agent.string
@@ -544,10 +516,9 @@ def creer_parcours():
 
                 print("Chemin du fichier :", filepath)
                 image.save(filepath)
-                image = Image_bd(cnx)
-                next_id = image.get_prochain_id_image()
+                next_id = IMAGE.get_prochain_id_image()
                 # Enregistrez le nom du fichier dans la base de données ou utilisez comme nécessaire
-                image.inserer_image(next_id, filename+str("'"), str(filename)+str(next_id), str(filename))
+                IMAGE.inserer_image(next_id, filename+str("'"), str(filename)+str(next_id), str(filename))
 
                 # Insertion du parcours
                 inserer_parcours_view(nom_parcours, description, next_id)
@@ -590,8 +561,8 @@ def suppression_participant(pseudo):
     return redirect(url_for("gerer_compte"))
 
 @app.route('/supprimer_etape_parcours<int:num_etape>/<int:num_parcours>', methods=['GET'])
-def supprimer_etape_parcours(num_etape, num_parcours):
-    composer.supprimer_etape_parcours(num_parcours, num_etape)
+def supprimer_etape_parcours(id_etape, id_parcours):
+    COMPOSER.supprimer_etape_parcours(id_parcours, id_etape)
     return redirect(url_for("parcours_admin"))
 
 @app.route('/forget-password', methods=['POST', 'GET'])
@@ -608,12 +579,32 @@ def forget_password():
             mail.send(msg)
             # Ajouter une redirection vers une page qui dit envoie validé, ou juste une popup
             return render_template("forget.password.html")
-
     return render_template("forget.password.html")
 
+@app.route('/gestion_parcours')
+def gerer_parcours():
+    les_parcours = PARCOURS.get_all_parcours()
+    les_etapes = ETAPE.get_all_etape()
+    return render_template("gerer_parcours.html", liste_parc=les_parcours,
+                           liste_etape=les_etapes)
 
-@app.route("/cree-etape")
-def page_cree_etape():
-    return render_template("gerer_compte.html",
-                           liste_part=liste_participant,
-                           adm=PARTICIPANT)
+@app.route('/suppression-parcours/<id_parc>', methods=['POST', 'DELETE'])
+def suppression_parcours(id_parc):
+    """
+        Cette fonction va nous permettre de supprimer un participant
+        et de nous rediriger vers la page gerer parcours
+    """
+    PARCOURS.delete_parcours(int(id_parc))
+    return redirect(url_for("gerer_parcours"))
+
+@app.route('/suppression-etape/<id_etp>', methods=['POST', 'DELETE'])
+def suppression_etape(id_etp):
+    """
+        Cette fonction va nous permettre de supprimer une étape
+        et de nous rediriger vers la page gerer parcours
+    """
+    les_parcours = PARCOURS.get_all_parcours()
+    for parc in les_parcours:
+        COMPOSER.supprimer_etape_parcours(parc.get_id_parc(),
+                                          id_etp)
+    return redirect(url_for("gerer_parcours"))
