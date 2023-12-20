@@ -589,3 +589,10 @@ def forget_password():
             return render_template("forget.password.html")
 
     return render_template("forget.password.html")
+
+
+@app.route("/cree-etape")
+def page_cree_etape():
+    return render_template("gerer_compte.html",
+                           liste_part=liste_participant,
+                           adm=PARTICIPANT)

@@ -134,6 +134,9 @@ class Suivre_bd:
             print(exp)
             return None
         
+
+
+        
     def update_numero_etape(self, id_participant,id_parcours, num_etape):
         """
             Met à jour le numéro de l'étape atteinte dans un parcours par un participant.
