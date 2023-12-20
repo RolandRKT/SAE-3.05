@@ -51,19 +51,19 @@
     <table class="table">
         <thead>
             <tr>
-                <th class="cle">ID Parcours</th>
-                <th class="cle">Nom Parcours</th>
+                <th class="cle">ID étape</th>
+                <th class="cle">Nom étape</th>
                 <th class="cle">Supprimer</th>
                 <th class="cle">Editer</th>
             </tr>
         </thead>
         <tbody>
-            {% for parc in liste_parc %}
+            {% for etp in liste_etape %}
                 <tr>
-                    <td class="valeurs">{{ parc.get_id_parc() }}</td>
-                    <td class="valeurs">{{ parc.get_nom_parc() }}</td>
+                    <td class="valeurs">{{ etp.get_id_etape() }}</td>
+                    <td class="valeurs">{{ etp.get_nom_etape() }}</td>
                     <td class="valeurs">
-                        <form id="supprimer" method="POST" action="{{url_for('suppression_parcours', id_parc=parc.get_id_parc())}}" onsubmit="return confirmDelete('{{ parc.get_nom_parc() }}')">
+                        <form id="supprimer" method="POST" action="{{url_for('suppression_etape', id_etp=etp.get_id_etape())}}" onsubmit="return confirmDeleteEtp('{{ etp.get_nom_etape() }}')">
                             <input type="hidden" name="_method" value="DELETE">
                             <button type="submit" class="noselect buttonbyme removebutton">
                                 <span class="text">Delete</span>
@@ -91,6 +91,10 @@
 <script>
     function confirmDelete(nom_parc) {
         var confirmation = confirm("Êtes vous sûr de vouloir supprimer le parcours : '" + nom_parc + "'?");
+        return confirmation;
+    }
+    function confirmDeleteEtp(nom_etp) {
+        var confirmation = confirm("Êtes vous sûr de vouloir supprimer l'étape : '" + nom_etp + "'?");
         return confirmation;
     }
 </script>
