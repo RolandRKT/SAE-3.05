@@ -53,6 +53,7 @@ administrateur = Admin(-1, "", "")
 PARTICIPANT = Participant_bd(cnx)
 ADMIN = Admin_bd(cnx)
 PARCOURS = Parcours_bd(cnx)
+ETAPE = Etape_bd(cnx)
 
 from .app import app
 
@@ -598,7 +599,9 @@ def forget_password():
 @app.route('/gestion_parcours')
 def gerer_parcours():
     les_parcours = PARCOURS.get_all_parcours()
-    return render_template("gerer_parcours.html", liste_parc=les_parcours)
+    les_etapes = ETAPE.get_all_etape()
+    return render_template("gerer_parcours.html", liste_parc=les_parcours,
+                           liste_etape=les_etapes)
 
 @app.route('/suppression-parcours/<id_parc>', methods=['POST', 'DELETE'])
 def suppression_parcours(id_parc):
@@ -607,4 +610,13 @@ def suppression_parcours(id_parc):
         et de nous rediriger vers la page gerer compte
     """
     PARCOURS.delete_parcours(int(id_parc))
+    return redirect(url_for("gerer_parcours"))
+
+@app.route('/suppression-etape/<id_etp>', methods=['POST', 'DELETE'])
+def suppression_etape(id_etp):
+    """
+        Cette fonction va nous permettre de supprimer un participant
+        et de nous rediriger vers la page gerer compte
+    """
+    #Get l'objet Etape, get l'id du parcours associé et appeler la ligne de TSL
     return redirect(url_for("gerer_parcours"))
