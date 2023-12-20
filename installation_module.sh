@@ -34,46 +34,29 @@ if [ "$reponse1" = "o" ]; then
     echo "--------------------"
 fi
 
-read -p " Voulez-vous installer le module bootstrap-flask ? o/n " reponse2
+read -p " Voulez-vous installer le module SQL-ALCHEMY ? o/n " reponse2
 
 if [ "$reponse2" = "o" ]; then
-    echo "Installation du package Yaml"
-    pip install bootstrap-flask
-    echo "--------------------"
-fi
-
-read -p " Voulez-vous installer le module SQL-ALCHEMY ? o/n " reponse3
-
-if [ "$reponse3" = "o" ]; then
     echo "--------------------"
     echo "Installation du module SQL-ALCHEMY"
     pip install flask-sqlalchemy
     echo "--------------------"
 fi
 
-read -p " Voulez-vous installer le module flask-wtf ? o/n " reponse4
+read -p " Voulez-vous installer le module mysql-connector-python ? o/n " reponse3
 
-if [ "$reponse4" = "o" ]; then
-    echo "--------------------"
-    echo "Installation du module flask-wtf"
-    pip install flask-wtf
-    echo "--------------------"
-fi
-
-read -p " Voulez-vous installer le module flask-login ? o/n " reponse5
-
-if [ "$reponse5" = "o" ]; then
-    echo "--------------------"
-    echo "Installation du module flask-login"
-    pip install flask-login
-    echo "--------------------"
-fi
-
-read -p " Voulez-vous installer le module mysql-connector-python ? o/n " reponse6
-
-if [ "$reponse6" = "o" ]; then
+if [ "$reponse3" = "o" ]; then
     echo "--------------------"
     echo "Installation du module mysql-connector-python"
     pip install mysql-connector-python
+    echo "--------------------"
+fi
+
+read -p " Voulez-vous installer le module Flask-Mail ? o/n " reponse4
+
+if [ "$reponse4" = "o" ]; then
+    echo "--------------------"
+    echo "Installation du module mysql-connector-python"
+    pip install Flask-Mail
     echo "--------------------"
 fi

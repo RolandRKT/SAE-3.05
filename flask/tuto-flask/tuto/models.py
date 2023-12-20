@@ -20,18 +20,31 @@ IMAGE = Image_bd(cnx)
 PARTICIPANT = Participant_bd(cnx)
 
 
-def lister_les_parcours() -> list:
+def lister_les_parcours(id_participant) -> list:
     """
         Retourne une liste de tuples contenant chaque parcours et son image associée.
-
+        Args:
+        Param: id_participant : l'id du participant
         Returns:
             List[Tuple[Parcours, str]]:
                 Une liste de tuples où chaque tuple contient un objet Parcours et
                 le nom de son image associée.
     """
-    return [(parc,
-             IMAGE.get_par_image(parc.get_id_photo())[0].get_img_filename())
-            for parc in PARCOURS.get_all_parcours()]
+    liste = []
+    liste_term=liste_terminer_et_suivi(id_participant)
+    boolean=False
+    for parc in PARCOURS.get_all_parcours():
+        for suivi in liste_term:
+            print(type(parc.get_id_parc()),type(suivi.get_id_parc()))
+            if parc.get_id_parc() == suivi.get_id_parc():
+                boolean=True
+                print(boolean)
+        if not boolean:
+            liste.append((parc,IMAGE.get_par_image(parc.get_id_photo())[0].get_img_filename()))
+            print(liste)
+        boolean=False
+    return liste
+            
 
 
 def inserer_le_participant(user, mail, paw):
@@ -93,6 +106,18 @@ def les_parcours_terminer(id_participant):
             monimage = images[0].get_img_filename()
             liste_termine.append((parcour_courant, monimage))
     return (liste_termine, liste_suivi)
+
+
+def liste_terminer_et_suivi(id_part):
+    """
+        Cette fonction 
+    """
+    liste_suivi = SUIVRE.get_par_suivre_participant(id_part)
+    liste_termine = []
+    for suivi in liste_suivi:
+        liste_termine.append(suivi)
+    return liste_termine
+
 
 
 def lister_etape_du_parcours():
