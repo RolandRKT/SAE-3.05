@@ -2,6 +2,7 @@ import os.path
 import sys
 
 from flask import Flask, jsonify
+from flask_mail import Mail
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
