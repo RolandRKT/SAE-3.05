@@ -40,7 +40,7 @@ sys.path.append(os.path.join(ROOT, ''))
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
-from models import les_parcour_suivi, les_parcours_terminer,inserer_parcours_view, lister_les_parcours, inserer_le_participant
+from models import les_parcour_suivi, les_parcours_terminer,inserer_parcours_view, lister_les_parcours, inserer_le_participant, inserer_composer_view
 from participant import *
 from admin import *
 
@@ -522,6 +522,12 @@ def creer_parcours():
         description = request.form.get('textarea')
         duree = request.form.get('duree')
 
+        ordered_etapes = request.form.get('orderedEtapes')
+        print(ordered_etapes)
+        ordered_etapes_ids = [int(etape_id) for etape_id in ordered_etapes.split(',') if etape_id]
+        print(ordered_etapes_ids)
+        
+        
         app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
         if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -539,11 +545,14 @@ def creer_parcours():
                 image.save(filepath)
                 image = Image_bd(cnx)
                 next_id = image.get_prochain_id_image()
-                # Enregistrez le nom du fichier dans la base de données ou utilisez comme nécessaire
+                # Enregistrez le nom du fichier dans la base de données
                 image.inserer_image(next_id, filename+str("'"), str(filename)+str(next_id), str(filename))
 
                 # Insertion du parcours
-                inserer_parcours_view(nom_parcours, description, next_id, str(duree))
+                parcours_id = inserer_parcours_view(nom_parcours, description, next_id, str(duree))
+
+                for order, etape_id in enumerate(ordered_etapes_ids, start=1):
+                    inserer_composer_view(parcours_id, etape_id, order)
                 
                 return redirect(url_for("accueil_admin"))
         return redirect(url_for("creation_parcours"))

@@ -39,8 +39,8 @@
                             <div class="checkbox-list" id="checkboxList">
                                 {% for etape in liste %}
                                     <div class="form-check">
-                                        <input class="form-check-input" onclick="" type="checkbox" name="etapes[]" value="{{ etape.get_nom_etape() }}" id="etape_{{ etape.get_id_etape() }}" data-id="etape_{{ etape.get_id_etape() }}">
-                                        <label class="form-check-label" for="etape_{{ etape.get_id_etape() }}">{{ etape.get_nom_etape() }}</label>
+                                        <input class="form-check-input" onclick="" type="checkbox" name="etapes[]" value="{{ etape.get_nom_etape() }}" data-id="{{ etape.get_id_etape() }}">
+                                        <label class="form-check-label" for="{{ etape.get_id_etape() }}">{{ etape.get_nom_etape() }}</label>
                                     </div>
                                 {% endfor %}
                             </div>
@@ -83,7 +83,12 @@
                     checkboxList.style.display = (checkboxList.style.display === "none") ? "block" : "none";
 
                     var selectedEtapes = document.querySelectorAll('input[name="etapes[]"]:checked');
-                    var orderedEtapes = Array.from(selectedEtapes).map(etape => etape.getAttribute('data-id'));
+                    var orderedEtapes = Array.from(selectedEtapes)
+                        .sort((a, b) => {
+                            // Compare la position dans le DOM
+                            return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+                        })
+                        .map(etape => etape.getAttribute('data-id'));
 
                     // Mettez à jour le champ d'ordre caché avec les ID d'étapes ordonnés
                     document.getElementById("orderedEtapes").value = orderedEtapes.join(',');

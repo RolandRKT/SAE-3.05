@@ -135,6 +135,9 @@ def lister_etape_du_parcours():
 
 
 def inserer_parcours_view( nom_parcours, description, id_img, duree):
-    parcours = Parcours_bd(cnx)
-    next_id_parcours = parcours.get_prochain_id_parcours()
-    parcours.inserer_parcours(next_id_parcours, nom_parcours, duree+str(':00'), description, id_img)
+    next_id_parcours = PARCOURS.get_prochain_id_parcours()
+    PARCOURS.inserer_parcours(next_id_parcours, nom_parcours, duree+str(':00'), description, id_img)
+    return next_id_parcours
+
+def inserer_composer_view(parcours_id, etape_id, order):
+    COMPOSER.inserer_compose(parcours_id, etape_id, order)
