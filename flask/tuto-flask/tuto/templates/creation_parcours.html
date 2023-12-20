@@ -44,6 +44,7 @@
                                     </div>
                                 {% endfor %}
                             </div>
+                            <div id="errorMessage" style="color: red;"></div>
                         </div>
                     </div>
                 </div>
@@ -79,6 +80,17 @@
                 function toggleCheckboxList() {
                     var checkboxList = document.getElementById("checkboxList");
                     checkboxList.style.display = (checkboxList.style.display === "none") ? "block" : "none";
+
+                    var selectedEtapes = document.querySelectorAll('input[name="etapes[]"]:checked').length;
+
+                    // Vérifiez si le nombre d'étapes sélectionnées est inférieur à 2
+                    if (selectedEtapes < 2) {
+                        document.getElementById("errorMessage").innerHTML = "Veuillez sélectionner au moins deux étapes.";
+                        return; // Empêche la soumission du formulaire
+                    } else {
+                        document.getElementById("errorMessage").innerHTML = ""; // Efface le message d'erreur
+                    }
+
                 }
             </script>
         </div>
