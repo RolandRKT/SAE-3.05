@@ -61,3 +61,20 @@ class Termine_bd:
             print("la connexion a échoué, all termine")
             print(exp)
             return None
+
+    def inserer_termine(self, id_parcours, id_participant, note, comm):
+        """
+            Insère un termine dans la base de données.
+        """
+        try:
+            query = text(
+                f"insert into TERMINE(id_parcours, id_participant, note, comm) values({id_parcours}, {id_participant}, {note}, '{comm}')")
+            query_delete_suivre = text(
+                f"delete from SUIVRE where id_parcours={id_parcours} and id_participant={id_participant}")
+            self.cnx.execute(query)
+            self.cnx.execute(query_delete_suivre)
+            self.cnx.commit()
+        except Exception as exp:
+            print("la connexion a échoué, inserer termine")
+            print(exp)
+            return None
