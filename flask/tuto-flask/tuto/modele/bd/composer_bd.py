@@ -141,7 +141,7 @@ class Composer_bd:
             query_get_numero = text(f"SELECT numero FROM COMPOSER WHERE id_parcours = '{str(id_parc)}' AND id_etape = '{str(id_etape)}'")
             result = self.cnx.execute(query_get_numero).fetchone()
             if result:
-                deleted_numero = result[0]
+                deleted_numero = result[0] 
 
                 # Supprimer l'étape
                 query_delete_etape = text(f"DELETE FROM COMPOSER WHERE id_parcours = '{str(id_parc)}' AND id_etape= '{str(id_etape)}'")                
