@@ -429,8 +429,12 @@ def accueil_admin():
     user_agent = request.user_agent.string
     if any(keyword in user_agent
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("accueil_admin.html", page_mobile=True)
-    return render_template("accueil_admin.html", page_mobile=False)
+        return render_template("accueil_admin.html",
+                               page_mobile=True,
+                               page_accueil_admin=True)
+    return render_template("accueil_admin.html",
+                           page_mobile=False,
+                           page_accueil_admin=True)
 
 
 @app.route("/mes-parcours/en-cours")
@@ -556,9 +560,16 @@ def gerer_compte():
         Cette methode va nous permettre de nous diriger vers la page gerer compte
     """
     liste_participant = PARTICIPANT.get_all_participant()
-    return render_template("gerer_compte.html",
-                           liste_part=liste_participant,
-                           adm=PARTICIPANT)
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("gerer_compte.html",
+                            liste_part=liste_participant,
+                            adm=PARTICIPANT,
+                            page_mobile = True)
+    else:
+        return render_template("gerer_compte.html",
+                            liste_part=liste_participant,
+                            adm=PARTICIPANT)
 
 
 @app.route('/suppression-participant/<pseudo>', methods=['POST', 'DELETE'])
