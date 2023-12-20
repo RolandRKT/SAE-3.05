@@ -23,18 +23,40 @@ class Termine_bd:
         """
         self.cnx = conx
     
-    def get_all_termine(self):
+    def get_all_termine(self,id_participant):
         """
             Récupère tous les termine depuis la base de données.
         """
         try:
             query = text(
-                "select id_parcours, id_participant, note, comm from TERMINE")
+                f"select * from TERMINE where id_participant={id_participant}")
             resultat = self.cnx.execute(query)
             termine = []
             for id_parcours, id_participant, note, comm in resultat:
                 termine.append(Termine(id_parcours, id_participant, note, comm))
             return termine
+        except Exception as exp:
+            print("la connexion a échoué, all termine")
+            print(exp)
+            return None
+        
+    def get_termine_id_part(self,id_participant,id_parcours):
+        """
+            Renvoie un boolean qui indique si le parcours existe dans la table TERMINE
+        """
+        try:
+            query = text(
+                f"select * from TERMINE where id_participant={id_participant} and id_parcours={id_parcours}")
+            print(query)
+            resultat = self.cnx.execute(query)
+            print(resultat)
+            termine = []
+            for id_parcours, id_participant, note, comm in resultat:
+                termine.append(Termine(id_parcours, id_participant, note, comm))
+            if len(termine)==0:
+                return False
+            else:
+                return True
         except Exception as exp:
             print("la connexion a échoué, all termine")
             print(exp)

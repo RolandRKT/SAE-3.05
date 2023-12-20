@@ -33,13 +33,13 @@ class Suivre_bd:
         """
         try:
             query = text(
-                "select id_participant, id_parcours, note, comm,num_etape from SUIVRE"
+                "select id_participant, id_parcours,num_etape from SUIVRE"
             )
             resultat = self.cnx.execute(query)
             suivre = []
-            for id_participant, id_parcours, note, comm, num_etape in resultat:
+            for id_participant, id_parcours, num_etape in resultat:
                 suivre.append(
-                    Suivre(id_participant, id_parcours, note, comm, num_etape))
+                    Suivre(id_participant, id_parcours, num_etape))
             return suivre
         except Exception as exp:
             print("la connexion a échoué")
@@ -57,13 +57,13 @@ class Suivre_bd:
         """
         try:
             query = text(
-                "select id_participant, id_parcours, note, comm,num_etape from SUIVRE where id_parcours= "
+                "select id_participant, id_parcours,num_etape from SUIVRE where id_parcours= "
                 + str(id_parcours))
             resultat = self.cnx.execute(query)
             suivre = []
-            for id_participant, id_parcours, note, comm, num_etape in resultat:
+            for id_participant, id_parcours, num_etape in resultat:
                 suivre.append(
-                    Suivre(id_participant, id_parcours, note, comm, num_etape))
+                    Suivre(id_participant, id_parcours, num_etape))
             return suivre
         except Exception as exp:
             print("la connexion a échoué")
@@ -80,20 +80,19 @@ class Suivre_bd:
         """
         try:
             query = text(
-                "select id_participant, id_parcours, note, comm,num_etape from SUIVRE where id_participant= "
-                + str(id_participant))
+                f"select id_participant, id_parcours, num_etape from SUIVRE where id_participant={id_participant}")
             resultat = self.cnx.execute(query)
             suivre = []
-            for id_participant, id_parcours, note, comm, num_etape in resultat:
+            for id_participant, id_parcours, num_etape in resultat:
                 suivre.append(
-                    Suivre(id_participant, id_parcours, note, comm, num_etape))
+                    Suivre(id_participant, id_parcours, num_etape))
             return suivre
         except Exception as exp:
             print("la connexion a échoué")
             print(exp)
             return None
 
-    def inserer_suivre(self, id_part, id_parc, note, comm, num_etape):
+    def inserer_suivre(self, id_part, id_parc, num_etape):
         """
             Insère une nouvelle entrée de suivi dans la base de données.
 
