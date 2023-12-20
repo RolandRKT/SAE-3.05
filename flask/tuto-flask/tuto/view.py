@@ -605,6 +605,6 @@ def suppression_etape(id_etp):
     """
     les_parcours = PARCOURS.get_all_parcours()
     for parc in les_parcours:
-        COMPOSER.supprimer_etape_parcours(parc.get_id_parc(),
+        ETAPE.supprimer_toutes_les_etapes_composer(PARCOURS,
                                           id_etp)
     return redirect(url_for("gerer_parcours"))

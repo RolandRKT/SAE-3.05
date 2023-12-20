@@ -117,3 +117,54 @@ class Etape_bd:
             print("la connexion a échoué, get_par_id_etape")
             print(exp)
             return None
+    
+    def supprimer_etape_composer(self, idetape):
+        """
+            Supprime une étape de la table composer.
+            param idetape: ID de l'étape que l'on souhaite supprimer.
+        """
+        try:
+            query = text("delete from COMPOSER where id_etape = " + str(idetape))
+            query2 = text("delete from ETAPE where id_etape = " + str(idetape))
+            query3=text("update SUIVRE set num_etape=num_etape-1 where num_etape>=(select num_etape from SUIVRE where id_etape="+str(idetape)+")")
+            query4=text("update COMPOSER set numero=numero-1 where numero>=(select numero from COMPOSER where id_etape="+str(idetape)+")")
+
+            self.cnx.execute(query)
+            self.cnx.execute(query3)
+            self.cnx.execute(query4)
+            self.cnx.execute(query2)
+            self.cnx.commit()
+        except Exception as exp:
+            print("la connexion a échoué, supprimer_etape_composer")
+            print(exp)
+            return None
+    
+    def supprimer_toutes_les_etapes_composer(self, cnx_parcours, id_etape):
+        try:
+            for parc in cnx_parcours.get_all_parcours():
+                # Récupérer le numéro de l'étape à supprimer
+                query_get_numero = text(f"SELECT numero FROM COMPOSER WHERE id_parcours = {parc.get_id_parc()} AND id_etape = {id_etape}")
+                result = self.cnx.execute(query_get_numero).fetchone()
+                uery_get_numero = text(f"SELECT * FROM SUIVRE WHERE id_parcours = {parc.get_id_parc()}")
+                result2 = self.cnx.execute(uery_get_numero)
+                if result2 and result:
+                    deleted_numero = result[0]
+                    query_update_numeros = text(f"UPDATE SUIVRE SET num_etape = num_etape - 1 WHERE id_parcours = {parc.get_id_parc()} AND num_etape >= {deleted_numero}")
+                    self.cnx.execute(query_update_numeros)
+                    self.cnx.commit()
+                if result:
+                    deleted_numero = result[0]
+                    # Supprimer l'étape
+                    query_delete_etape = text(f"DELETE FROM COMPOSER WHERE id_parcours = {parc.get_id_parc()} AND id_etape= {id_etape}")
+                    self.cnx.execute(query_delete_etape)
+                    self.cnx.commit()
+                    # Décrémenter les numéros des étapes suivantes
+                    query_update_numeros = text(f"UPDATE COMPOSER SET numero = numero - 1 WHERE id_parcours = {parc.get_id_parc()} AND numero > {deleted_numero}")
+                    self.cnx.execute(query_update_numeros)
+                    self.cnx.commit()
+
+            query_delete_etape = text(f"DELETE FROM ETAPE WHERE id_etape= {id_etape}")
+            self.cnx.execute(query_delete_etape)
+            self.cnx.commit()
+        except Exception as exp:
+            print("Erreur lors de la suppression de la composition :", str(exp))
