@@ -181,8 +181,8 @@ def parcours(nb_etape):
 
 
 
-@app.route("/admin/parcours/<int:nb_etape>")
-def parcours_admin(nb_etape):
+@app.route("/admin/parcours")
+def parcours_admin():
     """
         se dirige vers la page parcours
     """
@@ -231,9 +231,10 @@ def parcours_admin(nb_etape):
     
     print(lesetapes_json)
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[nb_etape - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
+        print("Pas encore implémenter")
+        return None
     else:
-        return render_template("parcours_admin.html", page_mobile=False, etape_actu = [lesetapes[nb_etape - 1 ]],  x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
+        return render_template("parcours_admin.html", page_mobile=False, etape_actu = [lesetapes[0]], longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
 
 
 
@@ -551,3 +552,8 @@ def suppression_participant(pseudo):
     """
     ADMIN.delete_part(pseudo)
     return redirect(url_for("gerer_compte"))
+
+@app.route('/supprimer_etape_parcours<int:num_etape>/<int:num_parcours>', methods=['GET'])
+def supprimer_etape_parcours(num_etape, num_parcours):
+    composer.supprimer_etape_parcours(num_parcours, num_etape)
+    return redirect(url_for("parcours_admin"))
