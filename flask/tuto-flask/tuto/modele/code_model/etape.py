@@ -13,7 +13,7 @@ class Etape:
         _coordonneY (float): La coordonnée Y de l'étape.
     """
 
-    def __init__(self, id_etape, nom_etape, id_photo, coordonne_x, coordonne_y):
+    def __init__(self, id_etape, nom_etape, id_photo, coordonne_x, coordonne_y,interet):
         """
         Initialise un objet Etape avec les informations de l'étape.
 
@@ -29,6 +29,7 @@ class Etape:
         self.__id_photo = id_photo
         self._coordonneX = coordonne_x
         self._coordonneY = coordonne_y
+        self._interet=interet
         
     def to_dict(self):
         return {
@@ -36,7 +37,8 @@ class Etape:
             'nom_etape': self.__nom_etape,
             'id_photo': self.__id_photo,
             'coordonneX': self._coordonneX,
-            'coordonneY': self._coordonneY
+            'coordonneY': self._coordonneY,
+            'interet':self._interet
         }
         
     def get_id_etape(self):
@@ -83,6 +85,12 @@ class Etape:
             float: La coordonnée Y de l'étape.
       """
       return self._coordonneY
+    
+    def get_interet(self):
+        """
+            Cette fonction permet de retourner l'interet de l'etape
+        """
+        return self._interet
     
     def __repr__(self):
       return "nom : " + self.__nom_etape + " id : " + str(self.__id_etape)

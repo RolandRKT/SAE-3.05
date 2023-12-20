@@ -569,6 +569,7 @@ def forget_password():
             return render_template("forget.password.html")
     return render_template("forget.password.html")
 
+<<<<<<< HEAD
 @app.route('/gestion_parcours')
 def gerer_parcours():
     les_parcours = PARCOURS.get_all_parcours()
@@ -596,3 +597,13 @@ def suppression_etape(id_etp):
         COMPOSER.supprimer_etape_parcours(parc.get_id_parc(),
                                           id_etp)
     return redirect(url_for("gerer_parcours"))
+=======
+    return render_template("forget.password.html")
+
+
+@app.route("/cree-etape")
+def page_cree_etape():
+    return render_template("gerer_compte.html",
+                           liste_part=liste_participant,
+                           adm=PARTICIPANT)
+>>>>>>> e1a31bb (ajout d'une table de la bd)
