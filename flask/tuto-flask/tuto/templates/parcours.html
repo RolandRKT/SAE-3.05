@@ -48,11 +48,12 @@
                     </div>
                     <img id="parcours-cover" src="{{ url_for('static', filename='images/' + img) }}">
                     <h3 id="parcours-name">{{etape.get_nom_etape()}}</h3>
+                    
                     <div class="p-content">
                         <p id="parcours-desc">
                             X : {{etape.get_coordonneX()}}, Y : {{etape.get_coordonneY()}}
                         </p>
-                        {% if (x == 1)%}
+                        {% if (x == 0)%}
                         <form action="{{url_for('parcours', nb_etape = x + 1)}}" method="get" class="button-format">
                             <div class="form-label">
                               <input type="submit" value="Commencer" />
@@ -69,7 +70,7 @@
                         </form>
                         {% endif %}
                     </div>
-                    {% if (x < longueur and x > 1) %}
+                    {% if (x < longueur and x > 0) %}
                     <form action="{{url_for('parcours', nb_etape = x + 1)}}" method="get" class="button-format">
                         <div class="parcours-button">
                           <input type="submit" value="PLUS" />
