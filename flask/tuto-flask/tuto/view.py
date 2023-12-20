@@ -460,6 +460,9 @@ def mes_parcours_terminees():
         return redirect(url_for("portails"))
     user_agent = request.user_agent.string
     liste_termine = les_parcours_terminer(le_participant.get_id())[0]
+    print("-------------------")
+    print(liste_termine)
+    print("-------------------")
     liste_suivi = les_parcours_terminer(le_participant.get_id())[1]
     if any(keyword in user_agent
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
