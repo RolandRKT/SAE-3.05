@@ -550,7 +550,7 @@ def suppression_participant(pseudo):
 
 @app.route('/supprimer_etape_parcours<int:num_etape>/<int:num_parcours>', methods=['GET'])
 def supprimer_etape_parcours(id_etape, id_parcours):
-    composer.supprimer_etape_parcours(id_parcours, id_etape)
+    COMPOSER.supprimer_etape_parcours(id_parcours, id_etape)
     return redirect(url_for("parcours_admin"))
 
 @app.route('/forget-password', methods=['POST', 'GET'])
@@ -593,6 +593,6 @@ def suppression_etape(id_etp):
     """
     les_parcours = PARCOURS.get_all_parcours()
     for parc in les_parcours:
-        composer.supprimer_etape_parcours(parc.get_id_parc(),
+        COMPOSER.supprimer_etape_parcours(parc.get_id_parc(),
                                           id_etp)
     return redirect(url_for("gerer_parcours"))
