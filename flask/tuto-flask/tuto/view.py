@@ -22,7 +22,6 @@ from admin_bd import *
 from etape_bd import *
 from composer_bd import *
 from suivre_bd import *
-from posseder_bd import *
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 
@@ -58,7 +57,6 @@ ETAPE = Etape_bd(cnx)
 COMPOSER =  Composer_bd(cnx)
 SUIVRE = Suivre_bd(cnx)
 IMAGE = Image_bd(cnx)
-POSSEDER = Posseder_bd(cnx)
 
 from .app import app
 
@@ -153,7 +151,7 @@ def parcours(nb_etape):
     """
     if nb_etape == 0:
         val = 1
-        SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, 0, None, val)
+        SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, val)
     else:
         val = nb_etape
         SUIVRE.update_numero_etape(le_participant.get_id(),num_parcours, nb_etape)
