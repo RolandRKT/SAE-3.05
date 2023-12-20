@@ -10,6 +10,9 @@
     {% if page_mobile %}
     <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan_mobile.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='les_parcours_mobile.css') }}">
+      {% if page_profil %}
+      <link rel="stylesheet" href="../static/mon_profil_mobile.css">
+      {% endif %} 
     {% else %}
         {% if page_profil %}
             <link rel="stylesheet" href="../static/mon_profil.css">
