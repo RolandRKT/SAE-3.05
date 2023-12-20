@@ -588,8 +588,8 @@ def forget_password():
             mail.send(msg)
             # Ajouter une redirection vers une page qui dit envoie validé, ou juste une popup
             return render_template("forget.password.html")
-
     return render_template("forget.password.html")
+
 @app.route('/gestion_parcours')
 def gerer_parcours():
     les_parcours = PARCOURS.get_all_parcours()
