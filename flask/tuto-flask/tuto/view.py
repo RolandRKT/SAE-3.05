@@ -105,10 +105,10 @@ def les_parcours():
     if any(keyword in user_agent
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("les_parcours_mobile.html",
-                               liste_parc=lister_les_parcours(),
+                               liste_parc=lister_les_parcours(le_participant.get_id()),
                                page_mobile=True)
     return render_template("les_parcours.html",
-                               liste_parc=lister_les_parcours(),
+                               liste_parc=lister_les_parcours(le_participant.get_id()),
                                page_mobile=False)
 
 
