@@ -134,14 +134,18 @@ def changement_parcours(num):
     """
     global num_parcours
     num_parcours = num
-    return redirect(url_for("parcours", nb_etape=1))
+    return redirect(url_for("parcours", nb_etape=0))
     
 
 @app.route("/parcours/<int:nb_etape>")
 def parcours(nb_etape):
     """
         se dirige vers la page parcours
-    """    
+    """
+    if nb_etape == 0:
+        val = 1
+    else:
+        val = nb_etape
     user_agent = request.user_agent.string
     
     etape = Etape_bd(cnx)
@@ -176,9 +180,9 @@ def parcours(nb_etape):
     
     print(lesetapes_json)
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[nb_etape - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
+        return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[val - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
     else:
-        return render_template("parcours.html", page_mobile=False, etape_actu = [lesetapes[nb_etape - 1 ]],  x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
+        return render_template("parcours.html", page_mobile=False, etape_actu = [lesetapes[val - 1 ]],  x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
 
 
 
