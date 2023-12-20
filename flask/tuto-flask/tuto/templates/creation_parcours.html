@@ -31,7 +31,7 @@
                         <textarea name="textarea" rows="7" cols="50" maxlength="200">Vous pouvez écrire ici.</textarea>
                     </div>
                     <div class="form-label-admin">
-                        <label for="etapes" class="label">Choisir les étapes:</label>
+                        <label for="etapes" class="label">Choisir les étapes (Dans l'ordre):</label>
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" onclick="toggleCheckboxList()" aria-haspopup="true" aria-expanded="false">
                                 Sélectionner des étapes
@@ -39,7 +39,7 @@
                             <div class="checkbox-list" id="checkboxList">
                                 {% for etape in liste %}
                                     <div class="form-check">
-                                        <input class="form-check-input" onclick="" type="checkbox" name="etapes[]" value="{{ etape.get_nom_etape() }}" id="etape_{{ etape.get_id_etape() }}">
+                                        <input class="form-check-input" onclick="" type="checkbox" name="etapes[]" value="{{ etape.get_nom_etape() }}" id="etape_{{ etape.get_id_etape() }}" data-id="etape_{{ etape.get_id_etape() }}">
                                         <label class="form-check-label" for="etape_{{ etape.get_id_etape() }}">{{ etape.get_nom_etape() }}</label>
                                     </div>
                                 {% endfor %}
@@ -48,6 +48,7 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" name="orderedEtapes" id="orderedEtapes" value="">
                 <div class="form-label-admin">
                     <label for="image" class="label">Image du parcours:</label>
                     <input type="file" name="image" id="uploadFile" onchange="dragNdrop(event)" ondragover="drag()" ondrop="drop()" />
@@ -80,6 +81,12 @@
                 function toggleCheckboxList() {
                     var checkboxList = document.getElementById("checkboxList");
                     checkboxList.style.display = (checkboxList.style.display === "none") ? "block" : "none";
+
+                    var selectedEtapes = document.querySelectorAll('input[name="etapes[]"]:checked');
+                    var orderedEtapes = Array.from(selectedEtapes).map(etape => etape.getAttribute('data-id'));
+
+                    // Mettez à jour le champ d'ordre caché avec les ID d'étapes ordonnés
+                    document.getElementById("orderedEtapes").value = orderedEtapes.join(',');
 
                     var selectedEtapes = document.querySelectorAll('input[name="etapes[]"]:checked').length;
 
