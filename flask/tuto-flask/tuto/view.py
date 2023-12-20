@@ -50,6 +50,7 @@ administrateur = Admin(-1, "", "")
 
 PARTICIPANT = Participant_bd(cnx)
 ADMIN = Admin_bd(cnx)
+PARCOURS = Parcours_bd(cnx)
 
 from .app import app
 
@@ -583,4 +584,14 @@ def forget_password():
 
 @app.route('/gestion_parcours')
 def gerer_parcours():
-    return render_template("")
+    les_parcours = PARCOURS.get_all_parcours()
+    return render_template("gerer_parcours.html", liste_parc=les_parcours)
+
+@app.route('/suppression-parcours/<id_parc>', methods=['POST', 'DELETE'])
+def suppression_parcours(id_parc):
+    """
+        Cette fonction va nous permettre de supprimer un participant
+        et de nous rediriger vers la page gerer compte
+    """
+    PARCOURS.delete_parcours(id_parc)
+    return redirect(url_for("gerer_compte"))
