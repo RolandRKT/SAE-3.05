@@ -21,6 +21,8 @@ from connexion import cnx
 from admin_bd import *
 from etape_bd import *
 from composer_bd import *
+from suivre_bd import *
+
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 
 sys.path.append(os.path.join(ROOT, './'))
@@ -144,10 +146,13 @@ def parcours(nb_etape):
     """
         se dirige vers la page parcours
     """
+    suivre = Suivre_bd(cnx)
     if nb_etape == 0:
         val = 1
+        suivre.inserer_suivre(le_participant.get_id(), num_parcours, 0, None, val)
     else:
         val = nb_etape
+        suivre.update_numero_etape(le_participant.get_id(),num_parcours, nb_etape)
     user_agent = request.user_agent.string
     
     etape = Etape_bd(cnx)
@@ -455,7 +460,8 @@ def mes_parcours_en_cours():
                                page_home=False,
                                page_profil=False,
                                page_mes_parcours=True,
-                               onglet=1)
+                               onglet=1,
+                               en_cours=True)
     return render_template("mes_parcours.html",
                                liste_termines=None,
                                liste_suivis=liste_parcour,
@@ -486,7 +492,8 @@ def mes_parcours_terminees():
                                page_home=False,
                                page_profil=False,
                                page_mes_parcours=True,
-                               onglet=2)
+                               onglet=2,
+                               en_cours=False)
     return render_template("mes_parcours.html",
                            liste_termines=liste_termine,
                            liste_suivis=liste_suivi,
