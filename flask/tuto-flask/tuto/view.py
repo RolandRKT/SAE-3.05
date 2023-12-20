@@ -253,7 +253,7 @@ def mon_profil():
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         if le_participant.get_id() == -1:
             return redirect(url_for("portails"))
-        return render_template("mon_profil.html",
+        return render_template("mon_profil_mobile.html",
                                page_mobile=True,
                                page_home=False,
                                participant=le_participant,
