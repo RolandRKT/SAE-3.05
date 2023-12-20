@@ -5,11 +5,6 @@
     justify-content: center;
     align-items: center;
 }
-.background{
-    z-index: 2;
-    background-color: #d9d9d9;
-    height: 150rem;
-}
 .bouton-adm {
     border: 0;
     font-size: 1.6rem;
