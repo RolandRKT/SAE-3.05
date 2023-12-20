@@ -126,3 +126,22 @@ class Parcours_bd:
             print("la connexion a échoué")
             print(exp)
             return None
+        
+    def delete_parcours(self, id_parcours):
+        """
+            Supprime un parcours de la base de données.
+
+            param id_parcours: ID du parcours à supprimer.
+        """
+        try:
+            query1 = text(f"delete from PARCOURS where id_parcours ={id_parcours}")
+            query2 = text(f"delete from SUIVRE where id_parcours ={id_parcours}")
+            query3 = text(f"delete from COMPOSER where id_parcours ={id_parcours}")
+            self.cnx.execute(query3)
+            self.cnx.execute(query2)
+            self.cnx.execute(query1)
+            self.cnx.commit()
+        except Exception as exp:
+            print("la connexion a échoué, delete de parcours")
+            print(exp)
+            return None
