@@ -5,22 +5,24 @@
 {% block main_content %}
     <div class="background">
         <div class="conteneur-bouton">
-            <button class="bouton-adm" type="button">
+            <a class="bouton-adm" type="button" href="{{ url_for('creation_parcours') }}">
                 <p class="paragraphe">Création parcours</p>
                 <img src="../static/images/parcours-client.png" height ="183" width="183" alt="bouton de création parcours" >
-            </button>
-            <button class="bouton-adm" type="button">
+            </a>
+            <a class="bouton-adm" type="button" href="{{ url_for('gerer_parcours') }}">
                 <p class="paragraphe">Gestion parcours</p>
-                <img src="../static/images/editer.png" height ="183" width="183" alt="bouton de gestion parcours" >
-            </button>
+                <img src="../static/images/editer.png" height ="183" width="183" alt="bouton de création étaoe">
+            </a>
+        </div>
+        <div class="conteneur-bouton">
             <a class="bouton-adm" type="button" href="{{ url_for('gerer_compte') }}">
                 <p class="paragraphe">Gestion comptes</p>
                 <img src="../static/images/avatar.png" height ="183" width="183" alt="bouton de gestion comptes">
             </a>
-            <button class="bouton-adm" type="button">
+            <a class="bouton-adm" type="button" href="#">
                 <p class="paragraphe">Création étape</p>
                 <img src="../static/images/emplacement.png" height ="183" width="183" alt="bouton de création étaoe">
-            </button>
+            </a>
         </div>
     </div>
 {% endblock %}
