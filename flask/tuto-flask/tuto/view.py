@@ -506,7 +506,6 @@ def creer_parcours():
         ordered_etapes_ids = [int(etape_id) for etape_id in ordered_etapes.split(',') if etape_id]
         print(ordered_etapes_ids)
         
-        
         app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
         if not os.path.exists(app.config['UPLOAD_FOLDER']):

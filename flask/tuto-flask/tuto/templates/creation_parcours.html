@@ -2,7 +2,6 @@
 {% block styles %}
     {{ super() }}
     <style>
-        /* Ajoutez vos styles personnalisés ici si nécessaire */
         .checkbox-list {
             display: none;
             margin-top: 10px;
@@ -39,7 +38,7 @@
                             <div class="checkbox-list" id="checkboxList">
                                 {% for etape in liste %}
                                     <div class="form-check">
-                                        <input class="form-check-input" onclick="" type="checkbox" name="etapes[]" value="{{ etape.get_nom_etape() }}" data-id="{{ etape.get_id_etape() }}">
+                                        <input class="form-check-input" onclick="addEtapesListe('{{etape.get_id_etape()}}')" type="checkbox" name="etapes[]" value="{{ etape.get_nom_etape() }}" data-id="{{ etape.get_id_etape() }}">
                                         <label class="form-check-label" for="{{ etape.get_id_etape() }}">{{ etape.get_nom_etape() }}</label>
                                     </div>
                                 {% endfor %}
@@ -47,6 +46,10 @@
                             <div id="errorMessage" style="color: red;"></div>
                         </div>
                     </div>
+                </div>
+                <div class="boutonsOrdreEtapes">
+                    <button type="button" class="confirmOrdre" onclick="confirmOrder()">Confirmer l'ordre</button>
+                    <button type="button" class="reinitialiseOrdre" onclick="renitialiseOrder()">Rénitialiser l'ordre</button>
                 </div>
                 <input type="hidden" name="orderedEtapes" id="orderedEtapes" value="">
                 <div class="form-label-admin">
@@ -64,6 +67,33 @@
             <div id="preview"></div> 
             <script>
                 "use strict";
+
+                var listeOrderedEtapes = [];
+
+                function addEtapesListe(idEtape){
+                    var index = listeOrderedEtapes.indexOf(idEtape);
+
+                    if (index === -1) {
+                        // Si l'ID n'est pas dans la liste, l'ajouter
+                        listeOrderedEtapes.push(idEtape);
+                    } else {
+                        // Si l'ID est dans la liste, le supprimer
+                        listeOrderedEtapes.splice(index, 1);
+                    }
+                }
+
+                function confirmOrder(){
+                    document.getElementById("orderedEtapes").value = listeOrderedEtapes.join(',');
+                }
+
+                function renitialiseOrder(){
+                    var checkboxes = document.querySelectorAll('input[name="etapes[]"]:checked');
+                    checkboxes.forEach(function (checkbox) {
+                        checkbox.checked = false;
+                    });
+                    document.getElementById("orderedEtapes").value = "";
+                }
+
                 function dragNdrop(event) {
                     var fileName = URL.createObjectURL(event.target.files[0]);
                     var preview = document.getElementById("preview");
@@ -82,20 +112,8 @@
                     var checkboxList = document.getElementById("checkboxList");
                     checkboxList.style.display = (checkboxList.style.display === "none") ? "block" : "none";
 
-                    var selectedEtapes = document.querySelectorAll('input[name="etapes[]"]:checked');
-                    var orderedEtapes = Array.from(selectedEtapes)
-                        .sort((a, b) => {
-                            // Compare la position dans le DOM
-                            return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
-                        })
-                        .map(etape => etape.getAttribute('data-id'));
-
-                    // Mettez à jour le champ d'ordre caché avec les ID d'étapes ordonnés
-                    document.getElementById("orderedEtapes").value = orderedEtapes.join(',');
-
                     var selectedEtapes = document.querySelectorAll('input[name="etapes[]"]:checked').length;
 
-                    // Vérifiez si le nombre d'étapes sélectionnées est inférieur à 2
                     if (selectedEtapes < 2) {
                         document.getElementById("errorMessage").innerHTML = "Veuillez sélectionner au moins deux étapes.";
                         return; // Empêche la soumission du formulaire
