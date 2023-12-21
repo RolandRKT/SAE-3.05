@@ -107,7 +107,9 @@ class Admin_bd:
         """
         try:
             query = text(f"DELETE FROM SUIVRE USING SUIVRE NATURAL JOIN PARTICIPANT WHERE PARTICIPANT.pseudo = :pseudo")
+            query2 = text(f"DELETE FROM TERMINE NATURAL JOIN PARTICIPANT WHERE PARTICIPANT.pseudo = :pseudo")
             self.cnx.execute(query, {'pseudo': pseudo})
+            self.cnx.execute(query2, {'pseudo': pseudo})
             self.cnx.commit()
         except Exception as exp:
             print("Erreur lors de la suppression du suivi par participant :", str(exp))

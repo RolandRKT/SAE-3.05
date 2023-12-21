@@ -41,7 +41,7 @@ sys.path.append(os.path.join(ROOT, ''))
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
-from models import les_parcour_suivi, les_parcours_terminer,inserer_parcours_view, lister_les_parcours, inserer_le_participant, inserer_composer_view, supprimer_avis
+from models import les_parcour_suivi, les_parcours_terminer,inserer_parcours_view, lister_les_parcours, inserer_le_participant, inserer_composer_view
 from participant import *
 from admin import *
 
@@ -630,12 +630,3 @@ def avis_parcours(id_parc):
         return render_template("page_avis_admin.html",liste = liste_avis, page_mobile = True)
     else:
         return render_template("page_avis_admin.html",liste = liste_avis, page_mobile = False)
-
-@app.route('/avis/<int:id_parc>', methods=['GET', 'POST'])
-def supprimer_avis(id_parc):
-    id_parcours = request.form.get("idParcours")
-    pseudo = request.form.get("pseudo")
-
-    supprimer_avis(id_parcours, pseudo)
-
-    return redirect(url_for("accueil_admin"))
