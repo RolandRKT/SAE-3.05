@@ -117,3 +117,23 @@ class Participant_bd:
         except Exception as exp:
             print("La connexion a échoué shushduz")
             return None
+    
+    def get_id_participant_par_pseudo(self, pseudo):
+        """
+            Récupère l'ID d'un participant en fonction de son pseudo.
+
+            param pseudo: Pseudo du participant dont on veut récupérer l'ID.
+            return: L'ID du participant ou None si le participant n'existe pas.
+        """
+        try:
+            query = text(
+                f"select id_participant from PARTICIPANT where pseudo= '{pseudo}'")
+            resultat = self.cnx.execute(query).fetchone()
+            if resultat:
+                return resultat.id_participant
+            else:
+                return None
+        except Exception as exp:
+            print("la connexion a échoué, get_id_participant_par_pseudo")
+            print(exp)
+            return None

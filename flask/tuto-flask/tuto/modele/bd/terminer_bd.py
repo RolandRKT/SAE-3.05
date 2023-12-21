@@ -76,3 +76,34 @@ class Termine_bd:
             print("la connexion a échoué, inserer termine")
             print(exp)
             return None
+
+    def get_note_comm(self,id_parcours):
+        """
+            Récupère la note et le commentaire d'un parcours.
+        """
+        try:
+            query = text(
+                f"select id_parcours, pseudo,note, comm from TERMINE NATURAL JOIN PARTICIPANT where id_parcours={id_parcours}")
+            resultat = self.cnx.execute(query)
+            liste=[]
+            for idparc,pseudo,note, comm in resultat:
+                liste.append((idparc,pseudo,note,comm))
+            return liste
+        except Exception as exp:
+            print("la connexion a échoué, get note comm")
+            print(exp)
+            return None
+
+    def supprimer_termine(self, id_parcours, id_participant):
+        """
+            Supprime une ligne de la table TERMINE en fonction de l'id de parcours et du pseudo du participant.
+        """
+        try:
+            query = text(
+                f"delete from TERMINE where id_parcours={id_parcours} and id_participant={id_participant}")
+            self.cnx.execute(query)
+            self.cnx.commit()
+        except Exception as exp:
+            print("la connexion a échoué, supprimer termine")
+            print(exp)
+            return None

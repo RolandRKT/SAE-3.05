@@ -154,3 +154,8 @@ def inserer_parcours_view( nom_parcours, description, id_img, duree):
 
 def inserer_composer_view(parcours_id, etape_id, order):
     COMPOSER.inserer_compose(parcours_id, etape_id, order)
+
+def supprimer_avis(id_parcours, pseudo):
+    id_participant = PARTICIPANT.get_id_participant_par_pseudo(pseudo)
+    TERMINE.supprimer_termine(id_parcours, id_participant)
+    pass

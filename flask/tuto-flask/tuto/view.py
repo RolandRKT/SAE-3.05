@@ -22,6 +22,7 @@ from admin_bd import *
 from etape_bd import *
 from composer_bd import *
 from suivre_bd import *
+from terminer_bd import *
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 
@@ -40,7 +41,7 @@ sys.path.append(os.path.join(ROOT, ''))
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
-from models import les_parcour_suivi, les_parcours_terminer,inserer_parcours_view, lister_les_parcours, inserer_le_participant, inserer_composer_view
+from models import les_parcour_suivi, les_parcours_terminer,inserer_parcours_view, lister_les_parcours, inserer_le_participant, inserer_composer_view, supprimer_avis
 from participant import *
 from admin import *
 
@@ -57,6 +58,7 @@ ETAPE = Etape_bd(cnx)
 COMPOSER =  Composer_bd(cnx)
 SUIVRE = Suivre_bd(cnx)
 IMAGE = Image_bd(cnx)
+TERMINER = Termine_bd(cnx)
 
 from .app import app
 
@@ -618,3 +620,22 @@ def suppression_etape(id_etp):
 def commencer():
     SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, 1)
     return redirect(url_for('parcours', nb_etape = 1))
+
+@app.route('/avis/<int:id_parc>', methods=['GET', 'POST'])
+def avis_parcours(id_parc):
+    liste_avis = TERMINER.get_note_comm(id_parc)
+    user_agent = request.user_agent.string
+
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("page_avis_admin.html",liste = liste_avis, page_mobile = True)
+    else:
+        return render_template("page_avis_admin.html",liste = liste_avis, page_mobile = False)
+
+@app.route('/avis/<int:id_parc>', methods=['GET', 'POST'])
+def supprimer_avis(id_parc):
+    id_parcours = request.form.get("idParcours")
+    pseudo = request.form.get("pseudo")
+
+    supprimer_avis(id_parcours, pseudo)
+
+    return redirect(url_for("accueil_admin"))
