@@ -26,7 +26,6 @@ from composer_bd import Composer_bd
 from suivre_bd import Suivre_bd
 from terminer_bd import Termine_bd
 
-
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 
 sys.path.append(os.path.join(ROOT, './'))
@@ -62,6 +61,7 @@ ETAPE = Etape_bd(cnx)
 COMPOSER =  Composer_bd(cnx)
 SUIVRE = Suivre_bd(cnx)
 IMAGE = Image_bd(cnx)
+TERMINER = Termine_bd(cnx)
 TERMINE = Termine_bd(cnx)
 
 
@@ -683,6 +683,16 @@ def commencer():
     SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, 1)
     return redirect(url_for('parcours', nb_etape = 1))
 
-@app.route("/redirect-admin")
+@app.route('/avis/<int:id_parc>', methods=['GET', 'POST'])
+def avis_parcours(id_parc):
+    liste_avis = TERMINER.get_note_comm(id_parc)
+    user_agent = request.user_agent.string
+
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("page_avis_admin.html",liste = liste_avis, page_mobile = True)
+    else:
+        return render_template("page_avis_admin.html",liste = liste_avis, page_mobile = False)
+
+      @app.route("/redirect-admin")
 def redirection_admin():
     return redirect(url_for('accueil_admin'))
