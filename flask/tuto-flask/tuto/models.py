@@ -3,6 +3,7 @@
 """
 import os
 import sys
+
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
 from participant_bd import Participant_bd
@@ -19,7 +20,7 @@ COMPOSER = Composer_bd(cnx)
 PARCOURS = Parcours_bd(cnx)
 IMAGE = Image_bd(cnx)
 PARTICIPANT = Participant_bd(cnx)
-TERMINE=Termine_bd(cnx)
+TERMINE = Termine_bd(cnx)
 
 
 def lister_les_parcours(id_participant) -> list:
@@ -33,20 +34,20 @@ def lister_les_parcours(id_participant) -> list:
                 le nom de son image associée.
     """
     liste = []
-    liste_term=liste_terminer_et_suivi(id_participant)
-    boolean=False
+    liste_term = liste_terminer_et_suivi(id_participant)
+    boolean = False
     for parc in PARCOURS.get_all_parcours():
         for suivi in liste_term:
-            print(type(parc.get_id_parc()),type(suivi.get_id_parc()))
+            print(type(parc.get_id_parc()), type(suivi.get_id_parc()))
             if parc.get_id_parc() == suivi.get_id_parc():
-                boolean=True
+                boolean = True
                 print(boolean)
         if not boolean:
-            liste.append((parc,IMAGE.get_par_image(parc.get_id_photo())[0].get_img_filename()))
+            liste.append((parc, IMAGE.get_par_image(
+                parc.get_id_photo())[0].get_img_filename()))
             print(liste)
-        boolean=False
+        boolean = False
     return liste
-            
 
 
 def inserer_le_participant(user, mail, paw):
@@ -73,7 +74,8 @@ def les_parcour_suivi(id_participant):
     liste_suivi = SUIVRE.get_par_suivre_participant(id_participant)
     liste_parcour = []
     for suivi in liste_suivi:
-        if not TERMINE.get_termine_id_part(id_participant,suivi.get_id_parc()):
+        if not TERMINE.get_termine_id_part(id_participant,
+                                           suivi.get_id_parc()):
             parcour_courant = PARCOURS.get_par_parcours(suivi.get_id_parc())[0]
             images = IMAGE.get_par_image(parcour_courant.get_id_photo())
             monimage = images[0].get_img_filename()
@@ -96,10 +98,10 @@ def les_parcours_terminer(id_participant):
             le suivi de chaque parcours par l'utilisateur.
     """
     liste_suivi = SUIVRE.get_par_suivre_participant(id_participant)
-    liste_des_parcours=PARCOURS.get_all_parcours()
+    liste_des_parcours = PARCOURS.get_all_parcours()
     liste_termine = []
     for suivi in liste_des_parcours:
-        if TERMINE.get_termine_id_part(id_participant,suivi.get_id_parc()):
+        if TERMINE.get_termine_id_part(id_participant, suivi.get_id_parc()):
             parcour_courant = PARCOURS.get_par_parcours(suivi.get_id_parc())[0]
             images = IMAGE.get_par_image(parcour_courant.get_id_photo())
             monimage = images[0].get_img_filename()
@@ -130,9 +132,6 @@ def liste_terminer_et_suivi(id_part):
     return []
 
 
-
-
-
 def lister_etape_du_parcours():
     """
         Methode permettant de je sais pas
@@ -147,13 +146,16 @@ def lister_etape_du_parcours():
     return (lesetapes, liste_etape)
 
 
-def inserer_parcours_view( nom_parcours, description, id_img, duree):
+def inserer_parcours_view(nom_parcours, description, id_img, duree):
     next_id_parcours = PARCOURS.get_prochain_id_parcours()
-    PARCOURS.inserer_parcours(next_id_parcours, nom_parcours, duree+str(':00'), description, id_img)
+    PARCOURS.inserer_parcours(next_id_parcours, nom_parcours,
+                              duree + str(':00'), description, id_img)
     return next_id_parcours
+
 
 def inserer_composer_view(parcours_id, etape_id, order):
     COMPOSER.inserer_compose(parcours_id, etape_id, order)
+
 
 # def supprimer_avis(id_parcours, pseudo):
 #     id_participant = PARTICIPANT.get_id_participant_par_pseudo(pseudo)

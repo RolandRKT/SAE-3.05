@@ -10,12 +10,13 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
 from termine import Termine
 
-
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
 from parcours_bd import Parcours_bd
 from connexion import cnx
-PARCOURS=Parcours_bd(cnx)
+
+PARCOURS = Parcours_bd(cnx)
+
 
 class Termine_bd:
     """
@@ -29,8 +30,8 @@ class Termine_bd:
             param conx: Objet de connexion à la base de données.
         """
         self.cnx = conx
-    
-    def get_all_termine(self,id_participant):
+
+    def get_all_termine(self, id_participant):
         """
             Récupère tous les termine depuis la base de données.
         """
@@ -40,25 +41,28 @@ class Termine_bd:
             resultat = self.cnx.execute(query)
             termine = []
             for id_parcours, id_participant, note, comm in resultat:
-                termine.append(Termine(id_parcours, id_participant, note, comm))
+                termine.append(Termine(id_parcours, id_participant, note,
+                                       comm))
             return termine
         except Exception as exp:
             print("la connexion a échoué, all termine")
             print(exp)
             return None
-        
-    def get_termine_id_part(self,id_participant,id_parcours):
+
+    def get_termine_id_part(self, id_participant, id_parcours):
         """
             Renvoie un boolean qui indique si le parcours existe dans la table TERMINE
         """
         try:
             query = text(
-                f"select * from TERMINE where id_participant={id_participant} and id_parcours={id_parcours}")
+                f"select * from TERMINE where id_participant={id_participant} and id_parcours={id_parcours}"
+            )
             resultat = self.cnx.execute(query)
             termine = []
             for id_parcours, id_participant, note, comm in resultat:
-                termine.append(Termine(id_parcours, id_participant, note, comm))
-            if len(termine)==0:
+                termine.append(Termine(id_parcours, id_participant, note,
+                                       comm))
+            if len(termine) == 0:
                 return False
             else:
                 return True
@@ -72,11 +76,20 @@ class Termine_bd:
         Insère un termine dans la base de données.
         """
         try:
-            query = text("INSERT INTO TERMINE(id_parcours, id_participant, note, comm) VALUES (:id_parcours, :id_participant, :note, :comm)")
-            query_delete_suivre = text("DELETE FROM SUIVRE WHERE id_parcours=:id_parcours AND id_participant=:id_participant")
+            query = text(
+                "INSERT INTO TERMINE(id_parcours, id_participant, note, comm) VALUES (:id_parcours, :id_participant, :note, :comm)"
+            )
+            query_delete_suivre = text(
+                "DELETE FROM SUIVRE WHERE id_parcours=:id_parcours AND id_participant=:id_participant"
+            )
 
-            params = {'id_parcours': id_parcours, 'id_participant': id_participant, 'note': note, 'comm': comm}
-        
+            params = {
+                'id_parcours': id_parcours,
+                'id_participant': id_participant,
+                'note': note,
+                'comm': comm
+            }
+
             self.cnx.execute(query, params)
             self.cnx.execute(query_delete_suivre, params)
             self.cnx.commit()
@@ -85,17 +98,18 @@ class Termine_bd:
             print(exp)
             return None
 
-    def get_note_comm(self,id_parcours):
+    def get_note_comm(self, id_parcours):
         """
             Récupère la note et le commentaire d'un parcours.
         """
         try:
             query = text(
-                f"select id_parcours, pseudo,note, comm from TERMINE NATURAL JOIN PARTICIPANT where id_parcours={id_parcours}")
+                f"select id_parcours, pseudo,note, comm from TERMINE NATURAL JOIN PARTICIPANT where id_parcours={id_parcours}"
+            )
             resultat = self.cnx.execute(query)
-            liste=[]
-            for idparc,pseudo,note, comm in resultat:
-                liste.append((idparc,pseudo,note,comm))
+            liste = []
+            for idparc, pseudo, note, comm in resultat:
+                liste.append((idparc, pseudo, note, comm))
             return liste
         except Exception as exp:
             print("la connexion a échoué, get note comm")
@@ -108,7 +122,8 @@ class Termine_bd:
         """
         try:
             query = text(
-                f"delete from TERMINE where id_parcours={id_parcours} and id_participant={id_participant}")
+                f"delete from TERMINE where id_parcours={id_parcours} and id_participant={id_participant}"
+            )
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as exp:
