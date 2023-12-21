@@ -489,7 +489,7 @@ def creation_parcours():
     
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("creation_parcours.html", liste_etape , page_mobile = True,)
+        return render_template("creation_parcours.html" ,liste = liste_etape ,page_mobile = True)
     else:
         return render_template("creation_parcours.html", liste = liste_etape , page_mobile = False)
     
