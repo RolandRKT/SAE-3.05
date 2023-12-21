@@ -151,6 +151,7 @@ def parcours(nb_etape):
     """
     if nb_etape == 0:
         val = 1
+        SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, val)
     else:
         val = nb_etape
         SUIVRE.update_numero_etape(le_participant.get_id(),num_parcours, nb_etape)
@@ -260,7 +261,7 @@ def mon_profil():
                                page_mobile=False,
                                page_home=False,
                                participant=le_participant,
-                               page_profil=True)               
+                               page_profil=True)
 
 @app.route("/les-parcours", methods=["GET", "POST"])
 def connecter():
@@ -604,10 +605,10 @@ def suppression_etape(id_etp):
     """
     les_parcours = PARCOURS.get_all_parcours()
     for parc in les_parcours:
-        COMPOSER.supprimer_etape_parcours(parc.get_id_parc(),
+        ETAPE.supprimer_toutes_les_etapes_composer(PARCOURS,
                                           id_etp)
     return redirect(url_for("gerer_parcours"))
-
+  
 @app.route('/commencer')
 def commencer():
     SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, 1)
