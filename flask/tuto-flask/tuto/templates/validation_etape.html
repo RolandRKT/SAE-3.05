@@ -158,13 +158,21 @@
         </svg>
       </span>
     </label>
-    <input type="file" name="image" id="uploadFile" onchange="dragNdrop(event)" ondragover="drag()" ondrop="drop()" />
+    <input type="file" name="image" id="uploadFile" onchange="dragNdrop(event)" ondragover="drag()" ondrop="drop()" required/>
     <span class="title">Information de l'étape</span>
-    <input type="text" class="input" name='nom_etape' placeholder="Nom de l'étape" value="{{ nom_etape }}">
+    {% if not editable %}
+        <input type="text" class="input" name='nom_etape' placeholder="Nom de l'étape" value="{{ nom_etape }}" required>
+    {% else %}
+        <input type="text" class="input" name='nom_etape' placeholder="Nom de l'étape" value="{{ nom_etape }}" readonly>
+    {% endif %}
     <input type="hidden" name='coord_x' value="{{ coord_x }}">
     <input type="hidden" name='coord_y' value="{{ coord_y }}">
-    <textarea class="input"  name='description' placeholder="Description de l'étape" maxlength="200"></textarea>
-    <button type="submit">Ajouter étape</button>
+    <textarea class="input"  name='description' placeholder="Description de l'étape" maxlength="200" required></textarea>
+    {% if not editable %}
+        <button type="submit">Ajouter étape</button>
+    {% else %}
+        <button type="submit">Modifier étape</button>
+    {% endif %}
   </form>
   <div id="preview" class="hide">
     <img id="previewImg" class="appears" src="" alt="Preview Image">

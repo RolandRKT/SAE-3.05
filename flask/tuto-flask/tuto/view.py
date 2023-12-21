@@ -683,14 +683,15 @@ def commencer():
     SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, 1)
     return redirect(url_for('parcours', nb_etape = 1))
 
-
 @app.route('/validation-etape', methods=['POST', 'GET'])
 def validation():
     query = request.args
+    editable = query.get('editable', False)
     return render_template("validation_etape.html",
-                           nom_etape = query['nom_etape'],
-                            coord_x = query['coord_x'],
-                            coord_y = query['coord_y'])
+                           nom_etape=query['nom_etape'],
+                           coord_x=query['coord_x'],
+                           coord_y=query['coord_y'],
+                           editable=editable)
 
 @app.route('/update_parcours_bd', methods=['POST'])
 def update_parcours_bd():
