@@ -683,6 +683,39 @@ def commencer():
     SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, 1)
     return redirect(url_for('parcours', nb_etape = 1))
 
+
+@app.route('/validation-etape', methods=['POST', 'GET'])
+def validation():
+    query = request.args
+    return render_template("validation_etape.html",
+                           nom_etape = query['nom_etape'],
+                            coord_x = query['coord_x'],
+                            coord_y = query['coord_y'])
+
+@app.route('/update_parcours_bd', methods=['POST'])
+def update_parcours_bd():
+    if request.method == "POST":
+        nom_etape = request.form.get("nom_etape")
+        desc = request.form.get("description")
+        app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+        if not os.path.exists(app.config['UPLOAD_FOLDER']):
+            os.makedirs(app.config['UPLOAD_FOLDER'])
+        if 'image' in request.files:
+            image = request.files['image']
+            if image.filename != '':
+                filename = secure_filename(image.filename)
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+                print("Chemin du fichier :", filepath)
+                image.save(filepath)
+                next_id = IMAGE.get_prochain_id_image()
+                IMAGE.inserer_image(next_id, filename+str("'"), str(filename)+str(next_id), str(filename))
+        
+        ETAPE.update(nom_etape, desc, IMAGE.get_prochain_id_image()-1)
+    
+    return redirect(url_for('accueil_admin'))
+
 @app.route('/avis/<int:id_parc>', methods=['GET', 'POST'])
 def avis_parcours(id_parc):
     liste_avis = TERMINER.get_note_comm(id_parc)
@@ -696,3 +729,4 @@ def avis_parcours(id_parc):
 @app.route("/redirect-admin")
 def redirection_admin():
     return redirect(url_for('accueil_admin'))
+

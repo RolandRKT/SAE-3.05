@@ -179,3 +179,25 @@ class Etape_bd:
             self.cnx.commit()
         except Exception as exp:
             print("Erreur lors de la suppression de la composition :", str(exp))
+            
+    def update(self,nom_etape,interet,id_image):
+        """
+            Cette fonction permet de changer certaine info
+        """
+        try:
+            query=text(f"update ETAPE set nom_etape = :nom_etape where id_etape= :id_etape")
+            query2=text(f"update ETAPE set interet = :interet where id_etape= :id_etape")
+            query3=text(f"update ETAPE set id_image = :id_image where id_etape= :id_etape")
+
+            params1 = {'nom_etape':nom_etape, 'id_etape': self.get_prochain_id_etape()-1}
+            params2= {"interet":interet,'id_etape': self.get_prochain_id_etape()-1}
+            params3 = {"id_image":id_image, 'id_etape': self.get_prochain_id_etape()-1}
+
+            self.cnx.execute(query,params1)
+            self.cnx.execute(query2,params2)
+            self.cnx.execute(query3,params3)
+            self.cnx.commit()
+        except Exception as exp:
+            print("la connexion a échoué, update")
+            print(exp)
+            return None
