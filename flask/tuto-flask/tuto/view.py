@@ -676,6 +676,15 @@ def commencer():
 def validation():
     query = request.args
     editable = query.get('editable', False)
+    if editable:
+        id_etape = query.get('id_etape')
+        return render_template("validation_etape.html",
+                           id_etape=id_etape,
+                           nom_etape=query['nom_etape'],
+                           coord_x=query['coord_x'],
+                           coord_y=query['coord_y'],
+                           editable=editable)
+        
     return render_template("validation_etape.html",
                            nom_etape=query['nom_etape'],
                            coord_x=query['coord_x'],
@@ -703,6 +712,16 @@ def update_parcours_bd():
                 IMAGE.inserer_image(next_id, filename+str("'"), str(filename)+str(next_id), str(filename))
         
         ETAPE.update(nom_etape, desc, IMAGE.get_prochain_id_image()-1)
+    
+    return redirect(url_for('accueil_admin'))
+
+@app.route('/edit_parcours', methods=['POST'])
+def edit_parcours():
+    if request.method == "POST":
+        nom_etape = request.form.get('nom_etape')
+        desc = request.form.get('description')
+        id_etape = request.form.get('id_etape')
+        ETAPE.update_par_id(id_etape, nom_etape, desc)
     
     return redirect(url_for('accueil_admin'))
 

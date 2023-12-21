@@ -201,3 +201,23 @@ class Etape_bd:
             print("la connexion a échoué, update")
             print(exp)
             return None
+        
+    def update_par_id(self, id_etape, nom_etape,interet):
+        """
+            Cette fonction permet de changer certaine info
+        """
+        try:
+            query=text(f"update ETAPE set nom_etape = :nom_etape where id_etape= :id_etape")
+            query2=text(f"update ETAPE set interet = :interet where id_etape= :id_etape")
+
+            params1 = {'nom_etape':nom_etape, 'id_etape': id_etape}
+            params2= {"interet":interet,'id_etape': id_etape}
+
+            print("Lalala")
+            self.cnx.execute(query,params1)
+            self.cnx.execute(query2,params2)
+            self.cnx.commit()
+        except Exception as exp:
+            print("la connexion a échoué, update")
+            print(exp)
+            return None
