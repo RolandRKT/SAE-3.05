@@ -3,19 +3,27 @@
 <head>
   <meta charset="utf-8">
   <title>Wade - Accueil Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan_admin.css') }}">
+    <link rel="stylesheet" href="../static/accueil_admin.css">
+    <link rel="stylesheet" href="../static/creation_parcours.css">
+    <link rel="stylesheet" href="../static/gerer_compte.css">
+    <link rel="stylesheet" href="../static/gerer_parcours.css">
   <link rel="stylesheet" href="../static/base_slogan_admin.css">
     {% if page_mobile %}
-      {% if page_accueil_admin %}
-        <link rel="stylesheet" href="../static/accueil_admin_mobile.css">
-        <link rel="stylesheet" href="../static/top_admin.css">
+      <link rel="stylesheet" href="../static/base_slogan_admin.css">
+      {% if page_mobile %}
+        {% if page_accueil_admin %}
+          <link rel="stylesheet" href="../static/accueil_admin_mobile.css">
+          <link rel="stylesheet" href="../static/top_admin.css">
+        {% else %}
+          <link rel="stylesheet" href="../static/gerer_compte_mobile.css">
+        {% endif %}
       {% else %}
-        <link rel="stylesheet" href="../static/gerer_compte_mobile.css">
+        <link rel="stylesheet" href="../static/accueil_admin.css">
+        <link rel="stylesheet" href="../static/creation_parcours.css">
+        <link rel="stylesheet" href="../static/gerer_compte.css">
+        <link rel="stylesheet" href="../static/gerer_parcours.css">
       {% endif %}
-    {% else %}
-      <link rel="stylesheet" href="../static/accueil_admin.css">
-      <link rel="stylesheet" href="../static/creation_parcours.css">
-      <link rel="stylesheet" href="../static/gerer_compte.css">
-    <link rel="stylesheet" href="../static/gerer_parcours.css">
     {% endif %}
 </head>
   <body>

@@ -489,7 +489,7 @@ def creation_parcours():
     
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("creation_parcours.html", liste_etape , page_mobile = True,)
+        return render_template("creation_parcours.html" ,liste = liste_etape ,page_mobile = True)
     else:
         return render_template("creation_parcours.html", liste = liste_etape , page_mobile = False)
     
@@ -613,3 +613,8 @@ def suppression_etape(id_etp):
         ETAPE.supprimer_toutes_les_etapes_composer(PARCOURS,
                                           id_etp)
     return redirect(url_for("gerer_parcours"))
+  
+@app.route('/commencer')
+def commencer():
+    SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, 1)
+    return redirect(url_for('parcours', nb_etape = 1))
