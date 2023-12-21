@@ -3,12 +3,19 @@
 """
 import os
 import sys
+from flask import jsonify
 from sqlalchemy.sql.expression import text
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
-
 from termine import Termine
+
+
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
+sys.path.append(os.path.join(ROOT, 'modele/bd/'))
+from parcours_bd import Parcours_bd
+from connexion import cnx
+PARCOURS=Parcours_bd(cnx)
 
 class Termine_bd:
     """
@@ -77,3 +84,21 @@ class Termine_bd:
             print("La connexion a échoué, inserer termine")
             print(exp)
             return None
+
+    def get_note_comm(self,id_parcours):
+        """
+            Récupère la note et le commentaire d'un parcours.
+        """
+        try:
+            query = text(
+                f"select pseudo,note, comm from TERMINE NATURAL JOIN PARTICIPANT where id_parcours={id_parcours}")
+            resultat = self.cnx.execute(query)
+            liste=[]
+            for pseudo,note, comm in resultat:
+                liste.append((pseudo,note,comm))
+            return liste
+        except Exception as exp:
+            print("la connexion a échoué, get note comm")
+            print(exp)
+            return None
+

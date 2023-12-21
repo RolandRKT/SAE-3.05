@@ -2,9 +2,11 @@
     Ce fichier va nous permettre de faire les redirection vers
     d'autres pages aprés une action.
 """
+from io import BytesIO
 import os
 import sys
-from flask import jsonify, render_template, url_for, redirect, request
+from tkinter import Canvas
+from flask import jsonify, render_template, send_file, url_for, redirect, request
 from flask import request
 from werkzeug.utils import secure_filename
 from .app import app
@@ -14,15 +16,16 @@ from flask_mail import Mail, Message
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
 
-from participant_bd import *
-from parcours_bd import *
-from image_bd import *
+from participant_bd import Participant_bd
+from parcours_bd import Parcours_bd
+from image_bd import Image_bd
 from connexion import cnx
-from admin_bd import *
-from etape_bd import *
-from composer_bd import *
-from suivre_bd import *
-from terminer_bd import *
+from admin_bd import Admin_bd
+from etape_bd import Etape_bd
+from composer_bd import Composer_bd
+from suivre_bd import Suivre_bd
+from terminer_bd import Termine_bd
+
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 
@@ -59,6 +62,7 @@ ETAPE = Etape_bd(cnx)
 COMPOSER =  Composer_bd(cnx)
 SUIVRE = Suivre_bd(cnx)
 IMAGE = Image_bd(cnx)
+TERMINE = Termine_bd(cnx)
 
 
 from .app import app
@@ -191,15 +195,13 @@ def parcours(nb_etape):
     else:
         return render_template("parcours.html", page_mobile=False, etape_actu = [lesetapes[val - 1 ]],  x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
 
-@app.route("/admin/parcours")
-def parcours_admin():
+@app.route("/admin/parcours/<int:nb>")
+def parcours_admin(nb):
     """
         se dirige vers la page parcours
     """
     user_agent = request.user_agent.string
-
-
-    liste_composer = COMPOSER.get_par_parcour_composition(num_parcours)
+    liste_composer = COMPOSER.get_par_parcour_composition(nb)
     liste_etape = []
     
     for comp in liste_composer:
@@ -232,7 +234,7 @@ def parcours_admin():
         print("Pas encore implémenter")
         return None
     else:
-        return render_template("parcours_admin.html", page_mobile=False, etape_actu = [lesetapes[0]], longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
+        return render_template("parcours_admin.html", page_mobile=False, etape_actu = [lesetapes[0]], longueur = len(liste_etape), num_parcours = nb, lesetapes_json = lesetapes_json)
 
 @app.route("/mon-profil")
 def mon_profil():
