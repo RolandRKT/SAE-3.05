@@ -148,7 +148,10 @@ def changement_parcours(num):
     """
     global num_parcours
     num_parcours = num
-    return redirect(url_for("parcours", nb_etape=0))
+    print(num, le_participant.get_id())
+    nb_etape = SUIVRE.get_num_etape_suivre(num_parcours, le_participant.get_id())
+    print(nb_etape)
+    return redirect(url_for("parcours", nb_etape = nb_etape))
     
 
 @app.route("/parcours/<int:nb_etape>")
