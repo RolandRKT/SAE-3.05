@@ -372,11 +372,11 @@ def inscrire():
         inserer_le_participant(username, email, password)
         le_participant.set_all(PARTICIPANT.get_prochain_id_participant() - 1,
                                username, email, password)
-        #msg = Message("✨Bienvenue chez Wade !✨",
-        #              recipients=[email])
-        #msg.body = "Cher utilisateur..."
-        #msg.html = msg_inscription(username, password)
-        #mail.send(msg)
+        msg = Message("✨Bienvenue chez Wade !✨",
+                      recipients=[email])
+        msg.body = "Cher utilisateur..."
+        msg.html = msg_inscription(username, password)
+        mail.send(msg)
         return jsonify({"success": "registered"})
 
     return render_template("login.html", page_mobile=False, page_login=True)

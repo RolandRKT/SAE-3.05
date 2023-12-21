@@ -23,7 +23,7 @@ def ouvrir_connexion(user, passwd, host, database):
         return err
 
 
-cnx = ouvrir_connexion("rakotomalala", "rakotomalala", "servinfo-maria",
+cnx = ouvrir_connexion("rakotomalala", "rakotomalala", "localhost",
                        "DBrakotomalala")
 
 
