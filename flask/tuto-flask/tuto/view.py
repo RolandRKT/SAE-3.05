@@ -173,7 +173,6 @@ def parcours(nb_etape):
             monimage=images[0].get_img_filename()
             lesetapes.append((eta,monimage))
         except:
-            print("I m here")
             lesetapes.append((eta, "image_default.jpg"))
     lesetapes_json = []
 
@@ -187,7 +186,6 @@ def parcours(nb_etape):
         }
         lesetapes_json.append(etape_data)
     
-    print(lesetapes_json)
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[val - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
     else:
@@ -200,20 +198,15 @@ def parcours_admin():
     """
     user_agent = request.user_agent.string
 
-    print(num_parcours)
 
     liste_composer = COMPOSER.get_par_parcour_composition(num_parcours)
     liste_etape = []
     
     for comp in liste_composer:
-        print("hhehehehe")
-        print(comp,comp.get_parcours_id())
         liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
-    print(liste_etape)
     lesetapes = []
 
     for eta in liste_etape:
-        print(eta.get_id_photo())
         images=IMAGE.get_par_image(eta.get_id_photo())
         try:
             monimage=images[0].get_img_filename()
@@ -221,7 +214,6 @@ def parcours_admin():
         except:
             lesetapes.append((eta, "image_default.jpg"))
     
-    print(lesetapes)
 
     lesetapes_json = []
 
@@ -236,7 +228,6 @@ def parcours_admin():
         print(etape_data)
         lesetapes_json.append(etape_data)
     
-    print(lesetapes_json)
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         print("Pas encore implémenter")
         return None
@@ -348,7 +339,6 @@ def get_etapes_parcours_route():
 
 @app.route('/api/inserer_etape', methods=['POST'])
 def inserer_etape():
-    print("Route /api/inserer_etape appelée")
     data = request.json
     idetape = data.get('idetape')
     nometape = data.get('nometape')
@@ -369,21 +359,17 @@ def get_prochain_id():
 @app.route('/api/get_prochain_numero', methods=['GET'])
 def get_prochain_numero():
     idparc = request.args.get('idparc')
-    print(idparc, "loupe")
     prochain_num = COMPOSER.get_prochain_numero_composer(idparc)
     actu_id = ETAPE.get_prochain_id_etape()
-    print(actu_id)
     return jsonify(prochain_num=prochain_num, actu_id = actu_id - 1)
 
 @app.route('/api/inserer_composer', methods=['POST'])
 def inserer_composer():
-    print("Route /api/inserer_composer appelée")
     data = request.json
     idetape = data.get('idetape')
     idparc = data.get('idparc')
     numero = data.get('numero')
 
-    print(f'idetape: {idetape}, idparc: {idparc}, numero: {numero}')
 
     COMPOSER.inserer_compose(idparc, idetape, numero)
 
@@ -488,7 +474,6 @@ def mes_parcours_terminees():
 @app.route("/creation_parcours")
 def creation_parcours():
     liste_etape = ETAPE.get_all_etape()
-    print(liste_etape)
     
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
@@ -505,9 +490,7 @@ def creer_parcours():
         duree = request.form.get('duree')
 
         ordered_etapes = request.form.get('orderedEtapes')
-        print(ordered_etapes)
         ordered_etapes_ids = [int(etape_id) for etape_id in ordered_etapes.split(',') if etape_id]
-        print(ordered_etapes_ids)
         
         app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
