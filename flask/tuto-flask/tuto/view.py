@@ -687,14 +687,16 @@ def commencer():
 def validation():
     query = request.args
     editable = query.get('editable', False)
+    id_etape = query.get('id_etape', None)
     return render_template("validation_etape.html",
+                           id=id_etape,
                            nom_etape=query['nom_etape'],
                            coord_x=query['coord_x'],
                            coord_y=query['coord_y'],
                            editable=editable)
 
-@app.route('/update_parcours_bd', methods=['POST'])
-def update_parcours_bd():
+@app.route('/creation_etape', methods=['POST'])
+def creation_etape():
     if request.method == "POST":
         nom_etape = request.form.get("nom_etape")
         desc = request.form.get("description")
@@ -714,6 +716,30 @@ def update_parcours_bd():
                 IMAGE.inserer_image(next_id, filename+str("'"), str(filename)+str(next_id), str(filename))
         
         ETAPE.update(nom_etape, desc, IMAGE.get_prochain_id_image()-1)
+    
+    return redirect(url_for('accueil_admin'))
+
+@app.route('/edit_etape/<id_etape>', methods=['POST'])
+def edit_etape(id_etape):
+    if request.method == "POST":
+        nom_etape = request.form.get("nom_etape")
+        desc = request.form.get("description")
+        app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+        if not os.path.exists(app.config['UPLOAD_FOLDER']):
+            os.makedirs(app.config['UPLOAD_FOLDER'])
+        if 'image' in request.files:
+            image = request.files['image']
+            if image.filename != '':
+                filename = secure_filename(image.filename)
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+                print("Chemin du fichier :", filepath)
+                image.save(filepath)
+                next_id = IMAGE.get_prochain_id_image()
+                IMAGE.inserer_image(next_id, filename+str("'"), str(filename)+str(next_id), str(filename))
+        
+        ETAPE.update_par_id(id_etape, nom_etape, desc)
     
     return redirect(url_for('accueil_admin'))
 

@@ -143,8 +143,12 @@
   </style>
 </head>
 <body>
-
-  <form class="form" method="POST" action="{{ url_for('update_parcours_bd') }}" enctype="multipart/form-data">
+    {% if not editable %}
+        <form class="form" method="POST" action="{{ url_for('creation_etape') }}" enctype="multipart/form-data">
+    {% else %}
+        <form class="form" method="POST" action="{{ url_for('edit_etape', id_etape=id_etape) }}" enctype="multipart/form-data">
+    {% endif %}
+  <form class="form" method="POST" action="{{ url_for('creation_etape') }}" enctype="multipart/form-data">
     <span class="title">Image de l'étape</span>
     <label class="avatar" for="uploadFile" class="custom-file-upload">
       <span>
@@ -158,7 +162,9 @@
         </svg>
       </span>
     </label>
-    <input type="file" name="image" id="uploadFile" onchange="dragNdrop(event)" ondragover="drag()" ondrop="drop()" required/>
+    {% if not editable %}
+        <input type="file" name="image" id="uploadFile" onchange="dragNdrop(event)" ondragover="drag()" ondrop="drop()" required/>
+    {% endif %}
     <span class="title">Information de l'étape</span>
     {% if not editable %}
         <input type="text" class="input" name='nom_etape' placeholder="Nom de l'étape" value="{{ nom_etape }}" required>
@@ -167,7 +173,7 @@
     {% endif %}
     <input type="hidden" name='coord_x' value="{{ coord_x }}">
     <input type="hidden" name='coord_y' value="{{ coord_y }}">
-    <textarea class="input"  name='description' placeholder="Description de l'étape" maxlength="200" required></textarea>
+    <textarea class="input" name='description' placeholder="Description de l'étape" maxlength="200" required></textarea>
     {% if not editable %}
         <button type="submit">Ajouter étape</button>
     {% else %}
