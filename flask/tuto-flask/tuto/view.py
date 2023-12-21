@@ -618,3 +618,7 @@ def suppression_etape(id_etp):
 def commencer():
     SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, 1)
     return redirect(url_for('parcours', nb_etape = 1))
+
+@app.route("/redirect-admin")
+def redirection_admin():
+    return redirect(url_for('accueil_admin'))
