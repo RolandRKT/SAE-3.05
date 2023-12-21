@@ -71,10 +71,14 @@ class Etape_bd:
             param idimage: ID de l'image associée à l'étape.
         """
         try:
-            if(idimage is None):
-                query = text(f"insert into ETAPE values({str(idetape)},'{nometape}', null, '{str(coordX)}', '{str(coordY)}','{str(interet)}')")
+            if interet is None:
+                interet2 = 'null'
             else:
-                query = text(f"insert into ETAPE values({str(idetape)},'{nometape}', {str(idimage)}, '{str(coordX)}', '{str(coordY)}','{str(interet)}')")
+                interet2 = interet
+            if(idimage is None):
+                query = text(f"insert into ETAPE values({str(idetape)},'{nometape}', null, '{str(coordX)}', '{str(coordY)}','{str(interet2)}')")
+            else:
+                query = text(f"insert into ETAPE values({str(idetape)},'{nometape}', {str(idimage)}, '{str(coordX)}', '{str(coordY)}','{str(interet2)}')")
             self.cnx.execute(query)
             self.cnx.commit()
 

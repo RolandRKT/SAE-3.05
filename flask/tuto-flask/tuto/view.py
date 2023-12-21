@@ -243,6 +243,58 @@ def parcours_admin():
     else:
         return render_template("parcours_admin.html", page_mobile=False, etape_actu = [lesetapes[0]], longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
 
+@app.route("/admin_inserer/parcours")
+def parcours_admin_inserer():
+    """
+        se dirige vers la page parcours
+    """
+    user_agent = request.user_agent.string
+
+    print(num_parcours)
+
+    liste_composer = COMPOSER.get_par_parcour_composition(num_parcours)
+    liste_etape = []
+    
+    for comp in liste_composer:
+        print("hhehehehe")
+        print(comp,comp.get_parcours_id())
+        liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
+    print(liste_etape)
+    lesetapes = []
+
+    for eta in liste_etape:
+        print(eta.get_id_photo())
+        images=IMAGE.get_par_image(eta.get_id_photo())
+        try:
+            monimage=images[0].get_img_filename()
+            lesetapes.append((eta,monimage))
+        except:
+            lesetapes.append((eta, "image_default.jpg"))
+    
+    print(lesetapes)
+
+    lesetapes_json = []
+
+    for eta, monimage in lesetapes:
+        etape_data = {
+            'id': eta.get_id_etape(),
+            'nom': eta.get_nom_etape(),
+            'coordonneX': eta.get_coordonneX(),
+            'coordonneY': eta.get_coordonneY(),
+            'image': monimage,
+        }
+        print(etape_data)
+        lesetapes_json.append(etape_data)
+    
+    print(lesetapes_json)
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        print("Pas encore implémenter")
+        return None
+    else:
+        return render_template("parcours_inserer_etape.html", page_mobile=False, etape_actu = [lesetapes[0]], longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
+
+
+
 @app.route("/mon-profil")
 def mon_profil():
     """
@@ -356,7 +408,7 @@ def inserer_etape():
     coordX = data.get('coordX')
     coordY = data.get('coordY')
 
-    ETAPE.inserer_etape(idetape, nometape, idimage, coordX, coordY)
+    ETAPE.inserer_etape(idetape, nometape, idimage, coordX, coordY, None)
 
     return jsonify(success=True, message='Étape insérée avec succès')
 
