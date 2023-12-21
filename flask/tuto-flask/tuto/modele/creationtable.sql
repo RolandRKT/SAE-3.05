@@ -66,7 +66,7 @@ create table TERMINE(
     id_parcours int,
     id_participant int,
     note decimal(2,1),
-    comm varchar(200),
+    comm varchar(500),
     CHECK(0 <= note and 5 >= note),
     primary key(id_parcours,id_participant)
 );
