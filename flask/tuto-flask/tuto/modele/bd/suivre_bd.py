@@ -113,7 +113,7 @@ class Suivre_bd:
             print(exp)
             return None
 
-    def get_num_etape_suivre(self, idP):
+    def get_num_etape_suivre(self, idP, idPart):
         """
             Récupère le numéro de l'étape atteinte dans un parcours par un participant.
             Args:
@@ -123,7 +123,7 @@ class Suivre_bd:
         """
         try:
             query = text(
-                f"select num_etape as m from SUIVRE where id_parcours={idP}")
+                f"select num_etape as m from SUIVRE where id_parcours={idP} and id_participant={idPart}")
             result = self.cnx.execute(query).fetchone()
             if result and result.m:
                 print(int(result.m))

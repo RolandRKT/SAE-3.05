@@ -148,7 +148,8 @@ def changement_parcours(num):
     """
     global num_parcours
     num_parcours = num
-    return redirect(url_for("parcours", nb_etape=0))
+    nb_etape = SUIVRE.get_num_etape_suivre(num_parcours, le_participant.get_id())
+    return redirect(url_for("parcours", nb_etape = nb_etape))
     
 
 @app.route("/parcours/<int:nb_etape>")
@@ -227,7 +228,6 @@ def parcours_admin(nb):
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
         }
-        print(etape_data)
         lesetapes_json.append(etape_data)
     
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
@@ -243,20 +243,14 @@ def parcours_admin_inserer():
     """
     user_agent = request.user_agent.string
 
-    print(num_parcours)
-
     liste_composer = COMPOSER.get_par_parcour_composition(num_parcours)
     liste_etape = []
     
     for comp in liste_composer:
-        print("hhehehehe")
-        print(comp,comp.get_parcours_id())
         liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
-    print(liste_etape)
     lesetapes = []
 
     for eta in liste_etape:
-        print(eta.get_id_photo())
         images=IMAGE.get_par_image(eta.get_id_photo())
         try:
             monimage=images[0].get_img_filename()
@@ -264,8 +258,6 @@ def parcours_admin_inserer():
         except:
             lesetapes.append((eta, "image_default.jpg"))
     
-    print(lesetapes)
-
     lesetapes_json = []
 
     for eta, monimage in lesetapes:
@@ -276,10 +268,8 @@ def parcours_admin_inserer():
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
         }
-        print(etape_data)
         lesetapes_json.append(etape_data)
     
-    print(lesetapes_json)
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         print("Pas encore implémenter")
         return None
@@ -606,9 +596,9 @@ def suppression_participant(pseudo):
     return redirect(url_for("gerer_compte"))
 
 @app.route('/supprimer_etape_parcours<int:num_etape>/<int:num_parcours>', methods=['GET'])
-def supprimer_etape_parcours(id_etape, id_parcours):
-    COMPOSER.supprimer_etape_parcours(id_parcours, id_etape)
-    return redirect(url_for("parcours_admin"))
+def supprimer_etape_parcours(num_etape, num_parcours):
+    COMPOSER.supprimer_etape_parcours(num_parcours, num_etape)
+    return redirect(url_for("parcours_admin", nb=num_parcours))
 
 @app.route('/forget-password', methods=['POST', 'GET'])
 def forget_password():
@@ -653,7 +643,6 @@ def les_parcours2():
     participant = le_participant.get_id()
     radio = int(request.form.get('star-radio'))
     textarea = request.form.get('textarea')
-    print(radio,textarea)
     TERMINE.inserer_termine(num_parcours,participant, radio, textarea)
     return redirect(url_for("les_parcours"))
 
@@ -683,14 +672,15 @@ def commencer():
     SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, 1)
     return redirect(url_for('parcours', nb_etape = 1))
 
-
 @app.route('/validation-etape', methods=['POST', 'GET'])
 def validation():
     query = request.args
+    editable = query.get('editable', False)
     return render_template("validation_etape.html",
-                           nom_etape = query['nom_etape'],
-                            coord_x = query['coord_x'],
-                            coord_y = query['coord_y'])
+                           nom_etape=query['nom_etape'],
+                           coord_x=query['coord_x'],
+                           coord_y=query['coord_y'],
+                           editable=editable)
 
 @app.route('/update_parcours_bd', methods=['POST'])
 def update_parcours_bd():
