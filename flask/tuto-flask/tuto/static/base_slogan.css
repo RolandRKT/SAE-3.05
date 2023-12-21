@@ -55,10 +55,12 @@ header {
     height: 100px;
 }
 
-.app-name{
+.app-name {
     font-family: 'Leckerli One', cursive;
     color: #2EBEDD;
     font-size: 64px;
+    font-weight: bold;
+    text-decoration: none;
     justify-content: center;
     align-items: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
