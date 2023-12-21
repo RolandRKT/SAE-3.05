@@ -8,7 +8,7 @@ class Suivre:
         La class suivre
     """
 
-    def __init__(self, id_user, id_parc, point, comm, numero_etape):
+    def __init__(self, id_user, id_parc, numero_etape):
         """
         Initialise un objet Suivre pour représenter
         la relation entre un utilisateur et un parcours suivi.
@@ -22,8 +22,6 @@ class Suivre:
         """
         self.__id_user = id_user
         self.__id_parc = id_parc
-        self.__point = point
-        self.__comm = comm
         self.__num_etape = numero_etape
 
     def get_id_parc(self):
@@ -43,24 +41,6 @@ class Suivre:
             int: L'ID de l'utilisateur.
         """
         return self.__id_user
-
-    def get_point(self):
-        """
-        Getter pour les points attribués par l'utilisateur au parcours.
-
-        Returns:
-            float: Les points attribués.
-        """
-        return self.__point
-
-    def get_comm(self):
-        """
-        Getter pour le commentaire laissé par l'utilisateur sur le parcours.
-
-        Returns:
-            str: Le commentaire.
-        """
-        return self.__comm
 
     def get_numero(self):
         """

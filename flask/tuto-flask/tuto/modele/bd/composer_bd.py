@@ -140,11 +140,18 @@ class Composer_bd:
             # Récupérer le numéro de l'étape à supprimer
             query_get_numero = text(f"SELECT numero FROM COMPOSER WHERE id_parcours = '{str(id_parc)}' AND id_etape = '{str(id_etape)}'")
             result = self.cnx.execute(query_get_numero).fetchone()
-            if result:
+            uery_get_numero = text(f"SELECT * FROM SUIVRE WHERE id_parcours = {id_parc}")
+            result2 = self.cnx.execute(uery_get_numero)
+            if result2 and result:
                 deleted_numero = result[0]
+                query_update_numeros = text(f"UPDATE SUIVRE SET num_etape = num_etape - 1 WHERE id_parcours = {id_parc} AND num_etape >= {deleted_numero} and num_etape>1")
+                self.cnx.execute(query_update_numeros)
+                self.cnx.commit()
+            if result:
+                deleted_numero = result[0] 
 
                 # Supprimer l'étape
-                query_delete_etape = text(f"DELETE FROM COMPOSER WHERE id_parcours = '{str(id_parc)}' AND id_etape= '{str(id_etape)}'")
+                query_delete_etape = text(f"DELETE FROM COMPOSER WHERE id_parcours = '{str(id_parc)}' AND id_etape= '{str(id_etape)}'")                
                 self.cnx.execute(query_delete_etape)
                 self.cnx.commit()
 

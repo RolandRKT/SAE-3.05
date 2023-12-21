@@ -23,13 +23,13 @@ class Termine_bd:
         """
         self.cnx = conx
     
-    def get_all_termine(self):
+    def get_all_termine(self,id_participant):
         """
             Récupère tous les termine depuis la base de données.
         """
         try:
             query = text(
-                "select id_parcours, id_participant, note, comm from TERMINE")
+                f"select * from TERMINE where id_participant={id_participant}")
             resultat = self.cnx.execute(query)
             termine = []
             for id_parcours, id_participant, note, comm in resultat:
@@ -65,7 +65,6 @@ class Termine_bd:
             Insère un termine dans la base de données.
         """
         try:
-            print(id_parcours, id_participant, note, comm)
             query = text(
                 f"insert into TERMINE(id_parcours, id_participant, note, comm) values({id_parcours}, {id_participant}, {note}, '{comm}')")
             query_delete_suivre = text(
