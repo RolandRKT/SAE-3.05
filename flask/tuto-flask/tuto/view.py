@@ -40,7 +40,7 @@ sys.path.append(os.path.join(ROOT, ''))
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
-from models import les_parcour_suivi, les_parcours_terminer,inserer_parcours_view, lister_les_parcours, inserer_le_participant
+from models import les_parcour_suivi, les_parcours_terminer,inserer_parcours_view, lister_les_parcours, inserer_le_participant, inserer_composer_view
 from participant import *
 from admin import *
 
@@ -499,8 +499,13 @@ def creer_parcours():
         # Traitement des autres champs
         nom_parcours = request.form.get('nom_parcours')
         description = request.form.get('textarea')
-        #etape = request.form.get('pets')
+        duree = request.form.get('duree')
 
+        ordered_etapes = request.form.get('orderedEtapes')
+        print(ordered_etapes)
+        ordered_etapes_ids = [int(etape_id) for etape_id in ordered_etapes.split(',') if etape_id]
+        print(ordered_etapes_ids)
+        
         app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
         if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -521,12 +526,12 @@ def creer_parcours():
                 IMAGE.inserer_image(next_id, filename+str("'"), str(filename)+str(next_id), str(filename))
 
                 # Insertion du parcours
-                inserer_parcours_view(nom_parcours, description, next_id)
-                user_agent = request.user_agent.string
-                if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-                    return render_template("accueil_admin.html", page_mobile = True)
-                else:
-                    return render_template("accueil_admin.html", page_mobile = False)
+                parcours_id = inserer_parcours_view(nom_parcours, description, next_id, str(duree))
+
+                for order, etape_id in enumerate(ordered_etapes_ids, start=1):
+                    inserer_composer_view(parcours_id, etape_id, order)
+                
+                return redirect(url_for("accueil_admin"))
         return redirect(url_for("creation_parcours"))
 
 @app.route("/redirect")

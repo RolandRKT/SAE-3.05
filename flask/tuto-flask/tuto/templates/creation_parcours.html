@@ -2,7 +2,6 @@
 {% block styles %}
     {{ super() }}
     <style>
-        /* Ajoutez vos styles personnalisés ici si nécessaire */
         .checkbox-list {
             display: none;
             margin-top: 10px;
@@ -31,7 +30,7 @@
                         <textarea name="textarea" rows="7" cols="50" maxlength="200">Vous pouvez écrire ici.</textarea>
                     </div>
                     <div class="form-label-admin">
-                        <label for="etapes" class="label">Choisir les étapes:</label>
+                        <label for="etapes" class="label">Choisir les étapes (Dans l'ordre):</label>
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" onclick="toggleCheckboxList()" aria-haspopup="true" aria-expanded="false">
                                 Sélectionner des étapes
@@ -39,17 +38,27 @@
                             <div class="checkbox-list" id="checkboxList">
                                 {% for etape in liste %}
                                     <div class="form-check">
-                                        <input class="form-check-input" onclick="" type="checkbox" name="etapes[]" value="{{ etape.get_nom_etape() }}" id="etape_{{ etape.get_id_etape() }}">
-                                        <label class="form-check-label" for="etape_{{ etape.get_id_etape() }}">{{ etape.get_nom_etape() }}</label>
+                                        <input class="form-check-input" onclick="addEtapesListe('{{etape.get_id_etape()}}')" type="checkbox" name="etapes[]" value="{{ etape.get_nom_etape() }}" data-id="{{ etape.get_id_etape() }}">
+                                        <label class="form-check-label" for="{{ etape.get_id_etape() }}">{{ etape.get_nom_etape() }}</label>
                                     </div>
                                 {% endfor %}
                             </div>
+                            <div id="errorMessage" style="color: red;"></div>
                         </div>
                     </div>
                 </div>
+                <div class="boutonsOrdreEtapes">
+                    <button type="button" class="confirmOrdre" onclick="confirmOrder()">Confirmer l'ordre</button>
+                    <button type="button" class="reinitialiseOrdre" onclick="renitialiseOrder()">Rénitialiser l'ordre</button>
+                </div>
+                <input type="hidden" name="orderedEtapes" id="orderedEtapes" value="">
                 <div class="form-label-admin">
                     <label for="image" class="label">Image du parcours:</label>
                     <input type="file" name="image" id="uploadFile" onchange="dragNdrop(event)" ondragover="drag()" ondrop="drop()" />
+                </div>
+                <div class="form-label-admin">
+                    <label for="duree" class="label">Durée du parcours (format HH:MM):</label>
+                    <input type="time" name="duree" id="duree" required/>
                 </div>
                 <div class="creation-parcours">
                     <input type="submit" value="Créer le parcours" />
@@ -58,6 +67,33 @@
             <div id="preview"></div> 
             <script>
                 "use strict";
+
+                var listeOrderedEtapes = [];
+
+                function addEtapesListe(idEtape){
+                    var index = listeOrderedEtapes.indexOf(idEtape);
+
+                    if (index === -1) {
+                        // Si l'ID n'est pas dans la liste, l'ajouter
+                        listeOrderedEtapes.push(idEtape);
+                    } else {
+                        // Si l'ID est dans la liste, le supprimer
+                        listeOrderedEtapes.splice(index, 1);
+                    }
+                }
+
+                function confirmOrder(){
+                    document.getElementById("orderedEtapes").value = listeOrderedEtapes.join(',');
+                }
+
+                function renitialiseOrder(){
+                    var checkboxes = document.querySelectorAll('input[name="etapes[]"]:checked');
+                    checkboxes.forEach(function (checkbox) {
+                        checkbox.checked = false;
+                    });
+                    document.getElementById("orderedEtapes").value = "";
+                }
+
                 function dragNdrop(event) {
                     var fileName = URL.createObjectURL(event.target.files[0]);
                     var preview = document.getElementById("preview");
@@ -75,6 +111,16 @@
                 function toggleCheckboxList() {
                     var checkboxList = document.getElementById("checkboxList");
                     checkboxList.style.display = (checkboxList.style.display === "none") ? "block" : "none";
+
+                    var selectedEtapes = document.querySelectorAll('input[name="etapes[]"]:checked').length;
+
+                    if (selectedEtapes < 2) {
+                        document.getElementById("errorMessage").innerHTML = "Veuillez sélectionner au moins deux étapes.";
+                        return; // Empêche la soumission du formulaire
+                    } else {
+                        document.getElementById("errorMessage").innerHTML = ""; // Efface le message d'erreur
+                    }
+
                 }
             </script>
         </div>
