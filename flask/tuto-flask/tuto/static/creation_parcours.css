@@ -77,6 +77,7 @@ textarea{
       padding: 0 10px
     }
   }
+  
 .dragBox {
   width: 250px;
   height: 100px;
@@ -115,9 +116,10 @@ textarea{
   display: block; /* Ajustez le comportement d'affichage pour éviter des problèmes avec la marge inférieure */
 }
 
-
-.creation-parcours{
-  margin-left: 4rem;
+.boutonsOrdreEtapes{
+  display: flex;
+  flex-wrap: nowrap;
+  margin-left: 8rem;
 }
 
 input[type="submit"]{
@@ -132,9 +134,28 @@ input[type="submit"]{
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  float: right;
 }
 
-input[type="submit"]:hover {
+input[type="submit"], .confirmOrdre, .reinitialiseOrdre:hover {
   background-color: #1493A7;
 }
 
+.confirmOrdre, .reinitialiseOrdre{
+  width: 180px;
+  padding: 10px;
+  border-radius: 40px;
+  margin-right: 1em;
+  font-size: 16px;
+  background-color: #AABBCE;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  float: right;
+}
+
+a{
+  text-decoration: none;
+  color:black;
+}

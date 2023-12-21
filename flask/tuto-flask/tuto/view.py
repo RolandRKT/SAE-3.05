@@ -26,6 +26,7 @@ from composer_bd import Composer_bd
 from suivre_bd import Suivre_bd
 from terminer_bd import Termine_bd
 
+
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 
 sys.path.append(os.path.join(ROOT, './'))
@@ -43,7 +44,7 @@ sys.path.append(os.path.join(ROOT, ''))
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
-from models import les_parcour_suivi, les_parcours_terminer,inserer_parcours_view, lister_les_parcours, inserer_le_participant
+from models import les_parcour_suivi, les_parcours_terminer,inserer_parcours_view, lister_les_parcours, inserer_le_participant, inserer_composer_view
 from participant import *
 from admin import *
 
@@ -55,12 +56,14 @@ administrateur = Admin(-1, "", "")
 
 PARTICIPANT = Participant_bd(cnx)
 ADMIN = Admin_bd(cnx)
+TERMINE = Termine_bd(cnx)
 PARCOURS = Parcours_bd(cnx)
 ETAPE = Etape_bd(cnx)
 COMPOSER =  Composer_bd(cnx)
 SUIVRE = Suivre_bd(cnx)
 IMAGE = Image_bd(cnx)
 TERMINE = Termine_bd(cnx)
+
 
 from .app import app
 
@@ -174,7 +177,6 @@ def parcours(nb_etape):
             monimage=images[0].get_img_filename()
             lesetapes.append((eta,monimage))
         except:
-            print("I m here")
             lesetapes.append((eta, "image_default.jpg"))
     lesetapes_json = []
 
@@ -188,7 +190,6 @@ def parcours(nb_etape):
         }
         lesetapes_json.append(etape_data)
     
-    print(lesetapes_json)
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[val - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
     else:
@@ -204,14 +205,10 @@ def parcours_admin(nb):
     liste_etape = []
     
     for comp in liste_composer:
-        print("hhehehehe")
-        print(comp,comp.get_parcours_id())
         liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
-    print(liste_etape)
     lesetapes = []
 
     for eta in liste_etape:
-        print(eta.get_id_photo())
         images=IMAGE.get_par_image(eta.get_id_photo())
         try:
             monimage=images[0].get_img_filename()
@@ -219,7 +216,6 @@ def parcours_admin(nb):
         except:
             lesetapes.append((eta, "image_default.jpg"))
     
-    print(lesetapes)
 
     lesetapes_json = []
 
@@ -234,7 +230,6 @@ def parcours_admin(nb):
         print(etape_data)
         lesetapes_json.append(etape_data)
     
-    print(lesetapes_json)
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         print("Pas encore implémenter")
         return None
@@ -346,7 +341,6 @@ def get_etapes_parcours_route():
 
 @app.route('/api/inserer_etape', methods=['POST'])
 def inserer_etape():
-    print("Route /api/inserer_etape appelée")
     data = request.json
     idetape = data.get('idetape')
     nometape = data.get('nometape')
@@ -367,21 +361,17 @@ def get_prochain_id():
 @app.route('/api/get_prochain_numero', methods=['GET'])
 def get_prochain_numero():
     idparc = request.args.get('idparc')
-    print(idparc, "loupe")
     prochain_num = COMPOSER.get_prochain_numero_composer(idparc)
     actu_id = ETAPE.get_prochain_id_etape()
-    print(actu_id)
     return jsonify(prochain_num=prochain_num, actu_id = actu_id - 1)
 
 @app.route('/api/inserer_composer', methods=['POST'])
 def inserer_composer():
-    print("Route /api/inserer_composer appelée")
     data = request.json
     idetape = data.get('idetape')
     idparc = data.get('idparc')
     numero = data.get('numero')
 
-    print(f'idetape: {idetape}, idparc: {idparc}, numero: {numero}')
 
     COMPOSER.inserer_compose(idparc, idetape, numero)
 
@@ -486,7 +476,6 @@ def mes_parcours_terminees():
 @app.route("/creation_parcours")
 def creation_parcours():
     liste_etape = ETAPE.get_all_etape()
-    print(liste_etape)
     
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
@@ -500,8 +489,11 @@ def creer_parcours():
         # Traitement des autres champs
         nom_parcours = request.form.get('nom_parcours')
         description = request.form.get('textarea')
-        #etape = request.form.get('pets')
+        duree = request.form.get('duree')
 
+        ordered_etapes = request.form.get('orderedEtapes')
+        ordered_etapes_ids = [int(etape_id) for etape_id in ordered_etapes.split(',') if etape_id]
+        
         app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
         if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -522,12 +514,12 @@ def creer_parcours():
                 IMAGE.inserer_image(next_id, filename+str("'"), str(filename)+str(next_id), str(filename))
 
                 # Insertion du parcours
-                inserer_parcours_view(nom_parcours, description, next_id)
-                user_agent = request.user_agent.string
-                if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-                    return render_template("accueil_admin.html", page_mobile = True)
-                else:
-                    return render_template("accueil_admin.html", page_mobile = False)
+                parcours_id = inserer_parcours_view(nom_parcours, description, next_id, str(duree))
+
+                for order, etape_id in enumerate(ordered_etapes_ids, start=1):
+                    inserer_composer_view(parcours_id, etape_id, order)
+                
+                return redirect(url_for("accueil_admin"))
         return redirect(url_for("creation_parcours"))
 
 @app.route("/redirect")
@@ -589,6 +581,30 @@ def gerer_parcours():
     return render_template("gerer_parcours.html", liste_parc=les_parcours,
                            liste_etape=les_etapes)
 
+@app.route("/avis")
+def avis():
+    """
+        Cette fonction permet de nous diriger vers la page login.
+    """
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent
+           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("avis.html",
+                               page_mobile=True,
+                               avis=True)
+    return render_template("avis.html",
+                           page_mobile=False,
+                           avis=True)
+
+@app.route('/les_parcours', methods=['POST'])
+def les_parcours2():
+    participant = le_participant.get_id()
+    radio = int(request.form.get('star-radio'))
+    textarea = request.form.get('textarea')
+    print(radio,textarea)
+    TERMINE.inserer_termine(num_parcours,participant, radio, textarea)
+    return redirect(url_for("les_parcours"))
+
 @app.route('/suppression-parcours/<id_parc>', methods=['POST', 'DELETE'])
 def suppression_parcours(id_parc):
     """
@@ -614,3 +630,7 @@ def suppression_etape(id_etp):
 def commencer():
     SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, 1)
     return redirect(url_for('parcours', nb_etape = 1))
+
+@app.route("/redirect-admin")
+def redirection_admin():
+    return redirect(url_for('accueil_admin'))
