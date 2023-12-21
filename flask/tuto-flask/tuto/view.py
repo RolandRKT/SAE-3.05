@@ -691,8 +691,8 @@ def validation():
                            coord_y=query['coord_y'],
                            editable=editable)
 
-@app.route('/update_parcours_bd', methods=['POST'])
-def update_parcours_bd():
+@app.route('/inserer_etape_bd', methods=['POST'])
+def inserer_etape_bd():
     if request.method == "POST":
         nom_etape = request.form.get("nom_etape")
         desc = request.form.get("description")

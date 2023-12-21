@@ -145,7 +145,7 @@
 <body>
 
   {% if not editable %}
-    <form class="form" method="POST" action="{{ url_for('update_parcours_bd') }}" enctype="multipart/form-data">
+    <form class="form" method="POST" action="{{ url_for('inserer_etape_bd') }}" enctype="multipart/form-data">
   {% else %}
     <form class="form" method="POST" action="{{ url_for('edit_parcours') }}" enctype="multipart/form-data">
   {% endif %}
