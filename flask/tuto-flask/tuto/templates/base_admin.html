@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../static/creation_parcours.css">
     <link rel="stylesheet" href="../static/gerer_compte.css">
     <link rel="stylesheet" href="../static/gerer_parcours.css">
+    <link rel="stylesheet" href="../static/page_avis_admin.css">
   <link rel="stylesheet" href="../static/base_slogan_admin.css">
     {% if page_mobile %}
       <link rel="stylesheet" href="../static/base_slogan_admin.css">
@@ -30,7 +31,7 @@
     <header>
         <div class="top-page">
           <div></div>
-          <h1 class="app-name">Admin</h1>
+          <h1 class="app-name"><a href="{{ url_for('redirection_admin') }}" class="app-name">Admin</a></h1>
           <img id="burg-menu" class="img3" src="../static/images/menu.png" alt="Image à animer">
         </div>
     </header>

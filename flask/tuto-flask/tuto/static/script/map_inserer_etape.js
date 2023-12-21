@@ -46,6 +46,7 @@ function showGuidage() {
     guidage.classList.remove('hidden-content');
 }
 
+
 // Liste pour stocker les étapes
 var listeEtape = [];
 
@@ -110,19 +111,16 @@ function onMapClick(event) {
             if (!response.ok) {
                 throw new Error('Réponse du serveur non OK');
             }
-
-            // Construction des query en string
-            const queryParams = new URLSearchParams();
-            queryParams.append('nom_etape', nomEtape);
-            queryParams.append('coord_x', event.latlng.lat);
-            queryParams.append('coord_y', event.latlng.lng);
-
-            window.location.replace('/validation-etape?' + queryParams.toString());
+            return response.json();
+        })
+        .then(data => {
+            console.log(data.message);
         })
         .catch(error => {
             console.error('Erreur lors de la requête :', error);
         });
 }
 
+// Associer la fonction onMapClick à l'événement de clic sur la carte
 parcours1.on('click', onMapClick);
 

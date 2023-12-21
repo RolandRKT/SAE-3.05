@@ -66,7 +66,7 @@ create table TERMINE(
     id_parcours int,
     id_participant int,
     note decimal(2,1),
-    comm varchar(200),
+    comm varchar(500),
     CHECK(0 <= note and 5 >= note),
     primary key(id_parcours,id_participant)
 );
@@ -78,8 +78,8 @@ ALTER TABLE PARCOURS ADD UNIQUE (nom_parcours);
 ALTER TABLE PARCOURS ADD FOREIGN KEY (id_image) REFERENCES IMAGE(id_image);
 
 ALTER TABLE TERMINE ADD FOREIGN KEY (id_parcours) REFERENCES PARCOURS(id_parcours);
-ALTER TABLE TERMINE ADD FOREIGN KEY (id_participant) REFERENCES PARTICIPANT(id_participant);
 
+ALTER TABLE TERMINE ADD FOREIGN KEY (id_participant) REFERENCES PARTICIPANT(id_participant);
 
 ALTER TABLE IMAGE ADD UNIQUE (nom_image);
 

@@ -1,0 +1,27 @@
+{% extends "base_slogan_admin.html" %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+{% block main_content %}
+    <div class="background">
+        <div class="titre-avis">
+            <h3>Tout les Avis: </h3>
+        </div>
+        <form role="form" method="POST" class="form-champ" enctype="multipart/form-data">
+        {% for avis in liste %}
+            <div class="trois-champs">
+                <div class="form-label-admin-pseudo-note">
+                    <label for="name" class="label">{{avis[1]}}</label>
+                    <label for="name"> : </label>
+                    <label for="name" class="label">{{avis[2]}}</label>
+                </div>
+                <div class="form-label-admin-comm">
+                    <textarea readonly name="textarea" rows="7" cols="50" maxlength="500">{{avis[3]}}</textarea>
+                </div>
+            </div>
+            <input type="hidden" name="idParcours" id="idParcours" value="{{avis[0]}}">
+            <input type="hidden" name="pseudo" id="pseudo" value="{{avis[1]}}">
+        {% endfor %}
+        </form>
+    </div>
+{% endblock %}
