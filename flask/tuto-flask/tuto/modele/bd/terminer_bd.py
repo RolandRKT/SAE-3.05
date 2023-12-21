@@ -39,3 +39,41 @@ class Termine_bd:
             print("la connexion a échoué, all termine")
             print(exp)
             return None
+        
+    def get_termine_id_part(self,id_participant,id_parcours):
+        """
+            Renvoie un boolean qui indique si le parcours existe dans la table TERMINE
+        """
+        try:
+            query = text(
+                f"select * from TERMINE where id_participant={id_participant} and id_parcours={id_parcours}")
+            resultat = self.cnx.execute(query)
+            termine = []
+            for id_parcours, id_participant, note, comm in resultat:
+                termine.append(Termine(id_parcours, id_participant, note, comm))
+            if len(termine)==0:
+                return False
+            else:
+                return True
+        except Exception as exp:
+            print("la connexion a échoué, all termine")
+            print(exp)
+            return None
+
+    def inserer_termine(self, id_parcours, id_participant, note, comm):
+        """
+            Insère un termine dans la base de données.
+        """
+        try:
+            print(id_parcours, id_participant, note, comm)
+            query = text(
+                f"insert into TERMINE(id_parcours, id_participant, note, comm) values({id_parcours}, {id_participant}, {note}, '{comm}')")
+            query_delete_suivre = text(
+                f"delete from SUIVRE where id_parcours={id_parcours} and id_participant={id_participant}")
+            self.cnx.execute(query)
+            self.cnx.execute(query_delete_suivre)
+            self.cnx.commit()
+        except Exception as exp:
+            print("la connexion a échoué, inserer termine")
+            print(exp)
+            return None
