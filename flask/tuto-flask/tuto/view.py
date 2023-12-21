@@ -606,9 +606,9 @@ def suppression_participant(pseudo):
     return redirect(url_for("gerer_compte"))
 
 @app.route('/supprimer_etape_parcours<int:num_etape>/<int:num_parcours>', methods=['GET'])
-def supprimer_etape_parcours(id_etape, id_parcours):
-    COMPOSER.supprimer_etape_parcours(id_parcours, id_etape)
-    return redirect(url_for("parcours_admin"))
+def supprimer_etape_parcours(num_etape, num_parcours):
+    COMPOSER.supprimer_etape_parcours(num_parcours, num_etape)
+    return redirect(url_for("parcours_admin", nb=num_parcours))
 
 @app.route('/forget-password', methods=['POST', 'GET'])
 def forget_password():
