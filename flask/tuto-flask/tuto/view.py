@@ -22,6 +22,7 @@ from admin_bd import *
 from etape_bd import *
 from composer_bd import *
 from suivre_bd import *
+from terminer_bd import *
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 
@@ -52,11 +53,13 @@ administrateur = Admin(-1, "", "")
 
 PARTICIPANT = Participant_bd(cnx)
 ADMIN = Admin_bd(cnx)
+TERMINE = Termine_bd(cnx)
 PARCOURS = Parcours_bd(cnx)
 ETAPE = Etape_bd(cnx)
 COMPOSER =  Composer_bd(cnx)
 SUIVRE = Suivre_bd(cnx)
 IMAGE = Image_bd(cnx)
+
 
 from .app import app
 
@@ -592,6 +595,30 @@ def gerer_parcours():
     les_etapes = ETAPE.get_all_etape()
     return render_template("gerer_parcours.html", liste_parc=les_parcours,
                            liste_etape=les_etapes)
+
+@app.route("/avis")
+def avis():
+    """
+        Cette fonction permet de nous diriger vers la page login.
+    """
+    user_agent = request.user_agent.string
+    if any(keyword in user_agent
+           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("avis.html",
+                               page_mobile=True,
+                               avis=True)
+    return render_template("avis.html",
+                           page_mobile=False,
+                           avis=True)
+
+@app.route('/les_parcours', methods=['POST'])
+def les_parcours2():
+    participant = le_participant.get_id()
+    radio = int(request.form.get('star-radio'))
+    textarea = request.form.get('textarea')
+    print(radio,textarea)
+    TERMINE.inserer_termine(num_parcours,participant, radio, textarea)
+    return redirect(url_for("les_parcours"))
 
 @app.route('/suppression-parcours/<id_parc>', methods=['POST', 'DELETE'])
 def suppression_parcours(id_parc):
