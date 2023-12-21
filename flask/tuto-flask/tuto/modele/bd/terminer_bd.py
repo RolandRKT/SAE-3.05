@@ -3,12 +3,19 @@
 """
 import os
 import sys
+from flask import jsonify
 from sqlalchemy.sql.expression import text
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
-
 from termine import Termine
+
+
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
+sys.path.append(os.path.join(ROOT, 'modele/bd/'))
+from parcours_bd import Parcours_bd
+from connexion import cnx
+PARCOURS=Parcours_bd(cnx)
 
 class Termine_bd:
     """
@@ -62,18 +69,19 @@ class Termine_bd:
 
     def inserer_termine(self, id_parcours, id_participant, note, comm):
         """
-            Insère un termine dans la base de données.
+        Insère un termine dans la base de données.
         """
         try:
-            query = text(
-                f"insert into TERMINE(id_parcours, id_participant, note, comm) values({id_parcours}, {id_participant}, {note}, '{comm}')")
-            query_delete_suivre = text(
-                f"delete from SUIVRE where id_parcours={id_parcours} and id_participant={id_participant}")
-            self.cnx.execute(query)
-            self.cnx.execute(query_delete_suivre)
+            query = text("INSERT INTO TERMINE(id_parcours, id_participant, note, comm) VALUES (:id_parcours, :id_participant, :note, :comm)")
+            query_delete_suivre = text("DELETE FROM SUIVRE WHERE id_parcours=:id_parcours AND id_participant=:id_participant")
+
+            params = {'id_parcours': id_parcours, 'id_participant': id_participant, 'note': note, 'comm': comm}
+        
+            self.cnx.execute(query, params)
+            self.cnx.execute(query_delete_suivre, params)
             self.cnx.commit()
         except Exception as exp:
-            print("la connexion a échoué, inserer termine")
+            print("La connexion a échoué, inserer termine")
             print(exp)
             return None
 
