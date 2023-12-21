@@ -140,16 +140,23 @@ class Etape_bd:
             return None
     
     def supprimer_toutes_les_etapes_composer(self, cnx_parcours, id_etape):
+        """
+            Supprime toutes les étapes de la table composer.
+            Args:
+                param 
+                    cnx_parcours: connexion à la table parcours
+                    idetape: ID de l'étape que l'on souhaite supprimer.
+        """
         try:
             for parc in cnx_parcours.get_all_parcours():
-                # Récupérer le numéro de l'étape à supprimer
+                # Récupére le numéro de l'étape à supprimer
                 query_get_numero = text(f"SELECT numero FROM COMPOSER WHERE id_parcours = {parc.get_id_parc()} AND id_etape = {id_etape}")
                 result = self.cnx.execute(query_get_numero).fetchone()
                 uery_get_numero = text(f"SELECT * FROM SUIVRE WHERE id_parcours = {parc.get_id_parc()}")
                 result2 = self.cnx.execute(uery_get_numero)
                 if result2 and result:
                     deleted_numero = result[0]
-                    query_update_numeros = text(f"UPDATE SUIVRE SET num_etape = num_etape - 1 WHERE id_parcours = {parc.get_id_parc()} AND num_etape >= {deleted_numero}")
+                    query_update_numeros = text(f"UPDATE SUIVRE SET num_etape = num_etape - 1 WHERE id_parcours = {parc.get_id_parc()} AND num_etape >= {deleted_numero} and num_etape>1")
                     self.cnx.execute(query_update_numeros)
                     self.cnx.commit()
                 if result:
