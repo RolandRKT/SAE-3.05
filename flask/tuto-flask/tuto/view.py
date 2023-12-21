@@ -693,6 +693,6 @@ def avis_parcours(id_parc):
     else:
         return render_template("page_avis_admin.html",liste = liste_avis, page_mobile = False)
 
-      @app.route("/redirect-admin")
+@app.route("/redirect-admin")
 def redirection_admin():
     return redirect(url_for('accueil_admin'))
