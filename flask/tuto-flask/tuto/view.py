@@ -651,18 +651,12 @@ def forget_password():
         email = request.form.get('email')
         password = PARTICIPANT.get_par_mail_mdp(email)
         if password is not None:
-            print("LALALAALALALALALALA")
-            print(mail)
-            print("LALALAALALALALALALA")
             msg = Message("Wade - Mot de passe oublié ?", recipients=[email])
             msg.body = "Cher utilisateur..."
             msg.html = msg_forget_password(password)
             mail.send(msg)
-            print("ziokdzeoifkjifizof",msg)
-            # Ajouter une redirection vers une page qui dit envoie validé, ou juste une popup
-            return render_template("forget.password.html")
+            return redirect(url_for("login"))
     return render_template("forget.password.html")
-
 
 @app.route('/gestion_parcours')
 def gerer_parcours():
@@ -671,7 +665,6 @@ def gerer_parcours():
     return render_template("gerer_parcours.html",
                            liste_parc=les_parcours,
                            liste_etape=les_etapes)
-
 
 @app.route("/avis")
 def avis():
@@ -684,7 +677,6 @@ def avis():
         return render_template("avis.html", page_mobile=True, avis=True)
     return render_template("avis.html", page_mobile=False, avis=True)
 
-
 @app.route('/les_parcours', methods=['POST'])
 def les_parcours2():
     participant = le_participant.get_id()
@@ -692,7 +684,6 @@ def les_parcours2():
     textarea = request.form.get('textarea')
     TERMINE.inserer_termine(num_parcours, participant, radio, textarea)
     return redirect(url_for("les_parcours"))
-
 
 @app.route('/suppression-parcours/<id_parc>', methods=['POST', 'DELETE'])
 def suppression_parcours(id_parc):
@@ -702,7 +693,6 @@ def suppression_parcours(id_parc):
     """
     PARCOURS.delete_parcours(int(id_parc))
     return redirect(url_for("gerer_parcours"))
-
 
 @app.route('/suppression-etape/<id_etp>', methods=['POST', 'DELETE'])
 def suppression_etape(id_etp):
@@ -715,12 +705,10 @@ def suppression_etape(id_etp):
         ETAPE.supprimer_toutes_les_etapes_composer(PARCOURS, id_etp)
     return redirect(url_for("gerer_parcours"))
 
-
 @app.route('/commencer')
 def commencer():
     SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, 1)
     return redirect(url_for('parcours', nb_etape=1))
-
 
 @app.route('/validation-etape', methods=['POST', 'GET'])
 def validation():
@@ -740,7 +728,6 @@ def validation():
                            coord_x=query['coord_x'],
                            coord_y=query['coord_y'],
                            editable=editable)
-
 
 @app.route('/inserer_etape_bd', methods=['POST'])
 def inserer_etape_bd():
@@ -768,7 +755,6 @@ def inserer_etape_bd():
 
     return redirect(url_for('accueil_admin'))
 
-
 @app.route('/edit_parcours', methods=['POST'])
 def edit_parcours():
     if request.method == "POST":
@@ -778,7 +764,6 @@ def edit_parcours():
         ETAPE.update_par_id(id_etape, nom_etape, desc)
 
     return redirect(url_for('accueil_admin'))
-
 
 @app.route('/avis/<int:id_parc>', methods=['GET', 'POST'])
 def avis_parcours(id_parc):
@@ -793,7 +778,6 @@ def avis_parcours(id_parc):
         return render_template("page_avis_admin.html",
                             liste=liste_avis,
                             page_mobile=False)
-
 
 @app.route("/redirect-admin")
 def redirection_admin():
