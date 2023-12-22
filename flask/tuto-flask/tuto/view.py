@@ -154,6 +154,15 @@ def changement_parcours(num):
         nb_etape=1
     return redirect(url_for("parcours", nb_etape=nb_etape))
 
+@app.route("/debut/<int:num>")
+def debut(num):
+    """
+        Permet de se diriger vers la page parcours
+    """
+    global num_parcours
+    num_parcours = num
+    return redirect(url_for("parcours", nb_etape = 0))
+
 @app.route("/parcours/<int:nb_etape>")
 def parcours(nb_etape):
     """

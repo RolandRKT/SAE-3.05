@@ -28,7 +28,7 @@
                     <h3 id="parcours-{{ parc[0].get_nom_parc() }}" class="parc-title darkmode-ignore">{{ parc[0].get_nom_parc() }}</h3>
                     <div class="img-desc">
                         {% if parc[1] %}
-                            <a href="{{ url_for('changement_parcours',num = parc[0].get_id_parc()) }}">
+                            <a href="{{ url_for('debut',num = parc[0].get_id_parc()) }}">
                                 <img src="{{ url_for('static', filename='images/' + parc[1]) }}" alt="image de l'element static" class="image">
                             </a>    
                         {% else %}
