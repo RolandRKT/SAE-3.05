@@ -139,13 +139,13 @@ Thibault SAINT-LÉGER
   - (RR) Readme, Finalisation de la page pour le mot de passe oublié, création du fichier message.py, lien avec la BD pour l'envoie de message, correction du fichier bash pour l'installation de modules
 ### Jour 14
   - (RDD) Readme, La page de création de parcours est fini, Implémentation de la page liste Avis sur un parcours
-  - (AB)
+  - (AB) Ajout d'une table supplémentaire à la BD (TERMINE) et tout les changement sur les pages concernant ce changement.
   - (RR)
   - (MP)
   - (TSL)
 ### Jour 15
   - (RDD) Readme, bilan collectif et individuel du rapport
-  - (AB)
+  - (AB) bilan individuel
   - (RR)
   - (MP)
   - (TSL)
