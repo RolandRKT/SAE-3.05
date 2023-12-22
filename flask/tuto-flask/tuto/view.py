@@ -192,7 +192,7 @@ def parcours(nb_etape):
         lesetapes_json.append(etape_data)
     
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[val - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours)
+        return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[val - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
     else:
         return render_template("parcours.html", page_mobile=False, etape_actu = [lesetapes[val - 1 ]],  x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
 

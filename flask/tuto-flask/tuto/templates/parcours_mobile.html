@@ -20,7 +20,7 @@
         <script src="https://cdn.jsdelivr.net/npm/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
     </head>
-    <body>
+    <body data-liste-etapes='{{ lesetapes_json | tojson | safe }}'>
         <header>
             <div class="animated-image-position">
                 <div class="image-container">
@@ -41,21 +41,36 @@
                 <section class="info-parcours" id="menu">
                     <div class="box-etape">
                         <p class="num-etape">{{x}}</p>
+                        <div id = "num_parcours" class="{{num_parcours}}"></div>
                         <div id = "id_etape" class="{{etape.get_id_etape()}}"></div>
                         <div id="coord_X_{{etape.get_id_etape()}}" class="{{etape.get_coordonneX()}}"></div>
                         <div id="coord_Y_{{etape.get_id_etape()}}" class="{{etape.get_coordonneY()}}"></div>
                     </div>
                     <img id="parcours-cover" src="https://lh3.googleusercontent.com/p/AF1QipMFivmjlrnBFO2ldlShNzXo2gAWtqarlWmBmsrR=s680-w680-h510">
                     <h3 id="parcours-name">{{etape.get_nom_etape()}}</h3>
-                    <p id="parcours-desc">
-                        X : {{etape.get_coordonneX()}}, Y : {{etape.get_coordonneY()}}
-                    </p>
-                    {% if (x == 1)%}
-                    <div class="form-label">
-                        <input type="submit" value="Commencer"/>
+                    
+                    <div class="p-content">
+                        <p id="parcours-desc">
+                            X : {{etape.get_coordonneX()}}, Y : {{etape.get_coordonneY()}}
+                        </p>
+                        {% if (x == 0)%}
+                        <form action="{{url_for('commencer')}}" method="get" class="button-format">
+                            <div class="form-label">
+                              <input type="submit" value="Commencer" />
+                            </div>
+                            <a></a>
+                        </form>
+                        {% endif %}
+                        {% if (x == longueur) %}
+                        <form action="{{url_for('avis')}}" method="get" class="button-format">
+                            <div class="form-label">
+                                <input type="submit" value="Terminer" />
+                            </div>
+                            <a></a>
+                        </form>
+                        {% endif %}
                     </div>
-                    {% endif %}
-                    {% if (x < longueur) %}
+                    {% if (x < longueur and x > 0) %}
                     <form action="{{url_for('parcours', nb_etape = x + 1)}}" method="get" class="button-format">
                         <div class="parcours-button">
                           <input type="submit" value="PLUS" />
@@ -73,17 +88,16 @@
                     {% endif %}
                 </section>
             </div>
-            
-        </div>
-        {% endfor %}
-        {% endblock%}
+            {% endfor %}
+            {% endblock%}
+
         <footer>
             <div class="image-container">
               <img id="animation-button1" class="img2" src="../static/images/logo.png" alt="Image à animer">
             </div>
             <p class="copyright">Wade Copyright © 2023</p>
         </footer>
-        <script src="{{url_for('static', filename='script/map.js')}}"></script>
+        <script src="{{url_for('static', filename='script/map_client.js')}}"></script>
         <script src="../static/script/apparition_logo.js"></script>
         <script src="../static/script/redirection-animation.js"></script>
         <script>
