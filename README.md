@@ -137,3 +137,15 @@ Thibault SAINT-LÉGER
   - (TSL) Ajout de la fonctionalitée supprimer étape + supprimer parcours
   - (RDD) Ajout de la possibilité d'ajouter une ou plusieurs étapes à un parcours et une durée.
   - (RR) Readme, Finalisation de la page pour le mot de passe oublié, création du fichier message.py, lien avec la BD pour l'envoie de message, correction du fichier bash pour l'installation de modules
+### Jour 14
+  - (RDD) Readme, La page de création de parcours est fini, Implémentation de la page liste Avis sur un parcours
+  - (AB)
+  - (RR)
+  - (MP)
+  - (TSL)
+### Jour 15
+  - (RDD) Readme, bilan collectif et individuel du rapport
+  - (AB)
+  - (RR)
+  - (MP)
+  - (TSL)
