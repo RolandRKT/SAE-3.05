@@ -170,7 +170,6 @@ def parcours(nb_etape):
     """
     if nb_etape == 0:
         val = 1
-        SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, val)
     else:
         val = nb_etape
         SUIVRE.update_numero_etape(le_participant.get_id(), num_parcours,
