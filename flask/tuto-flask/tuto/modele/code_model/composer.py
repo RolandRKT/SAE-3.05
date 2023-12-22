@@ -3,10 +3,12 @@
 """
 import json
 
+
 class Composer:
     """
         La Class Composer avec un parcour et un participant
     """
+
     def __init__(self, participant_id, parcours_id, numero):
         """
             Initialise un objet Composer avec les informations
@@ -26,7 +28,6 @@ class Composer:
             'id_etape': self.__parcours_id,
             'numero': self.__num
         }
-
 
     def get_participant_id(self):
         """
@@ -51,12 +52,16 @@ class Composer:
         """
         return self.__num
 
+
 def convert_to_json(obj):
     if isinstance(obj, Composer):
         return obj.__json__()
-    
+
+
 composer = Composer(1, 2, 3)
 
-composer_json = json.dumps(composer, default=lambda o: o.__json__() if hasattr(o, '__json__') else None)
+composer_json = json.dumps(composer,
+                           default=lambda o: o.__json__()
+                           if hasattr(o, '__json__') else None)
 
 print(composer_json)

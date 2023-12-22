@@ -1,6 +1,8 @@
 """
     Ce fichier va nous permettre de crée un admin
 """
+
+
 class Admin:
     """
     Classe représentant un administrateur.

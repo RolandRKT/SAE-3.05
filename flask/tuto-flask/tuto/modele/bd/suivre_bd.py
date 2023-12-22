@@ -33,13 +33,11 @@ class Suivre_bd:
         """
         try:
             query = text(
-                "select id_participant, id_parcours,num_etape from SUIVRE"
-            )
+                "select id_participant, id_parcours,num_etape from SUIVRE")
             resultat = self.cnx.execute(query)
             suivre = []
             for id_participant, id_parcours, num_etape in resultat:
-                suivre.append(
-                    Suivre(id_participant, id_parcours, num_etape))
+                suivre.append(Suivre(id_participant, id_parcours, num_etape))
             return suivre
         except Exception as exp:
             print("la connexion a échoué")
@@ -62,8 +60,7 @@ class Suivre_bd:
             resultat = self.cnx.execute(query)
             suivre = []
             for id_participant, id_parcours, num_etape in resultat:
-                suivre.append(
-                    Suivre(id_participant, id_parcours, num_etape))
+                suivre.append(Suivre(id_participant, id_parcours, num_etape))
             return suivre
         except Exception as exp:
             print("la connexion a échoué")
@@ -80,12 +77,12 @@ class Suivre_bd:
         """
         try:
             query = text(
-                f"select id_participant, id_parcours, num_etape from SUIVRE where id_participant={id_participant}")
+                f"select id_participant, id_parcours, num_etape from SUIVRE where id_participant={id_participant}"
+            )
             resultat = self.cnx.execute(query)
             suivre = []
             for id_participant, id_parcours, num_etape in resultat:
-                suivre.append(
-                    Suivre(id_participant, id_parcours, num_etape))
+                suivre.append(Suivre(id_participant, id_parcours, num_etape))
             return suivre
         except Exception as exp:
             print("la connexion a échoué")
@@ -123,8 +120,10 @@ class Suivre_bd:
         """
         try:
             query = text(
-                f"select num_etape as m from SUIVRE where id_parcours={idP} and id_participant={idPart}")
+                f"select num_etape as m from SUIVRE where id_parcours={idP} and id_participant={idPart}"
+            )
             result = self.cnx.execute(query).fetchone()
+            print(result)
             if result and result.m:
                 print(int(result.m))
                 return int(result.m)
@@ -132,11 +131,8 @@ class Suivre_bd:
             print("la connexion a échoué")
             print(exp)
             return None
-        
 
-
-        
-    def update_numero_etape(self, id_participant,id_parcours, num_etape):
+    def update_numero_etape(self, id_participant, id_parcours, num_etape):
         """
             Met à jour le numéro de l'étape atteinte dans un parcours par un participant.
             Args:
@@ -148,7 +144,8 @@ class Suivre_bd:
         """
         try:
             query = text(
-                f"update SUIVRE set num_etape = {num_etape} where id_parcours={id_parcours} and id_participant={id_participant}")
+                f"update SUIVRE set num_etape = {num_etape} where id_parcours={id_parcours} and id_participant={id_participant}"
+            )
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as exp:
