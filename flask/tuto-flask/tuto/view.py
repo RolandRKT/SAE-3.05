@@ -652,12 +652,19 @@ def suppression_participant(pseudo):
 @app.route('/supprimer_etape_parcours<int:num_etape>/<int:num_parcours>',
            methods=['GET'])
 def supprimer_etape_parcours(num_etape, num_parcours):
+    """
+    Cette fonction permet de supprimer une étape d'un parcours et redirige vers la
+    page du parcours.
+    """
     COMPOSER.supprimer_etape_parcours(num_parcours, num_etape)
     return redirect(url_for("parcours_admin", nb=num_parcours))
 
 
 @app.route('/forget-password', methods=['POST', 'GET'])
 def forget_password():
+    """
+    Cette fonction gère la réinitialisation du mot de passe en cas d'oubli.
+    """
     if request.method == 'POST':
         email = request.form.get('email')
         password = PARTICIPANT.get_par_mail_mdp(email)
@@ -672,6 +679,9 @@ def forget_password():
 
 @app.route('/gestion_parcours')
 def gerer_parcours():
+    """
+    Cette fonction redirige vers la page de gestion des parcours.
+    """
     les_parcours = PARCOURS.get_all_parcours()
     les_etapes = ETAPE.get_all_etape()
     return render_template("gerer_parcours.html",
@@ -682,7 +692,7 @@ def gerer_parcours():
 @app.route("/avis")
 def avis():
     """
-        Cette fonction permet de nous diriger vers la page login.
+        Cette fonction permet de nous diriger vers la page avis.
     """
     user_agent = request.user_agent.string
     if any(keyword in user_agent
@@ -693,6 +703,9 @@ def avis():
 
 @app.route('/les_parcours', methods=['POST'])
 def les_parcours2():
+    """
+    Cette fonction gère la notation des parcours par les participants.
+    """
     participant = le_participant.get_id()
     radio = int(request.form.get('star-radio'))
     textarea = request.form.get('textarea')
@@ -703,7 +716,7 @@ def les_parcours2():
 @app.route('/suppression-parcours/<id_parc>', methods=['POST', 'DELETE'])
 def suppression_parcours(id_parc):
     """
-        Cette fonction va nous permettre de supprimer un participant
+        Cette fonction va nous permettre de supprimer un parcours
         et de nous rediriger vers la page gerer parcours
     """
     PARCOURS.delete_parcours(int(id_parc))
@@ -716,20 +729,24 @@ def suppression_etape(id_etp):
         Cette fonction va nous permettre de supprimer une étape
         et de nous rediriger vers la page gerer parcours
     """
-    les_parcours = PARCOURS.get_all_parcours()
-    for parc in les_parcours:
-        ETAPE.supprimer_toutes_les_etapes_composer(PARCOURS, id_etp)
+    ETAPE.supprimer_toutes_les_etapes_composer(PARCOURS, id_etp)
     return redirect(url_for("gerer_parcours"))
 
 
 @app.route('/commencer')
 def commencer():
+    """
+    Cette fonction gère le début d'un parcours pour un participant.
+    """
     SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, 1)
     return redirect(url_for('parcours', nb_etape=1))
 
 
 @app.route('/validation-etape', methods=['POST', 'GET'])
 def validation():
+    """
+    Cette fonction gère la validation lors de la création d'une étape.
+    """
     query = request.args
     editable = query.get('editable', False)
     if editable:
@@ -750,6 +767,9 @@ def validation():
 
 @app.route('/inserer_etape_bd', methods=['POST'])
 def inserer_etape_bd():
+    """
+    Cette fonction insère une étape dans la base de données.
+    """
     if request.method == "POST":
         nom_etape = request.form.get("nom_etape")
         desc = request.form.get("description")
@@ -777,6 +797,9 @@ def inserer_etape_bd():
 
 @app.route('/edit_parcours', methods=['POST'])
 def edit_parcours():
+    """
+    Cette fonction permet d'éditer les détails d'un parcours.
+    """
     if request.method == "POST":
         nom_etape = request.form.get('nom_etape')
         desc = request.form.get('description')
@@ -788,6 +811,9 @@ def edit_parcours():
 
 @app.route('/avis/<int:id_parc>', methods=['GET', 'POST'])
 def avis_parcours(id_parc):
+    """
+    Cette fonction affiche les avis pour un parcours spécifique.
+    """
     liste_avis = TERMINER.get_note_comm(id_parc)
     user_agent = request.user_agent.string
     if any(keyword in user_agent
@@ -803,4 +829,7 @@ def avis_parcours(id_parc):
 
 @app.route("/redirect-admin")
 def redirection_admin():
+    """
+    Cette fonction redirige vers la page d'accueil de l'administrateur.
+    """
     return redirect(url_for('accueil_admin'))
