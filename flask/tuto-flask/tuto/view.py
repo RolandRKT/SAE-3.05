@@ -151,8 +151,9 @@ def changement_parcours(num):
     nb_etape = SUIVRE.get_num_etape_suivre(num_parcours,
                                            le_participant.get_id())
     if nb_etape is None:
-        nb_etape=1
+        nb_etape = 1
     return redirect(url_for("parcours", nb_etape=nb_etape))
+
 
 @app.route("/debut/<int:num>")
 def debut(num):
@@ -161,7 +162,8 @@ def debut(num):
     """
     global num_parcours
     num_parcours = num
-    return redirect(url_for("parcours", nb_etape = 0))
+    return redirect(url_for("parcours", nb_etape=0))
+
 
 @app.route("/parcours/<int:nb_etape>")
 def parcours(nb_etape):
@@ -201,9 +203,16 @@ def parcours(nb_etape):
             'image': monimage,
         }
         lesetapes_json.append(etape_data)
-    
-    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("parcours_mobile.html", page_mobile=True, etape_actu = [lesetapes[val - 1 ]], x = nb_etape, longueur = len(liste_etape), num_parcours = num_parcours, lesetapes_json = lesetapes_json)
+
+    if any(keyword in user_agent
+           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("parcours_mobile.html",
+                               page_mobile=True,
+                               etape_actu=[lesetapes[val - 1]],
+                               x=nb_etape,
+                               longueur=len(liste_etape),
+                               num_parcours=num_parcours,
+                               lesetapes_json=lesetapes_json)
     else:
         return render_template("parcours.html",
                                page_mobile=False,
@@ -660,6 +669,7 @@ def forget_password():
             return redirect(url_for("login"))
     return render_template("forget.password.html")
 
+
 @app.route('/gestion_parcours')
 def gerer_parcours():
     les_parcours = PARCOURS.get_all_parcours()
@@ -667,6 +677,7 @@ def gerer_parcours():
     return render_template("gerer_parcours.html",
                            liste_parc=les_parcours,
                            liste_etape=les_etapes)
+
 
 @app.route("/avis")
 def avis():
@@ -679,6 +690,7 @@ def avis():
         return render_template("avis.html", page_mobile=True, avis=True)
     return render_template("avis.html", page_mobile=False, avis=True)
 
+
 @app.route('/les_parcours', methods=['POST'])
 def les_parcours2():
     participant = le_participant.get_id()
@@ -686,6 +698,7 @@ def les_parcours2():
     textarea = request.form.get('textarea')
     TERMINE.inserer_termine(num_parcours, participant, radio, textarea)
     return redirect(url_for("les_parcours"))
+
 
 @app.route('/suppression-parcours/<id_parc>', methods=['POST', 'DELETE'])
 def suppression_parcours(id_parc):
@@ -695,6 +708,7 @@ def suppression_parcours(id_parc):
     """
     PARCOURS.delete_parcours(int(id_parc))
     return redirect(url_for("gerer_parcours"))
+
 
 @app.route('/suppression-etape/<id_etp>', methods=['POST', 'DELETE'])
 def suppression_etape(id_etp):
@@ -707,10 +721,12 @@ def suppression_etape(id_etp):
         ETAPE.supprimer_toutes_les_etapes_composer(PARCOURS, id_etp)
     return redirect(url_for("gerer_parcours"))
 
+
 @app.route('/commencer')
 def commencer():
     SUIVRE.inserer_suivre(le_participant.get_id(), num_parcours, 1)
     return redirect(url_for('parcours', nb_etape=1))
+
 
 @app.route('/validation-etape', methods=['POST', 'GET'])
 def validation():
@@ -730,6 +746,7 @@ def validation():
                            coord_x=query['coord_x'],
                            coord_y=query['coord_y'],
                            editable=editable)
+
 
 @app.route('/inserer_etape_bd', methods=['POST'])
 def inserer_etape_bd():
@@ -757,6 +774,7 @@ def inserer_etape_bd():
 
     return redirect(url_for('accueil_admin'))
 
+
 @app.route('/edit_parcours', methods=['POST'])
 def edit_parcours():
     if request.method == "POST":
@@ -767,19 +785,21 @@ def edit_parcours():
 
     return redirect(url_for('accueil_admin'))
 
+
 @app.route('/avis/<int:id_parc>', methods=['GET', 'POST'])
 def avis_parcours(id_parc):
     liste_avis = TERMINER.get_note_comm(id_parc)
     user_agent = request.user_agent.string
     if any(keyword in user_agent
-        for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("page_avis_admin.html",
-                            liste=liste_avis,
-                            page_mobile=True)
+                               liste=liste_avis,
+                               page_mobile=True)
     else:
         return render_template("page_avis_admin.html",
-                            liste=liste_avis,
-                            page_mobile=False)
+                               liste=liste_avis,
+                               page_mobile=False)
+
 
 @app.route("/redirect-admin")
 def redirection_admin():
