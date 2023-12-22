@@ -482,7 +482,7 @@ def accueil_admin():
 @app.route("/mes-parcours/en-cours")
 def mes_parcours_en_cours():
     """
-        Cette focntion va nous permettre d'afficher
+        Cette fonction va nous permettre d'afficher
         les differents parcours que l'utilisateur est en-train de faire.
     """
     if le_participant.get_id() == -1:
@@ -514,7 +514,7 @@ def mes_parcours_en_cours():
 @app.route("/mes-parcours/terminees")
 def mes_parcours_terminees():
     """
-       Cette focntion va nous permettre d'afficher
+       Cette fonction va nous permettre d'afficher
        les differents parcours que l'utilisateur a terminer.
     """
     if le_participant.get_id() == -1:
@@ -651,11 +651,14 @@ def forget_password():
         email = request.form.get('email')
         password = PARTICIPANT.get_par_mail_mdp(email)
         if password is not None:
-
+            print("LALALAALALALALALALA")
+            print(mail)
+            print("LALALAALALALALALALA")
             msg = Message("Wade - Mot de passe oublié ?", recipients=[email])
             msg.body = "Cher utilisateur..."
             msg.html = msg_forget_password(password)
             mail.send(msg)
+            print("ziokdzeoifkjifizof",msg)
             # Ajouter une redirection vers une page qui dit envoie validé, ou juste une popup
             return render_template("forget.password.html")
     return render_template("forget.password.html")
@@ -781,16 +784,15 @@ def edit_parcours():
 def avis_parcours(id_parc):
     liste_avis = TERMINER.get_note_comm(id_parc)
     user_agent = request.user_agent.string
-
     if any(keyword in user_agent
-           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("page_avis_admin.html",
-                               liste=liste_avis,
-                               page_mobile=True)
+                            liste=liste_avis,
+                            page_mobile=True)
     else:
         return render_template("page_avis_admin.html",
-                               liste=liste_avis,
-                               page_mobile=False)
+                            liste=liste_avis,
+                            page_mobile=False)
 
 
 @app.route("/redirect-admin")
