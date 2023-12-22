@@ -94,23 +94,8 @@ function addDirection(departure, destination, guidage = true, couleur = "") {
 
 var x = 1;
 var nom = 1;
-
+var liste_id = []
 var listeEtape = [];
-
-function onMapClick(event) {
-    alert("Coordonnées cliquées : " + event.latlng.lat + ", " + event.latlng.lng);
-    var nomEtape = prompt("Nom de l'étape :");
-    console.log("Vous avez entré : " + nomEtape);
-    x += 1;
-    nom += 1;
-    var nom = addMarkerAndDirection(parcours1, event.latlng.lat, event.latlng.lng, nomEtape, "Étape " + x);
-
-    nom.on('click', function () {
-        removeMarker(nom);
-    });
-}
-
-parcours1.on('click', onMapClick);
 
 // Créez la fonction pour supprimer un marqueur
 function removeMarker(marker) {
@@ -118,10 +103,10 @@ function removeMarker(marker) {
 }
 
 
-function addMarkerAndDirection(map, coordX, coordY, messagePopUp = "", desc = "", depart = false) {
+// Fonction pour ajouter un marqueur et une direction entre les marqueurs
+function addMarkerAndDirection(map, coordX, coordY, messagePopUp = "", desc = "", id, depart = false) {
     var marker = L.marker([coordX, coordY]).addTo(map);
-    
-    // Ajouter le popup au marqueur
+
     if (messagePopUp !== "") {
         if (desc !== "") {
             marker.bindPopup("<b>" + messagePopUp + "</b><br>" + desc);
@@ -133,11 +118,15 @@ function addMarkerAndDirection(map, coordX, coordY, messagePopUp = "", desc = ""
         }
     }
 
-    listeEtape.push(marker) 
-    // Créer la direction avec le point actuel et le précédent
+    listeEtape.push(marker);
+    liste_id.push(id);
+
     if (listeEtape.length > 1) {
-        var previousMarker = listeEtape[listeEtape.length - 2];
-        addDirection(previousMarker, marker, false);
+        if (liste_id[liste_id.length - 2] > nb_etape - 1 && fait == false) {
+            var previousMarker = listeEtape[listeEtape.length - 2];
+            addDirection(previousMarker, marker, false);
+            fait = true;
+        }
     }
 
     return marker;
@@ -145,3 +134,39 @@ function addMarkerAndDirection(map, coordX, coordY, messagePopUp = "", desc = ""
 
 // Utilisation de la nouvelle fonction
 addMarkerAndDirection(parcours1, coord_X, coord_Y, "hmmmm", "Etape " + nb_etape);
+
+// Fonction pour appeler une fonction Python via une requête HTTP
+function appelerFonctionPython() {
+    fetch('http://127.0.0.1:5000/appel-fonction-python')
+        .then(response => response.json())
+        .then(data => {
+            listeEtape = data.resultat;
+            alert(data.resultat);
+
+            var tableauSansIndices = listeEtape.map(function(element) {
+                return {
+                    coordonneX: element.coordonneX,
+                    coordonneY: element.coordonneY,
+                    id_etape: element.id_etape
+                };
+            });
+
+            for (var i = 0; i < tableauSansIndices.length; i++) {
+                var etape_actu = listeEtape[i];
+                addMarker(parcours1, etape_actu.coordonneX, etape_actu.coordonneY, etape_actu.nom_etape, "Point de départ");
+            }
+        })
+        .catch(error => console.error('Erreur :', error));
+}
+
+// Écouteur d'événement pour le chargement du DOM
+document.addEventListener('DOMContentLoaded', function () {
+    // Récupérer la liste des étapes depuis l'attribut de données
+    var listeEtapes = JSON.parse(document.body.getAttribute('data-liste-etapes'));
+
+    // Utiliser la liste dans votre code JavaScript
+    for (var i = 0; i < listeEtapes.length; i++) {
+        var etape = listeEtapes[i];
+        addMarkerAndDirection(parcours1, etape.coordonneX, etape.coordonneY, etape.nom, "Description de l'étape", etape.id);
+    }
+});
