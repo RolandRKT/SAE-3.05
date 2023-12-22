@@ -63,7 +63,7 @@ class Participant_bd:
         except Exception as exp:
             print("la connexion a échoué")
             return None
-        
+
     def get_par_mail_mdp(self, mail):
         """
             Récupère un participant spécifique en fonction de son mail car il est  unique.
@@ -73,7 +73,8 @@ class Participant_bd:
         """
         try:
             query = text(
-                f"select id_participant, pseudo, email, mdp from PARTICIPANT where email= '{str(mail)}'")
+                f"select id_participant, pseudo, email, mdp from PARTICIPANT where email= '{str(mail)}'"
+            )
             resultat = self.cnx.execute(query)
             for _, _, _, mdp in resultat:
                 return mdp
@@ -117,7 +118,7 @@ class Participant_bd:
         except Exception as exp:
             print("La connexion a échoué shushduz")
             return None
-    
+
     def get_id_participant_par_pseudo(self, pseudo):
         """
             Récupère l'ID d'un participant en fonction de son pseudo.
@@ -127,7 +128,8 @@ class Participant_bd:
         """
         try:
             query = text(
-                f"select id_participant from PARTICIPANT where pseudo= '{pseudo}'")
+                f"select id_participant from PARTICIPANT where pseudo= '{pseudo}'"
+            )
             resultat = self.cnx.execute(query).fetchone()
             if resultat:
                 return resultat.id_participant
