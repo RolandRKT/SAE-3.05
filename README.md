@@ -142,7 +142,7 @@ Thibault SAINT-LÉGER
   - (AB) Ajout d'une table supplémentaire à la BD (TERMINE) et tout les changement sur les pages concernant ce changement.
   - (RR) Ajout de la possibilité de modifier les étapes, et création de la page validation étape + lien avec la page admin et parcours
   - (MP)
-  - (TSL) Liaison map client avec la classe SUIVRE dans la BD, Assiste Maverick dans la création de la page laisser un avis avec le lien à la BD
+  - (TSL) Liaison map client avec la classe SUIVRE dans la BD, Assiste Maverick dans la création de la page laisser un avis avec le lien à la BD, correction map côté admin
 ### Jour 15
   - (RDD) Readme, bilan collectif et individuel du rapport
   - (AB) bilan individuel
