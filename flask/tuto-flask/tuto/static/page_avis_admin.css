@@ -29,3 +29,10 @@ main{
     margin-bottom: 2.5rem;
     margin-top: 2.5rem;
 }
+
+p.pasavis {
+	text-align: center;
+	color: darkred;
+	font-size: 32px;
+	font-weight: bold;
+}

@@ -43,12 +43,14 @@
                     </td>
                     <td class="valeurs">
                         <form action="">
-                            <div class="buttonAVIS">
-                                <div class="box">A</div>
-                                <div class="box">V</div>
-                                <div class="box">I</div>
-                                <div class="box">S</div>
-                            </div>
+                            <a href="{{url_for('avis_parcours', id_parc=parc.get_id_parc())}}">
+                                <div class="buttonAVIS">
+                                    <div class="box">A</div>
+                                    <div class="box">V</div>
+                                    <div class="box">I</div>
+                                    <div class="box">S</div>
+                                </div>
+                            </a>
                         </form>
                     </td>
                 </tr>
