@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:200');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
+
+body{
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+
+}
+
+.hidden{
+  display:none;
+}
+
+.transition-logo{
+  transform: translateX(100%);
+  transition: transform 0.5s ease-in;
+}
+
+@font-face {
+    font-family: 'Leckerli One';
+    src: url('../static/fonts/Leckerli_One/LeckerliOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+header {
+    background-color: white;
+    min-width: 100%;
+    min-height: 3vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid #ccc;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.img3 {
+    width: 56px;
+    height: 56px;
+    padding-right: 0.5vw;
+    transition: transform 0.3s ease; /* Ajoutez une transition douce sur la transformation */
+    z-index: 7;
+  }
+
+.img3:hover {
+    transform: scale(1.05); /* Par exemple, agrandissez l'image au survol */
+    cursor: pointer;
+}
+
+.animated-image-position {
+    top: 5px;
+    left: -5%;
+    position: absolute;
+    z-index: 2;
+    height: 100px;
+}
+
+.app-name {
+    font-family: 'Leckerli One', cursive;
+    color: #2EBEDD;
+    font-size: 64px;
+    font-weight: bold;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.image-container {
+    overflow: hidden;
+    position: relative;
+    width: 100vw;
+    height: 100%;
+}
+
+.img1 {
+    width: 100px;
+    height: auto;
+    z-index: 3;
+    position: fixed;
+    top: 20px;
+    left: -100px;
+}
+
+/* Lorsque vous déclencherez l'animation */
+.img2 {
+  width: 5%;
+  height: auto;
+  transform: translateX(100vw) scaleX(-1); /* Point de départ (à droite) et effet miroir horizontal */
+  transition: transform 1s linear; /* Durée et type de transition */
+}
+
+.animation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 15%;
+  min-height: 145px;
+  position: relative;
+  overflow: scroll;
+  margin: 0;
+  background-image: url('../static/images/nuages_infini_v1.png');
+  background-size: cover;
+  -webkit-animation: slidein 6000000s infinite linear;
+  animation: slidein 6000000s infinite linear;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  background-size: 150%;
+  min-width: 100%;
+  border-top: 1px solid rgb(128, 128, 128, 0.5);
+  border-bottom: 2px solid rgb(128, 128, 128, 0.5);
+}
+
+.top-page{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    z-index: 10;
+}
+
+.slogan {
+  margin-top: 40px;
+  font-size: 32px;
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
+  z-index: 3;
+  text-align: center; /* Centre le texte horizontalement */
+  animation: floatSlogan 20s ease-in-out infinite; /* Ajoutez l'animation */
+}
+
+@keyframes floatSlogan {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(5px, -5px);
+  }
+  20% {
+    transform: translate(10px, 0);
+  }
+  30% {
+    transform: translate(5px, 5px);
+  }
+  40% {
+    transform: translate(0, 10px);
+  }
+  50% {
+    transform: translate(-5px, 5px);
+  }
+  60% {
+    transform: translate(-10px, 0);
+  }
+  70% {
+    transform: translate(-5px, -5px);
+  }
+  80% {
+    transform: translate(0, -10px);
+  }
+  90% {
+    transform: translate(5px, -5px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@-webkit-keyframes slidein {
+  from {
+    background-position: 0px 1500px;
+    background-size: 3000px;
+  }
+  to {
+    background-position: -150000000px 1500px; /*1500 2eme val de base*/
+    background-size: 3000px;
+  }
+}
+
+@keyframes slidein {
+  from {
+    background-position: 0px 1500px;
+    background-size: 3000px;
+  }
+  to {
+    background-position: -150000000px 1500px; /*1500 2eme val de base*/
+    background-size: 3000px;
+  }
+}
+
+#menu {
+  position: fixed;
+  top: 50px;
+  right: 40px;
+  background-color: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+  width: 200px;
+  height: 105px;
+  z-index: 11;
+  padding: 5px;
+  padding-top: 15px;
+}
+
+#menu p {
+  margin-top: 0;
+  font-weight: bold;
+}
+
+#menu p a{
+  text-decoration: none;
+  color: black;
+}
+
+.deco{
+  width: 100%;
+  text-align: right;
+}
+
+.deco a{
+  font-weight: lighter;
+}
+
+#menu p:hover{
+  text-decoration: underline;
+  transform: scale(1.01);
+  transition: ease 0.3s;
+}
+
+.rotate-animation{
+  animation: rotateMenuIcon 0.2s linear forwards;
+}
+
+@keyframes rotateMenuIcon {
+  0% {
+    transform: rotate(0deg); /* Rotation initiale de 0 degrés */
+  }
+  100% {
+    transform: rotate(360deg); /* Rotation complète de 360 degrés */
+  }
+}
+
+/* Animation de rotation pour l'image "menu-open" (fermer.png) */
+@keyframes rotateCloseIcon {
+  0% {
+    transform: rotate(0deg); /* Rotation initiale de 0 degrés */
+  }
+  100% {
+    transform: rotate(360deg); /* Rotation complète de 360 degrés */
+  }
+}
+
+.copyright{
+  position: fixed;
+  bottom: 0;
+  left: 10px;
+}
+footer {
+  margin: 0;
+  position: fixed;
+  bottom: 0;
+  font-family: 'Lato', sans-serif;
+  background-color: white;
+  border-top: 2px solid #ccc;
+  box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
+  display: flex;
+}

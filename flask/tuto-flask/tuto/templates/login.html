@@ -1,0 +1,51 @@
+{% extends "base_log_ins_mobile.html" %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<section class="right-part">
+  <div class="box-size">
+    <img class="infinite-travel" src="../static/images/logo.png" alt="Logo Wade"></img>
+  </div>
+  <h2 class="slogan">Organisez et choisissez
+      vos parcours avec Wade<h2>
+</section>
+  <main class="main-base">
+      <div class="animated-image-position">
+          <div class="image-container">
+            <img id="animation-button" class = "img1" src="../static/images/logo.png" alt="Image à animer">
+          </div>
+      </div>
+      <div class="left-part fixed-element">
+        <section class="information">
+          <h1 class="app-name">WADE</h1>
+          <form action="{{ url_for('connecter') }}" role="form" method="POST" class="form-login">
+            <div class="form-label">
+                <label for="name" class="label">Email ou pseudo</label>
+                <input type="text" name="username" id="username" required/>
+            </div>
+            <div class="form-label">
+                <label for="password" class="label">Mot de passe</label>
+                <div class="password-input-container">
+                    <input type="password" name="password" id="password" required/>
+                    <img id="togglePassword" class="password-toggle" src="../static/images/oeilFerme.png" alt="Afficher le mot de passe" onclick="togglePasswordVisibility()"/>
+                </div>
+            </div>
+            <div class="form-password-forget">
+                <div class="forget-password">
+                    <a href="{{url_for('forget_password')}}">Mot de passe oublié ?</a>
+                </div>
+            </div>
+            <div class="form-label">
+                <input type="submit" value="Se connecter" />
+
+            </div>
+        
+            <div class="create-account">
+              <p>Nouveau ? <a href="{{url_for('inscription')}}" class="transition">Créer un compte</a></p>
+            </div>
+        </form>
+        </section>
+      </div>
+    </main>
+{% endblock %}

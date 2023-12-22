@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{ url_for('static', filename='map.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='parcours_admin.css') }}">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+            crossorigin=""
+        />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-routing-machine/dist/leaflet-routing-machine.css">
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin="">
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+    </head>
+    <body data-liste-etapes='{{ lesetapes_json | tojson | safe }}'>
+        <header>
+            <div class="animated-image-position">
+                <div class="image-container">
+                  <img id="animation-button" class="img1" src="../static/images/logo.png" alt="Image à animer">
+                </div>
+            </div>
+            <div class="top-page">
+                <div></div>
+                <h1 class="app-name">WADE</h1>
+                <img id="user-logo" class="img3" src="../static/images/user.png" alt="Image à animer">
+            </div>
+            
+        </header>
+        <div id="map"></div>
+        {% block content %}
+        {% for (etape, img) in etape_actu %}
+            <div class="box-parcours">
+                <section class="info-parcours">
+                    <div class="box-etape">
+                        <div id = "num_parcours" class="{{num_parcours}}"></div>
+                        <div id = "id_etape" class="{{etape.get_id_etape()}}"></div>
+                        <div id="coord_X_{{etape.get_id_etape()}}" class="{{etape.get_coordonneX()}}"></div>
+                        <div id="coord_Y_{{etape.get_id_etape()}}" class="{{etape.get_coordonneY()}}"></div>
+                    </div>
+        {% endfor %}
+                    <h2>Liste de Coordonnées</h2>
+                    <ul>
+                    {% for etape in lesetapes_json %}
+                            <li class="etape-info">id = {{etape.id}} coord_X = {{etape.coordonneX}}, coord_Y = {{etape.coordonneY}}, nom = {{etape.nom}}</li>
+                            <form action="{{ url_for('supprimer_etape_parcours', num_etape=etape.id, num_parcours=num_parcours) }}" method="get" class="button-format">
+                                <div class="delete-button">
+                                  <input type="submit" value="Supprimer" />
+                                </div>
+                                <a></a>
+                            </form>
+                    {% endfor %}
+                    </ul>
+                </section>
+            </div>
+        {% endblock%}
+            
+        <footer>
+            <div class="image-container">
+              <img id="animation-button1" class="img2" src="../static/images/logo.png" alt="Image à animer">
+            </div>
+            <p class="copyright">Wade Copyright © 2023</p>
+        </footer>
+        <script src="{{url_for('static', filename='script/map_admin.js')}}"></script>
+        <script src="../static/script/apparition_logo.js"></script>
+        <script src="../static/script/redirection-animation.js"></script>
+        <script>
+          var userLogo = document.getElementById("user-logo");
+          userLogo.addEventListener("click", function() {
+            window.location.href = "/login";
+          });
+        </script>
+    </body>
+</html>

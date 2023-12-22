@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wade - Validation de l'étape</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0f0f0;
+      gap: 50px;
+    }
+
+    .appears {
+        width:0px;
+        transition: width 1s ease;
+    }
+    
+    .appears.active {
+        width: 500px;
+        transition: 1s ease;
+    }
+
+    .hide {
+        display:none;
+    }
+      
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 300px;
+      background-color: #fff;
+      border-radius: 20px;
+      padding: 30px 20px;
+      padding-right: 35px;
+      box-shadow: 100px 100px 80px rgba(0, 0, 0, 0.03)
+    }
+
+    .title {
+      color: black;
+      font-weight: bold;
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .sub {
+      text-align: center;
+      color: black;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .sub.mb {
+      margin-bottom: 1px;
+    }
+
+    .sub a {
+      color: rgb(23, 111, 211);
+    }
+
+    .avatar {
+      height: 50px;
+      width: 50px;
+      background-color: rgb(23, 111, 211);
+      border-radius: 50%;
+      align-self: center;
+      padding: 6px;
+      cursor: pointer;
+      box-shadow: 12.5px 12.5px 10px rgba(0, 0, 0, 0.015), 100px 100px 80px rgba(0, 0, 0, 0.03);
+    }
+
+    .form button {
+      align-self: flex-end;
+    }
+
+    .input, button {
+      border: none;
+      outline: none;
+      width: 100%;
+      padding: 16px 10px;
+      background-color: rgb(247, 243, 243);
+      border-radius: 10px;
+      box-shadow: 12.5px 12.5px 10px rgba(0, 0, 0, 0.015), 100px 100px 80px rgba(0, 0, 0, 0.03);
+      max-width: 100%;
+      min-width: 100%;
+    }
+
+    button {
+      margin-top: 12px;
+      background-color: rgb(23, 111, 211);
+      color: #fff;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .input:focus {
+      border: 1px solid rgb(23, 111, 211);
+    }
+
+    #file {
+      display: none;
+    }
+
+    .custom-file-upload {
+      cursor: pointer;
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      text-transform: uppercase;
+      background-color: rgb(23, 111, 211);
+      color: #fff;
+      border-radius: 10px;
+      box-shadow: 12.5px 12.5px 10px rgba(0, 0, 0, 0.015), 100px 100px 80px rgba(0, 0, 0, 0.03);
+    }
+
+    #uploadFile {
+      display: none;
+    }
+
+    @media screen and (max-width: 920px) {
+
+        body {
+            flex-direction: column-reverse;
+            align-items: center;
+
+        }
+        .appears.active {
+            width: 480px;
+        }
+    }
+    
+  </style>
+</head>
+<body>
+
+  {% if not editable %}
+    <form class="form" method="POST" action="{{ url_for('inserer_etape_bd') }}" enctype="multipart/form-data">
+  {% else %}
+    <form class="form" method="POST" action="{{ url_for('edit_parcours') }}" enctype="multipart/form-data">
+  {% endif %}
+    <span class="title">Image de l'étape</span>
+    <label class="avatar" for="uploadFile" class="custom-file-upload">
+      <span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+          <g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path fill="#ffffff" d="M17.1813 16.3254L15.3771 14.5213C16.5036 13.5082 17.379 12.9869 18.2001 12.8846C19.0101 12.7837 19.8249 13.0848 20.8482 13.8687C20.8935 13.9034 20.947 13.9202 21 13.9202V15.024C21 19.9452 19.9452 21 15.024 21H8.976C4.05476 21 3 19.9452 3 15.024V13.7522C3.06398 13.7522 3.12796 13.7278 3.17678 13.679L4.45336 12.4024C5.31928 11.5365 6.04969 10.8993 6.71002 10.4791C7.3679 10.0605 7.94297 9.86572 8.50225 9.86572C9.06154 9.86572 9.6366 10.0605 10.2945 10.4791C10.9548 10.8993 11.6852 11.5365 12.5511 12.4024L16.8277 16.679C16.9254 16.7766 17.0836 16.7766 17.1813 16.679C17.2789 16.5813 17.2789 16.423 17.1813 16.3254Z" opacity="0.1"></path> <path stroke-width="2" stroke="#ffffff" d="M3 8.976C3 4.05476 4.05476 3 8.976 3H15.024C19.9452 3 21 4.05476 21 8.976V15.024C21 19.9452 19.9452 21 15.024 21H8.976C4.05476 21 3 19.9452 3 15.024V8.976Z"></path>
+            <path stroke-linecap="round" stroke-width="2" stroke="#ffffff" d="M17.0045 16.5022L12.7279 12.2256C9.24808 8.74578 7.75642 8.74578 4.27658 12.2256L3 13.5022"></path> <path stroke-linecap="round" stroke-width="2" stroke="#ffffff" d="M21.0002 13.6702C18.907 12.0667 17.478 12.2919 15.1982 14.3459"></path> <path stroke-width="2" stroke="#ffffff" d="M17 8C17 8.55228 16.5523 9 16 9C15.4477 9 15 8.55228 15 8C15 7.44772 15.4477 7 16 7C16.5523 7 17 7.44772 17 8Z"></path>
+          </g>
+        </svg>
+      </span>
+    </label>
+    {% if not editable %}
+      <input type="file" name="image" id="uploadFile" onchange="dragNdrop(event)" ondragover="drag()" ondrop="drop()" required/>
+    {% endif %}
+    <span class="title">Information de l'étape</span>
+    {% if not editable %}
+        <input type="text" class="input" name='nom_etape' placeholder="Nom de l'étape" value="{{ nom_etape }}" required>
+    {% else %}
+        <input type="text" class="input" name='nom_etape' placeholder="Nom de l'étape" value="{{ nom_etape }}" readonly>
+    {% endif %}
+    <input type="hidden" name='coord_x' value="{{ coord_x }}">
+    <input type="hidden" name='coord_y' value="{{ coord_y }}">
+    <textarea class="input" name='description' placeholder="Description de l'étape" maxlength="200" required></textarea>
+    {% if not editable %}
+        <button type="submit">Ajouter étape</button>
+    {% else %}
+      <input type="hidden" name='id_etape' value="{{ id_etape }}">
+      <button type="submit">Modifier étape</button>
+    {% endif %}
+  </form>
+  <div id="preview" class="hide">
+    <img id="previewImg" class="appears" src="" alt="Preview Image">
+  </div>
+  <script>
+    "use strict";
+    function dragNdrop(event) {
+      var fileName = URL.createObjectURL(event.target.files[0]);
+      var previewImg = document.getElementById("previewImg");
+      var preview = document.getElementById("preview");
+      previewImg.src = fileName;
+      preview.classList.remove('hide');
+      previewImg.classList.add('active'); 
+    }
+  
+    function drag() {
+      document.getElementById('uploadFile').parentNode.className = 'draging dragBox';
+    }
+  
+    function drop() {
+      document.getElementById('uploadFile').parentNode.className = 'dragBox';
+    }
+  </script>
+  
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Wade - Accueil Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base_slogan_admin.css') }}">
+    <link rel="stylesheet" href="../static/accueil_admin.css">
+    <link rel="stylesheet" href="../static/creation_parcours.css">
+    <link rel="stylesheet" href="../static/gerer_compte.css">
+    <link rel="stylesheet" href="../static/gerer_parcours.css">
+    <link rel="stylesheet" href="../static/page_avis_admin.css">
+  <link rel="stylesheet" href="../static/base_slogan_admin.css">
+    {% if page_mobile %}
+      <link rel="stylesheet" href="../static/base_slogan_admin.css">
+      {% if page_mobile %}
+        {% if page_accueil_admin %}
+          <link rel="stylesheet" href="../static/accueil_admin_mobile.css">
+          <link rel="stylesheet" href="../static/top_admin.css">
+        {% else %}
+          <link rel="stylesheet" href="../static/gerer_compte_mobile.css">
+        {% endif %}
+    {% else %}
+      <link rel="stylesheet" href="../static/accueil_admin.css">
+      <link rel="stylesheet" href="../static/creation_parcours.css">
+      <link rel="stylesheet" href="../static/gerer_compte.css">
+      <link rel="stylesheet" href="../static/gerer_parcours.css">
+    {% endif %}
+  {% endif %}
+</head>
+  <body>
+    <header>
+        <div class="top-page">
+          <div></div>
+          <h1 class="app-name"><a href="{{ url_for('redirection_admin') }}" class="app-name">Admin</a></h1>
+          <img id="burg-menu" class="img3" src="../static/images/menu.png" alt="Image à animer">
+        </div>
+    </header>
+    <main class="main-base">
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+      <p class="copyright">Wade Copyright © 2023</p>
+    </footer>
+    <script src="../static/script/menu_burger.js"></script>
+    <script>
+      var userLogo = document.getElementById("user-logo");
+      userLogo.addEventListener("click", function() {
+        window.location.href = "/login";
+      });
+    </script>
+  </body>
+</html>

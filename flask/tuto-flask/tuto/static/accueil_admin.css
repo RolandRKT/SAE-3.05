@@ -1,0 +1,52 @@
+body, html {
+    height: 100%;
+}
+
+.bouton-adm {
+    border: 0;
+    font-size: 1rem;
+    font-family: 'Lato' sans-serif;
+    font-weight: bolder;
+    background-color: #aabbce;
+    border-radius: 10px;
+    margin: 1.5em;
+    width: 20em;
+    height: 20em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bouton-adm:hover {
+    background-color: rgb(110, 182, 204);
+}
+  
+.bouton-adm:active {
+  box-shadow:
+    inset -2px -2px 3px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+
+.conteneur-bouton {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.paragraphe{
+    font-size: 1.3em;
+    margin: 0;
+    margin-bottom: 2em;
+}
+
+.background{
+    z-index: 2;
+    background-color: #d9d9d9;
+}
+a{
+    text-decoration: none;
+    color:black;
+}

@@ -1,0 +1,30 @@
+{% extends "base_slogan.html" %}
+<link rel="stylesheet" href="../static/mon_profil.css">
+
+{% block styles %}
+  {{ super() }}
+{% endblock %}
+
+{% block main_content %}
+  <div class="row">
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front fixed-element">
+          <img id="img-logo" src="../static/images/avatar.png" alt="image de login">
+          <div class="flexible">
+            <p class="text-gras">Pseudo :</p>
+            <p class="text-gauche">{{ participant.get_pseudo() }}</p>
+            <p class="text-gras">Email :</p>
+            <p class="text-gauche">{{ participant.get_email() }}</p>
+            <p class="text-gras">Mot de passe</p>
+            <div class="password-container">
+              <input type="password" id="passwordInput" value='{{ participant.get_mdp() }}' readonly>
+              <button class="show-password-btn" onclick="togglePassword()">Afficher</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

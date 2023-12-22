@@ -1,0 +1,73 @@
+{% extends "base_inscription.html" %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <section class="left-part">
+        <div class="box-size">
+            <img class="infinite-travel" src="../static/images/logo.png" alt="Logo Wade">
+        </div>
+        <h2 class="slogan">Organisez et choisissez vos parcours avec Wade</h2>
+    </section>
+    <main class="main-base">
+        <div class="animated-image-position">
+            <div class="image-container">
+                <img id="animation-button" class="img1" src="../static/images/logo.png" alt="Image à animer">
+            </div>
+        </div>
+        <div class="right-part fixed-element">
+            <section class="information">
+                <h1 class="app-name">WADE</h1>
+                <form action="" role="form" method="POST" class="form-inscription">
+                    <div class="form-label">
+                        <label for="name" class="label">pseudo</label>
+                        <input type="text" name="username" id="username" required />
+                    </div>
+                    <div class="form-label">
+                        <label for="email" class="label">email</label>
+                        <input type="email" name="email" id="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" title="Entrez une adresse e-mail valide" />
+                    </div>
+                    <div class="form-label">
+                        <label for="password" class="label">Mot de passe</label>
+                        <div class="password-input-container">
+                            <input type="password" name="password" id="password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$" title="Le mot de passe doit comporter au moins 8 caractères, y compris au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial." />
+                            <img id="togglePassword" class="password-toggle" src="../static/images/oeilFerme.png" alt="Afficher le mot de passe" onclick="togglePasswordVisibility()" />
+                        </div>
+                    </div>
+                    <div class="form-label">
+                        <input action="{{url_for('inscrire')}}" type="submit" value="S'inscrire" />
+                    </div>
+                    <div class="back-login">
+                        <a href="{{url_for('login')}}" class="transition">connexion</a>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+    <script>
+        function showPopup(message) {
+        alert(message);
+    }
+    
+    document.querySelector('.form-inscription').addEventListener('submit', function (event) {
+        event.preventDefault();
+    
+        const form = event.target;
+        const formData = new FormData(form);
+    
+        fetch('{{url_for("inscrire")}}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error === 'exists') {
+                showPopup('Votre pseudo ou mail est déjà enregistrer.');
+                window.location.href = '{{url_for("login")}}';
+            } else if (data.success === 'registered') {
+                showPopup("Merci d'avoir rejoint Wade pour de nouveaux parcours.");
+                window.location.href = '{{url_for("les_parcours")}}';
+            }
+        });
+    });</script>
+{% endblock %}

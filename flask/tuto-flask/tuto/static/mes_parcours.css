@@ -1,0 +1,291 @@
+html, body {
+    height: 100%;
+}
+
+.search-toggle {
+    position: absolute;
+    top: 30%;
+    transform: translateX(-150%);
+    cursor: pointer;
+    font-size: 20px;
+    color: #888;
+    padding: 0;
+}
+
+.search-toggle.hidden {
+    color: #ccc;
+}
+
+#toggleSearch {
+    width: 20px;
+    height: auto;
+}
+
+input[type="search"] {
+    width: 100%;
+    padding: 10px;
+    padding-right: 30px;
+    border: 1px solid #111;
+    font-size: 16px;
+    max-width: 198px;
+}
+
+input[type="search"]:focus {
+    border: 2px solid #2EBEDD;
+    outline: none;
+}
+
+.search-input-container {
+    position: relative;
+}
+
+.page-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mid-content{
+    margin-top: max(1rem,30px);
+    display: flex;
+    width: 25%;
+    justify-content: space-between;
+}
+
+.parcours-title{
+    margin: 0;
+    font-family: Lexend;
+}
+
+.bottom-content{
+    width: 100%;
+    margin-top: max(1rem,30px);
+    display: flex;
+    flex-direction: column;
+}
+
+.choice-content {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: min-content;
+}
+
+.choice-content h2 {
+    margin: 0;
+}
+
+.app-name {
+    text-decoration: none;
+}
+
+.en-cours {
+    text-align: center;
+    height: min-content;
+}
+
+.en-cours a{
+    text-decoration: none;
+    color: #238AB6;
+    text-align: center;
+    font-family: Lexend;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 200;
+    line-height: normal;
+}
+
+.en-cours:hover {
+    transform: scale(1.02);
+    transition: 0.2s ease;
+}
+
+.termine {
+    text-align: center;
+    height: min-content;
+    transition: 0.2s ease;
+}
+
+.termine a{
+    text-decoration: none;
+    color: #238AB6;
+    text-align: center;
+    font-family: Lexend;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 200;
+    line-height: normal;
+}
+
+.termine:hover{
+    transform: scale(1.02);
+    transition: 0.2s ease;
+}
+
+.rectangle-01 {
+    width: 287px;
+    height: 8px;
+    border: 1px solid #000;
+    background: #238AB6;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.rectangle-02 {
+    width: 287px;
+    height: 8px;
+    border: 1px solid #000;
+    background: #D9D9D9; 
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.img-desc{
+    display: flex;
+    flex-direction: row;
+}
+
+.image{
+    width: 40em;
+    margin-right: 1em;
+    max-width: 640px;
+    min-width: 450px;
+}
+
+.img-desc{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.box-parcours{
+    display: flex;
+    padding-bottom: 30px;
+    width: 75%;
+    justify-content: space-between;
+}
+
+.title-parcours{
+    color: #238AB6;
+    font-family: Lexend;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 200;
+    line-height: normal;
+    margin-bottom: 0;
+}
+
+.box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 30px;
+}
+
+.para {
+    text-align: justify;
+}
+
+@media screen and (max-width: 945px) {
+    .main-part {
+        flex-direction: column;
+    }
+
+    .left-part, .right-part {
+        width: 100%;
+    }
+
+    .image {
+        width: 100%;
+        margin-right: 0;
+        max-width: 640px;
+    }
+
+    .info-parc {
+        width: 100%;
+    }
+
+    .img-desc {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .search-input-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .search-toggle {
+        transform: translateX(425%);
+    }
+
+    .parc-title {
+        text-align: center;
+    }
+
+    .parcours-left {
+        text-align: center;
+        border-right: 7px #238AB6 solid;
+        padding-right: 0.5em;
+    }
+
+    .title-h2 {
+        text-align: center;
+    }
+
+    .parcours-title {
+        text-align: center;
+        padding-bottom: 20px;
+    }
+
+    .sommaire-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    footer{
+        margin: 0;
+        position: fixed;
+        bottom: 0; 
+        font-family: 'Lato', sans-serif;
+        background-color: white;
+        border-top: 2px solid #ccc;
+        box-shadow: 0px 2px 5px rgba(0, 2, 0, 0.2);
+        transform: scale(1);
+        display: flex;
+        justify-content: center;
+      }
+
+    .copyright{
+        padding-bottom: 0px;
+        margin: 0;
+        position: fixed;
+        bottom: 2px;
+        left: 0px;
+        font-size: 15px;
+    }
+
+    .box-parcours {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .mid-content {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .choice-content {
+        flex-wrap: nowrap;
+    }
+
+    .box-parcours {
+        width: 100%;
+    }
+
+    .rectangle-02 {
+        width: 152px;
+    }
+} 

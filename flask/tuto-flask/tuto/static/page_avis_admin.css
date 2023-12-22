@@ -1,0 +1,38 @@
+main{
+    height: 74.2vh;
+}
+
+.background{
+    z-index: 2;
+    background-color: #d9d9d9;
+    height: 100%;
+}
+
+.form-label-admin-comm{
+    margin-left: 7rem;
+}
+
+.titre-avis{
+    font-size: 1.3rem;
+    font-family: 'Lato' sans-serif;
+    font-weight: bolder;
+    padding-top: 2rem;
+    padding-right: 2rem;
+    padding-left: 4rem;
+}
+
+.form-label-admin-pseudo-note {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
+    margin-top: 2.5rem;
+}
+
+p.pasavis {
+	text-align: center;
+	color: darkred;
+	font-size: 32px;
+	font-weight: bold;
+}

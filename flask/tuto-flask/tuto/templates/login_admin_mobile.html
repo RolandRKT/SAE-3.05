@@ -1,0 +1,35 @@
+{% extends "base_login_admin.html" %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<main class="main-base">
+    <div class="animated-image-position">
+        <div class="image-container">
+            <img id="animation-button" class="img1" src="../static/images/logo.png" alt="Image à animer">
+        </div>
+    </div>
+    <div class="center-part">
+        <section class="information">
+            <h1 class="app-name">WADE</h1>
+            <form action="{{ url_for('connecter_admin') }}" role="form" method="POST" class="form-login">
+                <div class="form-label">
+                    <label for="name" class="label">Email ou pseudo</label>
+                    <input type="text" name="username" id="username" required/>
+                </div>
+                <div class="form-label">
+                    <label for="password" class="label">Mot de passe</label>
+                    <div class="password-input-container">
+                        <input type="password" name="password" id="password" required/>
+                        <img id="togglePassword" class="password-toggle" src="../static/images/oeilFerme.png" alt="Afficher le mot de passe" onclick="togglePasswordVisibility()"/>
+                    </div>
+                </div>
+                <div class="form-label">
+                    <input type="submit" value="Se connecter" />
+
+                </div>
+            </form>
+        </section>
+    </div>
+</main>
+{% endblock %}

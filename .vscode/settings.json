@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./flask/tuto-flask/tuto/modele/bd",
+        "./flask/tuto-flask/tuto/modele/code_model"
+    ]
+}

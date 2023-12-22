@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Wade - Portail</title>
+    <link rel="stylesheet" href="../static/home.css">
+    <link rel="stylesheet" href="../static/darkmode.css">
+</head>
+<body>
+    <header>
+        <div class="animated-image-position">
+            <div class="image-container">
+              <img id="animation-button" class="img1" src="../static/images/logo.png" alt="Image à animer">
+            </div>
+        </div>
+        <img id="user-logo" class="img3" src="../static/images/user.png" alt="Image à animer">
+    </header>
+    <main class="main-base">
+        <h1 class="app-name">WADE</h1>
+        <form action="{{url_for('login')}}" method="get" class="button-format">
+          <div class="portail-button">
+            <input type="submit" value="Portail Participant" class="transition" />
+          </div>
+          <a></a>
+        </form>
+        <form action="{{url_for('login_admin')}}" method="get" class="button-format">
+            <div class="portail-button">
+              <input type="submit" value="Portail Administrateur" class="transition" />
+            </div>
+            <a></a>
+          </form>
+    </main>
+      
+    <footer class="fixed-element">
+      <div class="image-container">
+        <img id="animation-button1" class="img2" src="../static/images/logo.png" alt="Image à animer">
+      </div>
+      <p class="copyright">Wade Copyright © 2023</p>
+    </footer>
+    <script src="../static/script/apparition_logo.js"></script>
+    <script src="../static/script/script.js"></script>
+    <script>
+      var userLogo = document.getElementById("user-logo");
+      userLogo.addEventListener("click", function() {
+        window.location.href = "/login";
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+    <script>
+      function addDarkmodeWidget() {
+        new Darkmode().showWidget();
+      }
+      window.addEventListener('load', addDarkmodeWidget);
+    </script>
+</body>
+</html>

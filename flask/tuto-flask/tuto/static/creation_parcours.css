@@ -1,0 +1,161 @@
+main{
+    height: 74.2vh;
+}
+
+.background{
+    z-index: 2;
+    background-color: #d9d9d9;
+    height: 100%;
+}
+
+section{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.titre-creer{
+    font-size: 1.3rem;
+    font-family: 'Lato' sans-serif;
+    font-weight: bolder;
+    padding-top: 2rem;
+    padding-right: 2rem;
+    padding-left: 4rem;
+}
+
+.conteneur-champs-formulaires {
+    background-color: #d9d9d9;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.form-label-admin {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
+    margin-top: 2.5rem;
+}
+
+.form-label-admin-desc {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
+}
+
+.form-label-admin input[type="text"]  {
+    border-radius: 5px;
+    border: 1px solid #111;
+    padding: 0.5rem;
+}
+
+textarea{
+    border-radius: 5px;
+    border: 1px solid #111;
+    padding: 1.2rem;
+}
+
+.label{
+    margin-left: 4rem;
+    margin-right: 1.8rem;
+    font-size: 1.2rem;
+    font-family: 'Lato' sans-serif;
+    
+}
+
+.conteneur-champs-formulaires{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.uploadOuter {
+    text-align: center;
+    padding: 20px;
+    strong {
+      padding: 0 10px
+    }
+  }
+  
+.dragBox {
+  width: 250px;
+  height: 100px;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  font-weight: bold;
+  line-height: 95px;
+  color: #999;
+  border: 2px dashed #ccc;
+  display: inline-block;
+  transition: transform 0.3s;
+  input[type="file"] {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    top: 0;
+    left: 0;
+  }
+}
+.draging {
+  transform: scale(1.1);
+}
+
+#preview {
+  text-align: center;
+  margin-left: 7rem; /* Marge à gauche automatique pour pousser la prévisualisation à droite */
+  overflow: hidden; /* Ajoutez cette propriété */
+  max-width: 50%; /* Vous pouvez ajuster cette valeur selon vos besoins */
+}
+
+#preview img {
+  max-width: 100%; /* Utilisez 100% pour que l'image s'adapte à la largeur du conteneur */
+  height: auto; /* Assurez-vous que la hauteur est ajustée en proportion de la largeur */
+  display: block; /* Ajustez le comportement d'affichage pour éviter des problèmes avec la marge inférieure */
+}
+
+.boutonsOrdreEtapes{
+  display: flex;
+  flex-wrap: nowrap;
+  margin-left: 8rem;
+}
+
+input[type="submit"]{
+  width: 180px;
+  padding: 10px;
+  padding-left: 25px;
+  padding-right: 30px;
+  border-radius: 40px;
+  font-size: 16px;
+  background-color: #AABBCE;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  float: right;
+}
+
+input[type="submit"], .confirmOrdre, .reinitialiseOrdre:hover {
+  background-color: #1493A7;
+}
+
+.confirmOrdre, .reinitialiseOrdre{
+  width: 180px;
+  padding: 10px;
+  border-radius: 40px;
+  margin-right: 1em;
+  font-size: 16px;
+  background-color: #AABBCE;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  float: right;
+}
+
+a{
+  text-decoration: none;
+  color:black;
+}
