@@ -123,6 +123,7 @@ class Suivre_bd:
                 f"select num_etape as m from SUIVRE where id_parcours={idP} and id_participant={idPart}"
             )
             result = self.cnx.execute(query).fetchone()
+            print(result)
             if result and result.m:
                 print(int(result.m))
                 return int(result.m)

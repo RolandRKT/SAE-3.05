@@ -150,8 +150,9 @@ def changement_parcours(num):
     num_parcours = num
     nb_etape = SUIVRE.get_num_etape_suivre(num_parcours,
                                            le_participant.get_id())
+    if nb_etape is None:
+        nb_etape=1
     return redirect(url_for("parcours", nb_etape=nb_etape))
-
 
 @app.route("/parcours/<int:nb_etape>")
 def parcours(nb_etape):
