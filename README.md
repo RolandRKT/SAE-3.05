@@ -146,6 +146,6 @@ Thibault SAINT-LÉGER
 ### Jour 15
   - (RDD) Readme, bilan collectif et individuel du rapport
   - (AB) bilan individuel
-  - (RR) Correction de la map les parcours (la redirection sur la map ne fonctionnait plus), ajustement pour l'envoi de mail, Insertion de tests pour la soutenance
+  - (RR) Correction de la map les parcours (la redirection sur la map ne fonctionnait plus), ajustement pour l'envoi de mail, Insertion de tests pour la soutenance, création de la BD en locale pour préparer la démonstrations
   - (MP) Diaporama soutenance
   - (TSL) Map sur parcours mobile rendu opérationnel, affichage de la description des étapes
