@@ -140,12 +140,12 @@ Thibault SAINT-LÉGER
 ### Jour 14
   - (RDD) Readme, La page de création de parcours est fini, Implémentation de la page liste Avis sur un parcours
   - (AB) Ajout d'une table supplémentaire à la BD (TERMINE) et tout les changement sur les pages concernant ce changement.
-  - (RR)
+  - (RR) Ajout de la possibilité de modifier les étapes, et création de la page validation étape + lien avec la page admin et parcours
   - (MP)
-  - (TSL)
+  - (TSL) Liaison map client avec la classe SUIVRE dans la BD, Assiste Maverick dans la création de la page laisser un avis avec le lien à la BD
 ### Jour 15
   - (RDD) Readme, bilan collectif et individuel du rapport
   - (AB) bilan individuel
-  - (RR)
-  - (MP)
-  - (TSL)
+  - (RR) Correction de la map les parcours (la redirection sur la map ne fonctionnait plus), ajustement pour l'envoi de mail, Insertion de tests pour la soutenance
+  - (MP) Diaporama soutenance
+  - (TSL) Map sur parcours mobile rendu opérationnel, affichage de la description des étapes
