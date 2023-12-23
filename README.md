@@ -22,7 +22,7 @@ Nous avons choisi d'appeler l'application : **Wade**.
 
 ## **Profil crée**
 
-Un profil déjà insérer dans la BD est : `test` avec pour mot de passe `test`
+Un profil déjà inséré dans la BD est : `test` avec pour mot de passe `test`
 
 Côté admin vous aurez : `adm` et pour mot de passe `adm`
 
