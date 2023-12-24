@@ -24,30 +24,11 @@ def ouvrir_connexion(user, passwd, host, database):
 
 
 cnx = ouvrir_connexion("rakotomalala", "rakotomalala", "servinfo-maria",
-                     "DBrakotomalala")
+                       "DBrakotomalala")
 
 # cnx = ouvrir_connexion("rakotomalala", "rakotomalala", "localhost",
 #                         "DBrakotomalala")
 
+
 def close_cnx():
     cnx.close()
-
-
-#import sqlalchemy
-#
-#def ouvrir_connexion():
-#    try:
-#        # Utilisez le mot de passe échappé dans la chaîne de connexion.
-#        engine = sqlalchemy.create_engine('mysql+mysqlconnector://root:root_password@localhost/test')
-#
-#
-#        # Créez une connexion.
-#        cnx = engine.connect()
-#        print("Connexion réussie")
-#        return cnx
-#    except Exception as err:
-#        print(err)
-#        raise err
-#
-#cnx = ouvrir_connexion()
-#
