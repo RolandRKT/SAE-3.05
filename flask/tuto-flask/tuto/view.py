@@ -96,6 +96,8 @@ def login():
     """
         permet de se diriger vers la page login
     """
+    global mail_backsave
+    mail_backsave = ""
     user_agent = request.user_agent.string
     if any(keyword in user_agent
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
@@ -668,8 +670,8 @@ def forget_password():
     """
     global mail_backsave
     if request.method == 'POST':
-        email = request.form.get('email')
-        mail_backsave = email
+        email = mail_backsave if mail_backsave != "" else request.form.get('email')
+        if (email != mail_backsave): mail_backsave = email
         
         password = PARTICIPANT.get_par_mail_mdp(email)
         if password is not None:
@@ -696,7 +698,8 @@ def forget_password():
 
 @app.route('/pageAuth')
 def pageAuth():
-    return render_template('verify.html')
+    global mail_backsave
+    return render_template('verify.html', mail=mail_backsave)
 
 @app.route('/auth', methods=['POST'])
 def auth():
@@ -723,7 +726,7 @@ def auth():
 
 @app.route("/changerPassword", methods=["GET"])
 def editPassword():
-    render_template("edit_password.html")
+    return render_template("edit_password.html")
 
 @app.route('/changePassword', methods=['POST'])
 def changePassword():
@@ -732,7 +735,7 @@ def changePassword():
         new_password = str(request.form.get('change'))
         success = PARTICIPANT.set_password_by_email(mail_backsave, new_password)
         if success :
-            redirect(url_for('login'))
+            return redirect(url_for('login'))
 
 @app.route('/gestion_parcours')
 def gerer_parcours():
