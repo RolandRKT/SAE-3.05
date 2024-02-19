@@ -21,9 +21,6 @@ def msg_inscription(username, password):
             <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
                 Votre compte a été créé avec succès.
             </p>
-            <p class="px-10 text-[10px] sm:text-[12px] text-gray-700" style="background-color:white; text-align:center; font-weight:bold; height:25px; font-size:20px;">
-                Votre mot de passe : {password}
-            </p>
             <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
                 Connectez-vous à votre compte en utilisant votre pseudo et votre mot de passe.
             </p>
@@ -61,7 +58,7 @@ def msg_forget_password(password):
                 Nous avons reçu une demande de réinitialisation du mot de passe associé à cette adresse e-mail. Si vous n'avez pas fait cette demande, veuillez ignorer cet e-mail.
             </p>
             <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
-                Pour rappel, votre mot de passe est :
+                Pour rappel, votre code pour changer votre mot de passe est :
             </p>
             <p class="px-10 text-[10px] sm:text-[12px] text-gray-700" style="background-color:white; text-align:center; font-weight:bold; height:25px; font-size:20px;">
                 {}

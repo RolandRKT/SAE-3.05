@@ -66,6 +66,7 @@ TERMINE = Termine_bd(cnx)
 from .app import app
 
 num_parcours = 2
+mail_backsave = ""
 
 
 @app.route("/")
@@ -95,6 +96,8 @@ def login():
     """
         permet de se diriger vers la page login
     """
+    global mail_backsave
+    mail_backsave = ""
     user_agent = request.user_agent.string
     if any(keyword in user_agent
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
@@ -665,17 +668,74 @@ def forget_password():
     """
     Cette fonction gère la réinitialisation du mot de passe en cas d'oubli.
     """
+    global mail_backsave
     if request.method == 'POST':
-        email = request.form.get('email')
+        email = mail_backsave if mail_backsave != "" else request.form.get('email')
+        if (email != mail_backsave): mail_backsave = email
+        
         password = PARTICIPANT.get_par_mail_mdp(email)
         if password is not None:
+            email_ascii = [ord(char) for char in email]
+            # Convertir le mot de passe en ASCII et le multiplier par 22091
+            password_ascii = [ord(char) for char in password]
+            new_ascii = 0
+            temp_val = 0
+            
+            for nb in email_ascii:
+                temp_val += nb
+            
+            for nb in password_ascii:
+                new_ascii += nb
+                
+            resultat = str(new_ascii*temp_val*22091)[-4:]
+            
             msg = Message("Wade - Mot de passe oublié ?", recipients=[email])
             msg.body = "Cher utilisateur..."
-            msg.html = msg_forget_password(password)
+            msg.html = msg_forget_password(resultat)
             mail.send(msg)
-            return redirect(url_for("login"))
+            return redirect(url_for("pageAuth"))
     return render_template("forget.password.html")
 
+@app.route('/pageAuth')
+def pageAuth():
+    global mail_backsave
+    return render_template('verify.html', mail=mail_backsave)
+
+@app.route('/auth', methods=['POST'])
+def auth():
+    global mail_backsave
+    mdp = PARTICIPANT.get_par_mail_mdp(mail_backsave)
+    email_ascii = [ord(char) for char in mail_backsave]
+    password_ascii = [ord(char) for char in mdp]
+    
+    new_ascii = 0
+    temp_val = 0
+    
+    for nb in email_ascii:
+        temp_val += nb
+    
+    for nb in password_ascii:
+        new_ascii += nb
+        
+    resultat = str(new_ascii*temp_val*22091)[-4:]
+    if request.method == 'POST':
+        number = str(request.form.get('verify'))
+        
+        if number == resultat:
+            return redirect(url_for('editPassword'))
+
+@app.route("/changerPassword", methods=["GET"])
+def editPassword():
+    return render_template("edit_password.html")
+
+@app.route('/changePassword', methods=['POST'])
+def changePassword():
+    global mail_backsave
+    if request.method == 'POST':
+        new_password = str(request.form.get('change'))
+        success = PARTICIPANT.set_password_by_email(mail_backsave, new_password)
+        if success :
+            return redirect(url_for('login'))
 
 @app.route('/gestion_parcours')
 def gerer_parcours():
