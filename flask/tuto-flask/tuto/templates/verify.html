@@ -1,0 +1,21 @@
+{% extends "base_home.html" %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<div class="main-base-forget-password">
+    <div class="box-form-forget-password">
+        <form class="otp-Form" action="{{ url_for('auth') }}">
+
+            <span class="mainHeading">Enter OTP</span>
+            <p class="otpSubheading">We have sent a verification code to your mobile number</p>
+            <div class="inputContainer">
+                <input required="required" name='verify' maxlength="4" type="text" class="otp-input" id="otp-input1">
+            </div>
+                <button class="verifyButton" type="submit">Verify</button>
+                <button class="exitBtn">×</button>
+                <p class="resendNote">Didn't receive the code? <button class="resendBtn">Resend Code</button></p>
+        </form>
+    </div>
+</div>
+{% endblock %}
