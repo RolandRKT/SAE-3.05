@@ -698,7 +698,7 @@ def forget_password():
 def pageAuth():
     return render_template('verify.html')
 
-@app.route('/auth')
+@app.route('/auth', methods=['POST'])
 def auth():
     global mail_backsave
     mdp = PARTICIPANT.get_par_mail_mdp(mail_backsave)
@@ -719,7 +719,20 @@ def auth():
         number = str(request.form.get('verify'))
         
         if number == resultat:
-            return redirect('edit-password')
+            return redirect(url_for('editPassword'))
+
+@app.route("/changerPassword", methods=["GET"])
+def editPassword():
+    render_template("edit_password.html")
+
+@app.route('/changePassword', methods=['POST'])
+def changePassword():
+    global mail_backsave
+    if request.method == 'POST':
+        new_password = str(request.form.get('change'))
+        success = PARTICIPANT.set_password_by_email(mail_backsave, new_password)
+        if success :
+            redirect(url_for('login'))
 
 @app.route('/gestion_parcours')
 def gerer_parcours():

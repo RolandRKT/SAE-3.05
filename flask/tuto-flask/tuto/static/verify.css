@@ -37,20 +37,18 @@
   
 
   .otp-input {
-    background-image: repeating-linear-gradient(to right, transparent, transparent 2px, #fff 2px, #fff 31px);
+    background-image: repeating-linear-gradient(to right, transparent, transparent 10px, #fff 2px, #fff 31px);
     background-color: rgb(228, 228, 228);
-    width: 121px;
+    width: 140px;
     height: 30px;
     text-align: center;
     border: none;
-    border-radius: 7px;
     caret-color: rgb(127, 129, 255);
     color: rgb(44, 44, 44);
     outline: none;
     font-weight: 600;
-    letter-spacing: 23px;
-    text-indent: 100px;
-    border: solid rgb(127, 129, 255) 2px;
+    letter-spacing: 24px;
+    padding-left: 8px;
 
 }
   
