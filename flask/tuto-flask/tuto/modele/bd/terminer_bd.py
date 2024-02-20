@@ -69,7 +69,7 @@ class Termine_bd:
         except Exception as exp:
             print("la connexion a échoué, all termine")
             print(exp)
-            return None
+            return False
 
     def inserer_termine(self, id_parcours, id_participant, note, comm):
         """
@@ -114,7 +114,7 @@ class Termine_bd:
         except Exception as exp:
             print("la connexion a échoué, get note comm")
             print(exp)
-            return None
+            return []
 
     def supprimer_termine(self, id_parcours, id_participant):
         """
@@ -128,5 +128,83 @@ class Termine_bd:
             self.cnx.commit()
         except Exception as exp:
             print("la connexion a échoué, supprimer termine")
+            print(exp)
+            return None
+
+
+    def get_note_comm_parc_part(self, id_parcours, id_participant):
+        """
+            Récupère la note et le commentaire d'un parcours.
+        """
+        try:
+            query = text(
+                f"select note, comm from TERMINE where id_parcours={id_parcours} and id_participant={id_participant}"
+            )
+            resultat = self.cnx.execute(query)
+            print(resultat, "kd ",query)
+            liste=[]
+            for note, comm in resultat:
+                print(note,type(note), int(note))
+                liste.append((int(note), comm))
+            return liste
+        except Exception as exp:
+            print("la connexion a échoué, get_note_comm_parc_part")
+            print(exp)
+            return None
+        
+
+    def mettre_a_jour_note_comm(self, id_parcours, id_participant, note, comm):
+        """
+            Met à jour la note et le commentaire d'un parcours.
+        """
+        try:
+            query = text(
+                "UPDATE TERMINE SET note=:note, comm=:comm WHERE id_parcours=:id_parcours AND id_participant=:id_participant"
+            )
+            params = {
+                'id_parcours': id_parcours,
+                'id_participant': id_participant,
+                'note': note,
+                'comm': comm
+            }
+            self.cnx.execute(query, params)
+            self.cnx.commit()
+            
+        except Exception as exp:
+            print("la connexion a échoué, mettre à jour note comm")
+            print(exp)
+            return None
+        
+    def get_nb_personne(self, id_parcours):
+        """
+            Récupère le nombre de personne ayant terminé le parcours.
+        """
+        try:
+            query = text(
+                f"select count(*) from TERMINE where id_parcours={id_parcours}"
+            )
+            resultat = self.cnx.execute(query)
+            for nb in resultat:
+                return nb[0]
+        except Exception as exp:
+            print("la connexion a échoué, get_nb_personne")
+            print(exp)
+            return None
+        
+    def get_note_moyenne(self, id_parcours):
+        """
+            Récupère la note moyenne du parcours.
+        """
+        try:
+            query = text(
+                f"select avg(note) from TERMINE where id_parcours={id_parcours}"
+            )
+            resultat = self.cnx.execute(query)
+            for nb in resultat:
+                # permet d'arrondir à 2 chiffres après la virgule
+                c= round(nb[0], 2)
+                return c
+        except Exception as exp:
+            print("la connexion a échoué, get_note_moyenne")
             print(exp)
             return None
