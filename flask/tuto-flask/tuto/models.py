@@ -161,3 +161,82 @@ def inserer_composer_view(parcours_id, etape_id, order):
 #     id_participant = PARTICIPANT.get_id_participant_par_pseudo(pseudo)
 #     TERMINE.supprimer_termine(id_parcours, id_participant)
 #     pass
+
+
+def voir_note_comm_du_parcours(id_parcours):
+    """
+        Récupère la note et le commentaire d'un parcours.
+
+        Args:
+            id_parcours (int): L'identifiant du parcours.
+
+        Returns:
+            list: Une liste contenant les notes et commentaires du parcours.
+    """
+    return TERMINE.get_note_comm(id_parcours)
+
+
+def particpant_parcours_note_comm(id_parcours,id_participant):
+    """
+        Récupère la note et le commentaire d'un parcours.
+
+        Args:
+            id_parcours (int): L'identifiant du parcours.
+
+        Returns:
+            list: Une liste contenant les notes et commentaires du parcours.
+    """
+    return TERMINE.get_termine_id_part(id_participant, id_parcours)
+
+
+def note_comm_parcours_participant(id_parcours, id_participant):
+    """
+        Récupère la note et le commentaire d'un parcours.
+
+        Args:
+            id_parcours (int): L'identifiant du parcours.
+            id_participant (int): L'identifiant du participant.
+
+        Returns:
+            list: Une liste contenant les notes et commentaires du parcours.
+    """
+    return TERMINE.get_note_comm_parc_part(id_parcours, id_participant)
+
+
+def maj_note_comm(id_parcours, id_participant, note, comm):
+    """
+        Met à jour la note et le commentaire d'un parcours.
+
+        Args:
+            id_parcours (int): L'identifiant du parcours.
+            id_participant (int): L'identifiant du participant.
+            note (int): La note attribuée au parcours.
+            comm (str): Le commentaire du participant.
+    """
+    TERMINE.mettre_a_jour_note_comm(id_parcours, id_participant, note, comm)
+
+
+def get_moyenne_note_parcours(id_parcours):
+    """
+        Récupère la moyenne des notes attribuées à un parcours.
+
+        Args:
+            id_parcours (int): L'identifiant du parcours.
+
+        Returns:
+            float: La moyenne des notes attribuées au parcours.
+    """
+    return TERMINE.get_note_moyenne(id_parcours)
+
+
+def get_nb_personne_ayant_termine_noter_commenter(id_parcours):
+    """
+        Récupère le nombre de personne ayant terminé un parcours.
+
+        Args:
+            id_parcours (int): L'identifiant du parcours.
+
+        Returns:
+            int: Le nombre de personne ayant terminé le parcours.
+    """
+    return TERMINE.get_nb_personne(id_parcours)

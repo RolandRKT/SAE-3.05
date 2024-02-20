@@ -42,7 +42,7 @@ sys.path.append(os.path.join(ROOT, ''))
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
-from models import les_parcour_suivi, les_parcours_terminer, inserer_parcours_view, lister_les_parcours, inserer_le_participant, inserer_composer_view
+from models import *
 from participant import *
 from admin import *
 
@@ -833,3 +833,28 @@ def redirection_admin():
     Cette fonction redirige vers la page d'accueil de l'administrateur.
     """
     return redirect(url_for('accueil_admin'))
+
+
+@app.route('/note-comm-parcour/<int:id_parc>')
+def note_comm_parcours(id_parc):
+    """
+        Cette fonction gère la notation des parcours par les participants.
+    """
+    liste_note_comm = voir_note_comm_du_parcours(id_parc)
+    return render_template("note_comm_parcours_client.html", liste=liste_note_comm,avis_note=True,a_termine=particpant_parcours_note_comm(le_participant.get_id(),id_parc),note_comm_part=note_comm_parcours_participant(id_parc,le_participant.get_id()),nb_note=get_nb_personne_ayant_termine_noter_commenter(id_parc),moyenne_note=get_moyenne_note_parcours(id_parc),id_parc=id_parc)
+
+
+@app.route('/update-note-comm', methods=['POST'])
+def update_note_comm():
+    """
+        Cette fonction gère la notation des parcours par les participants.
+    """
+    print("update-note-comm")
+    id_parc = request.form.get('id_parc')
+    print("id_parc : ",id_parc)
+    radio = int(request.form.get('star-radio'))
+    print("radio : ",radio)
+    textarea = request.form.get('textarea')
+    print("textarea : ",textarea)
+    maj_note_comm(id_parc, le_participant.get_id(), radio, textarea)
+    return redirect(url_for("note_comm_parcours",id_parc=id_parc))
