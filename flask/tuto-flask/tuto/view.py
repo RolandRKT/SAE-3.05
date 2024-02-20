@@ -473,7 +473,7 @@ def inserer_etape():
     idimage = data.get('idimage')
     coordX = data.get('coordX')
     coordY = data.get('coordY')
-
+    print(idetape," etape nim")
     ETAPE.inserer_etape(idetape, nometape, idimage, coordX, coordY, None)
 
     return jsonify(success=True, message='Étape insérée avec succès')

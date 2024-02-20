@@ -76,36 +76,12 @@ function onMapClick(event) {
                 }),
             });
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Réponse du serveur non OK');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data.message);
-
-            // Fetch pour récupérer le prochain numéro depuis l'API, en utilisant le numéro du parcours
-            return fetch('/api/get_prochain_numero?idparc=' + num_parcours);
-        })
-        .then(response => response.json())
-        .then(data => {
-            var next_num = data.prochain_num;
-            var actu_id = data.actu_id;
-
-            // Fetch pour insérer une relation entre l'étape et le parcours
-            return fetch('/api/inserer_composer', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    idetape: actu_id,
-                    idparc: num_parcours,
-                    numero: next_num,
-                }),
-            });
-        })
+        // .then(response => {
+        //     if (!response.ok) {
+        //         throw new Error('Réponse du serveur non OK');
+        //     }
+        //     return response.json();
+        // })
         .then(response => {
             console.log('Réponse de la requête fetch:', response);
             if (!response.ok) {
