@@ -38,7 +38,9 @@ create table ETAPE (
     id_image int,
     coordonneX float,
     coordonneY float,
-    interet varchar(200)
+    interet varchar(200),
+    question varchar(200) DEFAULT NULL,
+    reponse varchar(200) DEFAULT NULL
 );
 
 create table SUIVRE (

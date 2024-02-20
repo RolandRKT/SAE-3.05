@@ -34,8 +34,8 @@ class Etape_bd:
             query = text("select * from ETAPE")
             resultat = self.cnx.execute(query)
             etapes = []
-            for ide, nom, idph, coordX, coordY, interet in resultat:
-                etapes.append(Etape(ide, nom, idph, coordX, coordY, interet))
+            for ide, nom, idph, coordX, coordY, interet, question, reponse in resultat:
+                etapes.append(Etape(ide, nom, idph, coordX, coordY, interet, question, reponse))
             return etapes
         except Exception as exp:
             print("la connexion a échoué, get_all_etape")
@@ -52,8 +52,8 @@ class Etape_bd:
             query = text("select * from ETAPE where id_photo = " + str(idph))
             resultat = self.cnx.execute(query)
             etapes = []
-            for ide, nom, idp, coordX, coordY, interet in resultat:
-                etapes.append(Etape(ide, nom, idp, coordX, coordY, interet))
+            for ide, nom, idp, coordX, coordY, interet, question, reponse in resultat:
+                etapes.append(Etape(ide, nom, idp, coordX, coordY, interet, question, reponse))
             return etapes
         except Exception as exp:
             print("la connexion a échoué, get_par_photo_etape")
@@ -61,7 +61,7 @@ class Etape_bd:
             return None
 
     def inserer_etape(self, idetape, nometape, idimage, coordX, coordY,
-                      interet):
+                      interet, question=None, reponse=None):
         """
             Insère une nouvelle étape dans la base de données.
 
@@ -74,16 +74,28 @@ class Etape_bd:
         try:
             if interet is None:
                 interet2 = 'null'
+
             else:
-                interet2 = interet
+                interet2 = interet               
+            
             if (idimage is None):
-                query = text(
-                    f"insert into ETAPE values({str(idetape)},'{nometape}', null, '{str(coordX)}', '{str(coordY)}','{str(interet2)}')"
+                if question and reponse:
+                     query = text(
+                    f"insert into ETAPE values({str(idetape)},'{nometape}', null, '{str(coordX)}', '{str(coordY)}','{str(interet2)}','{str(question)}','{str(reponse)}')"
                 )
+                else:
+                    query = text(
+                        f"insert into ETAPE values({str(idetape)},'{nometape}', null, '{str(coordX)}', '{str(coordY)}','{str(interet2)}')"
+                    )
             else:
-                query = text(
-                    f"insert into ETAPE values({str(idetape)},'{nometape}', {str(idimage)}, '{str(coordX)}', '{str(coordY)}','{str(interet2)}')"
+                if question and reponse:
+                     query = text(
+                    f"insert into ETAPE values({str(idetape)},'{nometape}', {str(idimage)}, '{str(coordX)}', '{str(coordY)}','{str(interet2)}','{str(question)}','{str(reponse)}')"
                 )
+                else:
+                    query = text(
+                        f"insert into ETAPE values({str(idetape)},'{nometape}', {str(idimage)}, '{str(coordX)}', '{str(coordY)}','{str(interet2)}')"
+                    )
             self.cnx.execute(query)
             self.cnx.commit()
 
@@ -119,8 +131,8 @@ class Etape_bd:
             query = text("select * from ETAPE where id_etape = " +
                          str(idetape))
             resultat = self.cnx.execute(query)
-            for ide, nom, idp, coordX, coordY, interet in resultat:
-                return Etape(ide, nom, idp, coordX, coordY, interet)
+            for ide, nom, idp, coordX, coordY, interet, question, reponse in resultat:
+                return Etape(ide, nom, idp, coordX, coordY, interet, question, reponse)
 
             return None
         except Exception as exp:
