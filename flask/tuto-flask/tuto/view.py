@@ -398,7 +398,7 @@ def connecter_admin():
     return redirect(url_for("login_admin"))
     
 @app.route("/get_token/<email>", methods=["GET", "POST"])
-def get_token(email):
+def get_token(email=CURRENT_EMAIL):
     global TOKEN
     if TOKEN == 0:
         TOKEN = random.randint(1000, 9999)
@@ -437,7 +437,7 @@ def inscrire():
             if CURRENT_USERNAME == part.get_pseudo() or CURRENT_EMAIL == part.get_email():
                 return jsonify({"error": "exists"})
 
-        return redirect(url_for("get_token", email=CURRENT_EMAIL))
+        return jsonify({"success": "registered", "email": CURRENT_EMAIL})
 
     return redirect(url_for("login"))
 
