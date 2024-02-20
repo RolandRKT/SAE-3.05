@@ -72,6 +72,7 @@ TOKEN = 0
 CURRENT_USERNAME = ""
 CURRENT_EMAIL = ""
 CURRENT_PASSWORD = ""
+VERIFY_SUCCESS = True
 
 
 @app.route("/")
@@ -119,10 +120,6 @@ def les_parcours():
         liste les parcours
     """
     # On redéfinit les variables globales par défaut car la connexion/inscription est faite
-    TOKEN = 0
-    CURRENT_USERNAME = ""
-    CURRENT_EMAIL = ""
-    CURRENT_PASSWORD = ""
     if le_participant.get_id() == -1:
         return redirect(url_for("portails"))
     user_agent = request.user_agent.string
@@ -397,29 +394,43 @@ def connecter_admin():
                 return redirect(url_for("accueil_admin"))
     return redirect(url_for("login_admin"))
     
-@app.route("/get_token/<email>", methods=["GET", "POST"])
+@app.route("/verify-inscription/<email>", methods=["GET", "POST"])
 def get_token(email=CURRENT_EMAIL):
-    global TOKEN
-    if TOKEN == 0:
+    global TOKEN, CURRENT_EMAIL, CURRENT_USERNAME, CURRENT_PASSWORD, VERIFY_SUCCESS
+    if VERIFY_SUCCESS:
+        msg = Message("✨Bienvenue chez Wade !✨", recipients=[email])
+        msg.body = "Cher utilisateur..."
+
         TOKEN = random.randint(1000, 9999)
-    msg = Message("✨Bienvenue chez Wade !✨", recipients=[email])
-    msg.body = "Cher utilisateur..."
-    
-    TOKEN = random.randint(1000, 9999)
-    
-    msg.html = msg_inscription(TOKEN)
-    mail.send(msg)
+        print("------------------------------------------------------------------------")
+        msg.html = msg_inscription(TOKEN)
+        mail.send(msg)
+
+    VERIFY_SUCCESS = True
+    # On reset tout car le mail a été envoyé
     return render_template("verify-inscription.html", email=email)
 
 @app.route("/verify-inscription", methods=["POST"])
 def verify_inscription():
+    global CURRENT_EMAIL, le_participant, CURRENT_EMAIL, CURRENT_PASSWORD, CURRENT_USERNAME, VERIFY_SUCCESS
     if request.method == "POST":
         number = request.form.get("verify")
-        if number == TOKEN:
+        if number == str(TOKEN):
             inserer_le_participant(CURRENT_USERNAME, CURRENT_EMAIL, CURRENT_PASSWORD)
             le_participant.set_all(PARTICIPANT.get_prochain_id_participant() - 1,
                                    CURRENT_USERNAME, CURRENT_EMAIL, CURRENT_PASSWORD)
+            # Connexion réussi alors on reset tout
+            CURRENT_USERNAME = ""
+            CURRENT_EMAIL = ""
+            CURRENT_PASSWORD = ""
+            VERIFY_SUCCESS = True
             return redirect(url_for("les_parcours"))
+        else:
+            # Il c'est trompé dans le code de vérification alors on 
+            # le redirige vers la page de vérification,
+            # sans renvoyer de mail
+            VERIFY_SUCCESS = False
+            return redirect(url_for("get_token", email=CURRENT_EMAIL)) 
 
 @app.route("/inscription", methods=["POST"])
 def inscrire():
@@ -434,10 +445,11 @@ def inscrire():
         liste_user = PARTICIPANT.get_all_participant()
 
         for part in liste_user:
-            if CURRENT_USERNAME == part.get_pseudo() or CURRENT_EMAIL == part.get_email():
+            if request.form.get("username").lower() == part.get_pseudo().lower() or request.form.get("email") == part.get_email():
                 return jsonify({"error": "exists"})
 
-        return jsonify({"success": "registered", "email": CURRENT_EMAIL})
+        #jsonify({"success": "registered", "email": CURRENT_EMAIL})
+        return redirect(url_for("get_token", email=request.form.get("email"))) 
 
     return redirect(url_for("login"))
 
@@ -689,33 +701,22 @@ def supprimer_etape_parcours(num_etape, num_parcours):
     """
     COMPOSER.supprimer_etape_parcours(num_parcours, num_etape)
     return redirect(url_for("parcours_admin", nb=num_parcours))
-    
 
 @app.route('/forget-password', methods=['POST', 'GET'])
 def forget_password():
     """
     Cette fonction gère la réinitialisation du mot de passe en cas d'oubli.
     """
-    global mail_backsave
+    global mail_backsave, TOKEN
     if request.method == 'POST':
         email = mail_backsave if mail_backsave != "" else request.form.get('email')
         if (email != mail_backsave): mail_backsave = email
         
         password = PARTICIPANT.get_par_mail_mdp(email)
         if password is not None:
-            email_ascii = [ord(char) for char in email]
-            # Convertir le mot de passe en ASCII et le multiplier par 22091
-            password_ascii = [ord(char) for char in password]
-            new_ascii = 0
-            temp_val = 0
-            
-            for nb in email_ascii:
-                temp_val += nb
-            
-            for nb in password_ascii:
-                new_ascii += nb
                 
-            resultat = str(new_ascii*temp_val*22091)[-4:]
+            TOKEN = random.randint(1000, 9999)
+            resultat = TOKEN
             
             msg = Message("Wade - Mot de passe oublié ?", recipients=[email])
             msg.body = "Cher utilisateur..."
@@ -731,26 +732,13 @@ def pageAuth():
 
 @app.route('/auth', methods=['POST'])
 def auth():
-    global mail_backsave
-    mdp = PARTICIPANT.get_par_mail_mdp(mail_backsave)
-    email_ascii = [ord(char) for char in mail_backsave]
-    password_ascii = [ord(char) for char in mdp]
-    
-    new_ascii = 0
-    temp_val = 0
-    
-    for nb in email_ascii:
-        temp_val += nb
-    
-    for nb in password_ascii:
-        new_ascii += nb
-        
-    resultat = str(new_ascii*temp_val*22091)[-4:]
     if request.method == 'POST':
+        print("--------------------------------")
         number = str(request.form.get('verify'))
-        
-        if number == resultat:
+        print(number, TOKEN)
+        if number == str(TOKEN):
             return redirect(url_for('editPassword'))
+    return redirect(url_for('forget_password', _method='POST'))
 
 @app.route("/changerPassword", methods=["GET"])
 def editPassword():
@@ -775,7 +763,6 @@ def gerer_parcours():
     return render_template("gerer_parcours.html",
                            liste_parc=les_parcours,
                            liste_etape=les_etapes)
-
 
 @app.route("/avis")
 def avis():

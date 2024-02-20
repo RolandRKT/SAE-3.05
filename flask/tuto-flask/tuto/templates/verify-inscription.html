@@ -10,11 +10,14 @@
             <span class="mainHeading">Entrez le code</span>
             <p class="otpSubheading">Nous avons envoyé un code à votre adresse mail</p>
             <div class="inputContainer">
-                <input required="required" name='verify' maxlength="4" type="text" class="otp-input" id="otp-input1">
+                <input name='verify' maxlength="4" type="text" class="otp-input" id="otp-input1">
             </div>
                 <button class="verifyButton" type="submit">Vérifier</button>
-                <p class="resendNote"><a href="{{url_for('get_token', email=mail)}}">Avez vous reçu le code ? </a><button class="resendBtn">Renvoyer code</button></p>
-        </form>
+                <p></p>
+                <p class="resendNote">Avez-vous reçu le code ?
+                    <a href="{{ url_for('get_token', email=email) }}" class="resendBtn">Renvoyer code</a>
+                </p>
+            </form>
     </div>
 </div>
 {% endblock %}

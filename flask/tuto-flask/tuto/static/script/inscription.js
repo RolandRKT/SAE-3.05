@@ -7,23 +7,21 @@ document.querySelector('.form-inscription').addEventListener('submit', function 
 
     const form = event.target;
     const formData = new FormData(form);
+    
+    const email = formData.get('email'); // Récupérer l'email à partir de formData
 
-    fetch('{{url_for("inscription")}}', {
+    fetch('{{url_for("inscrire")}}', {
         method: 'POST',
         body: formData
     })
     .then(response => response.json())
     .then(data => {
         if (data.error === 'exists') {
-            showPopup('Votre pseudo ou mail est déjà enregistrer.');
-            window.location.href = '{{url_for("inscription")}}';
+            showPopup('Votre pseudo ou mail est déjà enregistré.');
+            window.location.href = '{{url_for("login")}}';
         } else if (data.success === 'registered') {
-            showPopup('Vérifiez votre boîte mail pour le code de vérification.');
-            window.location.href = `{{url_for("get_token", email=${data.email})}}`;
+            showPopup("Merci d'avoir rejoint Wade pour de nouveaux parcours.");
+            window.location.href = '{{url_for("get_token", email=email)}}';
         }
-    })
-    .catch(error => {
-        console.error('Erreur lors de la requête fetch:', error);
-        // Gérer les erreurs, par exemple afficher un message d'erreur à l'utilisateur
     });
 });
