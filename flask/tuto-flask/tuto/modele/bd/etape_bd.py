@@ -79,7 +79,7 @@ class Etape_bd:
                 interet2 = interet               
             
             if (idimage is None):
-                if question and reponse:
+                if question is not None and reponse is not None:
                      query = text(
                     f"insert into ETAPE values({str(idetape)},'{nometape}', null, '{str(coordX)}', '{str(coordY)}','{str(interet2)}','{str(question)}','{str(reponse)}')"
                 )
@@ -215,7 +215,7 @@ class Etape_bd:
             print("Erreur lors de la suppression de la composition :",
                   str(exp))
 
-    def update(self, nom_etape, interet, id_image):
+    def update(self, nom_etape, interet, id_image, question=None, reponse=None):
         """
             Cette fonction permet de changer certaine info
         """

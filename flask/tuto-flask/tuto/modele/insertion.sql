@@ -50,6 +50,4 @@ INSERT INTO TERMINE (id_parcours, id_participant, note, comm)
 VALUES (1, 1, 4.5, 'Très bon parcours !');
 
 INSERT INTO PARTICIPANT (id_participant, pseudo, email, mdp)
-VALUES (1, 'test', 'test@example.com', 'test'),
-       (2, 'Utilisteur2', 'utilisateur2@example.com', 'motdepasse2'),
-       (3, 'testeur', 'testeur@gmail.com', 'Testeur123!');
+VALUES (3, 'testeur', 'testeur@gmail.com', 'Testeur123!');

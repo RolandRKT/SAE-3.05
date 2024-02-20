@@ -49,7 +49,9 @@ class Etape:
             'id_photo': self.__id_photo,
             'coordonneX': self._coordonneX,
             'coordonneY': self._coordonneY,
-            'interet': self._interet
+            'interet': self._interet,
+            'question': self.__question,
+            'reponse': self.__reponse
         }
 
     def get_id_etape(self):
@@ -102,6 +104,17 @@ class Etape:
             Cette fonction permet de retourner l'interet de l'etape
         """
         return self._interet
+    
+    def is_reponse(self, proposition):
+        """Renvoie si la proposition est la bonne 
+
+        Args:
+            proposition (str): proposition
+
+        Returns:
+            bool: vraie ou fausse proposition
+        """
+        return self.__reponse.lower() == proposition.lower()
 
     def __repr__(self):
         return "nom : " + self.__nom_etape + " id : " + str(self.__id_etape)

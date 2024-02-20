@@ -126,7 +126,7 @@ BEGIN
     
     IF NEW.num_etape > total_steps THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Le numéro d''étape dépasse le nombre total d''étapes du parcours.';
+        SET MESSAGE_TEXT = "Le numéro d''étape dépasse le nombre total d'étapes du parcours.";
     END IF;
 END;
 |

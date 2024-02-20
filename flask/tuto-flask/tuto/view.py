@@ -187,7 +187,7 @@ def parcours(nb_etape):
         liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
 
     lesetapes = []
-
+    print(liste_etape)
     for eta in liste_etape:
         images = IMAGE.get_par_image(eta.get_id_photo())
         try:
