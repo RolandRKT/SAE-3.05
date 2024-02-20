@@ -13,7 +13,6 @@
                 <input name='verify' maxlength="4" type="text" class="otp-input" id="otp-input1">
             </div>
                 <button class="verifyButton" type="submit">Vérifier</button>
-                <p></p>
                 <p class="resendNote">Avez-vous reçu le code ?
                     <a href="{{ url_for('get_token', email=email) }}" class="resendBtn">Renvoyer code</a>
                 </p>

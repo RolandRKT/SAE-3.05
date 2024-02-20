@@ -445,6 +445,7 @@ def inscrire():
         liste_user = PARTICIPANT.get_all_participant()
 
         for part in liste_user:
+            print(part.get_pseudo().lower(), part.get_email().lower())
             if request.form.get("username").lower() == part.get_pseudo().lower() or request.form.get("email") == part.get_email():
                 return jsonify({"error": "exists"})
 
@@ -733,7 +734,6 @@ def pageAuth():
 @app.route('/auth', methods=['POST'])
 def auth():
     if request.method == 'POST':
-        print("--------------------------------")
         number = str(request.form.get('verify'))
         print(number, TOKEN)
         if number == str(TOKEN):
