@@ -3,7 +3,7 @@
 """
 
 
-def msg_inscription(username, password):
+def msg_inscription(TOKEN):
 
     message_welcome = f"""
     <body style="width:100%; height:100%; color:black;">
@@ -13,16 +13,19 @@ def msg_inscription(username, password):
             </div>
             <div class="margin"></div>
             <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
-                Bienvenue {username} chez Wade !
+                Bienvenue chez Wade !
             </p>
             <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
                 Nous sommes ravis de vous accueillir parmi nous.
             </p>
             <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
-                Votre compte a été créé avec succès.
+                Avant de valider votre inscription, vous devez valider votre mail.
             </p>
             <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
-                Connectez-vous à votre compte en utilisant votre pseudo et votre mot de passe.
+                Voici votre code de validation :
+            </p>
+            <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
+                {TOKEN}
             </p>
             <p class="px-10 text-[10px] sm:text-[12px] text-gray-700">
                 Merci de faire partie de notre communauté.

@@ -12,6 +12,7 @@ from werkzeug.utils import secure_filename
 from .app import app
 from flask import jsonify, render_template, url_for, redirect, request, redirect, url_for
 from flask_mail import Mail, Message
+import random
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
@@ -67,6 +68,10 @@ from .app import app
 
 num_parcours = 2
 mail_backsave = ""
+TOKEN = 0
+CURRENT_USERNAME = ""
+CURRENT_EMAIL = ""
+CURRENT_PASSWORD = ""
 
 
 @app.route("/")
@@ -113,6 +118,11 @@ def les_parcours():
         Cette fonction nous permet de nous diriger vers la page qui
         liste les parcours
     """
+    # On redéfinit les variables globales par défaut car la connexion/inscription est faite
+    TOKEN = 0
+    CURRENT_USERNAME = ""
+    CURRENT_EMAIL = ""
+    CURRENT_PASSWORD = ""
     if le_participant.get_id() == -1:
         return redirect(url_for("portails"))
     user_agent = request.user_agent.string
@@ -386,32 +396,50 @@ def connecter_admin():
                                        admi.get_mdp())
                 return redirect(url_for("accueil_admin"))
     return redirect(url_for("login_admin"))
+    
+@app.route("/get_token/<email>", methods=["GET", "POST"])
+def get_token(email):
+    global TOKEN
+    if TOKEN == 0:
+        TOKEN = random.randint(1000, 9999)
+    msg = Message("✨Bienvenue chez Wade !✨", recipients=[email])
+    msg.body = "Cher utilisateur..."
+    
+    TOKEN = random.randint(1000, 9999)
+    
+    msg.html = msg_inscription(TOKEN)
+    mail.send(msg)
+    return render_template("verify-inscription.html", email=email)
 
+@app.route("/verify-inscription", methods=["POST"])
+def verify_inscription():
+    if request.method == "POST":
+        number = request.form.get("verify")
+        if number == TOKEN:
+            inserer_le_participant(CURRENT_USERNAME, CURRENT_EMAIL, CURRENT_PASSWORD)
+            le_participant.set_all(PARTICIPANT.get_prochain_id_participant() - 1,
+                                   CURRENT_USERNAME, CURRENT_EMAIL, CURRENT_PASSWORD)
+            return redirect(url_for("les_parcours"))
 
-@app.route("/inscription", methods=["GET", "POST"])
+@app.route("/inscription", methods=["POST"])
 def inscrire():
     """
     Permet d'inscrire les utilisateur qui n'ont pas de compte
     """
+    global TOKEN, CURRENT_USERNAME, CURRENT_EMAIL, CURRENT_PASSWORD
     if request.method == "POST":
-        username = request.form.get("username")
-        email = request.form.get("email")
-        password = request.form.get("password")
+        CURRENT_USERNAME = request.form.get("username")
+        CURRENT_EMAIL = request.form.get("email")
+        CURRENT_PASSWORD = request.form.get("password")
         liste_user = PARTICIPANT.get_all_participant()
 
         for part in liste_user:
-            if username == part.get_pseudo() or email == part.get_email():
+            if CURRENT_USERNAME == part.get_pseudo() or CURRENT_EMAIL == part.get_email():
                 return jsonify({"error": "exists"})
-        inserer_le_participant(username, email, password)
-        le_participant.set_all(PARTICIPANT.get_prochain_id_participant() - 1,
-                               username, email, password)
-        msg = Message("✨Bienvenue chez Wade !✨", recipients=[email])
-        msg.body = "Cher utilisateur..."
-        msg.html = msg_inscription(username, password)
-        mail.send(msg)
-        return jsonify({"success": "registered"})
 
-    return render_template("login.html", page_mobile=False, page_login=True)
+        return redirect(url_for("get_token", email=CURRENT_EMAIL))
+
+    return redirect(url_for("login"))
 
 
 @app.route('/get_etapes_parcours', methods=['POST'])
@@ -661,7 +689,7 @@ def supprimer_etape_parcours(num_etape, num_parcours):
     """
     COMPOSER.supprimer_etape_parcours(num_parcours, num_etape)
     return redirect(url_for("parcours_admin", nb=num_parcours))
-
+    
 
 @app.route('/forget-password', methods=['POST', 'GET'])
 def forget_password():
