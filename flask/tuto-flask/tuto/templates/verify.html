@@ -5,16 +5,23 @@
 {% block content %}
 <div class="main-base-forget-password">
     <div class="box-form-forget-password">
-        <form class="otp-Form" action="{{ url_for('auth') }}" method="POST">
+        <div class="otp-Form" >
+            <form action="{{ url_for('auth') }}" method="POST">
 
-            <span class="mainHeading">Entrez le code</span>
-            <p class="otpSubheading">Nous avons envoyé un code à votre adresse mail</p>
-            <div class="inputContainer">
-                <input required="required" name='verify' maxlength="4" type="text" class="otp-input" id="otp-input1">
-            </div>
-                <button class="verifyButton" type="submit">Vérifier</button>
-                <p class="resendNote"><a href="{{url_for('forget_password')}}">Avez vous reçu le code ? </a><button class="resendBtn">Renvoyer code</button></p>
-        </form>
+                <span class="mainHeading">Entrez le code</span>
+                <p class="otpSubheading">Nous avons envoyé un code à votre adresse mail</p>
+                <div class="inputContainer">
+                    <input name='verify' maxlength="4" type="text" class="otp-input" id="otp-input1">
+                </div>
+                    <p><p>
+                    <button class="verifyButton" type="submit">Vérifier</button>
+                    <p class="resendNote">Avez-vous reçu le code ?                
+                    </p>
+            </form>
+            <form action="{{ url_for('forget_password') }}" method="POST">
+                <button type="submit" class="resendBtn">Renvoyer code</button>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}
