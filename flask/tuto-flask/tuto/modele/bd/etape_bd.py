@@ -217,7 +217,7 @@ class Etape_bd:
             print("Erreur lors de la suppression de la composition :",
                   str(exp))
 
-    def update(self, nom_etape, interet, id_image):
+    def update(self, nom_etape, interet, id_image, question="", reponse=""):
         """
             Cette fonction permet de changer certaine info
         """
@@ -231,6 +231,21 @@ class Etape_bd:
             query3 = text(
                 f"update ETAPE set id_image = :id_image where id_etape= :id_etape"
             )
+            if question != "" and reponse != "":
+                query4 = text(
+                    f"update ETAPE set question = :question where id_etape= :id_etape"
+                )
+                query5 = text(
+                    f"update ETAPE set reponse = :reponse where id_etape= :id_etape"
+                )
+                params4 = {
+                "question": question,
+                'id_etape': self.get_prochain_id_etape() - 1
+                }
+                params5 = {
+                    "reponse": reponse,
+                    'id_etape': self.get_prochain_id_etape() - 1
+                }
 
             params1 = {
                 'nom_etape': nom_etape,
@@ -244,10 +259,14 @@ class Etape_bd:
                 "id_image": id_image,
                 'id_etape': self.get_prochain_id_etape() - 1
             }
+            
 
             self.cnx.execute(query, params1)
             self.cnx.execute(query2, params2)
             self.cnx.execute(query3, params3)
+            if question != "" and reponse != "":
+                self.cnx.execute(query4, params4)
+                self.cnx.execute(query5, params5)
             self.cnx.commit()
         except Exception as exp:
             print("la connexion a échoué, update")

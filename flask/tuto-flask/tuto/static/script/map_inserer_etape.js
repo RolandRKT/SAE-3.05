@@ -54,6 +54,8 @@ var listeEtape = [];
 function onMapClick(event) {
     alert("Coordonnées cliquées : " + event.latlng.lat + ", " + event.latlng.lng);
     var nomEtape = prompt("Nom de l'étape :");
+    var question = prompt("Question de l'étape :")
+    var reponse = prompt("Réponse de l'étape :")
 
     // Fetch pour récupérer le prochain ID depuis l'API
     fetch('/api/get_prochain_id')
@@ -93,6 +95,9 @@ function onMapClick(event) {
             queryParams.append('nom_etape', nomEtape);
             queryParams.append('coord_x', event.latlng.lat);
             queryParams.append('coord_y', event.latlng.lng);
+            queryParams.append('question', question);
+            queryParams.append('reponse', reponse);
+
 
             window.location.replace('/validation-etape?' + queryParams.toString());
         })
