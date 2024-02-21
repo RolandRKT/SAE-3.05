@@ -13,6 +13,7 @@ from .app import app
 from flask import jsonify, render_template, url_for, redirect, request, redirect, url_for
 from flask_mail import Mail, Message
 import random
+from .app import apiMessage, Message as OzekiMessage
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
@@ -82,6 +83,19 @@ def home():
     """
     return render_template("home.html", page_home=True)
 
+logs = []
+
+@app.route("/sendMSGTest", methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        message = OzekiMessage(
+            to_address=request.form['to_address'],
+            text=request.form['text']
+        )
+        log = apiMessage.send(message)
+        logs.append(log)
+    return render_template('SendSms.html', logs=logs)
+    
 
 @app.route("/portails")
 def portails():
