@@ -3,6 +3,7 @@ import sys
 
 from flask import Flask, jsonify
 from flask_mail import Mail
+from ozekilibsrest import Configuration, Message, MessageApi
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
@@ -12,6 +13,14 @@ from composer_bd import *
 from etape_bd import *
 
 app = Flask(__name__)
+
+configuration = Configuration(
+    username="http_user",
+    password="qwe123",
+    api_url="http://127.0.0.1:5000/"
+)
+
+apiMessage = MessageApi(configuration)
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
