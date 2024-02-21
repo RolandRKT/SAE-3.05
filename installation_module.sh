@@ -69,3 +69,12 @@ if [ "$reponse5" = "o" ]; then
     pip install pdfkit
     echo "--------------------"
 fi
+
+read -p " Voulez-vous installer le module ozekilibsrest ? o/n " reponse6
+
+if [ "$reponse6" = "o" ]; then
+    echo "--------------------"
+    echo "Installation module ozekilibsrest"
+    pip install ozekilibsrest
+    echo "--------------------"
+fi

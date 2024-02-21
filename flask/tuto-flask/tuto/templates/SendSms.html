@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Send SMS with Ozeki SMS Gateway</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <form action="/" method="POST" class="form-group" style="width: 40%; margin-top: 10vh; margin-left: 30%;
+        display: flex; flex-direction: column; height: 30vh; justify-content: space-evenly;">
+            <b>To address:</b>
+            <input class="form-control" type="text"
+                   name="to_address" placeholder="+36201111111"
+                   autocomplete=false>
+            <b>Text:</b>
+            <input class="form-control"
+                   type="text" name="text"
+                   placeholder="Hello world!"
+                   autocomplete=false>
+            <input class="btn btn-primary"
+                   style="font-weight: 600;"
+                   type="submit"
+                   name="submit"
+                   value="SEND">
+        </form>
+        <ul style="width: 40%; margin-left: 30%; height: 40vh; overflow-y: scroll;"
+            class="list-group card">
+            <li class="list-group-item card"><b>Logs:</b></li>
+            {% if logs %}
+                {%for log in logs%}
+                    <li class="list-group-item">{{ log }}</li>
+                {%endfor%}
+            {% endif  %}
+        </ul>
+    </body>
+</html>
