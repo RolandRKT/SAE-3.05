@@ -14,6 +14,7 @@ from etape_bd import Etape_bd
 from suivre_bd import Suivre_bd
 from composer_bd import Composer_bd
 from terminer_bd import Termine_bd
+from admin_bd import Admin_bd
 
 SUIVRE = Suivre_bd(cnx)
 COMPOSER = Composer_bd(cnx)
@@ -21,7 +22,95 @@ PARCOURS = Parcours_bd(cnx)
 IMAGE = Image_bd(cnx)
 PARTICIPANT = Participant_bd(cnx)
 TERMINE = Termine_bd(cnx)
+ADMIN = Admin_bd(cnx)
+ETAPE=Etape_bd(cnx)
 
+num_parcours = 2
+mail_backsave = ""
+TOKEN = 0
+CURRENT_USERNAME = ""
+CURRENT_EMAIL = ""
+CURRENT_PASSWORD = ""
+VERIFY_SUCCESS = True
+
+
+def recuperer_tous_les_parcours():
+    """
+        Cette fonction va nous permettre de récupérer tous les parcours
+        de la base de données.
+    """
+    return PARCOURS.get_all_parcours()
+
+def recuperer_toutes_les_etapes():
+    """
+        Cette fonction va nous permettre de récupérer toutes les étapes
+        de la base de données.
+    """
+    return ETAPE.get_all_etape()
+
+def recuperer_prochain_id_etape():
+    """
+        RECUPERER de la bd l'id pour la prchaine etape
+    """
+    return ETAPE.get_prochain_id_etape()
+
+def recuperer_tous_les_participant():
+    """
+        Cette fonction va nous permettre de récupérer tous les participants
+        de la base de données.
+    """
+    return PARTICIPANT.get_all_participant()
+
+def recuperer_toutes_les_admin():
+    """
+        Cette fonction va nous permettre de récupérer tous les adm
+        de la base de données.
+    """
+    return ADMIN.get_all_admin()
+
+def recup_prochain_id_participant():
+    """
+        Cette fonction va nous permettre de récupérer le prochain id de participants
+        de la base de données.
+    """
+    return PARTICIPANT.get_prochain_id_participant()
+
+def recup_par_mail_mdp_participant(email):
+    """
+        reperer de la bd le mdp du participant par son email
+    """
+    return PARTICIPANT.get_par_mail_mdp(email)
+
+def supprimer_parcours(id_parcours):
+    """
+        Cette fonction va nous permettre de supprimer un parcours
+        de la base de données.
+    """
+    PARCOURS.delete_parcours(id_parcours)
+
+
+def inserer_un_parcours_termine(id_parcours, id_participant, note, comm):
+    """
+        Cette fonction va nous permettre d'insérer un parcours terminé
+        de la base de données.
+    """
+    TERMINE.inserer_termine(id_parcours, id_participant, note, comm)
+
+
+
+def recup_num_etape_suivre(num_parcours,id_participant):
+    """
+        Cette fonction va nous permettre de récupérer le numéro de l'étape
+        d'un parcours suivi de la base de données.
+    """
+    return SUIVRE.get_num_etape_suivre(num_parcours,id_participant)
+
+def recup_note_comm_parcours(id_parcours):
+    """
+        Cette fonction va nous permettre de récupérer la note et le commentaire
+        d'un parcours de la base de données.
+    """
+    return TERMINE.get_note_comm(id_parcours)
 
 def lister_les_parcours(id_participant) -> list:
     """
@@ -240,3 +329,35 @@ def get_nb_personne_ayant_termine_noter_commenter(id_parcours):
             int: Le nombre de personne ayant terminé le parcours.
     """
     return TERMINE.get_nb_personne(id_parcours)
+
+
+def suppr_un_participant(pseudo):
+    """
+        Supprime un participant de la base de données.
+
+        Args:
+            pseudo (string): L'identifiant du participant à supprimer.
+    """
+    ADMIN.delete_part(pseudo)
+
+
+def suppr_etape_du_parcours(num_parcours, num_etape):
+    """
+        Supprime une étape d'un parcours.
+
+        Args:
+            num_parcours (int): L'identifiant du parcours.
+            num_etape (int): L'identifiant de l'étape.
+    """
+    COMPOSER.supprimer_etape_parcours(num_parcours, num_etape)
+
+
+def changer_mdp_avec_le_mail(mail_backsave,new_password):
+    """
+        Change le mot de passe d'un participant.
+
+        Args:
+            mail_backsave (string): L'adresse mail du participant.
+            new_mdp (string): Le nouveau mot de passe du participant.
+    """
+    return PARTICIPANT.set_password_by_email(mail_backsave, new_password)

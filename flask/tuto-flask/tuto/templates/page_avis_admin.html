@@ -4,26 +4,37 @@
 {% endblock %}
 {% block main_content %}
     <div class="background">
+        
         <div class="titre-avis">
-            <h3>Tous les Avis : </h3>
+            <h1 >Moyenne du parcours : {{ moyenne_note }}/5</h1>
+            <p>nombre de personnes qui ont laissé leur avis : {{ nb_note }}</p>
+            <h3>Tous les avis : </h3>
         </div>
+        
         {% if liste %}
-            <form role="form" method="POST" class="form-champ" enctype="multipart/form-data">
-                {% for avis in liste %}
-                    <div class="trois-champs">
-                        <div class="form-label-admin-pseudo-note">
-                            <label for="name" class="label">{{ avis[1] }}</label>
-                            <label for="name"> : </label>
-                            <label for="name" class="label">{{ avis[2] }}</label>
-                        </div>
-                        <div class="form-label-admin-comm">
-                            <textarea readonly name="textarea" rows="7" cols="50" maxlength="500">{{ avis[3] }}</textarea>
+        {% for avis in liste %}
+                <div class="trois-champs">
+                    <div class="nom-note">
+                        <label for="name" class="label">{{ avis[1] }}</label>
+                        <label for="name"> : </label>
+                        <div class="form-group">
+                            <div class="rating">
+                                {% for i in range(1, 6) %}
+                                    <input class="darkmode-ignore" type="radio" name="star-radio-disables" value="d{{ 6-i }}"  disabled>
+                                    <label class="darkmode-ignore {% if i <= avis[2] %}yellow-star{% endif %}" for="tstar-{{ i }}" disabled>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" disabled>
+                                            <path pathLength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z1" disabled></path>
+                                        </svg>
+                                    </label>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
-                    <input type="hidden" name="idParcours" id="idParcours" value="{{ avis[0] }}">
-                    <input type="hidden" name="pseudo" id="pseudo" value="{{ avis[1] }}">
-                {% endfor %}
-            </form>
+                    <div>
+                        <textarea readonly name="textarea" rows="7" cols="50" maxlength="500">{{ avis[3] }}</textarea>
+                    </div>
+                </div>
+            {% endfor %}
         {% else %}
             <p class="pasavis">Aucun avis sur ce parcours.</p>
         {% endif %}
