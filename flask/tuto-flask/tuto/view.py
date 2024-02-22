@@ -211,8 +211,11 @@ def parcours(nb_etape):
             'coordonneX': eta.get_coordonneX(),
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
+            'question' : eta.get_question(),
+            'reponse' : eta.get_reponse()
         }
         lesetapes_json.append(etape_data)
+    print(lesetapes[val - 1])
 
     if any(keyword in user_agent
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
@@ -263,6 +266,8 @@ def parcours_admin(nb):
             'coordonneX': eta.get_coordonneX(),
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
+            'question' : eta.get_question(),
+            'reponse' : eta.get_reponse()
         }
         lesetapes_json.append(etape_data)
 
@@ -310,6 +315,8 @@ def parcours_admin_inserer():
             'coordonneX': eta.get_coordonneX(),
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
+            'question' : eta.get_question(),
+            'reponse' : eta.get_reponse()
         }
         lesetapes_json.append(etape_data)
 

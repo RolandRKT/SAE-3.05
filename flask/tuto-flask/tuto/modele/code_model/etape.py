@@ -43,7 +43,9 @@ class Etape:
             'id_photo': self.__id_photo,
             'coordonneX': self._coordonneX,
             'coordonneY': self._coordonneY,
-            'interet': self._interet
+            'interet': self._interet,
+            'question' : self.__question,
+            'reponse' : self.__reponse
         }
 
     def get_question(self):
@@ -104,4 +106,4 @@ class Etape:
         return self._interet
 
     def __repr__(self):
-        return "nom : " + self.__nom_etape + " id : " + str(self.__id_etape)
+        return "nom : " + self.__nom_etape + " id : " + str(self.__id_etape) +  " question:" + str(self.__question) + " reponse:" + str(self.__reponse)
