@@ -361,3 +361,41 @@ def changer_mdp_avec_le_mail(mail_backsave,new_password):
             new_mdp (string): Le nouveau mot de passe du participant.
     """
     return PARTICIPANT.set_password_by_email(mail_backsave, new_password)
+
+def update_numero_etape_model(id_participant, num_parcours, nb_etape):
+    """ Met à jour le numéro de l'étape atteinte dans un parcours par un participant. Args: Paramètres :
+    
+    id_participant (int): L'ID du participant.
+    id_parcours (int): L'ID du parcours.
+    num_etape (int): Le numéro de l'étape atteinte.
+    
+        return : None
+    """
+    SUIVRE.update_numero_etape(id_participant, num_parcours, nb_etape)
+    
+def get_par_parcour_composition_model(num_parcours):
+    """ Récupère les compositions associées à un parcours spécifique.
+
+    param idp: ID du parcours pour lequel on veut récupérer les compositions.
+        
+        return: Une liste d'objets Composer représentant les compositions pour le parcours donné.
+    """
+    
+    return COMPOSER.get_par_parcour_composition(num_parcours)
+
+def get_par_image_model(id_image):
+    """ Récupère une image spécifique en fonction de son ID.
+
+    param id_image: ID de l'image que l'on souhaite récupérer.
+        return: Une liste contenant un objet Image représentant l'image correspondante
+    """
+    
+    return IMAGE.get_par_image(id_image)
+
+def get_par_id_etape(id_etape):
+    """ Récupère une étape spécifique en fonction de son ID.
+
+    param idetape: ID de l'étape que l'on souhaite récupérer.
+        return: Une liste contenant un objet Etape représentant le parcours correspondant.
+    """
+    return ETAPE.get_par_id_etape(id_etape)
