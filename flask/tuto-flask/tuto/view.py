@@ -186,19 +186,24 @@ def parcours(nb_etape):
         val = 1
     else:
         val = nb_etape
-        SUIVRE.update_numero_etape(le_participant.get_id(), num_parcours,
+        update_numero_etape_model(le_participant.get_id(), num_parcours,
                                    nb_etape)
+        # SUIVRE.update_numero_etape(le_participant.get_id(), num_parcours,
+                                #    nb_etape)
     user_agent = request.user_agent.string
 
-    liste_composer = COMPOSER.get_par_parcour_composition(num_parcours)
+    # liste_composer = COMPOSER.get_par_parcour_composition(num_parcours)
+    liste_composer = get_par_parcour_composition_model(num_parcours)
     liste_etape = []
     for comp in liste_composer:
-        liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
+        # liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
+        liste_etape.append(get_par_id_etape(comp.get_parcours_id()))
 
     lesetapes = []
 
     for eta in liste_etape:
-        images = IMAGE.get_par_image(eta.get_id_photo())
+        # images = IMAGE.get_par_image(eta.get_id_photo())
+        images = get_par_image_model(eta.get_id_photo())
         try:
             monimage = images[0].get_img_filename()
             lesetapes.append((eta, monimage))
@@ -246,15 +251,15 @@ def parcours_admin(nb):
         se dirige vers la page parcours
     """
     user_agent = request.user_agent.string
-    liste_composer = COMPOSER.get_par_parcour_composition(nb)
+    liste_composer = get_par_parcour_composition_model(nb)
     liste_etape = []
 
     for comp in liste_composer:
-        liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
+        liste_etape.append(get_par_id_etape(comp.get_parcours_id()))
     lesetapes = []
 
     for eta in liste_etape:
-        images = IMAGE.get_par_image(eta.get_id_photo())
+        images = get_par_image_model(eta.get_id_photo())
         try:
             monimage = images[0].get_img_filename()
             lesetapes.append((eta, monimage))
@@ -295,15 +300,15 @@ def parcours_admin_inserer():
     """
     user_agent = request.user_agent.string
 
-    liste_composer = COMPOSER.get_par_parcour_composition(num_parcours)
+    liste_composer = get_par_parcour_composition_model(num_parcours)
     liste_etape = []
 
     for comp in liste_composer:
-        liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
+        liste_etape.append(get_par_id_etape(comp.get_parcours_id()))
     lesetapes = []
 
     for eta in liste_etape:
-        images = IMAGE.get_par_image(eta.get_id_photo())
+        images = get_par_image_model(eta.get_id_photo())
         try:
             monimage = images[0].get_img_filename()
             lesetapes.append((eta, monimage))

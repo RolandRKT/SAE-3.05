@@ -26,6 +26,8 @@ def ouvrir_connexion(user, passwd, host, database):
 cnx = ouvrir_connexion("rakotomalala", "rakotomalala", "servinfo-maria",
                        "DBrakotomalala")
 
+# cnx = ouvrir_connexion("dahouede", "dahouede", "servinfo-maria",
+                    #    "DBdahouede")
 
 # cnx = ouvrir_connexion("rakotomalala", "rakotomalala", "localhost",
 #                          "DBrakotomalala")
