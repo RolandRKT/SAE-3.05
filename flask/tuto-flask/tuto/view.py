@@ -13,6 +13,7 @@ from .app import app
 from flask import jsonify, render_template, url_for, redirect, request, redirect, url_for
 from flask_mail import Mail, Message
 import random
+from .app import apiMessage, Message as OzekiMessage
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
@@ -69,6 +70,19 @@ def home():
     """
     return render_template("home.html", page_home=True)
 
+logs = []
+
+@app.route("/sendMSGTest", methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        message = OzekiMessage(
+            to_address=request.form['to_address'],
+            text=request.form['text']
+        )
+        log = apiMessage.send(message)
+        logs.append(log)
+    return render_template('SendSms.html', logs=logs)
+    
 
 @app.route("/portails")
 def portails():
@@ -199,8 +213,11 @@ def parcours(nb_etape):
             'coordonneX': eta.get_coordonneX(),
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
+            'question' : eta.get_question(),
+            'reponse' : eta.get_reponse()
         }
         lesetapes_json.append(etape_data)
+    print(lesetapes[val - 1])
 
     if any(keyword in user_agent
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
@@ -253,6 +270,8 @@ def parcours_admin(nb):
             'coordonneX': eta.get_coordonneX(),
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
+            'question' : eta.get_question(),
+            'reponse' : eta.get_reponse()
         }
         lesetapes_json.append(etape_data)
 
@@ -300,6 +319,8 @@ def parcours_admin_inserer():
             'coordonneX': eta.get_coordonneX(),
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
+            'question' : eta.get_question(),
+            'reponse' : eta.get_reponse()
         }
         lesetapes_json.append(etape_data)
 
@@ -463,7 +484,7 @@ def inserer_etape():
     idimage = data.get('idimage')
     coordX = data.get('coordX')
     coordY = data.get('coordY')
-
+    print(idetape," etape nim", type(nometape))
     ETAPE.inserer_etape(idetape, nometape, idimage, coordX, coordY, None)
 
     return jsonify(success=True, message='Étape insérée avec succès')
@@ -593,16 +614,15 @@ def creation_parcours():
     liste_etape = recuperer_toutes_les_etapes()
 
     user_agent = request.user_agent.string
-    if any(keyword in user_agent
-           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("creation_parcours.html",
-                               liste=liste_etape,
-                               page_mobile=True)
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("creation_parcours.html", 
+                               liste = liste_etape,page_mobile = True)
     else:
-        return render_template("creation_parcours.html",
-                               liste=liste_etape,
-                               page_mobile=False)
-
+        return render_template("creation_parcours.html", 
+                               liste = liste_etape, 
+                               page_mobile = False,
+                               creation_parcours = True)
+    
 
 @app.route("/creation_parcours", methods=['GET', 'POST'])
 def creer_parcours():
@@ -669,8 +689,10 @@ def gerer_compte():
                                page_mobile=True)
     else:
         return render_template("gerer_compte.html",
-                               liste_part=liste_participant,
-                               adm=PARTICIPANT)
+                            liste_part=liste_participant,
+                            adm=PARTICIPANT,
+                            gestion_compte = True)
+
 
 
 @app.route('/suppression-participant/<pseudo>', methods=['POST', 'DELETE'])
@@ -750,7 +772,7 @@ def gerer_parcours():
     les_etapes = recuperer_toutes_les_etapes()
     return render_template("gerer_parcours.html",
                            liste_parc=les_parcours,
-                           liste_etape=les_etapes)
+                           liste_etape=les_etapes, gestion_parcours = True)
 
 @app.route("/avis")
 def avis():
@@ -820,6 +842,15 @@ def validation():
                                coord_x=query['coord_x'],
                                coord_y=query['coord_y'],
                                editable=editable)
+    
+    if query['question'] != "" and query['reponse'] != "":
+        return render_template("validation_etape.html",
+                           nom_etape=query['nom_etape'],
+                           coord_x=query['coord_x'],
+                           coord_y=query['coord_y'],
+                           question = query['question'],
+                           reponse = query['reponse'],
+                           editable=editable)
 
     return render_template("validation_etape.html",
                            nom_etape=query['nom_etape'],
@@ -836,6 +867,8 @@ def inserer_etape_bd():
     if request.method == "POST":
         nom_etape = request.form.get("nom_etape")
         desc = request.form.get("description")
+        question = request.form.get("question")
+        reponse = request.form.get("reponse")
         app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
         if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -852,8 +885,11 @@ def inserer_etape_bd():
                 IMAGE.inserer_image(next_id, filename + str("'"),
                                     str(filename) + str(next_id),
                                     str(filename))
-
-        ETAPE.update(nom_etape, desc, IMAGE.get_prochain_id_image() - 1)
+        if question != "" and reponse != "":
+            ETAPE.update(nom_etape, desc, IMAGE.get_prochain_id_image() - 1, question, reponse)
+        else:
+            ETAPE.update(nom_etape, desc, IMAGE.get_prochain_id_image() - 1)
+            
 
     return redirect(url_for('accueil_admin'))
 
