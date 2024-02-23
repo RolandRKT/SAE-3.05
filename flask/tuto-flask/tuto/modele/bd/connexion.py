@@ -23,11 +23,14 @@ def ouvrir_connexion(user, passwd, host, database):
         return err
 
 
-#cnx = ouvrir_connexion("rakotomalala", "rakotomalala", "servinfo-maria",
-#                       "DBrakotomalala")
+cnx = ouvrir_connexion("rakotomalala", "rakotomalala", "servinfo-maria",
+                      "DBrakotomalala")
 
-cnx = ouvrir_connexion("rakotomalala", "rakotomalala", "localhost",
-                         "DBrakotomalala")
+# cnx = ouvrir_connexion("dahouede", "dahouede", "servinfo-maria",
+#                       "DBdahouede")
+
+# cnx = ouvrir_connexion("rakotomalala", "rakotomalala", "localhost",
+#                          "DBrakotomalala")
 
 
 def close_cnx():
