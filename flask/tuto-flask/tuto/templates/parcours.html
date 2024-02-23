@@ -6,6 +6,7 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../static/darkmode.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='map.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='parcours.css') }}">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -23,16 +24,21 @@
     <body data-liste-etapes='{{ lesetapes_json | tojson | safe }}'>
         <header>
             <div class="animated-image-position">
-                <div class="image-container">
-                  <img id="animation-button" class="img1" src="../static/images/logo.png" alt="Image à animer">
-                </div>
+              <div class="image-container">
+                <img id="animation-button" class="img1" src="../static/images/logo.png" alt="Image à animer">
+              </div>
             </div>
-            <div class="top-page">
+              <div class="top-page">
                 <div></div>
-                <h1><a href="{{ url_for('redirection') }}" class="app-name">WADE</a></h1>                <img id="user-logo" class="img3" src="../static/images/user.png" alt="Image à animer">
-            </div>
-            
-        </header>
+                <h1><a href="{{ url_for('redirection') }}" class="app-name">WADE</a></h1>
+                <img id="burg-menu" class="img3" src="../static/images/menu.png" alt="Image à animer">
+              </div>
+          </header>
+          <div id="menu" class="fixed-element">
+            <p><a href="{{ url_for('mes_parcours_en_cours') }}" class="mes_parcours">Parcours suivis</a></p>
+            <p><a href="{{ url_for('mon_profil') }}" class="page-profil">Mon profil</a></p>
+            <p class="deco"><a href="{{ url_for('portails') }}">Se déconnecter</a></p>
+        </div>
         <div id="map"></div>
         {% block content %}
         {% for (etape, img) in etape_actu %}
@@ -144,12 +150,23 @@
             {% endblock%}
 
 
-        <footer>
-            <div class="image-container">
-              <img id="animation-button1" class="img2" src="../static/images/logo.png" alt="Image à animer">
-            </div>
-            <p class="copyright">Wade Copyright © 2023</p>
+    <footer class="fixed-element">
+        <p class="copyright">Wade Copyright © 2023</p>
+        <div class="image-container">
+            <img id="animation-button1" class="img2" src="../static/images/logo.png" alt="Image à animer">
+        </div>
         </footer>
+        <script src="../static/script/apparition_logo.js"></script>
+        <script src="../static/script/redirection-animation.js"></script>
+        <script src="../static/script/menu_burger.js"></script>
+        <script src="../static/script/toggle_profil.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+        <script>
+        function addDarkmodeWidget() {
+            new Darkmode().showWidget();
+        }
+        window.addEventListener('load', addDarkmodeWidget);
+        </script>
         <script src="{{url_for('static', filename='script/map_client.js')}}"></script>
         <script src="../static/script/apparition_logo.js"></script>
         <script src="../static/script/redirection-animation.js"></script>
