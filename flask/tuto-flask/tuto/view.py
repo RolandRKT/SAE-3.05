@@ -531,9 +531,13 @@ def creation_parcours():
     
     user_agent = request.user_agent.string
     if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("creation_parcours.html" ,liste = liste_etape ,page_mobile = True)
+        return render_template("creation_parcours.html", 
+                               liste = liste_etape,page_mobile = True)
     else:
-        return render_template("creation_parcours.html", liste = liste_etape , page_mobile = False)
+        return render_template("creation_parcours.html", 
+                               liste = liste_etape, 
+                               page_mobile = False,
+                               creation_parcours = True)
     
 @app.route("/creation_parcours", methods=['GET', 'POST'])
 def creer_parcours():
@@ -593,7 +597,8 @@ def gerer_compte():
     else:
         return render_template("gerer_compte.html",
                             liste_part=liste_participant,
-                            adm=PARTICIPANT)
+                            adm=PARTICIPANT,
+                            gestion_compte = True)
 
 
 @app.route('/suppression-participant/<pseudo>', methods=['POST', 'DELETE'])
@@ -631,7 +636,7 @@ def gerer_parcours():
     les_parcours = PARCOURS.get_all_parcours()
     les_etapes = ETAPE.get_all_etape()
     return render_template("gerer_parcours.html", liste_parc=les_parcours,
-                           liste_etape=les_etapes)
+                           liste_etape=les_etapes, gestion_parcours = True)
 
 @app.route("/avis")
 def avis():
