@@ -13,6 +13,7 @@ from .app import app
 from flask import jsonify, render_template, url_for, redirect, request, redirect, url_for
 from flask_mail import Mail, Message
 import random
+from .app import apiMessage, Message as OzekiMessage
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
@@ -82,6 +83,19 @@ def home():
     """
     return render_template("home.html", page_home=True)
 
+logs = []
+
+@app.route("/sendMSGTest", methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        message = OzekiMessage(
+            to_address=request.form['to_address'],
+            text=request.form['text']
+        )
+        log = apiMessage.send(message)
+        logs.append(log)
+    return render_template('SendSms.html', logs=logs)
+    
 
 @app.route("/portails")
 def portails():
@@ -610,16 +624,15 @@ def creation_parcours():
     liste_etape = ETAPE.get_all_etape()
 
     user_agent = request.user_agent.string
-    if any(keyword in user_agent
-           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("creation_parcours.html",
-                               liste=liste_etape,
-                               page_mobile=True)
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("creation_parcours.html", 
+                               liste = liste_etape,page_mobile = True)
     else:
-        return render_template("creation_parcours.html",
-                               liste=liste_etape,
-                               page_mobile=False)
-
+        return render_template("creation_parcours.html", 
+                               liste = liste_etape, 
+                               page_mobile = False,
+                               creation_parcours = True)
+    
 
 @app.route("/creation_parcours", methods=['GET', 'POST'])
 def creer_parcours():
@@ -686,8 +699,10 @@ def gerer_compte():
                                page_mobile=True)
     else:
         return render_template("gerer_compte.html",
-                               liste_part=liste_participant,
-                               adm=PARTICIPANT)
+                            liste_part=liste_participant,
+                            adm=PARTICIPANT,
+                            gestion_compte = True)
+
 
 
 @app.route('/suppression-participant/<pseudo>', methods=['POST', 'DELETE'])
@@ -767,9 +782,8 @@ def gerer_parcours():
     """
     les_parcours = PARCOURS.get_all_parcours()
     les_etapes = ETAPE.get_all_etape()
-    return render_template("gerer_parcours.html",
-                           liste_parc=les_parcours,
-                           liste_etape=les_etapes)
+    return render_template("gerer_parcours.html", liste_parc=les_parcours,
+                           liste_etape=les_etapes, gestion_parcours = True)
 
 @app.route("/avis")
 def avis():
