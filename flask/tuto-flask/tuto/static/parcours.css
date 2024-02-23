@@ -108,6 +108,27 @@ input[type="submit"]:hover {
     background-color: #1BBCD2;
 }
 
+#button-question{
+    width: 150px;
+    padding: 10px;
+    padding-left: 25px;
+    padding-right: 30px;
+    font-size: 16px;
+    background-color: #238AB6;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#button-question:hover {
+    background-color: #1BBCD2;
+
+}
+
 .box-parcours{
     position: relative;
 }

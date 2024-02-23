@@ -225,8 +225,11 @@ def parcours(nb_etape):
             'coordonneX': eta.get_coordonneX(),
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
+            'question' : eta.get_question(),
+            'reponse' : eta.get_reponse()
         }
         lesetapes_json.append(etape_data)
+    print(lesetapes[val - 1])
 
     if any(keyword in user_agent
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
@@ -277,6 +280,8 @@ def parcours_admin(nb):
             'coordonneX': eta.get_coordonneX(),
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
+            'question' : eta.get_question(),
+            'reponse' : eta.get_reponse()
         }
         lesetapes_json.append(etape_data)
 
@@ -324,6 +329,8 @@ def parcours_admin_inserer():
             'coordonneX': eta.get_coordonneX(),
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
+            'question' : eta.get_question(),
+            'reponse' : eta.get_reponse()
         }
         lesetapes_json.append(etape_data)
 
@@ -487,7 +494,7 @@ def inserer_etape():
     idimage = data.get('idimage')
     coordX = data.get('coordX')
     coordY = data.get('coordY')
-
+    print(idetape," etape nim", type(nometape))
     ETAPE.inserer_etape(idetape, nometape, idimage, coordX, coordY, None)
 
     return jsonify(success=True, message='Étape insérée avec succès')
@@ -846,6 +853,15 @@ def validation():
                                coord_x=query['coord_x'],
                                coord_y=query['coord_y'],
                                editable=editable)
+    
+    if query['question'] != "" and query['reponse'] != "":
+        return render_template("validation_etape.html",
+                           nom_etape=query['nom_etape'],
+                           coord_x=query['coord_x'],
+                           coord_y=query['coord_y'],
+                           question = query['question'],
+                           reponse = query['reponse'],
+                           editable=editable)
 
     return render_template("validation_etape.html",
                            nom_etape=query['nom_etape'],
@@ -862,6 +878,8 @@ def inserer_etape_bd():
     if request.method == "POST":
         nom_etape = request.form.get("nom_etape")
         desc = request.form.get("description")
+        question = request.form.get("question")
+        reponse = request.form.get("reponse")
         app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
         if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -878,8 +896,11 @@ def inserer_etape_bd():
                 IMAGE.inserer_image(next_id, filename + str("'"),
                                     str(filename) + str(next_id),
                                     str(filename))
-
-        ETAPE.update(nom_etape, desc, IMAGE.get_prochain_id_image() - 1)
+        if question != "" and reponse != "":
+            ETAPE.update(nom_etape, desc, IMAGE.get_prochain_id_image() - 1, question, reponse)
+        else:
+            ETAPE.update(nom_etape, desc, IMAGE.get_prochain_id_image() - 1)
+            
 
     return redirect(url_for('accueil_admin'))
 
