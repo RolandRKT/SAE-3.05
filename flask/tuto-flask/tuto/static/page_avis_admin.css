@@ -22,13 +22,8 @@ main{
     padding-left: 4rem;
 }
 
-.form-label-admin-pseudo-note {
+.nom-note{
     display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-items: flex-start;
-    margin-bottom: 2.5rem;
-    margin-top: 2.5rem;
 }
 
 p.pasavis {
@@ -37,3 +32,46 @@ p.pasavis {
 	font-size: 32px;
 	font-weight: bold;
 }
+
+/* note et avis des différents utilisateur */
+.rating {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 0.3rem;
+  }
+  
+  .rating input {
+    appearance: unset;
+  }
+  
+  .rating label {
+    cursor: pointer;
+  }
+  
+  .rating svg {
+    width: 2rem;
+    height: 2rem;
+    overflow: visible;
+    fill: transparent;
+    stroke: #666;
+    stroke-linejoin: bevel;
+    stroke-dasharray: 12;
+    animation: idle 4s linear infinite;
+    transition: stroke 0.2s, fill 0.5s;
+  }
+  
+  .rating label.yellow-star svg {
+    transition: 0s;
+    animation: idle 4s linear infinite, yippee 0.75s backwards;
+    fill: #ffc73a;
+    stroke: #ffc73a;
+    stroke-opacity: 0;
+    stroke-dasharray: 0;
+    stroke-linejoin: miter;
+    stroke-width: 8px;
+  }
+  
+  textarea{
+    margin-left: 5rem;
+  }

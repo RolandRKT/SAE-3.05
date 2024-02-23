@@ -212,3 +212,9 @@ button:active {
     transform: translateY(-0.1em);
   }
 }
+
+
+
+.background{
+  margin-bottom: 100px;
+}
