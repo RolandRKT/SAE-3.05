@@ -56,7 +56,25 @@ read -p " Voulez-vous installer le module Flask-Mail ? o/n " reponse4
 
 if [ "$reponse4" = "o" ]; then
     echo "--------------------"
-    echo "Installation du module mysql-connector-python"
+    echo "Installation module Flask-Mail"
     pip install Flask-Mail
+    echo "--------------------"
+fi
+
+read -p " Voulez-vous installer le module pdfkit ? o/n " reponse5
+
+if [ "$reponse5" = "o" ]; then
+    echo "--------------------"
+    echo "Installation module Flask-Mail"
+    pip install pdfkit
+    echo "--------------------"
+fi
+
+read -p " Voulez-vous installer le module ozekilibsrest ? o/n " reponse6
+
+if [ "$reponse6" = "o" ]; then
+    echo "--------------------"
+    echo "Installation module ozekilibsrest"
+    pip install ozekilibsrest
     echo "--------------------"
 fi

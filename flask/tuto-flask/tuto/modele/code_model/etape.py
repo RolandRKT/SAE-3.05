@@ -1,6 +1,8 @@
 """
     Fichier contenant les etapes
 """
+
+
 class Etape:
     """
     Classe représentant une étape dans un parcours.
@@ -13,7 +15,8 @@ class Etape:
         _coordonneY (float): La coordonnée Y de l'étape.
     """
 
-    def __init__(self, id_etape, nom_etape, id_photo, coordonne_x, coordonne_y,interet):
+    def __init__(self, id_etape, nom_etape, id_photo, coordonne_x, coordonne_y,
+                 interet):
         """
         Initialise un objet Etape avec les informations de l'étape.
 
@@ -29,8 +32,8 @@ class Etape:
         self.__id_photo = id_photo
         self._coordonneX = coordonne_x
         self._coordonneY = coordonne_y
-        self._interet=interet
-        
+        self._interet = interet
+
     def to_dict(self):
         return {
             'id_etape': self.__id_etape,
@@ -38,9 +41,9 @@ class Etape:
             'id_photo': self.__id_photo,
             'coordonneX': self._coordonneX,
             'coordonneY': self._coordonneY,
-            'interet':self._interet
+            'interet': self._interet
         }
-        
+
     def get_id_etape(self):
         """
         Récupère l'ID de l'étape.
@@ -78,19 +81,19 @@ class Etape:
         return self._coordonneX
 
     def get_coordonneY(self):
-      """
+        """
         Récupère la coordonnée Y de l'étape.
 
         Returns:
             float: La coordonnée Y de l'étape.
       """
-      return self._coordonneY
-    
+        return self._coordonneY
+
     def get_interet(self):
         """
             Cette fonction permet de retourner l'interet de l'etape
         """
         return self._interet
-    
+
     def __repr__(self):
-      return "nom : " + self.__nom_etape + " id : " + str(self.__id_etape)
+        return "nom : " + self.__nom_etape + " id : " + str(self.__id_etape)

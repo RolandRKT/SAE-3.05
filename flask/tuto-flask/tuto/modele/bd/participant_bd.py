@@ -63,7 +63,7 @@ class Participant_bd:
         except Exception as exp:
             print("la connexion a échoué")
             return None
-        
+
     def get_par_mail_mdp(self, mail):
         """
             Récupère un participant spécifique en fonction de son mail car il est  unique.
@@ -73,7 +73,8 @@ class Participant_bd:
         """
         try:
             query = text(
-                f"select id_participant, pseudo, email, mdp from PARTICIPANT where email= '{str(mail)}'")
+                f"select id_participant, pseudo, email, mdp from PARTICIPANT where email= '{str(mail)}'"
+            )
             resultat = self.cnx.execute(query)
             for _, _, _, mdp in resultat:
                 return mdp
@@ -117,7 +118,7 @@ class Participant_bd:
         except Exception as exp:
             print("La connexion a échoué shushduz")
             return None
-    
+
     def get_id_participant_par_pseudo(self, pseudo):
         """
             Récupère l'ID d'un participant en fonction de son pseudo.
@@ -127,7 +128,8 @@ class Participant_bd:
         """
         try:
             query = text(
-                f"select id_participant from PARTICIPANT where pseudo= '{pseudo}'")
+                f"select id_participant from PARTICIPANT where pseudo= '{pseudo}'"
+            )
             resultat = self.cnx.execute(query).fetchone()
             if resultat:
                 return resultat.id_participant
@@ -137,3 +139,25 @@ class Participant_bd:
             print("la connexion a échoué, get_id_participant_par_pseudo")
             print(exp)
             return None
+        
+    def set_password_by_email(self, email, new_password):
+        """
+        Met à jour le mot de passe d'un participant en utilisant son adresse e-mail.
+
+        :param email: L'adresse e-mail du participant.
+        :param new_password: Le nouveau mot de passe à définir.
+        :return: True si la mise à jour du mot de passe est réussie, False sinon.
+        """
+        try:
+            query = text(
+                f"UPDATE PARTICIPANT SET mdp = '{new_password}' WHERE email = '{email}'"
+            )
+            self.cnx.execute(query)
+            self.cnx.commit()
+            print("Mot de passe mis à jour avec succès.")
+            return True
+        except Exception as exp:
+            print("La mise à jour du mot de passe a échoué.")
+            print(exp)
+            return False
+

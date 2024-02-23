@@ -117,7 +117,7 @@
 }
 
 .box:before {
-  content: "A";
+  content: "W";
   position: absolute;
   top: 0;
   background: #0f0f0f;
@@ -132,16 +132,16 @@
 
 .box:nth-child(2)::before {
   transform: translateY(-100%);
-  content: 'V';
+  content: 'A';
 }
 
 .box:nth-child(3)::before {
-  content: 'I';
+  content: 'D';
 }
 
 .box:nth-child(4)::before {
   transform: translateY(-100%);
-  content: 'S';
+  content: 'E';
 }
 
 .buttonAVIS:hover .box:before {

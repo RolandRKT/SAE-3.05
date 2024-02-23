@@ -1,0 +1,22 @@
+{% extends "base_home.html" %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<div class="main-base-forget-password">
+    <div class="box-form-forget-password">
+        <form class="otp-Form" action="{{ url_for('verify_inscription') }}" method="POST">
+
+            <span class="mainHeading">Entrez le code</span>
+            <p class="otpSubheading">Nous avons envoyé un code à votre adresse mail</p>
+            <div class="inputContainer">
+                <input name='verify' maxlength="4" type="text" class="otp-input" id="otp-input1">
+            </div>
+                <button class="verifyButton" type="submit">Vérifier</button>
+                <p class="resendNote">Avez-vous reçu le code ?
+                    <a href="{{ url_for('get_token', email=email) }}" class="resendBtn">Renvoyer code</a>
+                </p>
+            </form>
+    </div>
+</div>
+{% endblock %}

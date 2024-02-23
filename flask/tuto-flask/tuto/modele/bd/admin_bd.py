@@ -38,10 +38,14 @@ class Admin_bd:
         try:
             query = text("select id_admin, pseudo, mdp from ADMIN")
             resultat = self.cnx.execute(query)
-            admin = [Admin(id_admin, pseudo, mdp) for id_admin, pseudo, mdp in resultat]
+            admin = [
+                Admin(id_admin, pseudo, mdp)
+                for id_admin, pseudo, mdp in resultat
+            ]
             return admin
         except Exception as exp:
-            print("Erreur lors de la récupération des administrateurs :", str(exp))
+            print("Erreur lors de la récupération des administrateurs :",
+                  str(exp))
             return None
 
     def get_par_admin(self, id_admin):
@@ -55,12 +59,18 @@ class Admin_bd:
             list: Une liste d'objets Admin représentant l'administrateur spécifié.
         """
         try:
-            query = text("select id_admin, pseudo, mdp from ADMIN where id_admin= " + str(id_admin))
+            query = text(
+                "select id_admin, pseudo, mdp from ADMIN where id_admin= " +
+                str(id_admin))
             resultat = self.cnx.execute(query)
-            admin = [Admin(id_admin, pseudo, mdp) for id_admin, pseudo, mdp in resultat]
+            admin = [
+                Admin(id_admin, pseudo, mdp)
+                for id_admin, pseudo, mdp in resultat
+            ]
             return admin
         except Exception as exp:
-            print("Erreur lors de la récupération de l'administrateur :", str(exp))
+            print("Erreur lors de la récupération de l'administrateur :",
+                  str(exp))
             return None
 
     def inserer_admin(self, idadmin, pseudo, mail, mdp):
@@ -74,7 +84,9 @@ class Admin_bd:
             mdp (str): Le mot de passe du nouvel administrateur.
         """
         try:
-            query = text(f"insert into ADMIN values({str(idadmin)}, '{pseudo}', '{mail}','{mdp}')")
+            query = text(
+                f"insert into ADMIN values({str(idadmin)}, '{pseudo}', '{mail}','{mdp}')"
+            )
             self.cnx.execute(query)
             self.cnx.commit()
             print("Insertion réussie")
@@ -95,7 +107,9 @@ class Admin_bd:
             if result and result.m:
                 return int(result.m) + 1
         except Exception as exp:
-            print("Erreur lors de la récupération du prochain ID administrateur :", str(exp))
+            print(
+                "Erreur lors de la récupération du prochain ID administrateur :",
+                str(exp))
             return None
 
     def delete_suivre_par_part(self, pseudo):
@@ -106,13 +120,18 @@ class Admin_bd:
             pseudo (str): Le pseudo du participant à supprimer du suivi.
         """
         try:
-            query = text(f"DELETE FROM SUIVRE USING SUIVRE NATURAL JOIN PARTICIPANT WHERE PARTICIPANT.pseudo = :pseudo")
-            query2 = text(f"DELETE FROM TERMINE NATURAL JOIN PARTICIPANT WHERE PARTICIPANT.pseudo = :pseudo")
+            query = text(
+                f"DELETE FROM SUIVRE USING SUIVRE NATURAL JOIN PARTICIPANT WHERE PARTICIPANT.pseudo = :pseudo"
+            )
+            query2 = text(
+                f"DELETE FROM TERMINE NATURAL JOIN PARTICIPANT WHERE PARTICIPANT.pseudo = :pseudo"
+            )
             self.cnx.execute(query, {'pseudo': pseudo})
             self.cnx.execute(query2, {'pseudo': pseudo})
             self.cnx.commit()
         except Exception as exp:
-            print("Erreur lors de la suppression du suivi par participant :", str(exp))
+            print("Erreur lors de la suppression du suivi par participant :",
+                  str(exp))
 
     def delete_part(self, pseudo):
         """
@@ -123,7 +142,8 @@ class Admin_bd:
         """
         try:
             self.delete_suivre_par_part(pseudo)
-            query = text(f"delete from PARTICIPANT where pseudo = '{str(pseudo)}'")
+            query = text(
+                f"delete from PARTICIPANT where pseudo = '{str(pseudo)}'")
             self.cnx.execute(query)
             self.cnx.commit()
         except Exception as exp:
