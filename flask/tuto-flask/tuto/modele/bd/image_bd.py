@@ -51,9 +51,13 @@ class Image_bd:
             return: Une liste contenant un objet Image représentant l'image correspondante.
         """
         try:
-            query = text(
-                "select id_image, nom_image, img_data, nom_fic from IMAGE where id_image= "
-                + str(id_image))
+            if id_image is None:
+                query = text(
+                    "select id_image, nom_image, img_data, nom_fic from IMAGE where id_image= null")
+            else:
+                query = text(
+                    "select id_image, nom_image, img_data, nom_fic from IMAGE where id_image= "
+                    + str(id_image))
             resultat = self.cnx.execute(query)
             image = []
             for id_image, nom, img_d, img_f in resultat:

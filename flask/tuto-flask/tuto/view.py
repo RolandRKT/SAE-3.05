@@ -12,6 +12,8 @@ from werkzeug.utils import secure_filename
 from .app import app
 from flask import jsonify, render_template, url_for, redirect, request, redirect, url_for
 from flask_mail import Mail, Message
+import random
+from .app import apiMessage, Message as OzekiMessage
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
@@ -24,15 +26,11 @@ from admin_bd import Admin_bd
 from etape_bd import Etape_bd
 from composer_bd import Composer_bd
 from suivre_bd import Suivre_bd
-from terminer_bd import Termine_bd
+
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
-
 sys.path.append(os.path.join(ROOT, './'))
 from app import mail
-
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
-sys.path.append(os.path.join(ROOT, './'))
 from message import msg_forget_password, msg_inscription
 
 sys.path.append(os.path.join(ROOT, 'modele/bd/'))
@@ -42,7 +40,7 @@ sys.path.append(os.path.join(ROOT, ''))
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), './')
 sys.path.append(os.path.join(ROOT, 'modele/code_model/'))
-from models import les_parcour_suivi, les_parcours_terminer, inserer_parcours_view, lister_les_parcours, inserer_le_participant, inserer_composer_view
+from models import *
 from participant import *
 from admin import *
 
@@ -54,18 +52,15 @@ administrateur = Admin(-1, "", "")
 
 PARTICIPANT = Participant_bd(cnx)
 ADMIN = Admin_bd(cnx)
-TERMINE = Termine_bd(cnx)
 PARCOURS = Parcours_bd(cnx)
 ETAPE = Etape_bd(cnx)
 COMPOSER = Composer_bd(cnx)
 SUIVRE = Suivre_bd(cnx)
 IMAGE = Image_bd(cnx)
-TERMINER = Termine_bd(cnx)
-TERMINE = Termine_bd(cnx)
 
 from .app import app
 
-num_parcours = 2
+
 
 
 @app.route("/")
@@ -75,6 +70,19 @@ def home():
     """
     return render_template("home.html", page_home=True)
 
+logs = []
+
+@app.route("/sendMSGTest", methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        message = OzekiMessage(
+            to_address=request.form['to_address'],
+            text=request.form['text']
+        )
+        log = apiMessage.send(message)
+        logs.append(log)
+    return render_template('SendSms.html', logs=logs)
+    
 
 @app.route("/portails")
 def portails():
@@ -95,6 +103,8 @@ def login():
     """
         permet de se diriger vers la page login
     """
+    global mail_backsave
+    mail_backsave = ""
     user_agent = request.user_agent.string
     if any(keyword in user_agent
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
@@ -110,6 +120,7 @@ def les_parcours():
         Cette fonction nous permet de nous diriger vers la page qui
         liste les parcours
     """
+    # On redéfinit les variables globales par défaut car la connexion/inscription est faite
     if le_participant.get_id() == -1:
         return redirect(url_for("portails"))
     user_agent = request.user_agent.string
@@ -148,12 +159,13 @@ def changement_parcours(num):
     """
     global num_parcours
     num_parcours = num
-    nb_etape = SUIVRE.get_num_etape_suivre(num_parcours,
+    nb_etape =recup_num_etape_suivre(num_parcours,
                                            le_participant.get_id())
     if nb_etape is None:
         nb_etape = 1
     return redirect(url_for("parcours", nb_etape=nb_etape))
 
+# pas touche
 
 @app.route("/debut/<int:num>")
 def debut(num):
@@ -174,19 +186,24 @@ def parcours(nb_etape):
         val = 1
     else:
         val = nb_etape
-        SUIVRE.update_numero_etape(le_participant.get_id(), num_parcours,
+        update_numero_etape_model(le_participant.get_id(), num_parcours,
                                    nb_etape)
+        # SUIVRE.update_numero_etape(le_participant.get_id(), num_parcours,
+                                #    nb_etape)
     user_agent = request.user_agent.string
 
-    liste_composer = COMPOSER.get_par_parcour_composition(num_parcours)
+    # liste_composer = COMPOSER.get_par_parcour_composition(num_parcours)
+    liste_composer = get_par_parcour_composition_model(num_parcours)
     liste_etape = []
     for comp in liste_composer:
-        liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
+        # liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
+        liste_etape.append(get_par_id_etape(comp.get_parcours_id()))
 
     lesetapes = []
 
     for eta in liste_etape:
-        images = IMAGE.get_par_image(eta.get_id_photo())
+        # images = IMAGE.get_par_image(eta.get_id_photo())
+        images = get_par_image_model(eta.get_id_photo())
         try:
             monimage = images[0].get_img_filename()
             lesetapes.append((eta, monimage))
@@ -201,8 +218,11 @@ def parcours(nb_etape):
             'coordonneX': eta.get_coordonneX(),
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
+            'question' : eta.get_question(),
+            'reponse' : eta.get_reponse()
         }
         lesetapes_json.append(etape_data)
+    print(lesetapes[val - 1])
 
     if any(keyword in user_agent
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
@@ -223,21 +243,23 @@ def parcours(nb_etape):
                                lesetapes_json=lesetapes_json)
 
 
+
+
 @app.route("/admin/parcours/<int:nb>")
 def parcours_admin(nb):
     """
         se dirige vers la page parcours
     """
     user_agent = request.user_agent.string
-    liste_composer = COMPOSER.get_par_parcour_composition(nb)
+    liste_composer = get_par_parcour_composition_model(nb)
     liste_etape = []
 
     for comp in liste_composer:
-        liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
+        liste_etape.append(get_par_id_etape(comp.get_parcours_id()))
     lesetapes = []
 
     for eta in liste_etape:
-        images = IMAGE.get_par_image(eta.get_id_photo())
+        images = get_par_image_model(eta.get_id_photo())
         try:
             monimage = images[0].get_img_filename()
             lesetapes.append((eta, monimage))
@@ -253,6 +275,8 @@ def parcours_admin(nb):
             'coordonneX': eta.get_coordonneX(),
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
+            'question' : eta.get_question(),
+            'reponse' : eta.get_reponse()
         }
         lesetapes_json.append(etape_data)
 
@@ -276,15 +300,15 @@ def parcours_admin_inserer():
     """
     user_agent = request.user_agent.string
 
-    liste_composer = COMPOSER.get_par_parcour_composition(num_parcours)
+    liste_composer = get_par_parcour_composition_model(num_parcours)
     liste_etape = []
 
     for comp in liste_composer:
-        liste_etape.append(ETAPE.get_par_id_etape(comp.get_parcours_id()))
+        liste_etape.append(get_par_id_etape(comp.get_parcours_id()))
     lesetapes = []
 
     for eta in liste_etape:
-        images = IMAGE.get_par_image(eta.get_id_photo())
+        images = get_par_image_model(eta.get_id_photo())
         try:
             monimage = images[0].get_img_filename()
             lesetapes.append((eta, monimage))
@@ -300,6 +324,8 @@ def parcours_admin_inserer():
             'coordonneX': eta.get_coordonneX(),
             'coordonneY': eta.get_coordonneY(),
             'image': monimage,
+            'question' : eta.get_question(),
+            'reponse' : eta.get_reponse()
         }
         lesetapes_json.append(etape_data)
 
@@ -350,7 +376,7 @@ def connecter():
     """
     username = request.form.get("username")
     password = request.form.get("password")
-    liste_user = PARTICIPANT.get_all_participant()
+    liste_user = recuperer_tous_les_participant()
     if liste_user:
         found_user = next(
             (part for part in liste_user
@@ -375,7 +401,7 @@ def connecter_admin():
     """
     username = request.form.get("username")
     password = request.form.get("password")
-    liste_admin = ADMIN.get_all_admin()
+    liste_admin = recuperer_toutes_les_admin()
     if liste_admin != [] and liste_admin is not None:
         for admi in liste_admin:
             if username == admi.get_pseudo() and password == admi.get_mdp():
@@ -383,32 +409,66 @@ def connecter_admin():
                                        admi.get_mdp())
                 return redirect(url_for("accueil_admin"))
     return redirect(url_for("login_admin"))
+    
+@app.route("/verify-inscription/<email>", methods=["GET", "POST"])
+def get_token(email=CURRENT_EMAIL):
+    global TOKEN, CURRENT_EMAIL, CURRENT_USERNAME, CURRENT_PASSWORD, VERIFY_SUCCESS
+    if VERIFY_SUCCESS:
+        msg = Message("✨Bienvenue chez Wade !✨", recipients=[email])
+        msg.body = "Cher utilisateur..."
 
+        TOKEN = random.randint(1000, 9999)
+        print("------------------------------------------------------------------------")
+        msg.html = msg_inscription(TOKEN)
+        mail.send(msg)
 
-@app.route("/inscription", methods=["GET", "POST"])
+    VERIFY_SUCCESS = True
+    # On reset tout car le mail a été envoyé
+    return render_template("verify-inscription.html", email=email)
+
+@app.route("/verify-inscription", methods=["POST"])
+def verify_inscription():
+    global CURRENT_EMAIL, le_participant, CURRENT_EMAIL, CURRENT_PASSWORD, CURRENT_USERNAME, VERIFY_SUCCESS
+    if request.method == "POST":
+        number = request.form.get("verify")
+        if number == str(TOKEN):
+            inserer_le_participant(CURRENT_USERNAME, CURRENT_EMAIL, CURRENT_PASSWORD)
+            le_participant.set_all(recup_prochain_id_participant() - 1,
+                                   CURRENT_USERNAME, CURRENT_EMAIL, CURRENT_PASSWORD)
+            # Connexion réussi alors on reset tout
+            CURRENT_USERNAME = ""
+            CURRENT_EMAIL = ""
+            CURRENT_PASSWORD = ""
+            VERIFY_SUCCESS = True
+            return redirect(url_for("les_parcours"))
+        else:
+            # Il c'est trompé dans le code de vérification alors on 
+            # le redirige vers la page de vérification,
+            # sans renvoyer de mail
+            VERIFY_SUCCESS = False
+            return redirect(url_for("get_token", email=CURRENT_EMAIL)) 
+
+@app.route("/inscription", methods=["POST"])
 def inscrire():
     """
     Permet d'inscrire les utilisateur qui n'ont pas de compte
     """
+    global TOKEN, CURRENT_USERNAME, CURRENT_EMAIL, CURRENT_PASSWORD
     if request.method == "POST":
-        username = request.form.get("username")
-        email = request.form.get("email")
-        password = request.form.get("password")
-        liste_user = PARTICIPANT.get_all_participant()
+        CURRENT_USERNAME = request.form.get("username")
+        CURRENT_EMAIL = request.form.get("email")
+        CURRENT_PASSWORD = request.form.get("password")
+        liste_user = recuperer_tous_les_participant()
 
         for part in liste_user:
-            if username == part.get_pseudo() or email == part.get_email():
+            print(part.get_pseudo().lower(), part.get_email().lower())
+            if request.form.get("username").lower() == part.get_pseudo().lower() or request.form.get("email") == part.get_email():
                 return jsonify({"error": "exists"})
-        inserer_le_participant(username, email, password)
-        le_participant.set_all(PARTICIPANT.get_prochain_id_participant() - 1,
-                               username, email, password)
-        msg = Message("✨Bienvenue chez Wade !✨", recipients=[email])
-        msg.body = "Cher utilisateur..."
-        msg.html = msg_inscription(username, password)
-        mail.send(msg)
-        return jsonify({"success": "registered"})
 
-    return render_template("login.html", page_mobile=False, page_login=True)
+        #jsonify({"success": "registered", "email": CURRENT_EMAIL})
+        return redirect(url_for("get_token", email=request.form.get("email"))) 
+
+    return redirect(url_for("login"))
 
 
 @app.route('/get_etapes_parcours', methods=['POST'])
@@ -429,7 +489,7 @@ def inserer_etape():
     idimage = data.get('idimage')
     coordX = data.get('coordX')
     coordY = data.get('coordY')
-
+    print(idetape," etape nim", type(nometape))
     ETAPE.inserer_etape(idetape, nometape, idimage, coordX, coordY, None)
 
     return jsonify(success=True, message='Étape insérée avec succès')
@@ -437,7 +497,7 @@ def inserer_etape():
 
 @app.route('/api/get_prochain_id', methods=['GET'])
 def get_prochain_id():
-    prochain_id = ETAPE.get_prochain_id_etape()
+    prochain_id = recuperer_prochain_id_etape()
     return jsonify(prochain_id=prochain_id)
 
 
@@ -445,7 +505,7 @@ def get_prochain_id():
 def get_prochain_numero():
     idparc = request.args.get('idparc')
     prochain_num = COMPOSER.get_prochain_numero_composer(idparc)
-    actu_id = ETAPE.get_prochain_id_etape()
+    actu_id = recuperer_prochain_id_etape()
     return jsonify(prochain_num=prochain_num, actu_id=actu_id - 1)
 
 
@@ -556,19 +616,18 @@ def mes_parcours_terminees():
 
 @app.route("/creation_parcours")
 def creation_parcours():
-    liste_etape = ETAPE.get_all_etape()
+    liste_etape = recuperer_toutes_les_etapes()
 
     user_agent = request.user_agent.string
-    if any(keyword in user_agent
-           for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
-        return render_template("creation_parcours.html",
-                               liste=liste_etape,
-                               page_mobile=True)
+    if any(keyword in user_agent for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
+        return render_template("creation_parcours.html", 
+                               liste = liste_etape,page_mobile = True)
     else:
-        return render_template("creation_parcours.html",
-                               liste=liste_etape,
-                               page_mobile=False)
-
+        return render_template("creation_parcours.html", 
+                               liste = liste_etape, 
+                               page_mobile = False,
+                               creation_parcours = True)
+    
 
 @app.route("/creation_parcours", methods=['GET', 'POST'])
 def creer_parcours():
@@ -625,7 +684,7 @@ def gerer_compte():
     """
         Cette methode va nous permettre de nous diriger vers la page gerer compte
     """
-    liste_participant = PARTICIPANT.get_all_participant()
+    liste_participant =recuperer_tous_les_participant()
     user_agent = request.user_agent.string
     if any(keyword in user_agent
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
@@ -635,8 +694,10 @@ def gerer_compte():
                                page_mobile=True)
     else:
         return render_template("gerer_compte.html",
-                               liste_part=liste_participant,
-                               adm=PARTICIPANT)
+                            liste_part=liste_participant,
+                            adm=PARTICIPANT,
+                            gestion_compte = True)
+
 
 
 @app.route('/suppression-participant/<pseudo>', methods=['POST', 'DELETE'])
@@ -645,7 +706,7 @@ def suppression_participant(pseudo):
         Cette fonction va nous permettre de supprimer un participant
         et de nous rediriger vers la page gerer compte
     """
-    ADMIN.delete_part(pseudo)
+    suppr_un_participant(pseudo)
     return redirect(url_for("gerer_compte"))
 
 
@@ -656,38 +717,67 @@ def supprimer_etape_parcours(num_etape, num_parcours):
     Cette fonction permet de supprimer une étape d'un parcours et redirige vers la
     page du parcours.
     """
-    COMPOSER.supprimer_etape_parcours(num_parcours, num_etape)
+    suppr_etape_du_parcours(num_parcours, num_etape)
     return redirect(url_for("parcours_admin", nb=num_parcours))
-
 
 @app.route('/forget-password', methods=['POST', 'GET'])
 def forget_password():
     """
     Cette fonction gère la réinitialisation du mot de passe en cas d'oubli.
     """
+    global mail_backsave, TOKEN
     if request.method == 'POST':
-        email = request.form.get('email')
-        password = PARTICIPANT.get_par_mail_mdp(email)
+        email = mail_backsave if mail_backsave != "" else request.form.get('email')
+        if (email != mail_backsave): mail_backsave = email
+        
+        password = recup_par_mail_mdp_participant(email)
         if password is not None:
+                
+            TOKEN = random.randint(1000, 9999)
+            resultat = TOKEN
+            
             msg = Message("Wade - Mot de passe oublié ?", recipients=[email])
             msg.body = "Cher utilisateur..."
-            msg.html = msg_forget_password(password)
+            msg.html = msg_forget_password(resultat)
             mail.send(msg)
-            return redirect(url_for("login"))
+            return redirect(url_for("pageAuth"))
     return render_template("forget.password.html")
 
+@app.route('/pageAuth')
+def pageAuth():
+    global mail_backsave
+    return render_template('verify.html', mail=mail_backsave)
+
+@app.route('/auth', methods=['POST'])
+def auth():
+    if request.method == 'POST':
+        number = str(request.form.get('verify'))
+        if number == str(TOKEN):
+            return redirect(url_for('editPassword'))
+    return redirect(url_for('forget_password', _method='POST'))
+
+@app.route("/changerPassword", methods=["GET"])
+def editPassword():
+    return render_template("edit_password.html")
+
+@app.route('/changePassword', methods=['POST'])
+def changePassword():
+    global mail_backsave
+    if request.method == 'POST':
+        new_password = str(request.form.get('change'))
+        if changer_mdp_avec_le_mail(mail_backsave, new_password):
+            return redirect(url_for('login'))
 
 @app.route('/gestion_parcours')
 def gerer_parcours():
     """
     Cette fonction redirige vers la page de gestion des parcours.
     """
-    les_parcours = PARCOURS.get_all_parcours()
-    les_etapes = ETAPE.get_all_etape()
+    les_parcours = recuperer_tous_les_parcours()
+    les_etapes = recuperer_toutes_les_etapes()
     return render_template("gerer_parcours.html",
                            liste_parc=les_parcours,
-                           liste_etape=les_etapes)
-
+                           liste_etape=les_etapes, gestion_parcours = True)
 
 @app.route("/avis")
 def avis():
@@ -709,7 +799,7 @@ def les_parcours2():
     participant = le_participant.get_id()
     radio = int(request.form.get('star-radio'))
     textarea = request.form.get('textarea')
-    TERMINE.inserer_termine(num_parcours, participant, radio, textarea)
+    inserer_un_parcours_termine(num_parcours, participant, radio, textarea)
     return redirect(url_for("les_parcours"))
 
 
@@ -719,7 +809,7 @@ def suppression_parcours(id_parc):
         Cette fonction va nous permettre de supprimer un parcours
         et de nous rediriger vers la page gerer parcours
     """
-    PARCOURS.delete_parcours(int(id_parc))
+    supprimer_parcours(int(id_parc))
     return redirect(url_for("gerer_parcours"))
 
 
@@ -757,6 +847,15 @@ def validation():
                                coord_x=query['coord_x'],
                                coord_y=query['coord_y'],
                                editable=editable)
+    
+    if query['question'] != "" and query['reponse'] != "":
+        return render_template("validation_etape.html",
+                           nom_etape=query['nom_etape'],
+                           coord_x=query['coord_x'],
+                           coord_y=query['coord_y'],
+                           question = query['question'],
+                           reponse = query['reponse'],
+                           editable=editable)
 
     return render_template("validation_etape.html",
                            nom_etape=query['nom_etape'],
@@ -773,6 +872,8 @@ def inserer_etape_bd():
     if request.method == "POST":
         nom_etape = request.form.get("nom_etape")
         desc = request.form.get("description")
+        question = request.form.get("question")
+        reponse = request.form.get("reponse")
         app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
         if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -789,8 +890,11 @@ def inserer_etape_bd():
                 IMAGE.inserer_image(next_id, filename + str("'"),
                                     str(filename) + str(next_id),
                                     str(filename))
-
-        ETAPE.update(nom_etape, desc, IMAGE.get_prochain_id_image() - 1)
+        if question != "" and reponse != "":
+            ETAPE.update(nom_etape, desc, IMAGE.get_prochain_id_image() - 1, question, reponse)
+        else:
+            ETAPE.update(nom_etape, desc, IMAGE.get_prochain_id_image() - 1)
+            
 
     return redirect(url_for('accueil_admin'))
 
@@ -808,23 +912,25 @@ def edit_parcours():
 
     return redirect(url_for('accueil_admin'))
 
-
+#================================================================================================
 @app.route('/avis/<int:id_parc>', methods=['GET', 'POST'])
 def avis_parcours(id_parc):
     """
     Cette fonction affiche les avis pour un parcours spécifique.
     """
-    liste_avis = TERMINER.get_note_comm(id_parc)
+    liste_avis = recup_note_comm_parcours(id_parc)
     user_agent = request.user_agent.string
+    nb_note=get_nb_personne_ayant_termine_noter_commenter(id_parc)
+    moyenne_note=get_moyenne_note_parcours(id_parc)
     if any(keyword in user_agent
            for keyword in ["Mobi", "Android", "iPhone", "iPad"]):
         return render_template("page_avis_admin.html",
                                liste=liste_avis,
-                               page_mobile=True)
+                               page_mobile=True,nb_note=nb_note,moyenne_note=moyenne_note)
     else:
         return render_template("page_avis_admin.html",
                                liste=liste_avis,
-                               page_mobile=False)
+                               page_mobile=False,nb_note=nb_note,moyenne_note=moyenne_note)
 
 
 @app.route("/redirect-admin")
@@ -833,3 +939,28 @@ def redirection_admin():
     Cette fonction redirige vers la page d'accueil de l'administrateur.
     """
     return redirect(url_for('accueil_admin'))
+
+
+@app.route('/note-comm-parcour/<int:id_parc>')
+def note_comm_parcours(id_parc):
+    """
+        Cette fonction gère la notation des parcours par les participants.
+    """
+    liste_note_comm = voir_note_comm_du_parcours(id_parc)
+    return render_template("note_comm_parcours_client.html", liste=liste_note_comm,avis_note=True,a_termine=particpant_parcours_note_comm(le_participant.get_id(),id_parc),note_comm_part=note_comm_parcours_participant(id_parc,le_participant.get_id()),nb_note=get_nb_personne_ayant_termine_noter_commenter(id_parc),moyenne_note=get_moyenne_note_parcours(id_parc),id_parc=id_parc)
+
+
+@app.route('/update-note-comm', methods=['POST'])
+def update_note_comm():
+    """
+        Cette fonction gère la notation des parcours par les participants.
+    """
+    print("update-note-comm")
+    id_parc = request.form.get('id_parc')
+    print("id_parc : ",id_parc)
+    radio = int(request.form.get('star-radio'))
+    print("radio : ",radio)
+    textarea = request.form.get('textarea')
+    print("textarea : ",textarea)
+    maj_note_comm(id_parc, le_participant.get_id(), radio, textarea)
+    return redirect(url_for("note_comm_parcours",id_parc=id_parc))

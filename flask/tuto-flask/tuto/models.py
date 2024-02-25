@@ -14,6 +14,7 @@ from etape_bd import Etape_bd
 from suivre_bd import Suivre_bd
 from composer_bd import Composer_bd
 from terminer_bd import Termine_bd
+from admin_bd import Admin_bd
 
 SUIVRE = Suivre_bd(cnx)
 COMPOSER = Composer_bd(cnx)
@@ -21,7 +22,95 @@ PARCOURS = Parcours_bd(cnx)
 IMAGE = Image_bd(cnx)
 PARTICIPANT = Participant_bd(cnx)
 TERMINE = Termine_bd(cnx)
+ADMIN = Admin_bd(cnx)
+ETAPE=Etape_bd(cnx)
 
+num_parcours = 2
+mail_backsave = ""
+TOKEN = 0
+CURRENT_USERNAME = ""
+CURRENT_EMAIL = ""
+CURRENT_PASSWORD = ""
+VERIFY_SUCCESS = True
+
+
+def recuperer_tous_les_parcours():
+    """
+        Cette fonction va nous permettre de récupérer tous les parcours
+        de la base de données.
+    """
+    return PARCOURS.get_all_parcours()
+
+def recuperer_toutes_les_etapes():
+    """
+        Cette fonction va nous permettre de récupérer toutes les étapes
+        de la base de données.
+    """
+    return ETAPE.get_all_etape()
+
+def recuperer_prochain_id_etape():
+    """
+        RECUPERER de la bd l'id pour la prchaine etape
+    """
+    return ETAPE.get_prochain_id_etape()
+
+def recuperer_tous_les_participant():
+    """
+        Cette fonction va nous permettre de récupérer tous les participants
+        de la base de données.
+    """
+    return PARTICIPANT.get_all_participant()
+
+def recuperer_toutes_les_admin():
+    """
+        Cette fonction va nous permettre de récupérer tous les adm
+        de la base de données.
+    """
+    return ADMIN.get_all_admin()
+
+def recup_prochain_id_participant():
+    """
+        Cette fonction va nous permettre de récupérer le prochain id de participants
+        de la base de données.
+    """
+    return PARTICIPANT.get_prochain_id_participant()
+
+def recup_par_mail_mdp_participant(email):
+    """
+        reperer de la bd le mdp du participant par son email
+    """
+    return PARTICIPANT.get_par_mail_mdp(email)
+
+def supprimer_parcours(id_parcours):
+    """
+        Cette fonction va nous permettre de supprimer un parcours
+        de la base de données.
+    """
+    PARCOURS.delete_parcours(id_parcours)
+
+
+def inserer_un_parcours_termine(id_parcours, id_participant, note, comm):
+    """
+        Cette fonction va nous permettre d'insérer un parcours terminé
+        de la base de données.
+    """
+    TERMINE.inserer_termine(id_parcours, id_participant, note, comm)
+
+
+
+def recup_num_etape_suivre(num_parcours,id_participant):
+    """
+        Cette fonction va nous permettre de récupérer le numéro de l'étape
+        d'un parcours suivi de la base de données.
+    """
+    return SUIVRE.get_num_etape_suivre(num_parcours,id_participant)
+
+def recup_note_comm_parcours(id_parcours):
+    """
+        Cette fonction va nous permettre de récupérer la note et le commentaire
+        d'un parcours de la base de données.
+    """
+    return TERMINE.get_note_comm(id_parcours)
 
 def lister_les_parcours(id_participant) -> list:
     """
@@ -161,3 +250,152 @@ def inserer_composer_view(parcours_id, etape_id, order):
 #     id_participant = PARTICIPANT.get_id_participant_par_pseudo(pseudo)
 #     TERMINE.supprimer_termine(id_parcours, id_participant)
 #     pass
+
+
+def voir_note_comm_du_parcours(id_parcours):
+    """
+        Récupère la note et le commentaire d'un parcours.
+
+        Args:
+            id_parcours (int): L'identifiant du parcours.
+
+        Returns:
+            list: Une liste contenant les notes et commentaires du parcours.
+    """
+    return TERMINE.get_note_comm(id_parcours)
+
+
+def particpant_parcours_note_comm(id_parcours,id_participant):
+    """
+        Récupère la note et le commentaire d'un parcours.
+
+        Args:
+            id_parcours (int): L'identifiant du parcours.
+
+        Returns:
+            list: Une liste contenant les notes et commentaires du parcours.
+    """
+    return TERMINE.get_termine_id_part(id_participant, id_parcours)
+
+
+def note_comm_parcours_participant(id_parcours, id_participant):
+    """
+        Récupère la note et le commentaire d'un parcours.
+
+        Args:
+            id_parcours (int): L'identifiant du parcours.
+            id_participant (int): L'identifiant du participant.
+
+        Returns:
+            list: Une liste contenant les notes et commentaires du parcours.
+    """
+    return TERMINE.get_note_comm_parc_part(id_parcours, id_participant)
+
+
+def maj_note_comm(id_parcours, id_participant, note, comm):
+    """
+        Met à jour la note et le commentaire d'un parcours.
+
+        Args:
+            id_parcours (int): L'identifiant du parcours.
+            id_participant (int): L'identifiant du participant.
+            note (int): La note attribuée au parcours.
+            comm (str): Le commentaire du participant.
+    """
+    TERMINE.mettre_a_jour_note_comm(id_parcours, id_participant, note, comm)
+
+
+def get_moyenne_note_parcours(id_parcours):
+    """
+        Récupère la moyenne des notes attribuées à un parcours.
+
+        Args:
+            id_parcours (int): L'identifiant du parcours.
+
+        Returns:
+            float: La moyenne des notes attribuées au parcours.
+    """
+    return TERMINE.get_note_moyenne(id_parcours)
+
+
+def get_nb_personne_ayant_termine_noter_commenter(id_parcours):
+    """
+        Récupère le nombre de personne ayant terminé un parcours.
+
+        Args:
+            id_parcours (int): L'identifiant du parcours.
+
+        Returns:
+            int: Le nombre de personne ayant terminé le parcours.
+    """
+    return TERMINE.get_nb_personne(id_parcours)
+
+
+def suppr_un_participant(pseudo):
+    """
+        Supprime un participant de la base de données.
+
+        Args:
+            pseudo (string): L'identifiant du participant à supprimer.
+    """
+    ADMIN.delete_part(pseudo)
+
+
+def suppr_etape_du_parcours(num_parcours, num_etape):
+    """
+        Supprime une étape d'un parcours.
+
+        Args:
+            num_parcours (int): L'identifiant du parcours.
+            num_etape (int): L'identifiant de l'étape.
+    """
+    COMPOSER.supprimer_etape_parcours(num_parcours, num_etape)
+
+
+def changer_mdp_avec_le_mail(mail_backsave,new_password):
+    """
+        Change le mot de passe d'un participant.
+
+        Args:
+            mail_backsave (string): L'adresse mail du participant.
+            new_mdp (string): Le nouveau mot de passe du participant.
+    """
+    return PARTICIPANT.set_password_by_email(mail_backsave, new_password)
+
+def update_numero_etape_model(id_participant, num_parcours, nb_etape):
+    """ Met à jour le numéro de l'étape atteinte dans un parcours par un participant. Args: Paramètres :
+    
+    id_participant (int): L'ID du participant.
+    id_parcours (int): L'ID du parcours.
+    num_etape (int): Le numéro de l'étape atteinte.
+    
+        return : None
+    """
+    SUIVRE.update_numero_etape(id_participant, num_parcours, nb_etape)
+    
+def get_par_parcour_composition_model(num_parcours):
+    """ Récupère les compositions associées à un parcours spécifique.
+
+    param idp: ID du parcours pour lequel on veut récupérer les compositions.
+        
+        return: Une liste d'objets Composer représentant les compositions pour le parcours donné.
+    """
+    
+    return COMPOSER.get_par_parcour_composition(num_parcours)
+
+def get_par_image_model(id_image):
+    """ Récupère une image spécifique en fonction de son ID.
+
+    param id_image: ID de l'image que l'on souhaite récupérer.
+        return: Une liste contenant un objet Image représentant l'image correspondante
+    """
+    
+    return IMAGE.get_par_image(id_image)
+
+def get_par_id_etape(id_etape):
+    """ Récupère une étape spécifique en fonction de son ID.
+
+    param idetape: ID de l'étape que l'on souhaite récupérer.
+        return: Une liste contenant un objet Etape représentant le parcours correspondant.
+    """
+    return ETAPE.get_par_id_etape(id_etape)

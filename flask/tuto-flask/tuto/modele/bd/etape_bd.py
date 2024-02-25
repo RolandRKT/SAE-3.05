@@ -34,8 +34,8 @@ class Etape_bd:
             query = text("select * from ETAPE")
             resultat = self.cnx.execute(query)
             etapes = []
-            for ide, nom, idph, coordX, coordY, interet in resultat:
-                etapes.append(Etape(ide, nom, idph, coordX, coordY, interet))
+            for ide, nom, idph, coordX, coordY, interet, question, reponse in resultat:
+                etapes.append(Etape(ide, nom, idph, coordX, coordY, interet, question, reponse))
             return etapes
         except Exception as exp:
             print("la connexion a échoué, get_all_etape")
@@ -52,8 +52,8 @@ class Etape_bd:
             query = text("select * from ETAPE where id_photo = " + str(idph))
             resultat = self.cnx.execute(query)
             etapes = []
-            for ide, nom, idp, coordX, coordY, interet in resultat:
-                etapes.append(Etape(ide, nom, idp, coordX, coordY, interet))
+            for ide, nom, idp, coordX, coordY, interet, question, reponse in resultat:
+                etapes.append(Etape(ide, nom, idp, coordX, coordY, interet, question, reponse))
             return etapes
         except Exception as exp:
             print("la connexion a échoué, get_par_photo_etape")
@@ -61,7 +61,7 @@ class Etape_bd:
             return None
 
     def inserer_etape(self, idetape, nometape, idimage, coordX, coordY,
-                      interet):
+                      interet, question=None, reponse=None):
         """
             Insère une nouvelle étape dans la base de données.
 
@@ -77,13 +77,27 @@ class Etape_bd:
             else:
                 interet2 = interet
             if (idimage is None):
-                query = text(
-                    f"insert into ETAPE values({str(idetape)},'{nometape}', null, '{str(coordX)}', '{str(coordY)}','{str(interet2)}')"
+                print(type(question))
+                print(type(reponse))
+                if question != None and reponse != None:
+                    print("sans question")
+                    query = text(
+                    f"insert into ETAPE values({str(idetape)},'{nometape}', null, '{str(coordX)}', '{str(coordY)}','{str(interet2)}','{str(question)}','{str(reponse)}')"
                 )
+                else:
+                    print("avec question")
+                    query = text(
+                        f"insert into ETAPE values({str(idetape)},'{nometape}', null, '{str(coordX)}', '{str(coordY)}','{str(interet2)}',null,null)"
+                    )
             else:
-                query = text(
-                    f"insert into ETAPE values({str(idetape)},'{nometape}', {str(idimage)}, '{str(coordX)}', '{str(coordY)}','{str(interet2)}')"
+                if question is not None and reponse is not None:
+                    query = text(
+                    f"insert into ETAPE values({str(idetape)},'{nometape}', {str(idimage)}, '{str(coordX)}', '{str(coordY)}','{str(interet2)}','{str(question)}','{str(reponse)}')"
                 )
+                else:
+                    query = text(
+                        f"insert into ETAPE values({str(idetape)},'{nometape}', {str(idimage)}, '{str(coordX)}', '{str(coordY)}','{str(interet2)}', null, null)"
+                    )
             self.cnx.execute(query)
             self.cnx.commit()
 
@@ -119,8 +133,8 @@ class Etape_bd:
             query = text("select * from ETAPE where id_etape = " +
                          str(idetape))
             resultat = self.cnx.execute(query)
-            for ide, nom, idp, coordX, coordY, interet in resultat:
-                return Etape(ide, nom, idp, coordX, coordY, interet)
+            for ide, nom, idp, coordX, coordY, interet, question, reponse in resultat:
+                return Etape(ide, nom, idp, coordX, coordY, interet, question, reponse)
 
             return None
         except Exception as exp:
@@ -203,7 +217,7 @@ class Etape_bd:
             print("Erreur lors de la suppression de la composition :",
                   str(exp))
 
-    def update(self, nom_etape, interet, id_image):
+    def update(self, nom_etape, interet, id_image, question="", reponse=""):
         """
             Cette fonction permet de changer certaine info
         """
@@ -217,6 +231,21 @@ class Etape_bd:
             query3 = text(
                 f"update ETAPE set id_image = :id_image where id_etape= :id_etape"
             )
+            if question != "" and reponse != "":
+                query4 = text(
+                    f"update ETAPE set question = :question where id_etape= :id_etape"
+                )
+                query5 = text(
+                    f"update ETAPE set reponse = :reponse where id_etape= :id_etape"
+                )
+                params4 = {
+                "question": question,
+                'id_etape': self.get_prochain_id_etape() - 1
+                }
+                params5 = {
+                    "reponse": reponse,
+                    'id_etape': self.get_prochain_id_etape() - 1
+                }
 
             params1 = {
                 'nom_etape': nom_etape,
@@ -230,10 +259,14 @@ class Etape_bd:
                 "id_image": id_image,
                 'id_etape': self.get_prochain_id_etape() - 1
             }
+            
 
             self.cnx.execute(query, params1)
             self.cnx.execute(query2, params2)
             self.cnx.execute(query3, params3)
+            if question != "" and reponse != "":
+                self.cnx.execute(query4, params4)
+                self.cnx.execute(query5, params5)
             self.cnx.commit()
         except Exception as exp:
             print("la connexion a échoué, update")

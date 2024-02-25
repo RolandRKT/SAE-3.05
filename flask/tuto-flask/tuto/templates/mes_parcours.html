@@ -57,7 +57,15 @@
                             {% else %}
                                 <img src="{{image_parc}}" alt="image internet ne marche pas" class="image">
                             {% endif %}
-                            <p class="para">{{ parc.get_description() }}</p>
+                            <div>
+                                <p class="para">{{ parc.get_description() }}</p>
+                                <form action="{{ url_for('note_comm_parcours',id_parc = parc.get_id_parc()) }}">
+                                    <button class="btn-23">
+                                        <span class="text">AVIS</span>
+                                        <span aria-hidden="" class="marquee">AVIS</span>
+                                      </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -75,7 +83,15 @@
                             {% else %}
                                 <img src="{{image_parc}}" alt="image internet ne marche pas" class="image">
                             {% endif %}
-                            <p class="para">{{ parc.get_description() }}</p>
+                            <div>
+                                <p class="para">{{ parc.get_description() }}</p>
+                                <form action="{{ url_for('note_comm_parcours',id_parc = parc.get_id_parc()) }}">
+                                    <button class="btn-23">
+                                        <span class="text">AVIS</span>
+                                        <span aria-hidden="" class="marquee">AVIS</span>
+                                      </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -16,7 +16,7 @@ class Etape:
     """
 
     def __init__(self, id_etape, nom_etape, id_photo, coordonne_x, coordonne_y,
-                 interet):
+                 interet, question=None, reponse=None):
         """
         Initialise un objet Etape avec les informations de l'étape.
 
@@ -33,6 +33,8 @@ class Etape:
         self._coordonneX = coordonne_x
         self._coordonneY = coordonne_y
         self._interet = interet
+        self.__question = question
+        self.__reponse = reponse
 
     def to_dict(self):
         return {
@@ -41,8 +43,16 @@ class Etape:
             'id_photo': self.__id_photo,
             'coordonneX': self._coordonneX,
             'coordonneY': self._coordonneY,
-            'interet': self._interet
+            'interet': self._interet,
+            'question' : self.__question,
+            'reponse' : self.__reponse
         }
+
+    def get_question(self):
+        return self.__question
+    
+    def get_reponse(self):
+        return self.__reponse
 
     def get_id_etape(self):
         """
@@ -96,4 +106,4 @@ class Etape:
         return self._interet
 
     def __repr__(self):
-        return "nom : " + self.__nom_etape + " id : " + str(self.__id_etape)
+        return "nom : " + self.__nom_etape + " id : " + str(self.__id_etape) +  " question:" + str(self.__question) + " reponse:" + str(self.__reponse)

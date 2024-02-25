@@ -54,6 +54,8 @@ var listeEtape = [];
 function onMapClick(event) {
     alert("Coordonnées cliquées : " + event.latlng.lat + ", " + event.latlng.lng);
     var nomEtape = prompt("Nom de l'étape :");
+    var question = prompt("Question de l'étape :")
+    var reponse = prompt("Réponse de l'étape :")
 
     // Fetch pour récupérer le prochain ID depuis l'API
     fetch('/api/get_prochain_id')
@@ -76,36 +78,12 @@ function onMapClick(event) {
                 }),
             });
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Réponse du serveur non OK');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data.message);
-
-            // Fetch pour récupérer le prochain numéro depuis l'API, en utilisant le numéro du parcours
-            return fetch('/api/get_prochain_numero?idparc=' + num_parcours);
-        })
-        .then(response => response.json())
-        .then(data => {
-            var next_num = data.prochain_num;
-            var actu_id = data.actu_id;
-
-            // Fetch pour insérer une relation entre l'étape et le parcours
-            return fetch('/api/inserer_composer', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    idetape: actu_id,
-                    idparc: num_parcours,
-                    numero: next_num,
-                }),
-            });
-        })
+        // .then(response => {
+        //     if (!response.ok) {
+        //         throw new Error('Réponse du serveur non OK');
+        //     }
+        //     return response.json();
+        // })
         .then(response => {
             console.log('Réponse de la requête fetch:', response);
             if (!response.ok) {
@@ -117,6 +95,9 @@ function onMapClick(event) {
             queryParams.append('nom_etape', nomEtape);
             queryParams.append('coord_x', event.latlng.lat);
             queryParams.append('coord_y', event.latlng.lng);
+            queryParams.append('question', question);
+            queryParams.append('reponse', reponse);
+
 
             window.location.replace('/validation-etape?' + queryParams.toString());
         })

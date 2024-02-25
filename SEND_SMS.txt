@@ -1,0 +1,3 @@
+Installer tout d'abord le package python : ozekilibsrest
+`pip install ozekilibsrest`
+
